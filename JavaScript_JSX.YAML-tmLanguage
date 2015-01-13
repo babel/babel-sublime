@@ -924,7 +924,7 @@ repository:
     - include: '#core'
 
   jsx-tag-open:
-    begin: (<)([a-zA-Z0-9:]+)
+    begin: (<)([_$a-zA-Z][_$\w:.]*)
     end: (/?>)
     name: tag.open.js
     beginCaptures:
@@ -934,14 +934,18 @@ repository:
       '1': {name: punctuation.definition.tag.end.js}
     patterns:
     - include: '#jsx-tag-attributes'
+    - include: '#comments'
 
   jsx-tag-close:
-    match: (</)([^>]+)(>)
+    begin: (</)([_$a-zA-Z][_$\w:.]*)
+    end: (>)
     name: tag.close.js
     captures:
       '1': {name: punctuation.definition.tag.begin.js}
       '2': {name: entity.name.tag.js}
       '3': {name: punctuation.definition.tag.end.js}
+    patterns:
+    - include: '#comments'
 
   jsx-tag-invalid:
     name: invalid.illegal.tag.incomplete.js

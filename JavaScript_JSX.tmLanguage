@@ -534,6 +534,8 @@
 		</dict>
 		<key>jsx-tag-close</key>
 		<dict>
+			<key>begin</key>
+			<string>(&lt;/)([_$a-zA-Z][_$\w:.]*)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -552,10 +554,17 @@
 					<string>punctuation.definition.tag.end.js</string>
 				</dict>
 			</dict>
-			<key>match</key>
-			<string>(&lt;/)([^&gt;]+)(&gt;)</string>
+			<key>end</key>
+			<string>(&gt;)</string>
 			<key>name</key>
 			<string>tag.close.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+			</array>
 		</dict>
 		<key>jsx-tag-invalid</key>
 		<dict>
@@ -567,7 +576,7 @@
 		<key>jsx-tag-open</key>
 		<dict>
 			<key>begin</key>
-			<string>(&lt;)([a-zA-Z0-9:]+)</string>
+			<string>(&lt;)([_$a-zA-Z][_$\w:.]*)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -598,6 +607,10 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx-tag-attributes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
 				</dict>
 			</array>
 		</dict>
