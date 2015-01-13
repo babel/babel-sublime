@@ -1,0 +1,12 @@
+<snippet>
+    <content><![CDATA[
+getDefaultProps: function() {
+	return {
+		${1}
+	};
+},
+]]></content>
+    <tabTrigger>gdp</tabTrigger>
+    <scope>source.js</scope>
+    <description>React: getDefaultProps: fn() { return {...} } </description>
+</snippet>

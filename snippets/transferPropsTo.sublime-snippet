@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+transferPropsTo(${1});
+]]></content>
+    <tabTrigger>trp</tabTrigger>
+    <scope>source.js</scope>
+    <description>React: transferPropsTo( ... )</description>
+</snippet>

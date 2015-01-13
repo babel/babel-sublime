@@ -1,0 +1,20 @@
+<snippet>
+    <content><![CDATA[
+var React = require('react');
+
+var ${1} = React.createClass({
+
+  render: function() {
+    return (
+      ${0:<div />}
+    );
+  }
+
+});
+
+module.exports = ${1};
+]]></content>
+    <tabTrigger>rcc</tabTrigger>
+    <scope>source.js</scope>
+    <description>React: component skeleton</description>
+</snippet>
