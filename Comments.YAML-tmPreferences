@@ -1,0 +1,12 @@
+# [PackageDev] target_format: plist, ext: tmPreferences
+name: Comments
+uuid: A67A8BD9-A951-406F-9175-018DD4B52FD1
+scope: source.js, source.json
+settings:
+  shellVariables:
+  - name: TM_COMMENT_START
+    value: '// '
+  - name: TM_COMMENT_START_2
+    value: /*
+  - name: TM_COMMENT_END_2
+    value: '*/'
