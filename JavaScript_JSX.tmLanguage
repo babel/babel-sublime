@@ -13,7 +13,7 @@
 	<key>keyEquivalent</key>
 	<string>^~J</string>
 	<key>name</key>
-	<string>JavaScript Next</string>
+	<string>JavaScript JSX</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -240,6 +240,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#jsx</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-keywords</string>
 				</dict>
 				<dict>
@@ -341,6 +345,259 @@
 							<string>#comments</string>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx</key>
+		<dict>
+			<key>name</key>
+			<string>meta.jsx.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-open</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-close</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-invalid</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-entities</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.entity.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.entity.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(&amp;)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)</string>
+					<key>name</key>
+					<string>constant.character.entity.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>&amp;</string>
+					<key>name</key>
+					<string>invalid.illegal.bad-ampersand.js</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-evaluated-code</key>
+		<dict>
+			<key>begin</key>
+			<string>{</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.brace.curly.start.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>}</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.brace.curly.end.js</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.brace.curly.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#core</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-string-double-quoted</key>
+		<dict>
+			<key>begin</key>
+			<string>"</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>"</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.js</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>string.quoted.double.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-entities</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-string-single-quoted</key>
+		<dict>
+			<key>begin</key>
+			<string>'</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>'</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.js</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>string.quoted.single.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-entities</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-tag-attribute-name</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.attribute-name.js</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>\b([a-zA-Z\-:]+)</string>
+			<key>name</key>
+			<string>meta.tag.attribute-name.js</string>
+		</dict>
+		<key>jsx-tag-attributes</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-attribute-name</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-string-double-quoted</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-string-single-quoted</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-evaluated-code</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-tag-close</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.js</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.js</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.js</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(&lt;/)([^&gt;]+)(&gt;)</string>
+			<key>name</key>
+			<string>tag.close.js</string>
+		</dict>
+		<key>jsx-tag-invalid</key>
+		<dict>
+			<key>match</key>
+			<string>&lt;\\s*&gt;</string>
+			<key>name</key>
+			<string>invalid.illegal.tag.incomplete.js</string>
+		</dict>
+		<key>jsx-tag-open</key>
+		<dict>
+			<key>begin</key>
+			<string>(&lt;)([a-zA-Z0-9:]+)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.js</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(/?&gt;)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.js</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>tag.open.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-attributes</string>
 				</dict>
 			</array>
 		</dict>
@@ -2091,6 +2348,6 @@
 	<key>scopeName</key>
 	<string>source.js</string>
 	<key>uuid</key>
-	<string>487CF323-A3F9-48FA-B140-DCE8C893E664</string>
+	<string>30c49d33-6e4d-4985-8a18-34431c2535c6</string>
 </dict>
 </plist>
