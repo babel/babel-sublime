@@ -4,7 +4,7 @@ var React = require('react');
 
 var ${1} = React.createClass({
 
-  render: function() {
+  render() {
     return (
       ${0:<div />}
     );
