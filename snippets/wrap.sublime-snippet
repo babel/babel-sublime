@@ -1,0 +1,7 @@
+<snippet>
+    <content><![CDATA[${SELECTION/( +).*/$1/}<${1:Component}>
+$0${SELECTION/([ \t]+)([^\n]+)/\t$1$2/g}
+${SELECTION/( +).*/$1/}</${1/([^ ]+).*/$1/}>]]></content>
+    <scope>source.js</scope>
+    <description>Wrap in a component</description>
+</snippet>
