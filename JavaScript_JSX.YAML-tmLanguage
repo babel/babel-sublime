@@ -61,7 +61,7 @@ repository:
       endCaptures:
         '1': {name: meta.brace.round.js}
       patterns:
-      - include: source.js
+      - include: $self
 
     - name: meta.group.braces.square
       begin: (\[)
@@ -71,7 +71,7 @@ repository:
       endCaptures:
         '1': {name: meta.brace.square.js}
       patterns:
-      - include: source.js
+      - include: $self
 
     - name: meta.group.braces.curly
       begin: ({)
@@ -81,7 +81,7 @@ repository:
       endCaptures:
         '1': {name: meta.brace.curly.js}
       patterns:
-      - include: source.js
+      - include: $self
 
   comments:
     patterns:
@@ -127,8 +127,7 @@ repository:
       patterns:
       - name: punctuation.definition.comment.js
         match: /\*
-
-      - include: source.js
+      - include: $self
 
     - name: keyword.control.conditional.js
       match: (@)(if|elif|else|end|ifdef|endif|cc_on|set)\b
@@ -150,13 +149,9 @@ repository:
         '1': {name: punctuation.definition.parameters.end.js}
       patterns:
       - name: variable.parameter.function.js
-        match: >-
-          (?x)
-            [_$a-zA-Z][_$\w]*
-
+        match: '[_$a-zA-Z][_$\w]*'
       - name: punctuation.separator.parameter.function.js
         match: ','
-
       - include: '#comments'
 
   literal-module:
@@ -178,7 +173,7 @@ repository:
           \s+([_$a-zA-Z][_$\w]*)
           (?:
             \s+(extends)
-            \s+([_$a-zA-Z][_$\w]*)
+            \s+([_$a-zA-Z][_$\w.]*)
           )?
           \s*({)
       beginCaptures:
@@ -553,13 +548,28 @@ repository:
       match: (?<!\.)\b(break|continue|do|for|goto|while)\b
 
     - name: keyword.control.switch.js
-      match: (?<!\.)\b(case|default|switch)\b
+      match: (?<!\.)\b(switch)\b
+
+    - begin: (?<!\.)\b(case|default)\b
+      beginCaptures:
+        '1': {name: keyword.control.switch.js}
+      end: ':'
+      endCaptures:
+        '0': {name: punctuation.separator.switch.js}
+      patterns:
+      - include: $self
 
     - name: keyword.operator.js
       match: (?<!\.)\b(await|delete|in|instanceof|new|of|typeof|void|with)\b
 
-    - name: punctuation.separator.key-value
-      match: ':'
+    - begin: \?
+      beginCaptures:
+        '0': {name: keyword.operator.ternary.js}
+      end: ':'
+      endCaptures:
+        '0': {name: keyword.operator.ternary.js}
+      patterns:
+      - include: $self
 
     - name: keyword.operator.logical.js
       match: >-
@@ -615,9 +625,6 @@ repository:
           ==   | # equality        left-to-right   both
           !=     # equality        left-to-right   both
 
-    - name: keyword.operator.assignment.js
-      match: (?x)=
-
     - name: keyword.operator.arithmetic.js
       match: >-
         (?x)
@@ -631,12 +638,12 @@ repository:
 
   literal-labels:
     patterns:
-    - match: (?<=['"])(\s*)(:)
+    - match: (?<=['"])\s*(:)
       captures:
-        '2': {name: punctuation.separator.key-value.js}
+        '1': {name: punctuation.separator.key-value.js}
 
     - name: constant.other.object.key.js
-      match: (?<!\?|\? |case )(?!\?)([_$a-zA-Z][_$\w]*)\s*(:)
+      match: (?<!\.|\?|\? )([_$a-zA-Z][_$\w]*)\s*(:)
       captures:
         '1': {name: string.unquoted.label.js}
         '2': {name: punctuation.separator.key-value.js}
@@ -694,7 +701,7 @@ repository:
         endCaptures:
           '0': {name: punctuation.quasi.element.end.js}
         patterns:
-        - include: source.js
+        - include: $self
 
   literal-regex:
     patterns:
@@ -866,6 +873,10 @@ repository:
 
     - name: support.class.node.js
       match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
+
+    # dollar variables
+    - name: variable.other.dollar.js
+      match: '\$[_$\w]+'
 
   jsx-tag-attributes:
     patterns:
