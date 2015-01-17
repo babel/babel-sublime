@@ -1,8 +1,8 @@
 <snippet>
     <content><![CDATA[
-isMounted()
+this.isMounted()
 ]]></content>
     <tabTrigger>ism</tabTrigger>
     <scope>source.js</scope>
-    <description>React: isMounted()</description>
+    <description>React: this.isMounted()</description>
 </snippet>

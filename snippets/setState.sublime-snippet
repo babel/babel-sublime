@@ -1,6 +1,6 @@
 <snippet>
     <content><![CDATA[
-setState({
+this.setState({
 	${1}: ${2}
 });
 ]]></content>
