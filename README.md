@@ -11,7 +11,7 @@ Find it as [**6to5**](https://packagecontrol.io/packages/6to5) through [Package 
 To set it as the default syntax for a particular extension:
   1. Open a file with that extension,
   2. Select `View` from the menu,
-  3. Then `Syntax` `->` `Open all with current extension as...` `->` `JavaScript JSX`.
+  3. Then `Syntax` `->` `Open all with current extension as...` `->` `JavaScript 6to5`.
   4. Repeat this for each extension (e.g.: `.js` and `.jsx`).
 
 #### Setting a Color Scheme
