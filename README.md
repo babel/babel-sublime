@@ -4,7 +4,7 @@ Language definitions for [ES6 JavaScript](http://kangax.github.io/compat-table/e
 
 ## Installation
 
-Find it as **6to5** through [Package Control](https://packagecontrol.io/).
+Find it as [**6to5**](https://packagecontrol.io/packages/6to5) through [Package Control](https://packagecontrol.io/).
 
 #### Setting as the default syntax
 
@@ -20,7 +20,8 @@ To set it as the default syntax for a particular extension:
 
 ## Screenshots
 
-![6to5-sublime-vs-sublime-react](https://raw.github.com/6to5/6to5-sublime/0293470/screenshots/6to5-sublime-vs-sublime-react.gif)
+![6to5-sublime-vs-sublime-react](https://raw.github.com/6to5/6to5-sublime/5cd4353/screenshots/6to5-sublime-vs-sublime-react.gif)
+(`6to5-sublime` vs `sublime-react`)
 
 ## Snippets
 
