@@ -4,7 +4,7 @@ Language definitions for [ES6 JavaScript](http://kangax.github.io/compat-table/e
 
 ## Installation
 
-Find it as **6to5** through [Package Control](https://packagecontrol.io/).
+Find it as [**6to5**](https://packagecontrol.io/packages/6to5) through [Package Control](https://packagecontrol.io/).
 
 #### Setting as the default syntax
 
