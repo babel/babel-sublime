@@ -20,7 +20,8 @@ To set it as the default syntax for a particular extension:
 
 ## Screenshots
 
-![6to5-sublime-vs-sublime-react](https://raw.github.com/6to5/6to5-sublime/0293470/screenshots/6to5-sublime-vs-sublime-react.gif)
+![6to5-sublime-vs-sublime-react](https://raw.github.com/6to5/6to5-sublime/5cd4353/screenshots/6to5-sublime-vs-sublime-react.gif)
+(`6to5-sublime` vs `sublime-react`)
 
 ## Snippets
 
