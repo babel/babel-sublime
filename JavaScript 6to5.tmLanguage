@@ -13,7 +13,7 @@
 	<key>keyEquivalent</key>
 	<string>^~J</string>
 	<key>name</key>
-	<string>JavaScript JSX</string>
+	<string>JavaScript 6to5</string>
 	<key>patterns</key>
 	<array>
 		<dict>
