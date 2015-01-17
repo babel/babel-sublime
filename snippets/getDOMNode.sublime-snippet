@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[
+this.getDOMNode()
+]]></content>
+    <tabTrigger>gdn</tabTrigger>
+    <scope>source.js</scope>
+    <description>React: this.getDOMNode()</description>
+</snippet>

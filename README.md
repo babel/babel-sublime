@@ -26,24 +26,25 @@ To set it as the default syntax for a particular extension:
 
 | Trigger  | Content |
 | -------: | ------- |
-| `cs→`    | `var cx = React.addons.classSet;` |
 | `cdm→`   | `componentDidMount() { ... },` |
 | `cdup→`  | `componentDidUpdate(prevProps, prevState) { ... },` |
+| `cs→`    | `var cx = React.addons.classSet;` |
 | `cwm→`   | `componentWillMount() { ... },` |
 | `cwr→`   | `componentWillReceiveProps(nextProps) { ... },` |
 | `cwun→`  | `componentWillUnmount() { ... },` |
 | `cwu→`   | `componentWillUpdate(nextProps, nextState) { ... },` |
 | `cx→`    | `cx({ ... });` |
-| `fup→`   | `forceUpdate(...);` |
+| `fup→`   | `this.forceUpdate(...);` |
+| `gdn→`   | `this.getDOMNode()` |
 | `gdp→`   | `getDefaultProps() { return {...}; },` |
 | `gis→`   | `getInitialState() { return {...}; },` |
-| `ism→`   | `isMounted()` |
+| `ism→`   | `this.isMounted()` |
+| `props→` | `this.props.` |
 | `pt→`    | `propTypes: { ...: React.PropTypes. },` |
 | `rcc→`   | component skeleton |
 | `ren→`   | `render() { return (...); }` |
-| `sst→`   | `setState({ ... });` |
 | `scu→`   | `shouldComponentUpdate(nextProps, nextState) { ... },` |
-| `props→` | `this.props.` |
+| `sst→`   | `this.setState({ ... });` |
 | `state→` | `this.state.` |
 
 ## About
