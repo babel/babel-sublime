@@ -22,6 +22,30 @@ To set it as the default syntax for a particular extension:
 
 ![6to5-sublime-vs-sublime-react](https://raw.github.com/6to5/6to5-sublime/0293470/screenshots/6to5-sublime-vs-sublime-react.gif)
 
+## Snippets
+
+| Trigger  | Content |
+| -------: | ------- |
+| `cs→`    | `var cx = React.addons.classSet;` |
+| `cdm→`   | `componentDidMount() { ... },` |
+| `cdup→`  | `componentDidUpdate(prevProps, prevState) { ... },` |
+| `cwm→`   | `componentWillMount() { ... },` |
+| `cwr→`   | `componentWillReceiveProps(nextProps) { ... },` |
+| `cwun→`  | `componentWillUnmount() { ... },` |
+| `cwu→`   | `componentWillUpdate(nextProps, nextState) { ... },` |
+| `cx→`    | `cx({ ... });` |
+| `fup→`   | `forceUpdate(...);` |
+| `gdp→`   | `getDefaultProps() { return {...}; },` |
+| `gis→`   | `getInitialState() { return {...}; },` |
+| `ism→`   | `isMounted()` |
+| `pt→`    | `propTypes: { ...: React.PropTypes. },` |
+| `rcc→`   | component skeleton |
+| `ren→`   | `render() { return (...); }` |
+| `sst→`   | `setState({ ... });` |
+| `scu→`   | `shouldComponentUpdate(nextProps, nextState) { ... },` |
+| `props→` | `this.props.` |
+| `state→` | `this.state.` |
+
 ## About
 
 Under the hood, _6to5-sublime_ is based on the excellent [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage) with JSX syntax support built on top. The initial definitions for JSX came from [reactjs/sublime-react](https://github.com/reactjs/sublime-react) via [yungters/sublime](https://github.com/yungsters/sublime.git) - but we've added a few improvements like support for [JSX namespaces](http://facebook.github.io/react/blog/2014/07/17/react-v0.11.html#jsx-namespacing) and comments between JSX attributes.
