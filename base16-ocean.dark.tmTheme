@@ -117,7 +117,7 @@
 			<key>name</key>
 			<string>Functions</string>
 			<key>scope</key>
-			<string>entity.name.function, meta.require, support.function.any-method</string>
+			<string>entity.name.function, meta.require, support.function.any-method, meta.property.object</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>

@@ -55,7 +55,7 @@ settings:
     foreground: '#bf616a'
 
 - name: Functions
-  scope: entity.name.function, meta.require, support.function.any-method
+  scope: entity.name.function, meta.require, support.function.any-method, meta.property.object
   settings:
     foreground: '#8fa1b3'
 
