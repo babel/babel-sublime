@@ -783,10 +783,10 @@ repository:
         '1': {name: variable.other.object.js}
 
     # e.g. obj.property
-    - name: meta.property.object.js
-      match: (?<=\.)\s*[_$a-zA-Z][_$\w]*
+    - name: meta.property.js
+      match: (?<=[\.\]])\s*[_$a-zA-Z][_$\w]*
       captures:
-        '2': {name: variable.other.property.js}
+        '0': {name: entity.name.function.js}
 
     - name: variable.other.readwrite.js
       match: '[_$a-zA-Z][_$\w]*'

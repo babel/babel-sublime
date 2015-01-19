@@ -2206,16 +2206,16 @@
 				<dict>
 					<key>captures</key>
 					<dict>
-						<key>2</key>
+						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>variable.other.property.js</string>
+							<string>entity.name.function.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\s*[_$a-zA-Z][_$\w]*</string>
+					<string>(?&lt;=[\.\]])\s*[_$a-zA-Z][_$\w]*</string>
 					<key>name</key>
-					<string>meta.property.object.js</string>
+					<string>meta.property.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
