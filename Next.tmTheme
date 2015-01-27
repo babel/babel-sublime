@@ -597,6 +597,19 @@
 		</dict>
 		<dict>
 			<key>name</key>
+			<string>js variable dollar</string>
+			<key>scope</key>
+			<string>meta.initialization, variable.other.dollar.js</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>italic</string>
+				<key>foreground</key>
+				<string>#FF9122</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key>
 			<string>js object</string>
 			<key>scope</key>
 			<string>variable.other.object.js</string>

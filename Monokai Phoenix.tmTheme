@@ -408,7 +408,7 @@
 			<key>name</key>
 			<string>Library class/type</string>
 			<key>scope</key>
-			<string>support.type, support.class</string>
+			<string>support.type, support.class, variable.language</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>
