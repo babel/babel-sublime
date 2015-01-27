@@ -34,8 +34,9 @@ repository:
     - include: '#literal-function-storage'
     - include: '#literal-arrow-function-storage'
     - include: '#literal-prototype-storage'   # after literal-function-storage, which includes some prototype strings
+    - include: '#literal-labels'
 
-    # after literal-function-storage which requires the below in some cases
+    # after literal-function-storage & literal-labels which requires the below in some cases
     - include: '#literal-string'
     - include: '#literal-language-variable'
 
@@ -44,7 +45,6 @@ repository:
     - include: '#literal-function-call'
 
     # punctuation
-    - include: '#literal-labels'
     - include: '#literal-variable'
     - include: '#literal-punctuation'
 
@@ -156,10 +156,6 @@ repository:
 
   literal-module:
     patterns:
-    # module names are defined using strings
-    - name: storage.type.module.js
-      match: (?<!\.)\b(module)\b
-
     - name: keyword.operator.module.js
       match: (?<!\.)\b(import|export|from|as)\b
 
@@ -226,14 +222,14 @@ repository:
       match: ([_$a-zA-Z][_$\w]*)\.(prototype)\s*=\s*
       captures:
         '1': {name: entity.name.class.js}
-        '2': {name: support.constant.js}
+        '2': {name: variable.language.prototype.js}
 
     # e.g. Sound.prototype
     - name: meta.prototype.js
       match: ([_$a-zA-Z][_$\w]*)\.(prototype)
       captures:
         '1': {name: entity.name.class.js}
-        '2': {name: support.constant.js}
+        '2': {name: variable.language.prototype.js}
 
   literal-function-storage:
     patterns:
@@ -261,7 +257,7 @@ repository:
           \s*(function(?:\s*\*|(?=\s|[(])))\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
-        '2': {name: support.constant.js}
+        '2': {name: variable.language.prototype.js}
         '3': {name: entity.name.function.js}
         '4': {name: storage.type.function.js}
       end: (?<=\))
@@ -304,8 +300,8 @@ repository:
       begin: >-
         (?x)
           (?:
-            ((')(.*?)(?<!\\)('))|
-            ((")(.*?)(?<!\\)("))
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))
           )\s*
           (:)\s*
           \b(function(?:\s*\*|(?=\s|[(])))\s*
@@ -348,7 +344,7 @@ repository:
           \s*(?=\([^()]*\)\s*(=>))
       beginCaptures:
         '1': {name: entity.name.class.js}
-        '2': {name: support.constant.js}
+        '2': {name: variable.language.prototype.js}
         '3': {name: entity.name.function.js}
       end: (?<=\))\s*(=>)
       endCaptures:
@@ -394,8 +390,8 @@ repository:
       begin: >-
         (?x)
           (?:
-            ((')(.*?)(?<!\\)('))|
-            ((")(.*?)(?<!\\)("))
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))
           )\s*
           (:)\s*
           \s*(?=\([^()]*\)\s*(=>))
@@ -562,15 +558,6 @@ repository:
     - name: keyword.operator.js
       match: (?<!\.)\b(await|delete|in|instanceof|new|of|typeof|void|with)\b
 
-    - begin: \?
-      beginCaptures:
-        '0': {name: keyword.operator.ternary.js}
-      end: ':'
-      endCaptures:
-        '0': {name: keyword.operator.ternary.js}
-      patterns:
-      - include: $self
-
     - name: keyword.operator.logical.js
       match: >-
         (?x)
@@ -581,7 +568,7 @@ repository:
     - name: keyword.operator.assignment.js
       match: >-
         (?x)
-          =      # assignment      right-to-left   both
+          =(?!=)| # assignment      right-to-left   both
 
     - name: keyword.operator.assignment.augmented.js
       match: >-
@@ -636,14 +623,25 @@ repository:
           \+   | # addition        left-to-right   both
           -      # subtraction     left-to-right   both
 
+    - name: keyword.operator.ternary.js
+      match: '\?|:'
+
   literal-labels:
     patterns:
-    - match: (?<=['"])\s*(:)
-      captures:
-        '1': {name: punctuation.separator.key-value.js}
+    - begin: >-
+        (?x)
+          (?<!\?|\?\s)(?=(
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))
+          )\s*:)
+      end: ':'
+      endCaptures:
+        '0': {name: punctuation.separator.key-value.js}
+      patterns:
+      - include: '#literal-string'
 
     - name: constant.other.object.key.js
-      match: (?<!\.|\?|\? )([_$a-zA-Z][_$\w]*)\s*(:)
+      match: (?<!\.|\?|\?\s)([_$a-zA-Z][_$\w]*)\s*(:)
       captures:
         '1': {name: string.unquoted.label.js}
         '2': {name: punctuation.separator.key-value.js}
@@ -766,6 +764,10 @@ repository:
     - name: variable.other.constant.js
       match: \.?[A-Z][_$\dA-Z]*\b
 
+    # dollar variables
+    - name: variable.other.dollar.js
+      match: '\$[_$\w]+'
+
     # e.g. Class.property
     - name: meta.property.class.js
       match: >-
@@ -869,14 +871,15 @@ repository:
       match: (?<!\.)\b(natives|buffer|child_process|cluster|crypto|dgram|dns|fs|http|https|net|os|path|punycode|string|string_decoder|readline|repl|tls|tty|util|vm|zlib)\b
 
     - name: support.type.object.node.js
-      match: (?<!\.)\b(process|process\.(env|stdout|stdin|stderr)|global|GLOBAL|root|exports|__dirname|__filename|console)\b
+      match: (?<!\.)\b(process|process\.(env|stdout|stdin|stderr)|global|GLOBAL|root|module|exports|__dirname|__filename|console)\b
 
     - name: support.class.node.js
       match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
 
-    # dollar variables
-    - name: variable.other.dollar.js
-      match: '\$[_$\w]+'
+    # mustache
+    - name: meta.tag.mustache.js
+      begin: '{{'
+      end: '}}'
 
   jsx-tag-attributes:
     patterns:

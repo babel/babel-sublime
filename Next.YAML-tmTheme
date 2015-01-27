@@ -273,6 +273,12 @@ settings:
   settings:
     foreground: '#FF9122'
 
+- name: js variable dollar
+  scope: meta.initialization, variable.other.dollar.js
+  settings:
+    fontStyle: italic
+    foreground: '#FF9122'
+
 - name: js object
   scope: variable.other.object.js
   settings:
