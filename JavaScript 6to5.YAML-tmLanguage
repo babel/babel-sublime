@@ -167,53 +167,60 @@ repository:
         (?x)
           (?<!\.)\b(class)
           \s+([_$a-zA-Z][_$\w]*)
-          (?:
-            \s+(extends)
-            \s+([_$a-zA-Z][_$\w.]*)
-          )?
-          \s*({)
       beginCaptures:
         '1': {name: storage.type.class.js}
         '2': {name: entity.name.class.js}
-        '3': {name: storage.type.extends.js}
-        '4': {name: entity.name.extends.js}
-        '5': {name: meta.brace.curly.js}
-      end: (})
+      end: '}'
       endCaptures:
-        '1': {name: meta.brace.curly.js}
+        '0': {name: meta.brace.curly.js}
       patterns:
-      # e.g. play(arg1, arg2) {  }
-      - name: meta.method.js
-        begin: >-
-          (?x)
-            \b(static\s)?
-            \s*([_$a-zA-Z][_$\w]*)
-            \s*(?=\([^())]*\)\s*\{)
+      - name: meta.class.extends.js
+        begin: extends
         beginCaptures:
-          '1': {name: storage.type.js}
-          '2': {name: entity.name.method.js}
-        end: (?<=\))
+          '0': {name: storage.type.extends.js}
+        end: '(?={)'
+        endCaptures:
+          '0': {name: meta.brace.curly.js}
         patterns:
-        - include: '#function-declaration-parameters'
+        - include: $self
 
-      # getter/setter
-      - name: meta.accessor.js
-        begin: >-
-          (?x)
-            \b(static\s)?
-            \s*(get|set)\s
-            \s*([_$a-zA-Z][_$\w]*)
-            \s*(?=\([^())]*\)\s*\{)
+      - begin: '{'
         beginCaptures:
-          '1': {name: storage.type.js}
-          '2': {name: storage.type.accessor.js}
-          '3': {name: entity.name.accessor.js}
-        end: (?<=\))
+          '0': {name: meta.brace.curly.js}
+        end: '(?=})'
         patterns:
-        - include: '#function-declaration-parameters'
+        # e.g. play(arg1, arg2) {  }
+        - name: meta.method.js
+          begin: >-
+            (?x)
+              \b(static\s)?
+              \s*([_$a-zA-Z][_$\w]*)
+              \s*(?=\([^())]*\)\s*\{)
+          beginCaptures:
+            '1': {name: storage.type.js}
+            '2': {name: entity.name.method.js}
+          end: (?<=\))
+          patterns:
+          - include: '#function-declaration-parameters'
 
-      - include: '#brackets'
-      - include: '#comments'
+        # getter/setter
+        - name: meta.accessor.js
+          begin: >-
+            (?x)
+              \b(static\s)?
+              \s*(get|set)\s
+              \s*([_$a-zA-Z][_$\w]*)
+              \s*(?=\([^())]*\)\s*\{)
+          beginCaptures:
+            '1': {name: storage.type.js}
+            '2': {name: storage.type.accessor.js}
+            '3': {name: entity.name.accessor.js}
+          end: (?<=\))
+          patterns:
+          - include: '#function-declaration-parameters'
+
+        - include: '#brackets'
+        - include: '#comments'
 
   literal-prototype-storage:
     patterns:
@@ -225,7 +232,7 @@ repository:
         '2': {name: variable.language.prototype.js}
 
     # e.g. Sound.prototype
-    - name: meta.prototype.js
+    - name: meta.prototype.access.js
       match: ([_$a-zA-Z][_$\w]*)\.(prototype)
       captures:
         '1': {name: entity.name.class.js}
