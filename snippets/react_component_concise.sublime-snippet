@@ -1,0 +1,20 @@
+<snippet>
+    <content><![CDATA[
+import React from 'react';
+
+export default React.createClass({
+
+	${2:  displayName: '${1:myAwesomeComponent}',}
+
+	render() {
+		return (
+			${0:<div />}
+		);
+	}
+
+});
+]]></content>
+    <tabTrigger>rcs</tabTrigger>
+    <scope>source.js</scope>
+    <description>React: concise component skeleton</description>
+</snippet>
