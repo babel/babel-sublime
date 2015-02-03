@@ -4,15 +4,16 @@ import React from 'react';
 
 const ${1} = React.createClass({
 
-  render() {
-    return (
-      ${0:<div />}
-    );
-  }
+	render() {
+		return (
+			${0:<div />}
+		);
+	}
 
 });
 
 export default ${1};
+
 ]]></content>
     <tabTrigger>rcc</tabTrigger>
     <scope>source.js</scope>
