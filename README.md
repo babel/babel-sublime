@@ -43,6 +43,7 @@ To set it as the default syntax for a particular extension:
 | `props→` | `this.props.` |
 | `pt→`    | `propTypes: { ...: React.PropTypes. },` |
 | `rcc→`   | component skeleton |
+| `rcs→`   | concise component skeleton |
 | `ren→`   | `render() { return (...); }` |
 | `scu→`   | `shouldComponentUpdate(nextProps, nextState) { ... },` |
 | `sst→`   | `this.setState({ ... });` |

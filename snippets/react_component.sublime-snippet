@@ -4,11 +4,11 @@ import React from 'react';
 
 const ${1} = React.createClass({
 
-  render() {
-    return (
-      ${0:<div />}
-    );
-  }
+	render() {
+		return (
+			${0:<div />}
+		);
+	}
 
 });
 
