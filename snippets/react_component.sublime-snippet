@@ -13,6 +13,7 @@ const ${1} = React.createClass({
 });
 
 export default ${1};
+
 ]]></content>
     <tabTrigger>rcc</tabTrigger>
     <scope>source.js</scope>
