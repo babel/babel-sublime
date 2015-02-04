@@ -248,15 +248,19 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-class</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#literal-module</string>
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-class</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-function-storage</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-method</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1069,80 +1073,16 @@
 							<key>patterns</key>
 							<array>
 								<dict>
-									<key>begin</key>
-									<string>(?x)
-  \b(static\s)?
-  \s*([_$a-zA-Z][_$\w]*)
-  \s*(?=\([^())]*\)\s*\{)</string>
-									<key>beginCaptures</key>
-									<dict>
-										<key>1</key>
-										<dict>
-											<key>name</key>
-											<string>storage.type.js</string>
-										</dict>
-										<key>2</key>
-										<dict>
-											<key>name</key>
-											<string>entity.name.method.js</string>
-										</dict>
-									</dict>
-									<key>end</key>
-									<string>(?&lt;=\))</string>
-									<key>name</key>
-									<string>meta.method.js</string>
-									<key>patterns</key>
-									<array>
-										<dict>
-											<key>include</key>
-											<string>#function-declaration-parameters</string>
-										</dict>
-									</array>
-								</dict>
-								<dict>
-									<key>begin</key>
-									<string>(?x)
-  \b(static\s)?
-  \s*(get|set)\s
-  \s*([_$a-zA-Z][_$\w]*)
-  \s*(?=\([^())]*\)\s*\{)</string>
-									<key>beginCaptures</key>
-									<dict>
-										<key>1</key>
-										<dict>
-											<key>name</key>
-											<string>storage.type.js</string>
-										</dict>
-										<key>2</key>
-										<dict>
-											<key>name</key>
-											<string>storage.type.accessor.js</string>
-										</dict>
-										<key>3</key>
-										<dict>
-											<key>name</key>
-											<string>entity.name.accessor.js</string>
-										</dict>
-									</dict>
-									<key>end</key>
-									<string>(?&lt;=\))</string>
-									<key>name</key>
-									<string>meta.accessor.js</string>
-									<key>patterns</key>
-									<array>
-										<dict>
-											<key>include</key>
-											<string>#function-declaration-parameters</string>
-										</dict>
-									</array>
-								</dict>
-								<dict>
 									<key>include</key>
 									<string>#brackets</string>
 								</dict>
 								<dict>
 									<key>include</key>
 									<string>#comments</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#literal-method</string>
 								</dict>
 							</array>
 						</dict>
@@ -1750,6 +1690,80 @@
 				</dict>
 			</array>
 		</dict>
+		<key>literal-method</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+  \b(?:(static)\s+)?
+  ([_$a-zA-Z][_$\w]*)\s*
+  (?=\([^())]*\)\s*\{)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.method.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\))</string>
+					<key>name</key>
+					<string>meta.method.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+  \b(?:(static)\s+)?
+  (get|set)\s+
+  ([_$a-zA-Z][_$\w]*)\s*
+  (?=\([^())]*\)\s*\{)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.accessor.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.accessor.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\))</string>
+					<key>name</key>
+					<string>meta.accessor.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
 		<key>literal-method-call</key>
 		<dict>
 			<key>patterns</key>
@@ -1934,7 +1948,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_$a-zA-Z][_$\w]*)\.(prototype)</string>
+					<string>([_$a-zA-Z][_$\w]*)\.(prototype)\b</string>
 					<key>name</key>
 					<string>meta.prototype.access.js</string>
 				</dict>

@@ -29,9 +29,10 @@ repository:
     - include: '#literal-keywords'
 
     # modules/classes/functions
-    - include: '#literal-class'
     - include: '#literal-module'
+    - include: '#literal-class'
     - include: '#literal-function-storage'
+    - include: '#literal-method'
     - include: '#literal-arrow-function-storage'
     - include: '#literal-prototype-storage'   # after literal-function-storage, which includes some prototype strings
     - include: '#literal-labels'
@@ -189,38 +190,41 @@ repository:
           '0': {name: meta.brace.curly.js}
         end: '(?=})'
         patterns:
-        # e.g. play(arg1, arg2) {  }
-        - name: meta.method.js
-          begin: >-
-            (?x)
-              \b(static\s)?
-              \s*([_$a-zA-Z][_$\w]*)
-              \s*(?=\([^())]*\)\s*\{)
-          beginCaptures:
-            '1': {name: storage.type.js}
-            '2': {name: entity.name.method.js}
-          end: (?<=\))
-          patterns:
-          - include: '#function-declaration-parameters'
-
-        # getter/setter
-        - name: meta.accessor.js
-          begin: >-
-            (?x)
-              \b(static\s)?
-              \s*(get|set)\s
-              \s*([_$a-zA-Z][_$\w]*)
-              \s*(?=\([^())]*\)\s*\{)
-          beginCaptures:
-            '1': {name: storage.type.js}
-            '2': {name: storage.type.accessor.js}
-            '3': {name: entity.name.accessor.js}
-          end: (?<=\))
-          patterns:
-          - include: '#function-declaration-parameters'
-
         - include: '#brackets'
         - include: '#comments'
+        - include: '#literal-method'
+
+  literal-method:
+    patterns:
+    # e.g. play(arg1, arg2) {  }
+    - name: meta.method.js
+      begin: >-
+        (?x)
+          \b(?:(static)\s+)?
+          ([_$a-zA-Z][_$\w]*)\s*
+          (?=\([^())]*\)\s*\{)
+      beginCaptures:
+        '1': {name: storage.type.js}
+        '2': {name: entity.name.method.js}
+      end: (?<=\))
+      patterns:
+      - include: '#function-declaration-parameters'
+
+    # getter/setter
+    - name: meta.accessor.js
+      begin: >-
+        (?x)
+          \b(?:(static)\s+)?
+          (get|set)\s+
+          ([_$a-zA-Z][_$\w]*)\s*
+          (?=\([^())]*\)\s*\{)
+      beginCaptures:
+        '1': {name: storage.type.js}
+        '2': {name: storage.type.accessor.js}
+        '3': {name: entity.name.accessor.js}
+      end: (?<=\))
+      patterns:
+      - include: '#function-declaration-parameters'
 
   literal-prototype-storage:
     patterns:
@@ -233,7 +237,7 @@ repository:
 
     # e.g. Sound.prototype
     - name: meta.prototype.access.js
-      match: ([_$a-zA-Z][_$\w]*)\.(prototype)
+      match: ([_$a-zA-Z][_$\w]*)\.(prototype)\b
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: variable.language.prototype.js}
