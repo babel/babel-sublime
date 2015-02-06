@@ -202,7 +202,7 @@ repository:
         (?x)
           \b(?:(static)\s+)?
           ([_$a-zA-Z][_$\w]*)\s*
-          (?=\([^())]*\)\s*\{)
+          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
         '2': {name: entity.name.method.js}
@@ -217,7 +217,7 @@ repository:
           \b(?:(static)\s+)?
           (get|set)\s+
           ([_$a-zA-Z][_$\w]*)\s*
-          (?=\([^())]*\)\s*\{)
+          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
         '2': {name: storage.type.accessor.js}
