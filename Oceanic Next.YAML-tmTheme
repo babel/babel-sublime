@@ -1,0 +1,110 @@
+# [PackageDev] target_format: plist, ext: tmTheme
+---
+name: Oceanic Next
+uuid: 21a3a5f5-e82f-48a8-bc8b-9aef307f6131
+author: Dmitri Voronianski (http://pixelhunter.me)
+
+colorSpaceName: sRGB
+
+gutterSettings:
+  background: '#343d46'
+  divider: '#343d46'
+  foreground: '#65737e'
+  selectionBackground: '#4f5b66'
+  selectionForeground: '#a7adba'
+semanticClass: oceanic.next.dark
+settings:
+- settings:
+    background: '#1B2B34'
+    caret: '#c0c5ce'
+    foreground: '#CDD3DE'
+    invisibles: '#65737e'
+    lineHighlight: '#65737e55'
+    selection: '#4f5b66'
+
+- name: Comments
+  scope: comment, punctuation.definition.comment
+  settings:
+    foreground: '#65737e'
+
+- name: Variable
+  scope: variable
+  settings:
+    foreground: '#CDD3DE'
+
+- name: Keyword, Storage
+  scope: keyword, storage.type
+  settings:
+    foreground: '#C594C5'
+
+- name: Operator, Misc
+  scope: keyword.operator, constant.other.color, punctuation, meta.tag,
+    punctuation.definition.tag, punctuation.definition.tag.*.*, punctuation.separator.inheritance.php,
+    punctuation.definition.tag.html, punctuation.definition.tag.begin.html, punctuation.definition.tag.end.html
+  settings:
+    foreground: '#5FB3B3'
+
+- name: Tag
+  scope: entity.name.tag, meta.tag.sgml, markup.deleted.git_gutter
+  settings:
+    foreground: '#EB606B'
+
+- name: Function, Special Method, Block Level
+  scope: entity.name.function, meta.function-call, support.function, keyword.other.special-method,
+    meta.block-level
+  settings:
+    foreground: '#6699CC'
+
+- name: Other Variable, String Link
+  scope: support.other.variable, string.other.link
+  settings:
+    foreground: '#F2777A'
+
+- name: Number, Constant, Function Argument, Tag Attribute, Embedded
+  scope: constant.numeric, constant.language, support.constant, constant.character,
+    variable.parameter, punctuation.section.embedded, keyword.other.unit
+  settings:
+    foreground: '#F99157'
+
+- name: String, Symbols, Inherited Class, Markup Heading
+  scope: string, constant.other.symbol, entity.other.inherited-class, markup.heading,
+    markup.inserted.git_gutter
+  settings:
+    foreground: '#99C794'
+
+- name: Class, Support
+  scope: entity.name.class, entity.name.type.class, support.type, support.class, support.orther.namespace.use.php,
+    meta.use.php, support.other.namespace.php, markup.changed.git_gutter
+  settings:
+    foreground: '#FAC863'
+
+- name: Sub-methods
+  scope: entity.name.module.js, variable.import.parameter.js, variable.other.class.js
+  settings:
+    foreground: '#EC5F67'
+
+- name: Language methods
+  scope: variable.language
+  settings:
+    foreground: '#EC5F67'
+    fontStyle: italic
+
+- name: entity.name.method.js
+  scope: entity.name.method.js
+  settings:
+    foreground: '#D8DEE9'
+
+- name: meta.method.js
+  scope: meta.method.js
+  settings:
+    foreground: '#fff'
+
+- name: Attributes
+  scope: entity.other.attribute-name
+  settings:
+    foreground: '#BB80B3'
+
+- name: URL
+  scope: '*url*, *link*, *uri*'
+  settings:
+    fontStyle: underline
