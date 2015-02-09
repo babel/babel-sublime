@@ -104,6 +104,31 @@ settings:
   settings:
     foreground: '#BB80B3'
 
+- name: Inserted
+  scope: markup.inserted
+  settings:
+    foreground: '#99C794'
+
+- name: Deleted
+  scope: markup.deleted
+  settings:
+    foreground: '#EC5F67'
+
+- name: Changed
+  scope: markup.changed
+  settings:
+    foreground: '#BB80B3'
+
+- name: Regular Expressions
+  scope: string.regexp
+  settings:
+    foreground: '#5FB3B3'
+
+- name: Escape Characters
+  scope: constant.character.escape
+  settings:
+    foreground: '#5FB3B3'
+
 - name: URL
   scope: '*url*, *link*, *uri*'
   settings:
