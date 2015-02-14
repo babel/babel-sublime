@@ -498,6 +498,13 @@
 				</dict>
 			</array>
 		</dict>
+		<key>jsx-tag-attribute-assignment</key>
+		<dict>
+			<key>match</key>
+			<string>=(?=\s*(?:'|"|{|/\*|//|\n))</string>
+			<key>name</key>
+			<string>keyword.operator.assignment.js</string>
+		</dict>
 		<key>jsx-tag-attribute-name</key>
 		<dict>
 			<key>captures</key>
@@ -509,7 +516,10 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>\b([a-zA-Z\-:]+)</string>
+			<string>(?x)
+  \s*
+  ([_$a-zA-Z][-$\w]*)
+  (?=\s|=|/?&gt;|/\*|//)</string>
 			<key>name</key>
 			<string>meta.tag.attribute-name.js</string>
 		</dict>
@@ -520,6 +530,10 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx-tag-attribute-name</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-attribute-assignment</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -534,6 +548,13 @@
 					<string>#jsx-evaluated-code</string>
 				</dict>
 			</array>
+		</dict>
+		<key>jsx-tag-attributes-illegal</key>
+		<dict>
+			<key>match</key>
+			<string>\S*</string>
+			<key>name</key>
+			<string>invalid.illegal.attribute.js</string>
 		</dict>
 		<key>jsx-tag-close</key>
 		<dict>
@@ -572,7 +593,7 @@
 		<key>jsx-tag-invalid</key>
 		<dict>
 			<key>match</key>
-			<string>&lt;\\s*&gt;</string>
+			<string>&lt;\s*&gt;</string>
 			<key>name</key>
 			<string>invalid.illegal.tag.incomplete.js</string>
 		</dict>
@@ -609,11 +630,15 @@
 			<array>
 				<dict>
 					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#jsx-tag-attributes</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#comments</string>
+					<string>#jsx-tag-attributes-illegal</string>
 				</dict>
 			</array>
 		</dict>
