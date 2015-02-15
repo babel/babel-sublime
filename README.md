@@ -16,7 +16,9 @@ To set it as the default syntax for a particular extension:
 
 #### Setting a Color Scheme
 
-`6to5` comes bundled with `Next` and `Monokai` from [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage). Select one from `Preferences` `->` `Color Scheme` `->` `6to5`
+`6to5` comes bundled with `Next` and `Monokai` from [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage), and [`Oceanic Next`](https://github.com/voronianski/oceanic-next-theme).
+
+Select one from `Preferences` `->` `Color Scheme` `->` `6to5`
 
 ## Screenshots
 
