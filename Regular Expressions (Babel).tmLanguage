@@ -11,7 +11,7 @@
 	<key>foldingStopMarker</key>
 	<string>(\*/|\}|\))</string>
 	<key>name</key>
-	<string>Regular Expressions (6to5)</string>
+	<string>Regular Expressions (Babel)</string>
 	<key>patterns</key>
 	<array>
 		<dict>
