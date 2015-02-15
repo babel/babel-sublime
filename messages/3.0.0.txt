@@ -1,0 +1,4 @@
+babel-sublime (previously 6to5-sublime)
+---------------------------------------
+
+6to5 is now Babel, so 6to5-sublime is now babel-sublime.

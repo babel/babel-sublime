@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: JavaScript 6to5
+name: JavaScript (Babel)
 scopeName: source.js
 fileTypes: [js, htc, jsx]
 uuid: 30c49d33-6e4d-4985-8a18-34431c2535c6
