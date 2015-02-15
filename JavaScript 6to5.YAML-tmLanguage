@@ -895,15 +895,24 @@ repository:
   jsx-tag-attributes:
     patterns:
       - include: '#jsx-tag-attribute-name'
+      - include: '#jsx-tag-attribute-assignment'
       - include: '#jsx-string-double-quoted'
       - include: '#jsx-string-single-quoted'
       - include: '#jsx-evaluated-code'
 
   jsx-tag-attribute-name:
     name: meta.tag.attribute-name.js
-    match: \b([a-zA-Z\-:]+)
+    match: >-
+      (?x)
+        \s*
+        ([_$a-zA-Z][-$\w]*)
+        (?=\s|=|/?>|/\*|//)
     captures:
       '1': {name: entity.other.attribute-name.js}
+
+  jsx-tag-attribute-assignment:
+    name: keyword.operator.assignment.js
+    match: =(?=\s*(?:'|"|{|/\*|//|\n))
 
   jsx-string-double-quoted:
     begin: '"'
@@ -948,6 +957,10 @@ repository:
     patterns:
     - include: '#core'
 
+  jsx-tag-attributes-illegal:
+    name: invalid.illegal.attribute.js
+    match: \S*
+
   jsx-tag-open:
     begin: (<)([_$a-zA-Z][_$\w:.]*)
     end: (/?>)
@@ -958,8 +971,9 @@ repository:
     endCaptures:
       '1': {name: punctuation.definition.tag.end.js}
     patterns:
-    - include: '#jsx-tag-attributes'
     - include: '#comments'
+    - include: '#jsx-tag-attributes'
+    - include: '#jsx-tag-attributes-illegal'
 
   jsx-tag-close:
     begin: (</)([_$a-zA-Z][_$\w:.]*)
@@ -974,7 +988,7 @@ repository:
 
   jsx-tag-invalid:
     name: invalid.illegal.tag.incomplete.js
-    match: <\\s*>
+    match: <\s*>
 
   jsx:
     name: meta.jsx.js
