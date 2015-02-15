@@ -85,7 +85,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\\([trnvf0]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)</string>
+					<string>\\([trnvf0\\]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)</string>
 					<key>name</key>
 					<string>constant.character.escape.backslash.regexp</string>
 				</dict>

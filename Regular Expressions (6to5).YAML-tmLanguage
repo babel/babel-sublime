@@ -73,7 +73,7 @@ repository:
       match: \\[wWsSdD]|\.
 
     - name: constant.character.escape.backslash.regexp
-      match: \\([trnvf0]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)
+      match: \\([trnvf0\\]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)
 
   character-class-definition:
     patterns:
