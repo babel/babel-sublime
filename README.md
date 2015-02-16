@@ -51,7 +51,7 @@ To set it as the default syntax for a particular extension:
 
 ## Suggested Resources
 
-#### Oceanic Next Color Scheme (https://github.com/voronianski/oceanic-next-theme)
+##### [Oceanic Next Color Scheme](https://github.com/voronianski/oceanic-next-theme)
 
 [![](https://raw.githubusercontent.com/voronianski/babel-sublime/master/screenshots/oceanic-next.png)](https://github.com/voronianski/oceanic-next-theme)
 
