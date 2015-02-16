@@ -51,11 +51,11 @@ To set it as the default syntax for a particular extension:
 
 ## Suggested Resources
 
-- **Oceanic Next Color Scheme** (https://github.com/voronianski/oceanic-next-theme)
+#### Oceanic Next Color Scheme (https://github.com/voronianski/oceanic-next-theme)
 
-[![]()](https://github.com/voronianski/oceanic-next-theme)
+[![](https://raw.githubusercontent.com/voronianski/babel-sublime/master/screenshots/oceanic-next.png)](https://github.com/voronianski/oceanic-next-theme)
 
-Sublime Text Color Scheme which is ready and optimized for JavaScript's new features and babel-sublime package.
+Sublime Text Color Scheme which is ready for JavaScript's new features and babel-sublime package.
 
 ## About
 
