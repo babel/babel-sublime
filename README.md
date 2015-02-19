@@ -36,32 +36,9 @@ To set it as the default syntax for a particular extension:
 
 * Tight (without spaces) greater-/less-than comparisons are correctly identified as such and not mistaken for JSX tags.
 
-
 ## Snippets
 
-| Trigger  | Content |
-| -------: | ------- |
-| `cdm→`   | `componentDidMount() { ... },` |
-| `cdup→`  | `componentDidUpdate(prevProps, prevState) { ... },` |
-| `cs→`    | `var cx = React.addons.classSet;` |
-| `cwm→`   | `componentWillMount() { ... },` |
-| `cwr→`   | `componentWillReceiveProps(nextProps) { ... },` |
-| `cwun→`  | `componentWillUnmount() { ... },` |
-| `cwu→`   | `componentWillUpdate(nextProps, nextState) { ... },` |
-| `cx→`    | `cx({ ... });` |
-| `fup→`   | `this.forceUpdate(...);` |
-| `gdn→`   | `this.getDOMNode()` |
-| `gdp→`   | `getDefaultProps() { return {...}; },` |
-| `gis→`   | `getInitialState() { return {...}; },` |
-| `ism→`   | `this.isMounted()` |
-| `props→` | `this.props.` |
-| `pt→`    | `propTypes: { ...: React.PropTypes. },` |
-| `rcc→`   | component skeleton |
-| `rcs→`   | concise component skeleton |
-| `ren→`   | `render() { return (...); }` |
-| `scu→`   | `shouldComponentUpdate(nextProps, nextState) { ... },` |
-| `sst→`   | `this.setState({ ... });` |
-| `state→` | `this.state.` |
+Find them in [`SNIPPETS.md`](https://github.com/babel/babel-sublime/blob/master/SNIPPETS.md)
 
 ## Suggested Resources
 

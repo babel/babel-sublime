@@ -1,0 +1,4 @@
+babel-sublime (previously 6to5-sublime)
+---------------------------------------
+
+Snippets have been removed. For more info see https://github.com/babel/babel-sublime/blob/master/SNIPPETS.md
