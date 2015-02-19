@@ -20,8 +20,22 @@ To set it as the default syntax for a particular extension:
 
 ## Screenshots
 
-![babel-sublime-vs-sublime-react](https://raw.github.com/6to5/6to5-sublime/5cd4353/screenshots/6to5-sublime-vs-sublime-react.gif)
-(`babel-sublime` vs `sublime-react`)
+![babel-sublime-vs-sublime-react--react-class](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-react-class@2x.png)
+
+* `bebel-sublime` supports modern JavaScript syntax, including [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment), [shorthand methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions), [template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings), and more.
+
+![babel-sublime-vs-sublime-react--jsx-comments-etc](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-comments-etc@2x.png)
+
+* `babel-sublime` correctly matches comments between attributes, namespaced components, and non-alpha characters in tag/attribute names.
+
+![babel-sublime-vs-sublime-react--jsx-illegal](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-illegal@2x.png)
+
+* Illegal attribute names; missing equals, quotes or braces; and missing values are highlighted, to easily spot mistakes.
+
+![babel-sublime-vs-sublime-react--jsx-tight](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-tight@2x.png)
+
+* Tight (without spaces) greater-/less-than comparisons are correctly identified as such and not mistaken for JSX tags.
+
 
 ## Snippets
 
