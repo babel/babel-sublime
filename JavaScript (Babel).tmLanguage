@@ -236,31 +236,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-language-constant</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#jsx</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-keywords</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-module</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-class</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#literal-function-storage</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-method</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -280,7 +260,27 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-keywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-language-constant</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-language-variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-module</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-class</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-method</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -331,6 +331,12 @@
 					</dict>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>match</key>
+							<string>(?&lt;!\.)\.\.\.</string>
+							<key>name</key>
+							<string>keyword.operator.spread.js</string>
+						</dict>
 						<dict>
 							<key>match</key>
 							<string>[_$a-zA-Z][$\w]*</string>
@@ -1602,6 +1608,12 @@
 					<key>name</key>
 					<string>keyword.operator.ternary.js</string>
 				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\.\.\.</string>
+					<key>name</key>
+					<string>keyword.operator.spread.js</string>
+				</dict>
 			</array>
 		</dict>
 		<key>literal-labels</key>
@@ -1696,25 +1708,25 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(arguments)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(arguments)\b</string>
 					<key>name</key>
 					<string>variable.language.arguments.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(super)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(super)\b</string>
 					<key>name</key>
 					<string>variable.language.super.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(this)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(this)\b</string>
 					<key>name</key>
 					<string>variable.language.this.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(self)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(self)\b</string>
 					<key>name</key>
 					<string>variable.language.self.js</string>
 				</dict>
