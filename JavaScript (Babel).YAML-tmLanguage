@@ -20,26 +20,26 @@ repository:
     - include: '#literal-regex'               # before operators to avoid ambiguities
     - include: '#literal-number'
     - include: '#literal-quasi'
-    - include: '#literal-language-constant'
 
     # jsx
     - include: '#jsx'
 
-    # keywords/operators
-    - include: '#literal-keywords'
-
-    # modules/classes/functions
-    - include: '#literal-module'
-    - include: '#literal-class'
+    # object literals
     - include: '#literal-function-storage'
-    - include: '#literal-method'
     - include: '#literal-arrow-function-storage'
     - include: '#literal-prototype-storage'   # after literal-function-storage, which includes some prototype strings
     - include: '#literal-labels'
 
-    # after literal-function-storage & literal-labels which requires the below in some cases
+    # after object literals which requires the below in some cases
     - include: '#literal-string'
+    - include: '#literal-keywords'
+    - include: '#literal-language-constant'
     - include: '#literal-language-variable'
+
+    # modules/classes/methods
+    - include: '#literal-module'
+    - include: '#literal-class'
+    - include: '#literal-method'
 
     # function calls
     - include: '#literal-method-call'
@@ -149,6 +149,8 @@ repository:
       endCaptures:
         '1': {name: punctuation.definition.parameters.end.js}
       patterns:
+      - name: keyword.operator.spread.js
+        match: (?<!\.)\.\.\.
       - name: variable.parameter.function.js
         match: '[_$a-zA-Z][$\w]*'
       - name: punctuation.separator.parameter.function.js
@@ -495,16 +497,16 @@ repository:
   literal-language-variable:
     patterns:
     - name: variable.language.arguments.js
-      match: (?<!\.)\b(arguments)\b
+      match: (?<!(?<!\.\.)\.)\b(arguments)\b
 
     - name: variable.language.super.js
-      match: (?<!\.)\b(super)\b
+      match: (?<!(?<!\.\.)\.)\b(super)\b
 
     - name: variable.language.this.js
-      match: (?<!\.)\b(this)\b
+      match: (?<!(?<!\.\.)\.)\b(this)\b
 
     - name: variable.language.self.js
-      match: (?<!\.)\b(self)\b
+      match: (?<!(?<!\.\.)\.)\b(self)\b
 
     - name: variable.language.proto.js
       match: (?<=\.)\b(__proto__)\b
@@ -643,6 +645,9 @@ repository:
 
     - name: keyword.operator.ternary.js
       match: '\?|:'
+
+    - name: keyword.operator.spread.js
+      match: (?<!\.)\.\.\.
 
   literal-labels:
     patterns:

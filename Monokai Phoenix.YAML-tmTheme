@@ -74,7 +74,7 @@ settings:
 - name: Support
   scope: support
   settings:
-    foreground: '#8a5c8dff'
+    foreground: '#8A5C8DFF'
 
 - name: Function arg
   scope: meta.function.argument, variable.parameter, meta.parens.c
@@ -84,8 +84,8 @@ settings:
 - name: invalid.illegal
   scope: invalid.illegal
   settings:
-    background: '#562d56bf'
-    foreground: '#fd5ff1ff'
+    background: '#562D56BF'
+    foreground: '#FD5FF1FF'
 
 - name: support.function
   scope: support.function
@@ -105,17 +105,17 @@ settings:
 - name: entity.arrow.function.js
   scope: entity.arrow.function.js
   settings:
-    foreground: '#aa00ff'
+    foreground: '#AA00FF'
 
 - name: support.class.error.js
   scope: support.class.error.js
   settings:
-    foreground: '#ff5522'
+    foreground: '#FF5522'
 
 - name: support.class.node.js
   scope: support.class.node.js
   settings:
-    foreground: '#1224fe'
+    foreground: '#1224FE'
 
 - name: support.keyword.node.js
   scope: support.keyword.node.js
@@ -131,22 +131,17 @@ settings:
 - name: entity.name.accessor.js
   scope: entity.name.accessor.js
   settings:
-    background: '#001122'
-    fontStyle: ''
     foreground: '#A6E22E'
 
 - name: entity.name.method.js
   scope: entity.name.method.js
   settings:
-    background: '#110022'
-    fontStyle: ''
     foreground: '#A6E22E'
 
 - name: meta.method.js
   scope: meta.method.js
   settings:
-    fontStyle: ''
-    foreground: '#fff'
+    foreground: '#FFF'
 
 - name: support.function
   scope: support.function
@@ -156,7 +151,6 @@ settings:
 - name: Function name
   scope: entity.name.function
   settings:
-    fontStyle: ''
     foreground: '#A6E22E'
 
 - name: entity.name.class.js
@@ -169,7 +163,7 @@ settings:
   scope: entity.name.extends.js
   settings:
     fontStyle: italic
-    foreground: '#00ff99'
+    foreground: '#00FF99'
 
 - name: entity.other.attribute-name.id
   scope: entity.other.attribute-name.id
@@ -226,32 +220,32 @@ settings:
 - name: diff.deleted
   scope: markup.deleted
   settings:
-    background: '#420e09ff'
+    background: '#420E09FF'
     foreground: '#F92672'
 
 - name: diff.changed
   scope: markup.changed
   settings:
-    background: '#4a410dff'
+    background: '#4A410DFF'
     foreground: '#E6DB74'
 
 - name: diff.inserted
   scope: markup.inserted
   settings:
-    background: '#253b22ff'
-    foreground: '#f8f8f8ff'
+    background: '#253B22FF'
+    foreground: '#F8F8F8FF'
 
 - name: Log Entry
   scope: meta.line.entry.logfile, meta.line.exit.logfile
   settings:
-    background: '#eeeeee29'
-    foreground: '#f8f8f8ff'
+    background: '#EEEEEE29'
+    foreground: '#F8F8F8FF'
 
 - name: Log Entry Error
   scope: meta.line.error.logfile
   settings:
     background: '#751012'
-    foreground: '#f8f8f8'
+    foreground: '#F8F8F8'
 
 - name: JSON String
   scope: meta.structure.dictionary.json string.quoted.double
