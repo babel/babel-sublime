@@ -1,3 +1,8 @@
+
+
+
+// components/EmailInput.jsx
+
 import React from 'react';
 import { InputsMixin } from './Forms';
 
@@ -10,7 +15,8 @@ export default React.createClass({
     request
       .post(`${API_BASE}/askform`)
       .send({email, question})
-      .end((err, res) => this.setState({isValid: !err}));
+      .end((err, res) =>
+        this.setState({isValid: !err}));
   },
 
   render() {
@@ -26,3 +32,4 @@ export default React.createClass({
     );
   }
 });
+
