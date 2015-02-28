@@ -176,7 +176,7 @@ repository:
       begin: >-
         (?x)
           (?<!\.)\b(class)
-          \s+([_$a-zA-Z][$\w]*)
+          \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?
       beginCaptures:
         '1': {name: storage.type.class.js}
         '2': {name: entity.name.class.js}
@@ -185,9 +185,9 @@ repository:
         '0': {name: meta.brace.curly.js}
       patterns:
       - name: meta.class.extends.js
-        begin: extends
+        begin: \b(extends)\b
         beginCaptures:
-          '0': {name: storage.type.extends.js}
+          '1': {name: storage.type.extends.js}
         end: '(?={)'
         endCaptures:
           '0': {name: meta.brace.curly.js}
@@ -882,12 +882,11 @@ repository:
             WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
           )\b
 
-    # firebug
-    - name: support.type.object.firebug.js
-      match: (?<!\.)\b(console)\b
-
-    - name: support.function.firebug.js
-      match: \.(warn|info|log|error|time|timeEnd|assert)\b
+    # console
+    - match: (?<!\.)\b(console)(?:\.(warn|info|log|error|time|timeEnd|assert))?\b
+      captures:
+        '1': {name: support.type.object.console.js}
+        '2': {name: support.function.console.js}
 
     # node
     - name: support.module.node.js

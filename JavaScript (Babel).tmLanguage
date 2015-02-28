@@ -1052,7 +1052,7 @@
 					<key>begin</key>
 					<string>(?x)
   (?&lt;!\.)\b(class)
-  \s+([_$a-zA-Z][$\w]*)</string>
+  \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1082,10 +1082,10 @@
 					<array>
 						<dict>
 							<key>begin</key>
-							<string>extends</string>
+							<string>\b(extends)\b</string>
 							<key>beginCaptures</key>
 							<dict>
-								<key>0</key>
+								<key>1</key>
 								<dict>
 									<key>name</key>
 									<string>storage.type.extends.js</string>
@@ -2463,16 +2463,21 @@
 					<string>support.constant.dom.js</string>
 				</dict>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.object.console.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>support.function.console.js</string>
+						</dict>
+					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(console)\b</string>
-					<key>name</key>
-					<string>support.type.object.firebug.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\.(warn|info|log|error|time|timeEnd|assert)\b</string>
-					<key>name</key>
-					<string>support.function.firebug.js</string>
+					<string>(?&lt;!\.)\b(console)(?:\.(warn|info|log|error|time|timeEnd|assert))?\b</string>
 				</dict>
 				<dict>
 					<key>match</key>
