@@ -264,6 +264,14 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-method</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-operators</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-language-constant</string>
 				</dict>
 				<dict>
@@ -277,10 +285,6 @@
 				<dict>
 					<key>include</key>
 					<string>#literal-class</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-method</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -819,7 +823,16 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
+  (\basync)?\s*
   (?=\([^()]*\)\s*(=&gt;))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+					</dict>
 					<key>end</key>
 					<string>(?&lt;=\))\s*(=&gt;)</string>
 					<key>endCaptures</key>
@@ -847,6 +860,7 @@
   \.(prototype)
   \.([_$a-zA-Z][$\w]*)
   \s*=
+  \s*(async)?
   \s*(?=\([^()]*\)\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -864,6 +878,11 @@
 						<dict>
 							<key>name</key>
 							<string>entity.name.function.js</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -892,6 +911,7 @@
   (\b_?[A-Z][$\w]*)?
   \.([_$a-zA-Z][$\w]*)
   \s*=
+  \s*(async)?
   \s*(?=\([^()]*\)\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -904,6 +924,11 @@
 						<dict>
 							<key>name</key>
 							<string>entity.name.function.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -931,6 +956,7 @@
 					<string>(?x)
   \b([_$a-zA-Z][$\w]*)
   \s*(:)
+  \s*(async)?
   \s*(?=\([^()]*\)\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -943,6 +969,11 @@
 						<dict>
 							<key>name</key>
 							<string>punctuation.separator.key-value.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -971,8 +1002,9 @@
   (?:
     ((')((?:[^']|\\')*)('))|
     ((")((?:[^"]|\\")*)("))
-  )\s*
-  (:)\s*
+  )
+  \s*(:)
+  \s*(async)?
   \s*(?=\([^()]*\)\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -980,6 +1012,11 @@
 						<dict>
 							<key>name</key>
 							<string>string.quoted.single.js</string>
+						</dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1194,16 +1231,27 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-  \b(function(?:\s*\*|(?=\s|[(])))
+  (?:\b(async)\s+)?
+  \s*(function)(?:\s*(\*)|(?=\s|[(]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.function.js</string>
+							<string>storage.type.js</string>
 						</dict>
 						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function.js</string>
@@ -1228,7 +1276,8 @@
   \.(prototype)
   \.([_$a-zA-Z][$\w]*)
   \s*=
-  \s*(function(?:\s*\*|(?=\s|[(])))\s*</string>
+  \s*(?:(async)\s+)?
+  \s*(function)(?:\s*(\*)|(?=\s|[(]))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1249,7 +1298,17 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
 							<string>storage.type.function.js</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1270,7 +1329,8 @@
   (\b_?[A-Z][$\w]*)?
   \.([_$a-zA-Z][$\w]*)
   \s*=
-  \s*(function(?:\s*\*|(?=\s|[(])))\s*</string>
+  \s*(?:(async)\s+)?
+  \s*(function)(?:\s*(\*)|(?=\s|[(]))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1286,7 +1346,17 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
 							<string>storage.type.function.js</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1306,7 +1376,8 @@
 					<string>(?x)
   \b([_$a-zA-Z][$\w]*)
   \s*(:)
-  \s*(function(?:\s*\*|(?=\s|[(])))\s*</string>
+  \s*(?:(async)\s+)?
+  \s*(function)(?:\s*(\*)|(?=\s|[(]))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1322,7 +1393,17 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
 							<string>storage.type.function.js</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1343,9 +1424,10 @@
   (?:
     ((')((?:[^']|\\')*)('))|
     ((")((?:[^"]|\\")*)("))
-  )\s*
-  (:)\s*
-  \b(function(?:\s*\*|(?=\s|[(])))\s*</string>
+  )
+  \s*(:)
+  \s*(?:(async)\s+)?
+  \s*(function)(?:\s*(\*)|(?=\s|[(]))\s*</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1356,7 +1438,17 @@
 						<key>10</key>
 						<dict>
 							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>11</key>
+						<dict>
+							<key>name</key>
 							<string>storage.type.function.js</string>
+						</dict>
+						<key>12</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1454,7 +1546,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(async|const|let|var)\b</string>
+					<string>(?&lt;!\.)\b(const|let|var)\b</string>
 					<key>name</key>
 					<string>storage.type.js</string>
 				</dict>
@@ -1466,7 +1558,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(else|if)\b</string>
+					<string>(?&lt;!\.)\b(if|else)\b</string>
 					<key>name</key>
 					<string>keyword.control.conditional.js</string>
 				</dict>
@@ -1516,103 +1608,6 @@
 							<string>$self</string>
 						</dict>
 					</array>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(await|delete|in|instanceof|new|of|typeof|void|with)\b</string>
-					<key>name</key>
-					<string>keyword.operator.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  !(?!=)| # logical-not     right-to-left   right
-  &amp;&amp;    | # logical-and     left-to-right   both
-  \|\|  | # logical-or      left-to-right   both</string>
-					<key>name</key>
-					<string>keyword.operator.logical.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  =(?!=)| # assignment      right-to-left   both</string>
-					<key>name</key>
-					<string>keyword.operator.assignment.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  %=   | # assignment      right-to-left   both
-  &amp;=   | # assignment      right-to-left   both
-  \*=  | # assignment      right-to-left   both
-  \+=  | # assignment      right-to-left   both
-  -=   | # assignment      right-to-left   both
-  /=   | # assignment      right-to-left   both
-  \^=  | # assignment      right-to-left   both
-  \|=  | # assignment      right-to-left   both
-  &lt;&lt;=  | # assignment      right-to-left   both
-  &gt;&gt;=  | # assignment      right-to-left   both
-  &gt;&gt;&gt;= | # assignment      right-to-left   both</string>
-					<key>name</key>
-					<string>keyword.operator.assignment.augmented.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  ~    | # bitwise-not     right-to-left   right
-  &lt;&lt;   | # bitwise-shift   left-to-right   both
-  &gt;&gt;&gt;  | # bitwise-shift   left-to-right   both
-  &gt;&gt;   | # bitwise-shift   left-to-right   both
-  &amp;    | # bitwise-and     left-to-right   both
-  \^   | # bitwise-xor     left-to-right   both
-  \|     # bitwise-or      left-to-right   both</string>
-					<key>name</key>
-					<string>keyword.operator.bitwise.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  &lt;=   | # relational      left-to-right   both
-  &gt;=   | # relational      left-to-right   both
-  &lt;    | # relational      left-to-right   both
-  &gt;      # relational      left-to-right   both</string>
-					<key>name</key>
-					<string>keyword.operator.relational.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  ===  | # equality        left-to-right   both
-  !==  | # equality        left-to-right   both
-  ==   | # equality        left-to-right   both
-  !=     # equality        left-to-right   both</string>
-					<key>name</key>
-					<string>keyword.operator.comparison.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?x)
-  --   | # decrement       n/a             right-or-left
-  \+\+ | # increment       n/a             right-or-left
-  /    | # division        left-to-right   both
-  %    | # modulus         left-to-right   both
-  \*   | # multiplication  left-to-right   both
-  \+   | # addition        left-to-right   both
-  -      # subtraction     left-to-right   both</string>
-					<key>name</key>
-					<string>keyword.operator.arithmetic.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\?|:</string>
-					<key>name</key>
-					<string>keyword.operator.ternary.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\.\.\.</string>
-					<key>name</key>
-					<string>keyword.operator.spread.js</string>
 				</dict>
 			</array>
 		</dict>
@@ -1757,8 +1752,9 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-  \b(?:(static)\s+)?
-  ([_$a-zA-Z][$\w]*)\s*
+  (?:\b(static)\s+)?
+  (?:\b(async)\s+)?
+  (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
   (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1768,6 +1764,16 @@
 							<string>storage.type.js</string>
 						</dict>
 						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.method.js</string>
@@ -1970,6 +1976,109 @@
 				</dict>
 			</array>
 		</dict>
+		<key>literal-operators</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(await|delete|in|instanceof|new|of|typeof|void|with)\b</string>
+					<key>name</key>
+					<string>keyword.operator.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  !(?!=)| # logical-not     right-to-left   right
+  &amp;&amp;    | # logical-and     left-to-right   both
+  \|\|  | # logical-or      left-to-right   both</string>
+					<key>name</key>
+					<string>keyword.operator.logical.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  =(?!=)| # assignment      right-to-left   both</string>
+					<key>name</key>
+					<string>keyword.operator.assignment.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  %=   | # assignment      right-to-left   both
+  &amp;=   | # assignment      right-to-left   both
+  \*=  | # assignment      right-to-left   both
+  \+=  | # assignment      right-to-left   both
+  -=   | # assignment      right-to-left   both
+  /=   | # assignment      right-to-left   both
+  \^=  | # assignment      right-to-left   both
+  \|=  | # assignment      right-to-left   both
+  &lt;&lt;=  | # assignment      right-to-left   both
+  &gt;&gt;=  | # assignment      right-to-left   both
+  &gt;&gt;&gt;= | # assignment      right-to-left   both</string>
+					<key>name</key>
+					<string>keyword.operator.assignment.augmented.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  ~    | # bitwise-not     right-to-left   right
+  &lt;&lt;   | # bitwise-shift   left-to-right   both
+  &gt;&gt;&gt;  | # bitwise-shift   left-to-right   both
+  &gt;&gt;   | # bitwise-shift   left-to-right   both
+  &amp;    | # bitwise-and     left-to-right   both
+  \^   | # bitwise-xor     left-to-right   both
+  \|     # bitwise-or      left-to-right   both</string>
+					<key>name</key>
+					<string>keyword.operator.bitwise.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  &lt;=   | # relational      left-to-right   both
+  &gt;=   | # relational      left-to-right   both
+  &lt;    | # relational      left-to-right   both
+  &gt;      # relational      left-to-right   both</string>
+					<key>name</key>
+					<string>keyword.operator.relational.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  ===  | # equality        left-to-right   both
+  !==  | # equality        left-to-right   both
+  ==   | # equality        left-to-right   both
+  !=     # equality        left-to-right   both</string>
+					<key>name</key>
+					<string>keyword.operator.comparison.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?x)
+  --   | # decrement       n/a             right-or-left
+  \+\+ | # increment       n/a             right-or-left
+  /    | # division        left-to-right   both
+  %    | # modulus         left-to-right   both
+  \*   | # multiplication  left-to-right   both
+  \+   | # addition        left-to-right   both
+  -      # subtraction     left-to-right   both</string>
+					<key>name</key>
+					<string>keyword.operator.arithmetic.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\?|:</string>
+					<key>name</key>
+					<string>keyword.operator.ternary.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\.\.\.</string>
+					<key>name</key>
+					<string>keyword.operator.spread.js</string>
+				</dict>
+			</array>
+		</dict>
 		<key>literal-prototype-storage</key>
 		<dict>
 			<key>patterns</key>
@@ -2028,13 +2137,13 @@
 					<key>match</key>
 					<string>,</string>
 					<key>name</key>
-					<string>meta.delimiter.object.comma.js</string>
+					<string>meta.delimiter.comma.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>\.</string>
 					<key>name</key>
-					<string>meta.delimiter.method.period.js</string>
+					<string>meta.delimiter.period.js</string>
 				</dict>
 			</array>
 		</dict>
@@ -2250,13 +2359,21 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\.?[A-Z][_$\dA-Z]*\b</string>
+					<string>[A-Z][_$\dA-Z]*\b</string>
 					<key>name</key>
 					<string>variable.other.constant.js</string>
 				</dict>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.dollar.js</string>
+						</dict>
+					</dict>
 					<key>match</key>
-					<string>\$[$\w]+</string>
+					<string>(\$)[$\w]+</string>
 					<key>name</key>
 					<string>variable.other.dollar.js</string>
 				</dict>
