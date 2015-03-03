@@ -220,11 +220,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#leading-space</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-regex</string>
+					<string>#literal-regexp</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -672,147 +668,6 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx-tag-attributes-illegal</string>
-				</dict>
-			</array>
-		</dict>
-		<key>leading-space</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^(?=(\t|  ))</string>
-					<key>end</key>
-					<string>(?=[^\t\s])</string>
-					<key>name</key>
-					<string>meta.leading-tabs</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>captures</key>
-							<dict>
-								<key>1</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group1.spaces</string>
-								</dict>
-								<key>10</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group10.spaces</string>
-								</dict>
-								<key>11</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group11.spaces</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group2.spaces</string>
-								</dict>
-								<key>3</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group3.spaces</string>
-								</dict>
-								<key>4</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group4.spaces</string>
-								</dict>
-								<key>5</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group5.spaces</string>
-								</dict>
-								<key>6</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group6.spaces</string>
-								</dict>
-								<key>7</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group7.spaces</string>
-								</dict>
-								<key>8</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group8.spaces</string>
-								</dict>
-								<key>9</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group9.spaces</string>
-								</dict>
-							</dict>
-							<key>match</key>
-							<string>(    )(    )?(    )?(    )?(    )?(    )?(    )?(    )?(    )?(    )?(    )?</string>
-						</dict>
-						<dict>
-							<key>captures</key>
-							<dict>
-								<key>1</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group1.tab</string>
-								</dict>
-								<key>10</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group10.tab</string>
-								</dict>
-								<key>11</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group11.tab</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group2.tab</string>
-								</dict>
-								<key>3</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group3.tab</string>
-								</dict>
-								<key>4</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group4.tab</string>
-								</dict>
-								<key>5</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group5.tab</string>
-								</dict>
-								<key>6</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group6.tab</string>
-								</dict>
-								<key>7</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group7.tab</string>
-								</dict>
-								<key>8</key>
-								<dict>
-									<key>name</key>
-									<string>meta.even-tab.group8.tab</string>
-								</dict>
-								<key>9</key>
-								<dict>
-									<key>name</key>
-									<string>meta.odd-tab.group9.tab</string>
-								</dict>
-							</dict>
-							<key>match</key>
-							<string>(\t)(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?</string>
-						</dict>
-					</array>
 				</dict>
 			</array>
 		</dict>
@@ -2240,18 +2095,18 @@
 				</dict>
 			</array>
 		</dict>
-		<key>literal-regex</key>
+		<key>literal-regexp</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-  (?:(?&lt;=
+  (?&lt;=
     \.|\(|,|{|}|\[|;|,|&lt;|&gt;|&lt;=|&gt;=|==|!=|===|!==|\+|-|\*|%|\+\+|--|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\||\^|!|~|&amp;&amp;|\|\||\?|:|=|\+=|-=|\*=|%=|&lt;&lt;=|&gt;&gt;=|&gt;&gt;&gt;=|&amp;=|\|=|\^=|/|/=|
     \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-    ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw
-  )|^)\s*
+    ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+  )\s*
   (/)
   (?!/|\*|$)</string>
 					<key>beginCaptures</key>
