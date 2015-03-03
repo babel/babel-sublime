@@ -14,10 +14,8 @@ patterns:
 repository:
   core:
     patterns:
-    - include: '#leading-space'
-
     # literals
-    - include: '#literal-regex'               # before operators to avoid ambiguities
+    - include: '#literal-regexp'              # before operators to avoid ambiguities
     - include: '#literal-number'
     - include: '#literal-quasi'
 
@@ -763,18 +761,18 @@ repository:
         patterns:
         - include: $self
 
-  literal-regex:
+  literal-regexp:
     patterns:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
     #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
     - contentName: string.regexp.js
       begin: >-
         (?x)
-          (?:(?<=
+          (?<=
             \.|\(|,|{|}|\[|;|,|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
             \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw
-          )|^)\s*
+            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+          )\s*
           (/)
           (?!/|\*|$)
       beginCaptures:
@@ -856,40 +854,6 @@ repository:
 
     - name: variable.other.readwrite.js
       match: '[_$a-zA-Z][$\w]*'
-
-  leading-space:
-    patterns:
-    - name: meta.leading-tabs
-      begin: ^(?=(\t|  ))
-      end: (?=[^\t\s])
-      patterns:
-      - match: (    )(    )?(    )?(    )?(    )?(    )?(    )?(    )?(    )?(    )?(    )?
-        captures:
-          '1': {name: meta.odd-tab.group1.spaces}
-          '2': {name: meta.even-tab.group2.spaces}
-          '3': {name: meta.odd-tab.group3.spaces}
-          '4': {name: meta.even-tab.group4.spaces}
-          '5': {name: meta.odd-tab.group5.spaces}
-          '6': {name: meta.even-tab.group6.spaces}
-          '7': {name: meta.odd-tab.group7.spaces}
-          '8': {name: meta.even-tab.group8.spaces}
-          '9': {name: meta.odd-tab.group9.spaces}
-          '10': {name: meta.even-tab.group10.spaces}
-          '11': {name: meta.odd-tab.group11.spaces}
-
-      - match: (\t)(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?(\t)?
-        captures:
-          '1': {name: meta.odd-tab.group1.tab}
-          '2': {name: meta.even-tab.group2.tab}
-          '3': {name: meta.odd-tab.group3.tab}
-          '4': {name: meta.even-tab.group4.tab}
-          '5': {name: meta.odd-tab.group5.tab}
-          '6': {name: meta.even-tab.group6.tab}
-          '7': {name: meta.odd-tab.group7.tab}
-          '8': {name: meta.even-tab.group8.tab}
-          '9': {name: meta.odd-tab.group9.tab}
-          '10': {name: meta.even-tab.group10.tab}
-          '11': {name: meta.odd-tab.group11.tab}
 
   support:
     patterns:
