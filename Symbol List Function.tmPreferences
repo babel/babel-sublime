@@ -8,6 +8,8 @@
 	<string>source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js</string>
 	<key>settings</key>
 	<dict>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
 		<key>showInSymbolList</key>
 		<string>1</string>
 		<key>symbolTransformation</key>
