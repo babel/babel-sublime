@@ -12,6 +12,7 @@
 <div className='MyClass' key={1} >
 <div className='MyClass' key={1} />
 <div className = 'MyClass' key={1} />
+<div className = 'MyClass' key={() => this.setState({})} />
 <div class-Name= 'MyClass' key />
 <div className= 'MyClass' key =  '' />
 <div className = 'MyClass'
