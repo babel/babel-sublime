@@ -3,6 +3,7 @@ var a = b < cat()
 var a = b <cat[1]
 var a = b < cat[1]
 var a = b <cat?
+var a = b <cat ?
 var a = b < cat?
 var a = b <cat===
 var a = b < cat===

@@ -978,7 +978,11 @@ repository:
     match: \S*
 
   jsx-tag-open:
-    begin: (<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(?=\s|/?>)
+    begin: >-
+      (?x)
+        (<)
+        ([_$a-zA-Z][-$\w.]*(?<!\.|-))
+        (?=\s+(?!\?)|/?>)
     end: (/?>)
     name: tag.open.js
     beginCaptures:
@@ -992,7 +996,10 @@ repository:
     - include: '#jsx-tag-attributes-illegal'
 
   jsx-tag-close:
-    begin: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))
+    begin: >-
+      (?x)
+        (</)
+        ([_$a-zA-Z][-$\w.]*(?<!\.|-))
     end: (>)
     name: tag.close.js
     captures:
