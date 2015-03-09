@@ -2686,7 +2686,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(process|process\.(env|stdout|stdin|stderr)|global|GLOBAL|root|module|exports|__dirname|__filename|console)\b</string>
+					<string>(?&lt;!\.)\b(process\.(env|stdout|stdin|stderr)|process|global|GLOBAL|root|(module\.exports)|module|exports|__dirname|__filename|console)\b</string>
 					<key>name</key>
 					<string>support.type.object.node.js</string>
 				</dict>
