@@ -7,81 +7,98 @@ firstLineMatch: ^#!/.*\b(node|js)$\n?
 keyEquivalent: ^~J
 
 patterns:
-- include: '#comments'
-- include: '#support'
 - include: '#core'
 
 repository:
   core:
     patterns:
-    # literals
-    - include: '#literal-regexp'              # before operators to avoid ambiguities
-    - include: '#literal-number'
-    - include: '#literal-quasi'
+    - include: '#literal-function-labels'
+    - include: '#literal-arrow-function-labels'
+    - include: '#literal-labels'
 
+    - include: '#support'
+    - include: '#literal-keywords'
+    - include: '#literal-for'
+    - include: '#literal-switch'
+
+    - include: '#expression'
+    - include: '#literal-punctuation'
+
+  expression:
+    patterns:
     # jsx
     - include: '#jsx'
 
-    # object literals
     - include: '#literal-function-storage'
     - include: '#literal-arrow-function-storage'
     - include: '#literal-prototype-storage'   # after literal-function-storage, which includes some prototype strings
-    - include: '#literal-labels'
 
-    # after object literals which requires the below in some cases
+    - include: '#literal-regexp'              # before operators to avoid ambiguities
+    - include: '#literal-number'
+    - include: '#literal-quasi'
     - include: '#literal-string'
-    - include: '#literal-keywords'
-    - include: '#literal-method'
-    - include: '#literal-operators'
     - include: '#literal-language-constant'
     - include: '#literal-language-variable'
 
-    # modules/classes
+    - include: '#literal-function'
+    - include: '#literal-method'
+    - include: '#literal-arrow-function'
+    - include: '#literal-prototype'
+
     - include: '#literal-module'
     - include: '#literal-class'
 
-    # function calls
+    - include: '#literal-constructor'
     - include: '#literal-method-call'
     - include: '#literal-function-call'
 
-    # punctuation
-    - include: '#literal-variable'
-    - include: '#literal-punctuation'
-
-    # brackets
+    - include: '#comments'
     - include: '#brackets'
+
+    - include: '#literal-operators'
+    - include: '#literal-variable'
+
+  round-brackets:
+    patterns:
+    - name: meta.group.braces.round
+      begin: \(
+      beginCaptures:
+        '0': {name: meta.brace.round.js}
+      end: \)
+      endCaptures:
+        '0': {name: meta.brace.round.js}
+      patterns:
+      - include: '#expression'
+
+  square-brackets:
+    patterns:
+    - name: meta.group.braces.square
+      begin: \[
+      beginCaptures:
+        '0': {name: meta.brace.square.js}
+      end: \]
+      endCaptures:
+        '0': {name: meta.brace.square.js}
+      patterns:
+      - include: '#expression'
+
+  curly-brackets:
+    patterns:
+    - name: meta.group.braces.curly
+      begin: \{
+      beginCaptures:
+        '0': {name: meta.brace.curly.js}
+      end: \}
+      endCaptures:
+        '0': {name: meta.brace.curly.js}
+      patterns:
+      - include: $self
 
   brackets:
     patterns:
-    - name: meta.group.braces.round
-      begin: (\()
-      beginCaptures:
-        '1': {name: meta.brace.round.js}
-      end: (\))
-      endCaptures:
-        '1': {name: meta.brace.round.js}
-      patterns:
-      - include: $self
-
-    - name: meta.group.braces.square
-      begin: (\[)
-      beginCaptures:
-        '1': {name: meta.brace.square.js}
-      end: (\])
-      endCaptures:
-        '1': {name: meta.brace.square.js}
-      patterns:
-      - include: $self
-
-    - name: meta.group.braces.curly
-      begin: ({)
-      beginCaptures:
-        '1': {name: meta.brace.curly.js}
-      end: (})
-      endCaptures:
-        '1': {name: meta.brace.curly.js}
-      patterns:
-      - include: $self
+    - include: '#round-brackets'
+    - include: '#square-brackets'
+    - include: '#curly-brackets'
 
   comments:
     patterns:
@@ -141,12 +158,12 @@ repository:
 
   function-declaration-parameters:
     patterns:
-    - begin: (\()
+    - begin: \(
       beginCaptures:
-        '1': {name: punctuation.definition.parameters.begin.js}
-      end: (\))
+        '0': {name: punctuation.definition.parameters.begin.js}
+      end: \)
       endCaptures:
-        '1': {name: punctuation.definition.parameters.end.js}
+        '0': {name: punctuation.definition.parameters.end.js}
       patterns:
       - name: keyword.operator.spread.js
         match: (?<!\.)\.\.\.
@@ -160,13 +177,13 @@ repository:
           '0': {name: keyword.operator.assignment.js}
         end: '(?=[,)])'
         patterns:
-        - include: $self
+        - include: '#expression'
       - include: '#comments'
 
   literal-module:
     patterns:
     - name: keyword.operator.module.js
-      match: (?<!\.)\b(import|export|from|as)\b
+      match: (?<!\.)\b(import|export|default|from|as)\b
 
   literal-class:
     patterns:
@@ -188,10 +205,8 @@ repository:
         beginCaptures:
           '1': {name: storage.type.extends.js}
         end: '(?={)'
-        endCaptures:
-          '0': {name: meta.brace.curly.js}
         patterns:
-        - include: $self
+        - include: '#expression'
 
       - begin: '{'
         beginCaptures:
@@ -239,16 +254,16 @@ repository:
 
   literal-prototype-storage:
     patterns:
-    # e.g. Sound.prototype = {  } when extending an object
-    - name: meta.prototype.declaration.js
-      match: ([_$a-zA-Z][$\w]*)\.(prototype)\s*=\s*
+    # e.g. Sound.prototype
+    - name: meta.prototype.access.js
+      match: ([_$a-zA-Z][$\w]*)\.(prototype)\b
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: variable.language.prototype.js}
 
-    # e.g. Sound.prototype
-    - name: meta.prototype.access.js
-      match: ([_$a-zA-Z][$\w]*)\.(prototype)\b
+    # e.g. Sound.prototype = {  } when extending an object
+    - name: meta.prototype.declaration.js
+      match: ([_$a-zA-Z][$\w]*)\.(prototype)\s*=\s*
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: variable.language.prototype.js}
@@ -315,6 +330,8 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
+  literal-function-labels:
+    patterns:
     # e.g. play: function(arg1, arg2) {  }
     - name: meta.function.json.js
       begin: >-
@@ -421,6 +438,8 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
+  literal-arrow-function-labels:
+    patterns:
     # e.g. play: (args) => { }
     - name: meta.function.json.arrow.js
       begin: >-
@@ -570,7 +589,7 @@ repository:
     - name: constant.language.nan.js
       match: (?<!\.)\bNaN\b
 
-  literal-keywords:
+  literal-constructor:
     patterns:
     - name: meta.instance.constructor
       begin: (new)\s+(?=[_$a-zA-Z][$\w.]*)
@@ -583,8 +602,14 @@ repository:
         captures:
           '2': {name: entity.name.type.new.js}
 
+  literal-keyword-storage:
+    patterns:
     - name: storage.type.js
       match: (?<!\.)\b(const|let|var)\b
+
+  literal-keywords:
+    patterns:
+    - include: '#literal-keyword-storage'
 
     - name: keyword.control.flow.js
       match: (?<!\.)\b(return|yield)\b
@@ -596,19 +621,50 @@ repository:
       match: (?<!\.)\b(catch|finally|throw|try)\b
 
     - name: keyword.control.loop.js
-      match: (?<!\.)\b(break|continue|do|for|goto|while)\b
+      match: (?<!\.)\b(break|continue|do|goto|while)\b
 
-    - name: keyword.control.switch.js
-      match: (?<!\.)\b(switch)\b
+  literal-for:
+    patterns:
+    - name: meta.for.js
+      begin: (?<!\.)\b(for)\b
+      beginCaptures:
+        '1': {name: keyword.control.loop.js}
+      end: \)
+      endCaptures:
+        '0': {name: meta.brace.round.js}
+      patterns:
+      - begin: \(
+        beginCaptures:
+          '0': {name: meta.brace.round.js}
+        end: (?=\))
+        patterns:
+        - include: '#literal-keyword-storage'
+        - include: '#expression'
+        - include: '#literal-punctuation'
 
-    - begin: (?<!\.)\b(case|default)\b
+  literal-switch:
+    patterns:
+    - name: meta.switch.js
+      begin: (?<!\.)\b(switch)\b
       beginCaptures:
         '1': {name: keyword.control.switch.js}
-      end: ':'
+      end: \}
       endCaptures:
-        '0': {name: punctuation.separator.switch.js}
+        '0': {name: meta.brace.curly.js}
       patterns:
-      - include: $self
+      - include: '#round-brackets'
+      - begin: \{
+        beginCaptures:
+          '0': {name: meta.brace.curly.js}
+        end: (?=})
+        patterns:
+        - begin: (?<!\.)\b(case|default)\b
+          beginCaptures:
+            '1': {name: keyword.control.switch.js}
+          end: (?=:)
+          patterns:
+          - include: '#expression'
+        - include: $self
 
   literal-operators:
     patterns:
@@ -686,11 +742,14 @@ repository:
     - name: keyword.operator.spread.js
       match: (?<!\.)\.\.\.
 
+    - name: keyword.operator.accessor.js
+      match: \.
+
   literal-labels:
     patterns:
     - begin: >-
         (?x)
-          (?<!\?|\?\s)(?=(
+          (?<!\?)(?<!\?\s)(?=(
             ((')((?:[^']|\\')*)('))|
             ((")((?:[^"]|\\")*)("))
           )\s*:)
@@ -737,9 +796,6 @@ repository:
     - name: meta.delimiter.comma.js
       match: ','
 
-    - name: meta.delimiter.period.js
-      match: \.
-
   literal-quasi:
     patterns:
     - name: string.quasi.js
@@ -759,7 +815,7 @@ repository:
         endCaptures:
           '0': {name: punctuation.quasi.element.end.js}
         patterns:
-        - include: $self
+        - include: '#expression'
 
   literal-regexp:
     patterns:
