@@ -1027,7 +1027,7 @@ repository:
     endCaptures:
       '0': {name: punctuation.definition.brace.curly.end.js}
     patterns:
-    - include: '#core'
+    - include: '#expression'
 
   jsx-tag-attributes-illegal:
     name: invalid.illegal.attribute.js

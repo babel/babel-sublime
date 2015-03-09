@@ -457,7 +457,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#core</string>
+					<string>#expression</string>
 				</dict>
 			</array>
 		</dict>
