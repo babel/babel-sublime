@@ -16,7 +16,6 @@ repository:
     - include: '#literal-arrow-function-labels'
     - include: '#literal-labels'
 
-    - include: '#support'
     - include: '#literal-keywords'
     - include: '#literal-for'
     - include: '#literal-switch'
@@ -29,6 +28,7 @@ repository:
     # jsx
     - include: '#jsx'
 
+    - include: '#support'
     - include: '#literal-function-storage'
     - include: '#literal-arrow-function-storage'
     - include: '#literal-prototype-storage'   # after literal-function-storage, which includes some prototype strings
@@ -944,17 +944,36 @@ repository:
           )\b
 
     # console
-    - match: (?<!\.)\b(console)(?:\.(warn|info|log|error|time|timeEnd|assert))?\b
+    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert))?\b
       captures:
         '1': {name: support.type.object.console.js}
-        '2': {name: support.function.console.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: support.function.console.js}
 
     # node
     - name: support.module.node.js
       match: (?<!\.)\b(natives|buffer|child_process|cluster|crypto|dgram|dns|fs|http|https|net|os|path|punycode|string|string_decoder|readline|repl|tls|tty|util|vm|zlib)\b
 
+    - match: (?<!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
+      captures:
+        '1': {name: support.type.object.process.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: support.type.object.process.js}
+
+    - match: (?<!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
+      captures:
+        '1': {name: support.type.object.process.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: support.function.process.js}
+
+    - match: (?<!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
+      captures:
+        '1': {name: support.type.object.module.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: support.type.object.module.js}
+
     - name: support.type.object.node.js
-      match: (?<!\.)\b(process\.(env|stdout|stdin|stderr)|process|global|GLOBAL|root|(module\.exports)|module|exports|__dirname|__filename|console)\b
+      match: (?<!\.)\b(global|GLOBAL|root|__dirname|__filename)\b
 
     - name: support.class.node.js
       match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b

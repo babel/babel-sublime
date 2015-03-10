@@ -143,10 +143,6 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#support</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#literal-keywords</string>
 				</dict>
 				<dict>
@@ -211,6 +207,10 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -2672,11 +2672,16 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
+							<string>keyword.operator.accessor.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
 							<string>support.function.console.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(console)(?:\.(warn|info|log|error|time|timeEnd|assert))?\b</string>
+					<string>(?&lt;!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert))?\b</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -2685,8 +2690,74 @@
 					<string>support.module.node.js</string>
 				</dict>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.object.process.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.accessor.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.object.process.js</string>
+						</dict>
+					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(process\.(env|stdout|stdin|stderr)|process|global|GLOBAL|root|(module\.exports)|module|exports|__dirname|__filename|console)\b</string>
+					<string>(?&lt;!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.object.process.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.accessor.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.function.process.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.object.module.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.accessor.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>support.type.object.module.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(global|GLOBAL|root|__dirname|__filename)\b</string>
 					<key>name</key>
 					<string>support.type.object.node.js</string>
 				</dict>
