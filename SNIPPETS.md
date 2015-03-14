@@ -4,7 +4,7 @@ To add any of these, simply:
 
 1. Go to `Tools` `->` `New Snippet`,
 2. Replace the contents with any individual snippet from here,
-3. Then `File` -> `Save As` with any name.
+3. Then `File` -> `Save As` with *.sublime-snippet
   * The "Save As" dialog will already be pointing to your `User` Sublime directory - exactly where the snippet needs to be saved.
 
 For more info see [`Extending Sublime Text » Snippets`](http://docs.sublimetext.info/en/latest/extensibility/snippets.html)
