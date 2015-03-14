@@ -29,9 +29,9 @@ repository:
     - include: '#jsx'
 
     - include: '#support'
-    - include: '#literal-function-storage'
-    - include: '#literal-arrow-function-storage'
-    - include: '#literal-prototype-storage'   # after literal-function-storage, which includes some prototype strings
+    - include: '#literal-function'
+    - include: '#literal-arrow-function'
+    - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
 
     - include: '#literal-regexp'              # before operators to avoid ambiguities
     - include: '#literal-number'
@@ -40,11 +40,7 @@ repository:
     - include: '#literal-language-constant'
     - include: '#literal-language-variable'
 
-    - include: '#literal-function'
     - include: '#literal-method'
-    - include: '#literal-arrow-function'
-    - include: '#literal-prototype'
-
     - include: '#literal-module'
     - include: '#literal-class'
 
@@ -252,7 +248,7 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
-  literal-prototype-storage:
+  literal-prototype:
     patterns:
     # e.g. Sound.prototype
     - name: meta.prototype.access.js
@@ -268,7 +264,7 @@ repository:
         '1': {name: entity.name.class.js}
         '2': {name: variable.language.prototype.js}
 
-  literal-function-storage:
+  literal-function:
     patterns:
     # e.g. function play(arg1, arg2) {  }
     - name: meta.function.js
@@ -382,7 +378,7 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
-  literal-arrow-function-storage:
+  literal-arrow-function:
     patterns:
     # e.g. (args) => { }
     - name: meta.function.arrow.js
