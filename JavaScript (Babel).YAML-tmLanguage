@@ -1084,10 +1084,11 @@ repository:
         ([_$a-zA-Z][-$\w.]*(?<!\.|-))
     end: (>)
     name: tag.close.js
-    captures:
+    beginCaptures:
       '1': {name: punctuation.definition.tag.begin.js}
       '2': {name: entity.name.tag.js}
-      '3': {name: punctuation.definition.tag.end.js}
+    endCaptures:
+      '1': {name: punctuation.definition.tag.end.js}
     patterns:
     - include: '#comments'
 

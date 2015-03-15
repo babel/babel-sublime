@@ -577,7 +577,7 @@
 			<string>(?x)
   (&lt;/)
   ([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))</string>
-			<key>captures</key>
+			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
@@ -589,14 +589,17 @@
 					<key>name</key>
 					<string>entity.name.tag.js</string>
 				</dict>
-				<key>3</key>
+			</dict>
+			<key>end</key>
+			<string>(&gt;)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.tag.end.js</string>
 				</dict>
 			</dict>
-			<key>end</key>
-			<string>(&gt;)</string>
 			<key>name</key>
 			<string>tag.close.js</string>
 			<key>patterns</key>
