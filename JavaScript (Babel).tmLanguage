@@ -9,9 +9,7 @@
 		<string>jsx</string>
 	</array>
 	<key>firstLineMatch</key>
-	<string>^#!/.*\b(node|js)$\n?</string>
-	<key>keyEquivalent</key>
-	<string>^~J</string>
+	<string>^#!\s*/.*\b(node|js)$\n?</string>
 	<key>name</key>
 	<string>JavaScript (Babel)</string>
 	<key>patterns</key>

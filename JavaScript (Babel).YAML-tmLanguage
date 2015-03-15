@@ -3,8 +3,7 @@ name: JavaScript (Babel)
 scopeName: source.js
 fileTypes: [js, htc, jsx]
 uuid: 30c49d33-6e4d-4985-8a18-34431c2535c6
-firstLineMatch: ^#!/.*\b(node|js)$\n?
-keyEquivalent: ^~J
+firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
 patterns:
 - include: '#core'
