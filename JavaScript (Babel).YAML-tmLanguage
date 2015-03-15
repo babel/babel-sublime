@@ -3,8 +3,7 @@ name: JavaScript (Babel)
 scopeName: source.js
 fileTypes: [js, htc, jsx]
 uuid: 30c49d33-6e4d-4985-8a18-34431c2535c6
-firstLineMatch: ^#!/.*\b(node|js)$\n?
-keyEquivalent: ^~J
+firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
 patterns:
 - include: '#core'
@@ -1084,10 +1083,11 @@ repository:
         ([_$a-zA-Z][-$\w.]*(?<!\.|-))
     end: (>)
     name: tag.close.js
-    captures:
+    beginCaptures:
       '1': {name: punctuation.definition.tag.begin.js}
       '2': {name: entity.name.tag.js}
-      '3': {name: punctuation.definition.tag.end.js}
+    endCaptures:
+      '1': {name: punctuation.definition.tag.end.js}
     patterns:
     - include: '#comments'
 
