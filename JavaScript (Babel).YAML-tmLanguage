@@ -252,17 +252,19 @@ repository:
     patterns:
     # e.g. Sound.prototype
     - name: meta.prototype.access.js
-      match: ([_$a-zA-Z][$\w]*)\.(prototype)\b
+      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\b
       captures:
         '1': {name: entity.name.class.js}
-        '2': {name: variable.language.prototype.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: variable.language.prototype.js}
 
     # e.g. Sound.prototype = {  } when extending an object
     - name: meta.prototype.declaration.js
-      match: ([_$a-zA-Z][$\w]*)\.(prototype)\s*=\s*
+      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*
       captures:
         '1': {name: entity.name.class.js}
-        '2': {name: variable.language.prototype.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: variable.language.prototype.js}
 
   literal-function:
     patterns:
@@ -287,20 +289,22 @@ repository:
       begin: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          \.(prototype)
-          \.([_$a-zA-Z][$\w]*)
+          (\.)(prototype)
+          (\.)([_$a-zA-Z][$\w]*)
           \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
-        '2': {name: variable.language.prototype.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: storage.type.js}
-        '5': {name: storage.type.function.js}
-        '6': {name: keyword.generator.asterisk.js}
-        '7': {name: entity.name.function.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: variable.language.prototype.js}
+        '4': {name: keyword.operator.accessor.js}
+        '5': {name: entity.name.function.js}
+        '6': {name: storage.type.js}
+        '7': {name: storage.type.function.js}
+        '8': {name: keyword.generator.asterisk.js}
+        '9': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
       - include: '#function-declaration-parameters'
@@ -310,18 +314,19 @@ repository:
       begin: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          \.([_$a-zA-Z][$\w]*)
+          (\.)([_$a-zA-Z][$\w]*)
           \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
-        '2': {name: entity.name.function.js}
-        '3': {name: storage.type.js}
-        '4': {name: storage.type.function.js}
-        '5': {name: keyword.generator.asterisk.js}
-        '6': {name: entity.name.function.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: storage.type.js}
+        '5': {name: storage.type.function.js}
+        '6': {name: keyword.generator.asterisk.js}
+        '7': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
       - include: '#function-declaration-parameters'
@@ -399,16 +404,18 @@ repository:
       begin: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          \.(prototype)
-          \.([_$a-zA-Z][$\w]*)
+          (\.)(prototype)
+          (\.)([_$a-zA-Z][$\w]*)
           \s*=
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
       beginCaptures:
         '1': {name: entity.name.class.js}
-        '2': {name: variable.language.prototype.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: storage.type.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: variable.language.prototype.js}
+        '4': {name: keyword.operator.accessor.js}
+        '5': {name: entity.name.function.js}
+        '6': {name: storage.type.js}
       end: (?<=\))\s*(=>)
       endCaptures:
         '1': {name: storage.type.function.arrow.js}
@@ -420,14 +427,15 @@ repository:
       begin: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          \.([_$a-zA-Z][$\w]*)
+          (\.)([_$a-zA-Z][$\w]*)
           \s*=
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
       beginCaptures:
         '1': {name: entity.name.class.js}
-        '2': {name: entity.name.function.js}
-        '3': {name: storage.type.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: storage.type.js}
       end: (?<=\))\s*(=>)
       endCaptures:
         '1': {name: storage.type.function.arrow.js}
@@ -507,24 +515,26 @@ repository:
       match: >-
         (?x)
           (?:(?<=\.)|\b)
-          ([A-Z][$\w]*)\s*\.
+          ([A-Z][$\w]*)\s*(\.)
           ([_$a-zA-Z][$\w]*)\s*
           (\(\s*\))
       captures:
         '1': {name: variable.other.class.js}
-        '2': {name: entity.name.function.js}
-        '3': {name: meta.group.braces.round.function.arguments.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.static.with-arguments.js
       match: >-
         (?x)
           (?:(?<=\.)|\b)
-          ([A-Z][$\w]*)\s*\.
+          ([A-Z][$\w]*)\s*(\.)
           ([_$a-zA-Z][$\w]*)\s*
           (?=\()
       captures:
         '1': {name: variable.other.class.js}
-        '2': {name: entity.name.function.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: entity.name.function.js}
 
     - name: meta.function-call.method.without-arguments.js
       match: >-
@@ -886,11 +896,12 @@ repository:
     - name: meta.property.class.js
       match: >-
         (?x)
-          \b([A-Z][$\w]*)\s*\.
+          \b([A-Z][$\w]*)\s*(\.)
           ([_$a-zA-Z][$\w]*)
       captures:
         '1': {name: variable.other.class.js}
-        '2': {name: variable.other.property.static.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: variable.other.property.static.js}
 
     # e.g. obj.property
     - name: variable.other.object.js
