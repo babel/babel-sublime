@@ -398,6 +398,17 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
+    # e.g. arg => { }
+    - name: meta.function.arrow.js
+      match: >-
+        (?x)
+          (\basync)?\s*
+          \b([_$a-zA-Z][$\w]*)\s*(=>)
+      captures:
+        '1': {name: storage.type.js}
+        '2': {name: variable.parameter.function.js}
+        '3': {name: storage.type.function.arrow.js}
+
     # e.g. Sound.prototype.play = (args) => { }
     - name: meta.prototype.function.arrow.js
       begin: >-
@@ -421,6 +432,26 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
+    # e.g. Sound.prototype.play = arg => { }
+    - name: meta.prototype.function.arrow.js
+      match: >-
+        (?x)
+          (\b_?[A-Z][$\w]*)?
+          (\.)(prototype)
+          (\.)([_$a-zA-Z][$\w]*)
+          \s*=
+          \s*(async)?
+          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+      captures:
+        '1': {name: entity.name.class.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: variable.language.prototype.js}
+        '4': {name: keyword.operator.accessor.js}
+        '5': {name: entity.name.function.js}
+        '6': {name: storage.type.js}
+        '7': {name: variable.parameter.function.js}
+        '8': {name: storage.type.function.arrow.js}
+
     # e.g. Sound.play = (args) => { }
     - name: meta.function.static.arrow.js
       begin: >-
@@ -441,6 +472,23 @@ repository:
       patterns:
       - include: '#function-declaration-parameters'
 
+    # e.g. Sound.play = arg => { }
+    - name: meta.function.static.arrow.js
+      match: >-
+        (?x)
+          (\b_?[A-Z][$\w]*)?
+          (\.)([_$a-zA-Z][$\w]*)
+          \s*=
+          \s*(async)?
+          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+      captures:
+        '1': {name: entity.name.class.js}
+        '2': {name: keyword.operator.accessor.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: storage.type.js}
+        '5': {name: variable.parameter.function.js}
+        '6': {name: storage.type.function.arrow.js}
+
   literal-arrow-function-labels:
     patterns:
     # e.g. play: (args) => { }
@@ -460,6 +508,21 @@ repository:
         '1': {name: storage.type.function.arrow.js}
       patterns:
       - include: '#function-declaration-parameters'
+
+    # e.g. play: arg => { }
+    - name: meta.function.json.arrow.js
+      match: >-
+        (?x)
+          \b([_$a-zA-Z][$\w]*)
+          \s*(:)
+          \s*(async)?
+          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+      captures:
+        '1': {name: entity.name.function.js}
+        '2': {name: punctuation.separator.key-value.js}
+        '3': {name: storage.type.js}
+        '4': {name: variable.parameter.function.js}
+        '5': {name: storage.type.function.arrow.js}
 
     # e.g. "play": (args) => { }
     - name: meta.function.json.arrow.js
@@ -488,6 +551,31 @@ repository:
         '1': {name: storage.type.function.arrow.js}
       patterns:
       - include: '#function-declaration-parameters'
+
+    # e.g. "play": arg => { }
+    - name: meta.function.json.arrow.js
+      match: >-
+        (?x)
+          (?:
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))
+          )
+          \s*(:)
+          \s*(async)?
+          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+      captures:
+        '1': {name: string.quoted.single.js}
+        '2': {name: punctuation.definition.string.begin.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: punctuation.definition.string.end.js}
+        '5': {name: string.quoted.double.js}
+        '6': {name: punctuation.definition.string.begin.js}
+        '7': {name: entity.name.function.js}
+        '8': {name: punctuation.definition.string.end.js}
+        '9': {name: punctuation.separator.key-value.js}
+        '10': {name: storage.type.js}
+        '11': {name: variable.parameter.function.js}
+        '12': {name: storage.type.function.arrow.js}
 
   literal-function-call:
     patterns:
