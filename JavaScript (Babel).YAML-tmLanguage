@@ -900,6 +900,7 @@ repository:
       endCaptures:
         '0': {name: punctuation.definition.quasi.end.js}
       patterns:
+      - include: '#string-content'
       - name: entity.quasi.element.js
         begin: \${
         beginCaptures:
