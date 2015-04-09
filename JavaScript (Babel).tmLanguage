@@ -2389,6 +2389,10 @@
 					<key>patterns</key>
 					<array>
 						<dict>
+							<key>include</key>
+							<string>#string-content</string>
+						</dict>
+						<dict>
 							<key>begin</key>
 							<string>\${</string>
 							<key>beginCaptures</key>
