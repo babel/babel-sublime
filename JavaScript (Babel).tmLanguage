@@ -1773,8 +1773,25 @@
 					<string>#literal-keyword-storage</string>
 				</dict>
 				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.flow.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(await|return|yield)\b</string>
+					<string>(?&lt;!\.)\b(yield)\s*(\*)?|\b</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(await|return)\b</string>
 					<key>name</key>
 					<string>keyword.control.flow.js</string>
 				</dict>
