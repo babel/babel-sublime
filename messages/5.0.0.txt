@@ -1,0 +1,11 @@
+babel-sublime
+-------------
+
+babel-sublime no longer relies on the stock JavaScript package for any functionality. This means you can disable the stock package completely and rely solely on babel-sublime. Why would you want to that though? A few reasons:
+
+  * node scripts without an extension that have a shebang will open with "JavaScript (Babel)" instead of the stock package.
+    - babel-sublime has always supported this, but because the stock package takes precedence over babel-sublime, it never really worked.
+  * Less clutter in the syntax menu :)
+  * No stock snippets. No snippets period. Since babel-sublime doesn't ship with any snippets, only your user defined ones will show up.
+
+See https://github.com/babel/babel-sublime#advanced-usage for more info.
