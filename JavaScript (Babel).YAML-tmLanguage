@@ -704,8 +704,13 @@ repository:
     patterns:
     - include: '#literal-keyword-storage'
 
+    - match: (?<!\.)\b(yield)\s*(\*)?|\b
+      captures:
+        '1': {name: keyword.control.flow.js}
+        '2': {name: keyword.generator.asterisk.js}
+
     - name: keyword.control.flow.js
-      match: (?<!\.)\b(return|yield)\b
+      match: (?<!\.)\b(await|return)\b
 
     - name: keyword.control.conditional.js
       match: (?<!\.)\b(if|else)\b
@@ -762,7 +767,7 @@ repository:
   literal-operators:
     patterns:
     - name: keyword.operator.js
-      match: (?<!\.)\b(await|delete|in|instanceof|new|of|typeof|void|with)\b
+      match: (?<!\.)\b(delete|in|instanceof|new|of|typeof|void|with)\b
 
     - name: keyword.operator.logical.js
       match: >-
