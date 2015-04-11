@@ -198,6 +198,37 @@
 				</dict>
 			</array>
 		</dict>
+		<key>es7-class-properties</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.other.property.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?x)
+  \b(static)?
+  \s*
+  \b([_$a-zA-Z][$\w]*)\s*(=)</string>
+				</dict>
+			</array>
+		</dict>
 		<key>expression</key>
 		<dict>
 			<key>patterns</key>
@@ -1269,6 +1300,10 @@
 								<dict>
 									<key>include</key>
 									<string>#comments</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#es7-class-properties</string>
 								</dict>
 								<dict>
 									<key>include</key>

@@ -210,6 +210,7 @@ repository:
         patterns:
         - include: '#brackets'
         - include: '#comments'
+        - include: '#es7-class-properties'
         - include: '#literal-method'
 
   literal-method:
@@ -1195,3 +1196,16 @@ repository:
     - include: '#jsx-tag-open'
     - include: '#jsx-tag-close'
     - include: '#jsx-tag-invalid'
+
+  # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
+  es7-class-properties:
+    patterns:
+    - match: >-
+        (?x)
+          \b(static)?
+          \s*
+          \b([_$a-zA-Z][$\w]*)\s*(=)
+      captures:
+        '1': {name: storage.type.js}
+        '2': {name: variable.other.property.js}
+        '3': {name: storage.type.js}
