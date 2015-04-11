@@ -922,7 +922,7 @@ repository:
     patterns:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
     #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
-    - contentName: string.regexp.js
+    - name: string.regexp.js
       begin: >-
         (?x)
           (?<=
@@ -933,13 +933,11 @@ repository:
           (/)
           (?!/|\*|$)
       beginCaptures:
-        '1': {name: string.regexp.js}
-        '2': {name: punctuation.definition.string.begin.js}
-      end: ((/)([gimy]*))
+        '1': {name: punctuation.definition.string.begin.js}
+      end: (/)([gimy]*)
       endCaptures:
-        '1': {name: string.regexp.js}
-        '2': {name: punctuation.definition.string.end.js}
-        '3': {name: keyword.other.js}
+        '1': {name: punctuation.definition.string.end.js}
+        '2': {name: keyword.other.js}
       patterns:
       - include: source.regexp.js
 
