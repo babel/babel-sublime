@@ -18,6 +18,14 @@ To set it as the default syntax for a particular extension:
 
 `Babel` comes bundled with `Next` and `Monokai` from [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage). Select one from `Preferences` `->` `Color Scheme` `->` `Babel`
 
+#### Advanced usage
+
+It possible to set `Babel` as the _only_ JavaScript package by disabling the stock one. To do so, add `"ignored_packages": ["JavaScript"]` to your `Preferences.sublime-settings`. The benefits include:
+  * extension-less node scripts will automatically be recognized as `JavaScript (Babel)`,
+  * and reduced clutter in the syntax menu.
+
+**Keep in mind**, the stock snippets will no longer work (you may still use your own), and other third-party packages that depend on the stock package may break (no known ones so far).
+
 ## Screenshots
 
 ![babel-sublime-vs-sublime-react--react-class](https://raw.githubusercontent.com/babel/babel-sublime/45c7d37/screenshots/compare-react-class@2x.png)
