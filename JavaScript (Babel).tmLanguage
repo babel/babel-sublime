@@ -2465,36 +2465,26 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.regexp.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
 							<string>punctuation.definition.string.begin.js</string>
 						</dict>
 					</dict>
-					<key>contentName</key>
-					<string>string.regexp.js</string>
 					<key>end</key>
-					<string>((/)([gimy]*))</string>
+					<string>(/)([gimy]*)</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>string.regexp.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
 							<string>punctuation.definition.string.end.js</string>
 						</dict>
-						<key>3</key>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>keyword.other.js</string>
 						</dict>
 					</dict>
+					<key>name</key>
+					<string>string.regexp.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
