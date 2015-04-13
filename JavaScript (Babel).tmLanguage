@@ -229,6 +229,32 @@
 				</dict>
 			</array>
 		</dict>
+		<key>es7-decorators</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.tag.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.tag.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?x)
+  (@)([_$a-zA-Z][$\w]*)\b</string>
+					<key>name</key>
+					<string>tag.decorator.js</string>
+				</dict>
+			</array>
+		</dict>
 		<key>expression</key>
 		<dict>
 			<key>patterns</key>
@@ -236,6 +262,10 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#es7-decorators</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1296,6 +1326,10 @@
 								<dict>
 									<key>include</key>
 									<string>#brackets</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>#es7-decorators</string>
 								</dict>
 								<dict>
 									<key>include</key>

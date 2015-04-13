@@ -26,6 +26,7 @@ repository:
     patterns:
     # jsx
     - include: '#jsx'
+    - include: '#es7-decorators'
 
     - include: '#support'
     - include: '#literal-function'
@@ -209,6 +210,7 @@ repository:
         end: '(?=})'
         patterns:
         - include: '#brackets'
+        - include: '#es7-decorators'
         - include: '#comments'
         - include: '#es7-class-properties'
         - include: '#literal-method'
@@ -1209,3 +1211,14 @@ repository:
         '1': {name: storage.type.js}
         '2': {name: variable.other.property.js}
         '3': {name: storage.type.js}
+
+  # https://github.com/wycats/javascript-decorators
+  es7-decorators:
+    patterns:
+    - name: tag.decorator.js
+      match: >-
+        (?x)
+          (@)([_$a-zA-Z][$\w]*)\b
+      captures:
+        '1': {name: punctuation.definition.tag.js}
+        '2': {name: entity.name.tag.js}
