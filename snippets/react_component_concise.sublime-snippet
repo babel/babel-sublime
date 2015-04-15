@@ -1,18 +1,17 @@
 <snippet>
     <content><![CDATA[
-import React from 'react';
+import React from 'react'
 
 export default React.createClass({
 
-	${2:  displayName: '${1:myAwesomeComponent}',}
+	${2:displayName: '${1:myAwesomeComponent}',}
 
 	render() {
-		return (
-			${0:<div />}
-		);
+		return ${0:<h1>Hello world!</h1>}
 	}
 
-});
+})
+
 ]]></content>
     <tabTrigger>rcs</tabTrigger>
     <scope>source.js</scope>
