@@ -6,13 +6,13 @@ const ${1} = React.createClass({
 
 	render() {
 		return (
-			${0:<div />}
-		);
+			${0:<h1>Foo</h1>}
+		)
 	}
 
 });
 
-export default ${1};
+export default ${1}
 ]]></content>
     <tabTrigger>rcc</tabTrigger>
     <scope>source.js</scope>

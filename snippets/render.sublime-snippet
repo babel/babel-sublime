@@ -2,8 +2,8 @@
     <content><![CDATA[
 render() {
 	return (
-		${1:<div />}
-	);
+		${1:<h1>Foo</h1>}
+	)
 }
 ]]></content>
     <tabTrigger>ren</tabTrigger>

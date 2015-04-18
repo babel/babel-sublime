@@ -1,7 +1,0 @@
-# [PackageDev] target_format: plist, ext: tmPreferences
-name: Symbol List Function
-uuid: 003b7720-9497-49e9-86ed-06c837765a00
-scope: source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js
-settings:
-  showInSymbolList: '1'
-  symbolTransformation: s/\s+/ /g;
