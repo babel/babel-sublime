@@ -1856,7 +1856,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(yield)\s*(\*)?|\b</string>
+					<string>(?&lt;!\.)\b(yield)\b(?:\s*(\*))?</string>
 				</dict>
 				<dict>
 					<key>match</key>

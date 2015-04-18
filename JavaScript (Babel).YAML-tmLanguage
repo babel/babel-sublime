@@ -707,7 +707,7 @@ repository:
     patterns:
     - include: '#literal-keyword-storage'
 
-    - match: (?<!\.)\b(yield)\s*(\*)?|\b
+    - match: (?<!\.)\b(yield)\b(?:\s*(\*))?
       captures:
         '1': {name: keyword.control.flow.js}
         '2': {name: keyword.generator.asterisk.js}
