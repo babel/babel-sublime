@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Symbol List Function</string>
 	<key>scope</key>
-	<string>source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js</string>
+	<string>source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js, source.js meta.prototype.function.arrow.js, source.js meta.class.js entity.name.class.js</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>
