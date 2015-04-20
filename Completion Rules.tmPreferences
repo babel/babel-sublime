@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.js</string>
+	<key>settings</key>
+	<dict>
+		<key>cancelCompletion</key>
+		<string>^\s*(\{?\s*(else|return|do)|(function)\s*[a-zA-Z_0-9]+)$</string>
+	</dict>
+	<key>uuid</key>
+	<string>b215c1c2-77d6-41d0-9e21-f3db3b643466</string>
+</dict>
+</plist>
