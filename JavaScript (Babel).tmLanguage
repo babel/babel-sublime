@@ -790,6 +790,79 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
+  (\b[_$a-zA-Z][$\w]*)
+  \s*=
+  \s*(async)?
+  \s*(?=\([^()]*\)\s*(=&gt;))</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\))\s*(=&gt;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.arrow.js</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.function.arrow.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.function.js</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.arrow.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?x)
+  (\b[_$a-zA-Z][$\w]*)
+  \s*=
+  \s*(async)?
+  \s*\b([_$a-zA-Z][$\w]*)\s*(=&gt;)</string>
+					<key>name</key>
+					<string>meta.function.arrow.js</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
   (\b_?[A-Z][$\w]*)?
   (\.)(prototype)
   (\.)([_$a-zA-Z][$\w]*)
@@ -1480,6 +1553,54 @@
 							<string>keyword.generator.asterisk.js</string>
 						</dict>
 						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?&lt;=\))</string>
+					<key>name</key>
+					<string>meta.function.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#function-declaration-parameters</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?x)
+  (\b[_$a-zA-Z][$\w]*)
+  \s*=
+  \s*(?:(async)\s+)?
+  \s*(function)(?:\s*(\*)|(?=\s|[(]))
+  \s*([_$a-zA-Z][$\w]*)?\s*</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.js</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function.js</string>
