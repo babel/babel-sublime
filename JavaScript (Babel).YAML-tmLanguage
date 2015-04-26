@@ -24,7 +24,6 @@ repository:
 
   expression:
     patterns:
-    # jsx
     - include: '#jsx'
     - include: '#es7-decorators'
 
@@ -1159,9 +1158,9 @@ repository:
     match: =(?=\s*(?:'|"|{|/\*|//|\n))
 
   jsx-string-double-quoted:
+    name: string.quoted.double.js
     begin: '"'
     end: '"'
-    name: string.quoted.double.js
     beginCaptures:
       '0': {name: punctuation.definition.string.begin.js}
     endCaptures:
@@ -1170,9 +1169,9 @@ repository:
     - include: '#jsx-entities'
 
   jsx-string-single-quoted:
+    name: string.quoted.single.js
     begin: "'"
     end: "'"
-    name: string.quoted.single.js
     beginCaptures:
       '0': {name: punctuation.definition.string.begin.js}
     endCaptures:
@@ -1191,9 +1190,9 @@ repository:
       match: '&'
 
   jsx-evaluated-code:
+    name: meta.brace.curly.js
     begin: '{'
     end: '}'
-    name: meta.brace.curly.js
     beginCaptures:
       '0': {name: punctuation.definition.brace.curly.start.js}
     endCaptures:
@@ -1205,14 +1204,29 @@ repository:
     name: invalid.illegal.attribute.js
     match: \S*
 
+  jsx-tag-without-attributes:
+    name: tag.without-attributes.js
+    begin: (<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
+    end: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
+    beginCaptures:
+      '1': {name: punctuation.definition.tag.begin.js}
+      '2': {name: entity.name.tag.js}
+      '3': {name: punctuation.definition.tag.end.js}
+    endCaptures:
+      '1': {name: punctuation.definition.tag.begin.js}
+      '2': {name: entity.name.tag.js}
+      '3': {name: punctuation.definition.tag.end.js}
+    patterns:
+    - include: '#jsx-children'
+
   jsx-tag-open:
+    name: tag.open.js
     begin: >-
       (?x)
         (<)
         ([_$a-zA-Z][-$\w.]*(?<!\.|-))
         (?=\s+(?!\?)|/?>)
     end: (/?>)
-    name: tag.open.js
     beginCaptures:
       '1': {name: punctuation.definition.tag.begin.js}
       '2': {name: entity.name.tag.js}
@@ -1224,12 +1238,9 @@ repository:
     - include: '#jsx-tag-attributes-illegal'
 
   jsx-tag-close:
-    begin: >-
-      (?x)
-        (</)
-        ([_$a-zA-Z][-$\w.]*(?<!\.|-))
-    end: (>)
     name: tag.close.js
+    begin: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))
+    end: (>)
     beginCaptures:
       '1': {name: punctuation.definition.tag.begin.js}
       '2': {name: entity.name.tag.js}
@@ -1242,12 +1253,28 @@ repository:
     name: invalid.illegal.tag.incomplete.js
     match: <\s*>
 
-  jsx:
-    name: meta.jsx.js
+  jsx-children:
     patterns:
+    - include: '#jsx-tag-without-attributes'
     - include: '#jsx-tag-open'
     - include: '#jsx-tag-close'
     - include: '#jsx-tag-invalid'
+    - include: '#jsx-evaluated-code'
+    - include: '#jsx-entities'
+
+  jsx:
+    name: meta.jsx.js
+    patterns:
+    - include: '#jsx-tag-without-attributes'
+    - include: '#jsx-tag-open'
+    - include: '#jsx-tag-close'
+    - include: '#jsx-tag-invalid'
+
+    - name: meta.jsx.children.js
+      begin: (?<=(?:'|"|})>)
+      end: (?=</)
+      patterns:
+      - include: '#jsx-children'
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:

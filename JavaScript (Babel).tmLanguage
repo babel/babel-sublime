@@ -433,6 +433,10 @@
 			<array>
 				<dict>
 					<key>include</key>
+					<string>#jsx-tag-without-attributes</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#jsx-tag-open</string>
 				</dict>
 				<dict>
@@ -442,6 +446,51 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx-tag-invalid</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?&lt;=(?:'|"|})&gt;)</string>
+					<key>end</key>
+					<string>(?=&lt;/)</string>
+					<key>name</key>
+					<string>meta.jsx.children.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#jsx-children</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-children</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-without-attributes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-open</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-close</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-tag-invalid</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-evaluated-code</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#jsx-entities</string>
 				</dict>
 			</array>
 		</dict>
@@ -633,9 +682,7 @@
 		<key>jsx-tag-close</key>
 		<dict>
 			<key>begin</key>
-			<string>(?x)
-  (&lt;/)
-  ([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))</string>
+			<string>(&lt;/)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -721,6 +768,58 @@
 				<dict>
 					<key>include</key>
 					<string>#jsx-tag-attributes-illegal</string>
+				</dict>
+			</array>
+		</dict>
+		<key>jsx-tag-without-attributes</key>
+		<dict>
+			<key>begin</key>
+			<string>(&lt;)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))(&gt;)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.js</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.js</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(&lt;/)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))(&gt;)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.begin.js</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.tag.js</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.end.js</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>tag.without-attributes.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#jsx-children</string>
 				</dict>
 			</array>
 		</dict>
