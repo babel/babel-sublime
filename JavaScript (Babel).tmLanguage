@@ -727,6 +727,7 @@
 		<dict>
 			<key>begin</key>
 			<string>(?x)
+  (?&lt;!\w)
   (&lt;)
   ([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))
   (?=\s+(?!\?)|/?&gt;)</string>
@@ -774,7 +775,7 @@
 		<key>jsx-tag-without-attributes</key>
 		<dict>
 			<key>begin</key>
-			<string>(&lt;)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))(&gt;)</string>
+			<string>(?&lt;!\w)(&lt;)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))(&gt;)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>

@@ -1206,7 +1206,7 @@ repository:
 
   jsx-tag-without-attributes:
     name: tag.without-attributes.js
-    begin: (<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
+    begin: (?<!\w)(<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
     end: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
     beginCaptures:
       '1': {name: punctuation.definition.tag.begin.js}
@@ -1223,6 +1223,7 @@ repository:
     name: tag.open.js
     begin: >-
       (?x)
+        (?<!\w)
         (<)
         ([_$a-zA-Z][-$\w.]*(?<!\.|-))
         (?=\s+(?!\?)|/?>)
