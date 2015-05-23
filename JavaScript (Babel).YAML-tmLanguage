@@ -1096,7 +1096,7 @@ repository:
           )\b
 
     # console
-    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert))?\b
+    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
       captures:
         '1': {name: support.type.object.console.js}
         '2': {name: keyword.operator.accessor.js}
