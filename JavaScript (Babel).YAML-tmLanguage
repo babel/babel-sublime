@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: JavaScript (Babel)
-scopeName: source.js
+scopeName: source.js.jsx
 fileTypes: [js, htc, jsx]
 uuid: 30c49d33-6e4d-4985-8a18-34431c2535c6
 firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
@@ -1067,7 +1067,7 @@ repository:
     patterns:
     # built-ins
     - name: support.class.builtin.js
-      match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap)\b
+      match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b
 
     - name: support.function.js
       match: (?<!\.)\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
