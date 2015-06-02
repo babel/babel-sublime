@@ -3201,7 +3201,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap)\b</string>
+					<string>\b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b</string>
 					<key>name</key>
 					<string>support.class.builtin.js</string>
 				</dict>
@@ -3364,7 +3364,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>source.js</string>
+	<string>source.js.jsx</string>
 	<key>uuid</key>
 	<string>30c49d33-6e4d-4985-8a18-34431c2535c6</string>
 </dict>
