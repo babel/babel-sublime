@@ -56,6 +56,10 @@ Find them separately at [babel/babel-sublime-snippets](https://github.com/babel/
 
 Sublime Text Color Scheme which is ready for JavaScript's new features and babel-sublime package.
 
+#### [Zeus Color Scheme](https://github.com/zaynali53/Zeus-Theme)
+
+![zeus-color-scheme](https://raw.githubusercontent.com/zaynali53/Zeus-Theme/master/Zeus-Color-Scheme.PNG)
+
 ## About
 
 Under the hood, _babel-sublime_ is based on the excellent [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage) with JSX syntax support built on top. The initial definitions for JSX came from [reactjs/sublime-react](https://github.com/reactjs/sublime-react) via [yungters/sublime](https://github.com/yungsters/sublime.git) - special thanks go to [@jgebhardt](https://github.com/jgebhardt) and [@zpao](https://github.com/zpao).
