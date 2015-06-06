@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "get-stdin": "4.0.1",
+    "resolve": "1.1.6"
+  },
+  "private": true
+}
