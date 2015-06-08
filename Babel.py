@@ -30,7 +30,7 @@ class BabelCommand(sublime_plugin.TextCommand):
 				'filename': self.view.file_name(),
 				'debug': self.get_setting('debug'),
 				'ensure_newline_at_eof': self.get_setting('ensure_newline_at_eof'),
-				'use_available_babel': self.get_setting('use_available_babel'),
+				'use_local_babel': self.get_setting('use_local_babel'),
 				'node_modules': self.get_setting('node_modules'),
 				'options': self.get_setting('options')
 			})])
