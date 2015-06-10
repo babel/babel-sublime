@@ -22,6 +22,7 @@ class BabelCommand(sublime_plugin.TextCommand):
 			w = sublime.Window.new_file(view.window())
 			w.settings().set('default_extension', 'js')
 			w.set_syntax_file(view.settings().get('syntax'))
+			w.set_scratch(True)
 			w.insert(edit, 0, code)
 
 	def babelify(self, data):

@@ -41,7 +41,10 @@ if (opts.filename) opts.options.filename = opts.filename;
 
   var debugLog = '';
   if (opts.debug) {
-    debugLog = '\n\n// babel@' + row.pkg.version + ' (' + row.file + ')\n';
+    debugLog = '\n\n';
+    debugLog += '// babel@' + row.pkg.version + ' (' + row.file + ')\n';
+    debugLog += '// filename: ' + opts.filename + '\n';
+    // debugLog += '// ' + JSON.stringify(opts) + '\n';
   }
 
   stdin(function (data)  {

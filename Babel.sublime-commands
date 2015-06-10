@@ -1,4 +1,6 @@
-[{
-  "caption": "Babel Transform",
-  "command": "babel"
-}]
+[
+  {
+    "caption": "Babel Transform",
+    "command": "babel"
+  }
+]
