@@ -26,6 +26,35 @@ It possible to set `Babel` as the _only_ JavaScript package by disabling the sto
 
 **Keep in mind**, the stock snippets will no longer work (you may still use your own), and other third-party packages that depend on the stock package may break (no known ones so far).
 
+#### Babel Transform
+
+`Babel Transform` command takes the current selection (if available) or the entire file and runs it through `Babel`. The transpiled code is shown in a new tab.
+
+`babel` or `babel-core` packages should be installed globally or in the `babel-sublime` package directory.
+
+__Note to [NVM](https://github.com/creationix/nvm) users__: `Babel Transform` uses the following paths to recursively search for `babel` / `babel-core` module:
+
+```
+    "windows": "C:/Program Files/nodejs/node_modules",
+    "linux": "/usr/lib/node_modules",
+    "osx": "/usr/local/lib/node_modules"
+```
+
+These paths can overwritten in the Babel package settings file (`Preferences` `->` `Package Settings` `->` `Babel` `->` `Settings - User`).
+
+OS X example:
+
+```
+{
+  "node_modules": {
+    "osx": "/usr/local/opt/nvm/versions/node/<NODE_VERSION>/lib/node_modules"
+  }
+}
+```
+
+Currently used node version can be obtained by running `nvm current` command in Terminal.
+
+
 ## Screenshots
 
 ![babel-sublime-vs-sublime-react--react-class](https://raw.githubusercontent.com/babel/babel-sublime/45c7d37/screenshots/compare-react-class@2x.png)
