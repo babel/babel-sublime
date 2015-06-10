@@ -33,7 +33,7 @@ if (opts.filename) opts.options.filename = opts.filename;
              process.platform === 'win32'  ? 'windows' :
                                              'linux';
     findBabel(opts.node_modules[OS], function() {
-      throw new Error('Couldn\t find babel or babel-core');
+      throw new Error('Couldn\'t find babel or babel-core');
     });
   }
 
