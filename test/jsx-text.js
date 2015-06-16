@@ -67,3 +67,7 @@
 <div
   attr={}
   >it's with text inside</div>
+
+/**/
+
+Array<Function>it's with text inside</Function>
