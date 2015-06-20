@@ -6,6 +6,9 @@ file_extensions: [js, htc, jsx]
 first_line_match: ^#!\s*/.*\b(node|js)$\n?
 scope: source.js
 
+variables:
+  ident: '[_$a-zA-Z][$\w]*'
+
 contexts:
   main:
     - include: core
@@ -126,7 +129,7 @@ contexts:
           pop: true
         - match: (?<!\.)\.\.\.
           scope: keyword.operator.spread.js
-        - match: '[_$a-zA-Z][$\w]*'
+        - match: '{{ident}}'
           scope: variable.parameter.function.js
         - match: ","
           scope: punctuation.separator.parameter.function.js
@@ -147,7 +150,7 @@ contexts:
     - match: >-
         (?x)
           (?<!\.)\b(class)
-          \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?
+          \s+((?!\b(extends)\b){{ident}})?
       captures:
         1: storage.type.class.js
         2: entity.name.class.js
@@ -181,7 +184,7 @@ contexts:
         (?x)
           (?:\b(static)\s+)?
           (?:\b(async)\s+)?
-          (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
+          (?:(\*)\s*)?({{ident}})\s*
           (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
@@ -197,7 +200,7 @@ contexts:
         (?x)
           \b(?:(static)\s+)?
           (get|set)\s+
-          ([_$a-zA-Z][$\w]*)\s*
+          ({{ident}})\s*
           (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
@@ -210,13 +213,13 @@ contexts:
         - include: function-declaration-parameters
 
   literal-prototype:
-    - match: '([_$a-zA-Z][$\w]*)(\.)(prototype)\b'
+    - match: '({{ident}})(\.)(prototype)\b'
       scope: meta.prototype.access.js
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: variable.language.prototype.js
-    - match: '([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*'
+    - match: '({{ident}})(\.)(prototype)\s*=\s*'
       scope: meta.prototype.declaration.js
       captures:
         1: entity.name.class.js
@@ -228,7 +231,7 @@ contexts:
         (?x)
           (?:\b(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+          \s*({{ident}})?\s*
       captures:
         1: storage.type.js
         2: storage.type.function.js
@@ -241,11 +244,11 @@ contexts:
         - include: function-declaration-parameters
     - match: >-
         (?x)
-          (\b[_$a-zA-Z][$\w]*)
+          (\b{{ident}})
           \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+          \s*({{ident}})?\s*
       captures:
         1: entity.name.function.js
         2: storage.type.js
@@ -261,11 +264,11 @@ contexts:
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
-          (\.)([_$a-zA-Z][$\w]*)
+          (\.)({{ident}})
           \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+          \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -284,11 +287,11 @@ contexts:
     - match: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          (\.)([_$a-zA-Z][$\w]*)
+          (\.)({{ident}})
           \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+          \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -306,11 +309,11 @@ contexts:
   literal-function-labels:
     - match: >-
         (?x)
-          \b([_$a-zA-Z][$\w]*)
+          \b({{ident}})
           \s*(:)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+          \s*({{ident}})?\s*
       captures:
         1: entity.name.function.js
         2: punctuation.separator.key-value.js
@@ -332,7 +335,7 @@ contexts:
           \s*(:)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+          \s*({{ident}})?\s*
       captures:
         1: string.quoted.single.js
         2: punctuation.definition.string.begin.js
@@ -370,7 +373,7 @@ contexts:
     - match: >-
         (?x)
           (\basync)?\s*
-          \b([_$a-zA-Z][$\w]*)\s*(=>)
+          \b({{ident}})\s*(=>)
       scope: meta.function.arrow.js
       captures:
         1: storage.type.js
@@ -378,7 +381,7 @@ contexts:
         3: storage.type.function.arrow.js
     - match: >-
         (?x)
-          (\b[_$a-zA-Z][$\w]*)
+          (\b{{ident}})
           \s*=
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
@@ -394,10 +397,10 @@ contexts:
         - include: function-declaration-parameters
     - match: >-
         (?x)
-          (\b[_$a-zA-Z][$\w]*)
+          (\b{{ident}})
           \s*=
           \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+          \s*\b({{ident}})\s*(=>)
       scope: meta.function.arrow.js
       captures:
         1: entity.name.function.js
@@ -408,7 +411,7 @@ contexts:
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
-          (\.)([_$a-zA-Z][$\w]*)
+          (\.)({{ident}})
           \s*=
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
@@ -430,10 +433,10 @@ contexts:
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
-          (\.)([_$a-zA-Z][$\w]*)
+          (\.)({{ident}})
           \s*=
           \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+          \s*\b({{ident}})\s*(=>)
       scope: meta.prototype.function.arrow.js
       captures:
         1: entity.name.class.js
@@ -447,7 +450,7 @@ contexts:
     - match: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          (\.)([_$a-zA-Z][$\w]*)
+          (\.)({{ident}})
           \s*=
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
@@ -466,10 +469,10 @@ contexts:
     - match: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
-          (\.)([_$a-zA-Z][$\w]*)
+          (\.)({{ident}})
           \s*=
           \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+          \s*\b({{ident}})\s*(=>)
       scope: meta.function.static.arrow.js
       captures:
         1: entity.name.class.js
@@ -482,7 +485,7 @@ contexts:
   literal-arrow-function-labels:
     - match: >-
         (?x)
-          \b([_$a-zA-Z][$\w]*)
+          \b({{ident}})
           \s*(:)
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
@@ -499,10 +502,10 @@ contexts:
         - include: function-declaration-parameters
     - match: >-
         (?x)
-          \b([_$a-zA-Z][$\w]*)
+          \b({{ident}})
           \s*(:)
           \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+          \s*\b({{ident}})\s*(=>)
       scope: meta.function.json.arrow.js
       captures:
         1: entity.name.function.js
@@ -545,7 +548,7 @@ contexts:
           )
           \s*(:)
           \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
+          \s*\b({{ident}})\s*(=>)
       scope: meta.function.json.arrow.js
       captures:
         1: string.quoted.single.js
@@ -564,7 +567,7 @@ contexts:
   literal-function-call:
     - match: >-
         (?x)
-          ([_$a-zA-Z][$\w]*)\s*
+          ({{ident}})\s*
           (\(\s*\))
       scope: meta.function-call.without-arguments.js
       captures:
@@ -572,7 +575,7 @@ contexts:
         2: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
-        ([_$a-zA-Z][$\w]*)\s*
+        ({{ident}})\s*
         (?=\()
       scope: meta.function-call.with-arguments.js
       captures:
@@ -583,7 +586,7 @@ contexts:
         (?x)
           (?:(?<=\.)|\b)
           ([A-Z][$\w]*)\s*(\.)
-          ([_$a-zA-Z][$\w]*)\s*
+          ({{ident}})\s*
           (\(\s*\))
       scope: meta.function-call.static.without-arguments.js
       captures:
@@ -595,7 +598,7 @@ contexts:
         (?x)
           (?:(?<=\.)|\b)
           ([A-Z][$\w]*)\s*(\.)
-          ([_$a-zA-Z][$\w]*)\s*
+          ({{ident}})\s*
           (?=\()
       scope: meta.function-call.static.with-arguments.js
       captures:
@@ -605,7 +608,7 @@ contexts:
     - match: >-
         (?x)
           (?<=\.)
-          ([_$a-zA-Z][$\w]*)\s*
+          ({{ident}})\s*
           (\(\s*\))
       scope: meta.function-call.method.without-arguments.js
       captures:
@@ -614,7 +617,7 @@ contexts:
     - match: >-
         (?x)
           (?<=\.)
-          ([_$a-zA-Z][$\w]*)\s*
+          ({{ident}})\s*
           (?=\()
       scope: meta.function-call.method.with-arguments.js
       captures:
@@ -657,7 +660,7 @@ contexts:
         - match: '(?![_$a-zA-Z][$\w.]*)'
           pop: true
         - include: support
-        - match: '([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)'
+        - match: '([_$a-zA-Z][$\w.]*\.)?({{ident}})'
           captures:
             2: entity.name.type.new.js
 
@@ -807,7 +810,7 @@ contexts:
             0: punctuation.separator.key-value.js
           pop: true
         - include: literal-string
-    - match: '(?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)'
+    - match: '(?<!\.|\?|\?\s)({{ident}})\s*(:)'
       scope: constant.other.object.key.js
       captures:
         1: string.unquoted.label.js
@@ -927,21 +930,21 @@ contexts:
     - match: >-
         (?x)
           \b([A-Z][$\w]*)\s*(\.)
-          ([_$a-zA-Z][$\w]*)
+          ({{ident}})
       scope: meta.property.class.js
       captures:
         1: variable.other.class.js
         2: keyword.operator.accessor.js
         3: variable.other.property.static.js
-    - match: '(?<!\.)[_$a-zA-Z][$\w]*\s*(?=[\[\.])'
+    - match: '(?<!\.){{ident}}\s*(?=[\[\.])'
       scope: variable.other.object.js
       captures:
         1: variable.other.object.js
-    - match: '(?<=\.)\s*[_$a-zA-Z][$\w]*'
+    - match: '(?<=\.)\s*{{ident}}'
       scope: meta.property.object.js
       captures:
         2: variable.other.property.js
-    - match: '[_$a-zA-Z][$\w]*'
+    - match: '{{ident}}'
       scope: variable.other.readwrite.js
 
   support:
@@ -1146,7 +1149,7 @@ contexts:
         (?x)
           \b(static)?
           \s*
-          \b([_$a-zA-Z][$\w]*)\s*(=)
+          \b({{ident}})\s*(=)
       captures:
         1: storage.type.js
         2: variable.other.property.js
