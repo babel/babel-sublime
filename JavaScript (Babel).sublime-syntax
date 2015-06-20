@@ -10,6 +10,9 @@ contexts:
   main:
     - include: core
 
+  prototype:
+    - include: comments
+
   core:
     - include: literal-function-labels
     - include: literal-arrow-function-labels
@@ -39,7 +42,6 @@ contexts:
     - include: literal-constructor
     - include: literal-method-call
     - include: literal-function-call
-    - include: comments
     - include: brackets
     - include: literal-operators
     - include: literal-variable
@@ -86,20 +88,19 @@ contexts:
     - include: curly-brackets
 
   comments:
-    - include: special-comments-conditional-compilation
     - match: /\*\*(?!/)
-      captures:
-        0: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.block.documentation.js
         - match: \*/
+          scope: punctuation.definition.comment.js
           pop: true
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.block.js
         - match: \*/
+          scope: punctuation.definition.comment.js
           pop: true
     - match: (<!--|-->)
       scope: comment.block.html.js
@@ -113,29 +114,6 @@ contexts:
       scope: comment.line.shebang.js
       captures:
         1: punctuation.definition.comment.js
-
-  special-comments-conditional-compilation:
-    - match: /\*(?=@)
-      captures:
-        0: punctuation.definition.comment.js
-      push:
-        - meta_scope: comment.block.conditional.js
-        - match: \*/
-          captures:
-            1: keyword.control.conditional.js
-            2: punctuation.definition.keyword.js
-          pop: true
-        - match: /\*
-          scope: punctuation.definition.comment.js
-        - include: main
-    - match: (@)(if|elif|else|end|ifdef|endif|cc_on|set)\b
-      scope: keyword.control.conditional.js
-      captures:
-        1: punctuation.definition.keyword.js
-    - match: '(@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript|_jscript_build|_jscript_version|_debug|_fast|[a-zA-Z]\w+)'
-      scope: variable.other.conditional.js
-      captures:
-        1: punctuation.definition.variable.js
 
   function-declaration-parameters:
     - match: \(
@@ -160,7 +138,6 @@ contexts:
             - match: "(?=[,)])"
               pop: true
             - include: expression
-        - include: comments
 
   literal-module:
     - match: (?<!\.)\b(import|export|default|from|as)\b
@@ -196,7 +173,6 @@ contexts:
               pop: true
             - include: brackets
             - include: es7-decorators
-            - include: comments
             - include: es7-class-properties
             - include: literal-method
 
@@ -870,6 +846,7 @@ contexts:
         1: entity.quasi.tag.name.js
         2: punctuation.definition.quasi.begin.js
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quasi.js
         - match: "`"
           captures:
@@ -913,6 +890,7 @@ contexts:
       captures:
         0: punctuation.definition.string.begin.js
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.js
         - match: (')|(\n)
           captures:
@@ -924,6 +902,7 @@ contexts:
       captures:
         0: punctuation.definition.string.begin.js
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.js
         - match: (")|(\n)
           captures:
@@ -1045,6 +1024,7 @@ contexts:
       captures:
         0: punctuation.definition.string.begin.js
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.js
         - match: '"'
           captures:
@@ -1057,6 +1037,7 @@ contexts:
       captures:
         0: punctuation.definition.string.begin.js
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.js
         - match: "'"
           captures:
@@ -1120,7 +1101,6 @@ contexts:
           captures:
             1: punctuation.definition.tag.end.js
           pop: true
-        - include: comments
         - include: jsx-tag-attributes
         - include: jsx-tag-attributes-illegal
 
@@ -1135,7 +1115,6 @@ contexts:
           captures:
             1: punctuation.definition.tag.end.js
           pop: true
-        - include: comments
 
   jsx-tag-invalid:
     - match: <\s*>
