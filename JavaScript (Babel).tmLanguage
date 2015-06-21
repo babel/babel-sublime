@@ -2047,7 +2047,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(const|let|var)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;const|let|var)\b</string>
 					<key>name</key>
 					<string>storage.type.js</string>
 				</dict>
@@ -2080,25 +2080,25 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(await|return)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;await|return)\b</string>
 					<key>name</key>
 					<string>keyword.control.flow.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(if|else)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;if|else)\b</string>
 					<key>name</key>
 					<string>keyword.control.conditional.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(catch|finally|throw|try)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;catch|finally|throw|try)\b</string>
 					<key>name</key>
 					<string>keyword.control.trycatch.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(break|continue|do|goto|while)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;break|continue|do|goto|while)\b</string>
 					<key>name</key>
 					<string>keyword.control.loop.js</string>
 				</dict>
@@ -2196,43 +2196,43 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(arguments)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\barguments\b</string>
 					<key>name</key>
 					<string>variable.language.arguments.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(super)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\bsuper\b</string>
 					<key>name</key>
 					<string>variable.language.super.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(this)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\bthis\b</string>
 					<key>name</key>
 					<string>variable.language.this.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(self)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\bself\b</string>
 					<key>name</key>
 					<string>variable.language.self.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b(__proto__)\b</string>
+					<string>(?&lt;=\.)\b__proto__\b</string>
 					<key>name</key>
 					<string>variable.language.proto.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b(constructor)\b</string>
+					<string>(?&lt;=\.)\bconstructor\b</string>
 					<key>name</key>
 					<string>variable.language.constructor.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b(prototype)\b</string>
+					<string>(?&lt;=\.)\bprototype\b</string>
 					<key>name</key>
 					<string>variable.language.prototype.js</string>
 				</dict>
@@ -2435,7 +2435,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(import|export|default|from|as)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;import|export|default|from|as)\b</string>
 					<key>name</key>
 					<string>keyword.operator.module.js</string>
 				</dict>
@@ -2487,7 +2487,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(delete|in|instanceof|new|of|typeof|void|with)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;delete|instanceof|in|new|of|typeof|void|with)\b</string>
 					<key>name</key>
 					<string>keyword.operator.js</string>
 				</dict>
@@ -2614,9 +2614,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\b</string>
+					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*</string>
 					<key>name</key>
-					<string>meta.prototype.access.js</string>
+					<string>meta.prototype.declaration.js</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -2638,9 +2638,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*</string>
+					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\b</string>
 					<key>name</key>
-					<string>meta.prototype.declaration.js</string>
+					<string>meta.prototype.access.js</string>
 				</dict>
 			</array>
 		</dict>
@@ -3001,21 +3001,21 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)[_$a-zA-Z][$\w]*\s*(?=[\[\.])</string>
+					<string>(?&lt;!\.)([_$a-zA-Z][$\w]*)\s*(?=[\[\.])</string>
 					<key>name</key>
 					<string>variable.other.object.js</string>
 				</dict>
 				<dict>
 					<key>captures</key>
 					<dict>
-						<key>2</key>
+						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>variable.other.property.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\s*[_$a-zA-Z][$\w]*</string>
+					<string>(?&lt;=\.)\s*([_$a-zA-Z][$\w]*)</string>
 					<key>name</key>
 					<string>meta.property.object.js</string>
 				</dict>
@@ -3201,44 +3201,44 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b</string>
+					<string>\b(?&gt;Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b</string>
 					<key>name</key>
 					<string>support.class.builtin.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;decodeURIComponent|decodeURI|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b</string>
 					<key>name</key>
 					<string>support.function.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\.(shift|sort|splice|unshift|pop|push|reverse)\b</string>
+					<string>(?&lt;=\.)\b(?&gt;shift|sort|splice|unshift|pop|push|reverse)\b</string>
 					<key>name</key>
 					<string>support.function.mutator.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b((Eval|Range|Reference|Syntax|Type|URI)?Error)\b</string>
+					<string>(?&lt;!\.)\b((?&gt;Eval|Range|Reference|Syntax|Type|URI)?Error)\b</string>
 					<key>name</key>
 					<string>support.class.error.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(debugger)\b</string>
+					<string>(?&lt;!\.)\bdebugger\b</string>
 					<key>name</key>
 					<string>keyword.other.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(document|window)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;document|window)\b</string>
 					<key>name</key>
 					<string>support.type.object.dom.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>(?x)
-  \b(
+  \b(?&gt;
     ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
     DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
     WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
@@ -3270,7 +3270,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|http|https|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b</string>
 					<key>name</key>
 					<string>support.module.node.js</string>
 				</dict>
@@ -3342,13 +3342,13 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(global|GLOBAL|root|__dirname|__filename)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;global|GLOBAL|root|__dirname|__filename)\b</string>
 					<key>name</key>
 					<string>support.type.object.node.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b</string>
+					<string>\b(?&gt;Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b</string>
 					<key>name</key>
 					<string>support.class.node.js</string>
 				</dict>

@@ -1,6 +1,4 @@
 
-
-
 // components/EmailInput.jsx
 
 import React from 'react';
@@ -19,17 +17,19 @@ export default React.createClass({
         this.setState({isValid: !err}));
   },
 
+  'key//1': function() {},
+  'key/***/1': function() {},
+
   render() {
     var {email} = this.state;
     return (
       <div {...this.props}>
-        <input
-          value={email}
-          onChange={this.onChange}
+        <input /*cmt*/
+          /*cmt*/value/*cmt*/=/*cmt*/{email}/*cmt*/
+          onChange={/*cmt*/this.onChange/*cmt*/}
           onClick={this.onClick}
-          required />
+          required/*cmt*/ />
       </div>
     );
   }
 });
-

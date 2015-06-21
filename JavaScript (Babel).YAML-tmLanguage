@@ -178,7 +178,7 @@ repository:
   literal-module:
     patterns:
     - name: keyword.operator.module.js
-      match: (?<!\.)\b(import|export|default|from|as)\b
+      match: (?<!\.)\b(?>import|export|default|from|as)\b
 
   literal-class:
     patterns:
@@ -251,17 +251,17 @@ repository:
 
   literal-prototype:
     patterns:
-    # e.g. Sound.prototype
-    - name: meta.prototype.access.js
-      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\b
+    # e.g. Sound.prototype = {  } when extending an object
+    - name: meta.prototype.declaration.js
+      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: variable.language.prototype.js}
 
-    # e.g. Sound.prototype = {  } when extending an object
-    - name: meta.prototype.declaration.js
-      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*
+    # e.g. Sound.prototype
+    - name: meta.prototype.access.js
+      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\b
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
@@ -697,25 +697,25 @@ repository:
   literal-language-variable:
     patterns:
     - name: variable.language.arguments.js
-      match: (?<!(?<!\.\.)\.)\b(arguments)\b
+      match: (?<!(?<!\.\.)\.)\barguments\b
 
     - name: variable.language.super.js
-      match: (?<!(?<!\.\.)\.)\b(super)\b
+      match: (?<!(?<!\.\.)\.)\bsuper\b
 
     - name: variable.language.this.js
-      match: (?<!(?<!\.\.)\.)\b(this)\b
+      match: (?<!(?<!\.\.)\.)\bthis\b
 
     - name: variable.language.self.js
-      match: (?<!(?<!\.\.)\.)\b(self)\b
+      match: (?<!(?<!\.\.)\.)\bself\b
 
     - name: variable.language.proto.js
-      match: (?<=\.)\b(__proto__)\b
+      match: (?<=\.)\b__proto__\b
 
     - name: variable.language.constructor.js
-      match: (?<=\.)\b(constructor)\b
+      match: (?<=\.)\bconstructor\b
 
     - name: variable.language.prototype.js
-      match: (?<=\.)\b(prototype)\b
+      match: (?<=\.)\bprototype\b
 
   literal-language-constant:
     patterns:
@@ -750,7 +750,7 @@ repository:
   literal-keyword-storage:
     patterns:
     - name: storage.type.js
-      match: (?<!\.)\b(const|let|var)\b
+      match: (?<!\.)\b(?>const|let|var)\b
 
   literal-keywords:
     patterns:
@@ -762,16 +762,16 @@ repository:
         '2': {name: keyword.generator.asterisk.js}
 
     - name: keyword.control.flow.js
-      match: (?<!\.)\b(await|return)\b
+      match: (?<!\.)\b(?>await|return)\b
 
     - name: keyword.control.conditional.js
-      match: (?<!\.)\b(if|else)\b
+      match: (?<!\.)\b(?>if|else)\b
 
     - name: keyword.control.trycatch.js
-      match: (?<!\.)\b(catch|finally|throw|try)\b
+      match: (?<!\.)\b(?>catch|finally|throw|try)\b
 
     - name: keyword.control.loop.js
-      match: (?<!\.)\b(break|continue|do|goto|while)\b
+      match: (?<!\.)\b(?>break|continue|do|goto|while)\b
 
   literal-for:
     patterns:
@@ -819,7 +819,7 @@ repository:
   literal-operators:
     patterns:
     - name: keyword.operator.js
-      match: (?<!\.)\b(delete|in|instanceof|new|of|typeof|void|with)\b
+      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with)\b
 
     - name: keyword.operator.logical.js
       match: >-
@@ -1050,15 +1050,15 @@ repository:
 
     # e.g. obj.property
     - name: variable.other.object.js
-      match: (?<!\.)[_$a-zA-Z][$\w]*\s*(?=[\[\.])
+      match: (?<!\.)([_$a-zA-Z][$\w]*)\s*(?=[\[\.])
       captures:
         '1': {name: variable.other.object.js}
 
     # e.g. obj.property
     - name: meta.property.object.js
-      match: (?<=\.)\s*[_$a-zA-Z][$\w]*
+      match: (?<=\.)\s*([_$a-zA-Z][$\w]*)
       captures:
-        '2': {name: variable.other.property.js}
+        '1': {name: variable.other.property.js}
 
     - name: variable.other.readwrite.js
       match: '[_$a-zA-Z][$\w]*'
@@ -1067,29 +1067,29 @@ repository:
     patterns:
     # built-ins
     - name: support.class.builtin.js
-      match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b
+      match: \b(?>Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b
 
     - name: support.function.js
-      match: (?<!\.)\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
+      match: (?<!\.)\b(?>decodeURIComponent|decodeURI|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
 
     - name: support.function.mutator.js
-      match: \.(shift|sort|splice|unshift|pop|push|reverse)\b
+      match: (?<=\.)\b(?>shift|sort|splice|unshift|pop|push|reverse)\b
 
     - name: support.class.error.js
-      match: (?<!\.)\b((Eval|Range|Reference|Syntax|Type|URI)?Error)\b
+      match: (?<!\.)\b((?>Eval|Range|Reference|Syntax|Type|URI)?Error)\b
 
     # debugger
     - name: keyword.other.js
-      match: (?<!\.)\b(debugger)\b
+      match: (?<!\.)\bdebugger\b
 
     # dom
     - name: support.type.object.dom.js
-      match: (?<!\.)\b(document|window)\b
+      match: (?<!\.)\b(?>document|window)\b
 
     - name: support.constant.dom.js
       match: >-
         (?x)
-          \b(
+          \b(?>
             ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
             DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
             WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
@@ -1104,7 +1104,7 @@ repository:
 
     # node
     - name: support.module.node.js
-      match: (?<!\.)\b(assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|http|https|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
+      match: (?<!\.)\b(?>assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
 
     - match: (?<!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
       captures:
@@ -1125,10 +1125,10 @@ repository:
         '3': {name: support.type.object.module.js}
 
     - name: support.type.object.node.js
-      match: (?<!\.)\b(global|GLOBAL|root|__dirname|__filename)\b
+      match: (?<!\.)\b(?>global|GLOBAL|root|__dirname|__filename)\b
 
     - name: support.class.node.js
-      match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
+      match: \b(?>Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b
 
     # mustache
     - name: meta.tag.mustache.js
