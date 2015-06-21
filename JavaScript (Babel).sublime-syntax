@@ -209,17 +209,17 @@ contexts:
         - include: function-declaration-parameters
 
   literal-prototype:
-    # e.g. Sound.prototype
-    - match: '({{ident}})(\.)(prototype)\b'
-      scope: meta.prototype.access.js
+    # e.g. Sound.prototype = {  } when extending an object
+    - match: '({{ident}})(\.)(prototype)\s*(=)\s*'
+      scope: meta.prototype.declaration.js
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: variable.language.prototype.js
 
-    # e.g. Sound.prototype = {  } when extending an object
-    - match: '({{ident}})(\.)(prototype)\s*=\s*'
-      scope: meta.prototype.declaration.js
+    # e.g. Sound.prototype
+    - match: '({{ident}})(\.)(prototype)\b'
+      scope: meta.prototype.access.js
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
