@@ -251,17 +251,17 @@ repository:
 
   literal-prototype:
     patterns:
-    # e.g. Sound.prototype
-    - name: meta.prototype.access.js
-      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\b
+    # e.g. Sound.prototype = {  } when extending an object
+    - name: meta.prototype.declaration.js
+      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: variable.language.prototype.js}
 
-    # e.g. Sound.prototype = {  } when extending an object
-    - name: meta.prototype.declaration.js
-      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*
+    # e.g. Sound.prototype
+    - name: meta.prototype.access.js
+      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\b
       captures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}

@@ -2614,9 +2614,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\b</string>
+					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*</string>
 					<key>name</key>
-					<string>meta.prototype.access.js</string>
+					<string>meta.prototype.declaration.js</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -2638,9 +2638,9 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*</string>
+					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\b</string>
 					<key>name</key>
-					<string>meta.prototype.declaration.js</string>
+					<string>meta.prototype.access.js</string>
 				</dict>
 			</array>
 		</dict>
