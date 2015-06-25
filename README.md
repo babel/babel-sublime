@@ -20,7 +20,7 @@ To set it as the default syntax for a particular extension:
 
 #### Advanced usage
 
-It possible to set `Babel` as the _only_ JavaScript package by disabling the stock one. To do so, add `"ignored_packages": ["JavaScript"]` to your `Preferences.sublime-settings`. The benefits include:
+It's possible to set `Babel` as the _only_ JavaScript package by disabling the stock one. To do so, add `"ignored_packages": ["JavaScript"]` to your `Preferences.sublime-settings`. The benefits include:
   * extension-less node scripts will automatically be recognized as `JavaScript (Babel)`,
   * and reduced clutter in the syntax menu.
 
