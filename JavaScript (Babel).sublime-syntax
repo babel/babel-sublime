@@ -602,7 +602,7 @@ contexts:
           (\(\s*\))
       scope: meta.function-call.without-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
         2: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
@@ -610,7 +610,7 @@ contexts:
         (?=\()
       scope: meta.function-call.with-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
 
   literal-method-call:
     - match: >-
@@ -623,7 +623,7 @@ contexts:
       captures:
         1: variable.other.class.js
         2: keyword.operator.accessor.js
-        3: entity.name.function.js
+        3: variable.function.js
         4: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
@@ -635,7 +635,7 @@ contexts:
       captures:
         1: variable.other.class.js
         2: keyword.operator.accessor.js
-        3: entity.name.function.js
+        3: variable.function.js
     - match: >-
         (?x)
           (?<=\.)
@@ -643,7 +643,7 @@ contexts:
           (\(\s*\))
       scope: meta.function-call.method.without-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
         2: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
@@ -652,7 +652,7 @@ contexts:
           (?=\()
       scope: meta.function-call.method.with-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
 
   literal-language-variable:
     - match: (?<!(?<!\.\.)\.)\barguments\b
@@ -693,7 +693,7 @@ contexts:
         - include: support
         - match: '([_$a-zA-Z][$\w.]*\.)?({{ident}})'
           captures:
-            2: entity.name.type.new.js
+            2: variable.function.constructor.js
 
   literal-keyword-storage:
     - match: (?<!\.)\b(?>const|let|var)\b
