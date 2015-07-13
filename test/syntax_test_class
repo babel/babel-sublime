@@ -43,7 +43,7 @@ class MyClass extends OtherClass {
   // <- source.js meta.class.js tag.decorator.js punctuation.definition.tag.js
   // ^ source.js meta.class.js tag.decorator.js entity.name.tag.js
   getValue() { }
-// ^ source.js meta.class.js meta.method.js entity.name.method.js
+// ^ source.js meta.class.js meta.method.js entity.name.function.js
 
   /* comments */
   // <- source.js comment.block.js punctuation.definition.comment.begin.js

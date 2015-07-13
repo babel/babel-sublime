@@ -188,7 +188,7 @@ contexts:
         1: storage.type.js
         2: storage.type.js
         3: keyword.generator.asterisk.js
-        4: entity.name.method.js
+        4: entity.name.function.js
       push:
         - meta_scope: meta.method.js
         - match: (?<=\))
