@@ -85,36 +85,32 @@ contexts:
     - include: curly-brackets
 
   comments:
-    - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_scope: comment.block.documentation.js
-        - match: \*/
-          scope: punctuation.definition.comment.js
-          pop: true
-
     - match: /\*
-      scope: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.begin.js
       push:
         - meta_scope: comment.block.js
         - match: \*/
-          scope: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.end.js
+          pop: true
+
+    - match: //
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_scope: comment.line.double-slash.js
+        - match: $
+          pop: true
+
+    - match: ^#!
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_scope: comment.line.shebang.js
+        - match: $
           pop: true
 
     - match: (<!--|-->)
       scope: comment.block.html.js
       captures:
         0: punctuation.definition.comment.js
-
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.js
-      captures:
-        1: punctuation.definition.comment.js
-
-    - match: ^(#!).*$\n?
-      scope: comment.line.shebang.js
-      captures:
-        1: punctuation.definition.comment.js
 
   function-declaration-parameters:
     - match: '\('

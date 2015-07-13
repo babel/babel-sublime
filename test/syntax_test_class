@@ -3,9 +3,9 @@
 class MyClass /* Class */ { }
 // ^ source.js meta.class.js storage.type.class.js
 //    ^ source.js meta.class.js entity.name.class.js
-//            ^ source.js comment.block.js punctuation.definition.comment.js
+//            ^ source.js comment.block.js punctuation.definition.comment.begin.js
 //               ^ source.js comment.block.js
-//                      ^ source.js comment.block.js punctuation.definition.comment.js
+//                      ^ source.js comment.block.js punctuation.definition.comment.end.js
 //                        ^ source.js meta.class.js punctuation.definition.class.body.begin.js
 //                          ^ source.js meta.class.js punctuation.definition.class.body.end.js
 
@@ -18,9 +18,9 @@ class
       OtherClass
 //    ^ source.js meta.class.js variable.other.readwrite.js
         /* Class */
-//      ^ source.js comment.block.js punctuation.definition.comment.js
+//      ^ source.js comment.block.js punctuation.definition.comment.begin.js
 //         ^ source.js comment.block.js
-//               ^ source.js comment.block.js punctuation.definition.comment.js
+//               ^ source.js comment.block.js punctuation.definition.comment.end.js
           { }
 //        ^ source.js meta.class.js punctuation.definition.class.body.begin.js
 //          ^ source.js meta.class.js punctuation.definition.class.body.end.js
@@ -46,8 +46,8 @@ class MyClass extends OtherClass {
 // ^ source.js meta.class.js meta.method.js entity.name.method.js
 
   /* comments */
-  // <- source.js comment.block.js punctuation.definition.comment.js
+  // <- source.js comment.block.js punctuation.definition.comment.begin.js
   // ^ source.js comment.block.js
-  //          ^ source.js comment.block.js punctuation.definition.comment.js
+  //          ^ source.js comment.block.js punctuation.definition.comment.end.js
 }
 // <- source.js meta.class.js punctuation.definition.class.body.end.js
