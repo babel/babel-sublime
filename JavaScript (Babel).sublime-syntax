@@ -138,7 +138,7 @@ contexts:
 
   literal-class:
     # e.g. class MyClass extends OtherClass {  }
-    - match: (?<!\.)\b(?=class)\b
+    - match: (?<!\.)(?=\b(class)\b)
       push: class_def
 
   class_def:
