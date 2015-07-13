@@ -35,7 +35,6 @@ contexts:
     - include: literal-prototype
     - include: literal-regexp
     - include: literal-number
-    - include: literal-quasi
     - include: literal-string
     - include: literal-language-constant
     - include: literal-language-variable
@@ -616,6 +615,13 @@ contexts:
       scope: meta.function-call.with-arguments.js
       captures:
         1: variable.function.js
+    - match: >-
+        (?x)
+        ({{ident}})\s*
+        (?=`)
+      scope: meta.function-call.tagged.js
+      captures:
+        1: variable.function.js
 
   literal-method-call:
     - match: >-
@@ -876,27 +882,6 @@ contexts:
     - match: ","
       scope: meta.delimiter.comma.js
 
-  literal-quasi:
-    - match: '([a-zA-Z$_][\w$_]*)?(`)'
-      captures:
-        1: entity.quasi.tag.name.js
-        2: punctuation.definition.quasi.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quasi.js
-        - match: "`"
-          scope: punctuation.definition.quasi.end.js
-          pop: true
-        - include: string-content
-        - match: '\${'
-          scope: punctuation.quasi.element.begin.js
-          push:
-            - meta_scope: entity.quasi.element.js
-            - match: "}"
-              scope: punctuation.quasi.element.end.js
-              pop: true
-            - include: expression
-
   literal-regexp:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
     #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
@@ -921,28 +906,36 @@ contexts:
         - include: scope:source.regexp.js
 
   literal-string:
-    - match: "'"
-      scope: punctuation.definition.string.begin.js
+    - match: (["''])
+      scope: punctuation.definition.string.quoted.begin.js
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
-        - match: (')|(\n)
-          captures:
-            1: punctuation.definition.string.end.js
-            2: invalid.illegal.newline.js
+        - meta_scope: string.quoted.js
+        - match: '\n'
+          scope: invalid.illegal.newline.js
+          pop: true
+        - match: '\1'
+          scope: punctuation.definition.string.quoted.end.js
           pop: true
         - include: string-content
-    - match: '"'
-      scope: punctuation.definition.string.begin.js
+
+    - match: '`'
+      scope: punctuation.definition.string.interpolated.begin.js
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.js
-            2: invalid.illegal.newline.js
+        - meta_scope: string.interpolated.js
+        - match: '`'
+          scope: punctuation.definition.string.interpolated.end.js
           pop: true
         - include: string-content
+        - match: '\${'
+          scope: punctuation.definition.string.interpolated.element.begin.js
+          push:
+            - meta_scope: source.js
+            - match: "}"
+              scope: punctuation.definition.string.interpolated.element.end.js
+              pop: true
+            - include: expressions
 
   string-content:
     - match: \\\s*\n
