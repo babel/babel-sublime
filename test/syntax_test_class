@@ -1,0 +1,53 @@
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
+
+class MyClass /* Class */ { }
+// ^ source.js meta.class.js storage.type.class.js
+//    ^ source.js meta.class.js entity.name.class.js
+//            ^ source.js comment.block.js punctuation.definition.comment.begin.js
+//               ^ source.js comment.block.js
+//                      ^ source.js comment.block.js punctuation.definition.comment.end.js
+//                        ^ source.js meta.class.js punctuation.definition.class.body.begin.js
+//                          ^ source.js meta.class.js punctuation.definition.class.body.end.js
+
+class
+// ^ source.js meta.class.js storage.type.class.js
+  MyClass
+// ^ source.js meta.class.js entity.name.class.js
+    extends
+//  ^ source.js meta.class.js storage.type.extends.js
+      OtherClass
+//    ^ source.js meta.class.js variable.other.readwrite.js
+        /* Class */
+//      ^ source.js comment.block.js punctuation.definition.comment.begin.js
+//         ^ source.js comment.block.js
+//               ^ source.js comment.block.js punctuation.definition.comment.end.js
+          { }
+//        ^ source.js meta.class.js punctuation.definition.class.body.begin.js
+//          ^ source.js meta.class.js punctuation.definition.class.body.end.js
+
+class MyClass extends OtherClass {
+  static myProp = {someValue: 42};
+// ^ source.js meta.class.js storage.type.static.js
+//       ^ source.js meta.class.js variable.other.property.js
+//              ^ source.js meta.class.js storage.type.js
+//                ^ source.js meta.class.js meta.group.braces.curly meta.brace.curly.js
+//                              ^ source.js meta.class.js meta.group.braces.curly meta.brace.curly.js
+
+  myProp = {someValue: 42};
+// ^ source.js meta.class.js variable.other.property.js
+//       ^ source.js meta.class.js storage.type.js
+//         ^ source.js meta.class.js meta.group.braces.curly meta.brace.curly.js
+//                       ^ source.js meta.class.js meta.group.braces.curly meta.brace.curly.js
+
+  @autobind
+  // <- source.js meta.class.js tag.decorator.js punctuation.definition.tag.js
+  // ^ source.js meta.class.js tag.decorator.js entity.name.tag.js
+  getValue() { }
+// ^ source.js meta.class.js meta.method.js entity.name.function.js
+
+  /* comments */
+  // <- source.js comment.block.js punctuation.definition.comment.begin.js
+  // ^ source.js comment.block.js
+  //          ^ source.js comment.block.js punctuation.definition.comment.end.js
+}
+// <- source.js meta.class.js punctuation.definition.class.body.end.js

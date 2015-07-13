@@ -35,7 +35,6 @@ contexts:
     - include: literal-prototype
     - include: literal-regexp
     - include: literal-number
-    - include: literal-quasi
     - include: literal-string
     - include: literal-language-constant
     - include: literal-language-variable
@@ -85,36 +84,32 @@ contexts:
     - include: curly-brackets
 
   comments:
-    - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_scope: comment.block.documentation.js
-        - match: \*/
-          scope: punctuation.definition.comment.js
-          pop: true
-
     - match: /\*
-      scope: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.begin.js
       push:
         - meta_scope: comment.block.js
         - match: \*/
-          scope: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.end.js
+          pop: true
+
+    - match: //
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_scope: comment.line.double-slash.js
+        - match: $
+          pop: true
+
+    - match: ^#!
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_scope: comment.line.shebang.js
+        - match: $
           pop: true
 
     - match: (<!--|-->)
       scope: comment.block.html.js
       captures:
         0: punctuation.definition.comment.js
-
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.js
-      captures:
-        1: punctuation.definition.comment.js
-
-    - match: ^(#!).*$\n?
-      scope: comment.line.shebang.js
-      captures:
-        1: punctuation.definition.comment.js
 
   function-declaration-parameters:
     - match: '\('
@@ -142,35 +137,44 @@ contexts:
       scope: keyword.operator.module.js
 
   literal-class:
-    # e.g. class MyClass {  }
-    - match: >-
-        (?x)
-          (?<!\.)\b(class)
-          \s+((?!\b(extends)\b){{ident}})?
-      captures:
-        1: storage.type.class.js
-        2: entity.name.class.js
-      push:
-        - meta_scope: meta.class.js
-        - match: "}"
-          scope: meta.brace.curly.js
+    # e.g. class MyClass extends OtherClass {  }
+    - match: (?<!\.)\b(?=class)\b
+      push: class_def
+
+  class_def:
+    - meta_scope: meta.class.js
+    - match: \b(class)\b
+      scope: storage.type.class.js
+      push: [class_body, class_extends, class_name]
+    - match: "(?<=})"
+      pop: true
+
+  class_name:
+    - match: '\b{{ident}}\b'
+      scope: entity.name.class.js
+      pop: true
+
+  class_extends:
+    - match: \b(extends)\b
+      scope: storage.type.extends.js
+      set:
+        - match: "(?={)"
           pop: true
-        - match: \bextends\b
-          scope: storage.type.extends.js
-          push:
-            - meta_scope: meta.class.extends.js
-            - match: "(?={)"
-              pop: true
-            - include: expression
-        - match: "{"
-          scope: meta.brace.curly.js
-          push:
-            - match: "(?=})"
-              pop: true
-            - include: brackets
-            - include: es7-decorators
-            - include: es7-class-properties
-            - include: literal-method
+        - include: expression
+    - match: "(?={)"
+      pop: true
+
+  class_body:
+    - match: "{"
+      scope: punctuation.definition.class.body.begin.js
+      set:
+        - match: "}"
+          scope: punctuation.definition.class.body.end.js
+          pop: true
+        - include: brackets
+        - include: es7-decorators
+        - include: es7-class-properties
+        - include: literal-method
 
   literal-method:
     # e.g. play(arg1, arg2) {  }
@@ -184,7 +188,7 @@ contexts:
         1: storage.type.js
         2: storage.type.js
         3: keyword.generator.asterisk.js
-        4: entity.name.method.js
+        4: entity.name.function.js
       push:
         - meta_scope: meta.method.js
         - match: (?<=\))
@@ -602,7 +606,7 @@ contexts:
           (\(\s*\))
       scope: meta.function-call.without-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
         2: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
@@ -610,7 +614,14 @@ contexts:
         (?=\()
       scope: meta.function-call.with-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
+    - match: >-
+        (?x)
+        ({{ident}})\s*
+        (?=`)
+      scope: meta.function-call.tagged.js
+      captures:
+        1: variable.function.js
 
   literal-method-call:
     - match: >-
@@ -623,7 +634,7 @@ contexts:
       captures:
         1: variable.other.class.js
         2: keyword.operator.accessor.js
-        3: entity.name.function.js
+        3: variable.function.js
         4: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
@@ -635,7 +646,7 @@ contexts:
       captures:
         1: variable.other.class.js
         2: keyword.operator.accessor.js
-        3: entity.name.function.js
+        3: variable.function.js
     - match: >-
         (?x)
           (?<=\.)
@@ -643,7 +654,7 @@ contexts:
           (\(\s*\))
       scope: meta.function-call.method.without-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
         2: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
@@ -652,7 +663,7 @@ contexts:
           (?=\()
       scope: meta.function-call.method.with-arguments.js
       captures:
-        1: entity.name.function.js
+        1: variable.function.js
 
   literal-language-variable:
     - match: (?<!(?<!\.\.)\.)\barguments\b
@@ -693,7 +704,7 @@ contexts:
         - include: support
         - match: '([_$a-zA-Z][$\w.]*\.)?({{ident}})'
           captures:
-            2: entity.name.type.new.js
+            2: variable.function.constructor.js
 
   literal-keyword-storage:
     - match: (?<!\.)\b(?>const|let|var)\b
@@ -871,27 +882,6 @@ contexts:
     - match: ","
       scope: meta.delimiter.comma.js
 
-  literal-quasi:
-    - match: '([a-zA-Z$_][\w$_]*)?(`)'
-      captures:
-        1: entity.quasi.tag.name.js
-        2: punctuation.definition.quasi.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quasi.js
-        - match: "`"
-          scope: punctuation.definition.quasi.end.js
-          pop: true
-        - include: string-content
-        - match: '\${'
-          scope: punctuation.quasi.element.begin.js
-          push:
-            - meta_scope: entity.quasi.element.js
-            - match: "}"
-              scope: punctuation.quasi.element.end.js
-              pop: true
-            - include: expression
-
   literal-regexp:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
     #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
@@ -916,28 +906,36 @@ contexts:
         - include: scope:source.regexp.js
 
   literal-string:
-    - match: "'"
-      scope: punctuation.definition.string.begin.js
+    - match: (["''])
+      scope: punctuation.definition.string.quoted.begin.js
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
-        - match: (')|(\n)
-          captures:
-            1: punctuation.definition.string.end.js
-            2: invalid.illegal.newline.js
+        - meta_scope: string.quoted.js
+        - match: '\n'
+          scope: invalid.illegal.newline.js
+          pop: true
+        - match: '\1'
+          scope: punctuation.definition.string.quoted.end.js
           pop: true
         - include: string-content
-    - match: '"'
-      scope: punctuation.definition.string.begin.js
+
+    - match: '`'
+      scope: punctuation.definition.string.interpolated.begin.js
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.js
-            2: invalid.illegal.newline.js
+        - meta_scope: string.interpolated.js
+        - match: '`'
+          scope: punctuation.definition.string.interpolated.end.js
           pop: true
         - include: string-content
+        - match: '\${'
+          scope: punctuation.definition.string.interpolated.element.begin.js
+          push:
+            - meta_scope: source.js
+            - match: "}"
+              scope: punctuation.definition.string.interpolated.element.end.js
+              pop: true
+            - include: expressions
 
   string-content:
     - match: \\\s*\n
@@ -1192,21 +1190,19 @@ contexts:
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:
-    - match: >-
-        (?x)
-          \b(static)?
-          \s*
-          \b({{ident}})\s*(=)
+    - match: \b(static)?\s*\b({{ident}})\s*(=)\s*
       captures:
-        1: storage.type.js
+        1: storage.type.static.js
         2: variable.other.property.js
         3: storage.type.js
+      push:
+        - include: expression
+        - match: ''
+          pop: true
 
   # https://github.com/wycats/javascript-decorators
   es7-decorators:
-    - match: >-
-        (?x)
-          (@)([_$a-zA-Z][$\w]*)\b
+    - match: (@)([_$a-zA-Z][$\w]*)\b
       scope: tag.decorator.js
       captures:
         1: punctuation.definition.tag.js
