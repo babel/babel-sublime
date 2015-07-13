@@ -142,35 +142,44 @@ contexts:
       scope: keyword.operator.module.js
 
   literal-class:
-    # e.g. class MyClass {  }
-    - match: >-
-        (?x)
-          (?<!\.)\b(class)
-          \s+((?!\b(extends)\b){{ident}})?
-      captures:
-        1: storage.type.class.js
-        2: entity.name.class.js
-      push:
-        - meta_scope: meta.class.js
-        - match: "}"
-          scope: meta.brace.curly.js
+    # e.g. class MyClass extends OtherClass {  }
+    - match: (?<!\.)\b(?=class)\b
+      push: class_def
+
+  class_def:
+    - meta_scope: meta.class.js
+    - match: \b(class)\b
+      scope: storage.type.class.js
+      push: [class_body, class_extends, class_name]
+    - match: "(?<=})"
+      pop: true
+
+  class_name:
+    - match: '\b{{ident}}\b'
+      scope: entity.name.class.js
+      pop: true
+
+  class_extends:
+    - match: \b(extends)\b
+      scope: storage.type.extends.js
+      set:
+        - match: "(?={)"
           pop: true
-        - match: \bextends\b
-          scope: storage.type.extends.js
-          push:
-            - meta_scope: meta.class.extends.js
-            - match: "(?={)"
-              pop: true
-            - include: expression
-        - match: "{"
-          scope: meta.brace.curly.js
-          push:
-            - match: "(?=})"
-              pop: true
-            - include: brackets
-            - include: es7-decorators
-            - include: es7-class-properties
-            - include: literal-method
+        - include: expression
+    - match: "(?={)"
+      pop: true
+
+  class_body:
+    - match: "{"
+      scope: punctuation.definition.class.body.begin.js
+      set:
+        - match: "}"
+          scope: punctuation.definition.class.body.end.js
+          pop: true
+        - include: brackets
+        - include: es7-decorators
+        - include: es7-class-properties
+        - include: literal-method
 
   literal-method:
     # e.g. play(arg1, arg2) {  }
@@ -1192,21 +1201,19 @@ contexts:
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:
-    - match: >-
-        (?x)
-          \b(static)?
-          \s*
-          \b({{ident}})\s*(=)
+    - match: \b(static)?\s*\b({{ident}})\s*(=)\s*
       captures:
-        1: storage.type.js
+        1: storage.type.static.js
         2: variable.other.property.js
         3: storage.type.js
+      push:
+        - include: expression
+        - match: ''
+          pop: true
 
   # https://github.com/wycats/javascript-decorators
   es7-decorators:
-    - match: >-
-        (?x)
-          (@)([_$a-zA-Z][$\w]*)\b
+    - match: (@)([_$a-zA-Z][$\w]*)\b
       scope: tag.decorator.js
       captures:
         1: punctuation.definition.tag.js
