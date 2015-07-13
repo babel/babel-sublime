@@ -1,0 +1,28 @@
+babel-sublime
+-------------
+
+Big improvements are coming soon to support flow type annotations. You may
+already start to notice some of them, like ES7 property initializers getting
+properly matched. But it's coming at a cost:
+
+There are currently two syntax definitions supporting different builds of
+Sublime Text 3 (ST2 doesn't work with either). One is the evolution of the
+other using Sublime's new "sublime-syntax" format. That new format allows for
+more complex matches, thus paving the way for flow support. If you're using
+Sublime Text 3 dev then you're already using the new syntax, if you're
+using the beta, then you're still using the old syntax.
+
+Here's the plan:
+
+1. Once the next Sublime Text 3 beta build comes out (whenever that is), I'll
+be removing the old syntax from the package. Since, that means that most
+(if not all) users will be able to use the new syntax. If you still need
+the old syntax, Don't Panic, you can clone the repo and run it like that.
+I'll put up instructions if that's thing someone wants.
+
+2. "Monokai Phoenix" will also go away. If you're running ST3 dev, and you're
+using Monokai Phoenix, you can already switch the stock Monokai and things
+will look mostly the same. The new syntax uses more generic scope names that
+make it more theme friendly.
+
+That's all.
