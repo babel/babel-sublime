@@ -4,5 +4,4 @@ uuid: 003b7720-9497-49e9-86ed-06c837765a00
 scope: source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js, source.js meta.prototype.function.arrow.js, source.js meta.class.js entity.name.class.js
 settings:
   showInSymbolList: '1'
-  showInIndexedSymbolList: '1'
-  symbolTransformation: s/\s+/ /g;
+  symbolTransformation: s/^\s+//g; s/\s+/ /g;

@@ -1,0 +1,4 @@
+# [PackageDev] target_format: plist, ext: tmPreferences
+scope: source.js meta.function.js entity.name.function.js, meta.class.js entity.name.class.js, entity.name.method.js, entity.name.accessor.js
+settings:
+  showInIndexedSymbolList: '1'
