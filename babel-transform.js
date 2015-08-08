@@ -29,10 +29,7 @@ if (opts.filename) opts.options.filename = opts.filename;
   }
 
   function resolveGlobal() {
-    var OS = process.platform === 'darwin' ? 'osx' :
-             process.platform === 'win32'  ? 'windows' :
-                                             'linux';
-    findBabel(opts.node_modules[OS], function() {
+    findBabel(opts.node_modules, function() {
       throw new Error('Couldn\'t find babel or babel-core');
     });
   }
@@ -53,7 +50,7 @@ if (opts.filename) opts.options.filename = opts.filename;
       if (opts.debug) {
         code += debugLog;
       }
-      if (opts.ensure_newline_at_eof && code[code.length - 1] !== '\n') {
+      if (opts.newline_at_eof && code[code.length - 1] !== '\n') {
         code += '\n';
       }
       process.stdout.write(code);
