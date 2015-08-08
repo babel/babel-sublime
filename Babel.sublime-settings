@@ -1,6 +1,5 @@
 {
   "debug": false,
-  "ensure_newline_at_eof": true,
   "use_local_babel": true,
   "node_modules": {
     "windows": "C:/Program Files/nodejs/node_modules",

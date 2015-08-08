@@ -53,7 +53,7 @@ if (opts.filename) opts.options.filename = opts.filename;
       if (opts.debug) {
         code += debugLog;
       }
-      if (opts.ensure_newline_at_eof && code[code.length - 1] !== '\n') {
+      if (opts.newline_at_eof && code[code.length - 1] !== '\n') {
         code += '\n';
       }
       process.stdout.write(code);

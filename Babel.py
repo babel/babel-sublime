@@ -30,9 +30,11 @@ class BabelCommand(sublime_plugin.TextCommand):
 	def babelify(self, data):
 		try:
 			return node_bridge(data, BIN_PATH, [json.dumps({
+				# from sublime
 				'filename': self.view.file_name(),
+				'newline_at_eof': self.view.settings().get('ensure_newline_at_eof_on_save'),
+				# from babel-sublime settings
 				'debug': self.get_setting('debug'),
-				'ensure_newline_at_eof': self.get_setting('ensure_newline_at_eof'),
 				'use_local_babel': self.get_setting('use_local_babel'),
 				'node_modules': self.get_setting('node_modules'),
 				'options': self.get_setting('options')
