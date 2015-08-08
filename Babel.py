@@ -9,6 +9,13 @@ import subprocess
 sublime.Region.totuple = lambda self: (self.a, self.b)
 sublime.Region.__iter__ = lambda self: self.totuple().__iter__()
 
+if platform.system() == 'Darwin':
+	os_name = 'osx'
+elif  platform.system() == 'Windows':
+	os_name = 'windows'
+else:
+	os_name = 'linux'
+
 BIN_PATH = os.path.join(
 	sublime.packages_path(),
 	os.path.dirname(os.path.realpath(__file__)),
@@ -36,7 +43,7 @@ class BabelCommand(sublime_plugin.TextCommand):
 				# from babel-sublime settings
 				'debug': self.get_setting('debug'),
 				'use_local_babel': self.get_setting('use_local_babel'),
-				'node_modules': self.get_setting('node_modules'),
+				'node_modules': self.get_setting_by_os('node_modules'),
 				'options': self.get_setting('options')
 			})])
 		except Exception as e:
@@ -65,15 +72,20 @@ class BabelCommand(sublime_plugin.TextCommand):
 			settings = sublime.load_settings('Babel.sublime-settings')
 		return settings.get(key)
 
+	def get_setting_by_os(self, key):
+		setting = self.get_setting(key)
+		if setting:
+			return setting.get(os_name)
+
 
 def node_bridge(data, bin, args=[]):
 	env = None
 	startupinfo = None
-	if platform.system() == 'Darwin':
+	if os_name == 'osx':
 		# GUI apps in OS X doesn't contain .bashrc/.zshrc set paths
 		env = os.environ.copy()
 		env['PATH'] += ':/usr/local/bin'
-	if platform.system() == 'Windows':
+	elif os_name == 'windows':
 		startupinfo = subprocess.STARTUPINFO()
 		startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 	try:

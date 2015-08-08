@@ -29,10 +29,7 @@ if (opts.filename) opts.options.filename = opts.filename;
   }
 
   function resolveGlobal() {
-    var OS = process.platform === 'darwin' ? 'osx' :
-             process.platform === 'win32'  ? 'windows' :
-                                             'linux';
-    findBabel(opts.node_modules[OS], function() {
+    findBabel(opts.node_modules, function() {
       throw new Error('Couldn\'t find babel or babel-core');
     });
   }
