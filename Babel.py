@@ -1,27 +1,29 @@
+import json
+import os
+import platform
 import sublime
 import sublime_plugin
-import json
-from os.path import dirname, realpath, join
-
-from .node_bridge import node_bridge
+import subprocess
 
 # monkeypatch `Region` to be iterable
 sublime.Region.totuple = lambda self: (self.a, self.b)
 sublime.Region.__iter__ = lambda self: self.totuple().__iter__()
 
-BIN_PATH = join(sublime.packages_path(), dirname(realpath(__file__)), 'babel-transform.js')
+BIN_PATH = os.path.join(
+	sublime.packages_path(),
+	os.path.dirname(os.path.realpath(__file__)),
+	'babel-transform.js'
+)
 
 class BabelCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		view = self.view
-
 		selected_text = self.get_text()
 		code = self.babelify(selected_text)
 
 		if code:
-			w = sublime.Window.new_file(view.window())
+			w = sublime.Window.new_file(self.view.window())
 			w.settings().set('default_extension', 'js')
-			w.set_syntax_file(view.settings().get('syntax'))
+			w.set_syntax_file(self.view.settings().get('syntax'))
 			w.set_scratch(True)
 			w.insert(edit, 0, code)
 
@@ -60,3 +62,33 @@ class BabelCommand(sublime_plugin.TextCommand):
 		if settings is None:
 			settings = sublime.load_settings('Babel.sublime-settings')
 		return settings.get(key)
+
+
+def node_bridge(data, bin, args=[]):
+	env = None
+	startupinfo = None
+	if platform.system() == 'Darwin':
+		# GUI apps in OS X doesn't contain .bashrc/.zshrc set paths
+		env = os.environ.copy()
+		env['PATH'] += ':/usr/local/bin'
+	if platform.system() == 'Windows':
+		startupinfo = subprocess.STARTUPINFO()
+		startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+	try:
+		p = subprocess.Popen(
+			['node', bin] + args,
+			stdout=subprocess.PIPE,
+			stdin=subprocess.PIPE,
+			stderr=subprocess.PIPE,
+			env=env,
+			startupinfo=startupinfo
+		)
+	except OSError:
+		raise Exception('Error: Couldn\'t find "node" in "%s"' % env['PATH'])
+	stdout, stderr = p.communicate(input=data.encode('utf-8'))
+	stdout = stdout.decode('utf-8')
+	stderr = stderr.decode('utf-8')
+	if stderr:
+		raise Exception('Error: %s' % stderr)
+	else:
+		return stdout
