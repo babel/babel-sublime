@@ -244,7 +244,7 @@ contexts:
       push:
         - meta_scope: meta.function.js
         - match: (?<=\))
-          pop: true
+          set: flow-annotations
         - include: function-declaration-parameters
 
     # e.g. play = function(arg1, arg2) {  }
@@ -1187,6 +1187,22 @@ contexts:
         - match: (?=</)
           pop: true
         - include: jsx-children
+
+  flow-definition:
+    - match: (<|>|\?)
+      scope: punctuation.definition.type.js
+    - match: \w*
+      scope: support.type.js
+
+  flow-annotations:
+    - match: ':'
+      scope: keyword.operator.type.js
+      set:
+        - match: (?=\{|;)
+          pop: true
+        - include: flow-definition
+    - match: (?=\{)
+      pop: true
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:
