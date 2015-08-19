@@ -1054,51 +1054,80 @@ contexts:
           pop: true
 
 
-  jsx-tag-attributes:
-    - include: jsx-tag-attribute-name
-    - include: jsx-tag-attribute-assignment
-    - include: jsx-string-double-quoted
-    - include: jsx-string-single-quoted
-    - include: jsx-evaluated-code
-
-  jsx-tag-attribute-name:
+  jsx:
+    # only *begin* a jsx block if it looks like it's in a place where you'd
+    # normally put jsx. once inside a jsx block any "<tag" will push a new
+    # "jsx-element" context.
     - match: >-
         (?x)
-          \s*
-          ([_$a-zA-Z][-$\w]*)
-          (?=\s|=|/?>|/\*|//)
-      scope: meta.tag.attribute-name.js
+          (?<=
+            \(        |
+            ,         |
+            &&        |
+            \|\|      |
+            \?        |
+            :         |
+            =         |
+            \Wreturn  |
+            ^return   |
+            ^
+          )\s*(?=<[_$a-zA-Z][-$\w.]*)
+      push: jsx-element
+
+  jsx-element:
+    - match: (<)([_$a-zA-Z][-$\w.]*)
       captures:
-        1: entity.other.attribute-name.js
+        1: punctuation.definition.tag.begin.js
+        2: entity.name.tag.js
+      set:
+        - meta_scope: tag.open.js
+        - match: '(?=[{_$a-zA-Z])'
+          push: jsx-attributes
+        - match: '/>'
+          scope: punctuation.definition.tag.end.js
+          pop: true
+        - match: '>'
+          scope: punctuation.definition.tag.end.js
+          set:
+            - match: (?=<[_$a-zA-Z][-$\w.]*)
+              push: jsx-element
+            - match: (</)([_$a-zA-Z][-$\w.]*)(>)
+              scope: tag.close.js
+              captures:
+                1: punctuation.definition.tag.end.js
+                2: entity.name.tag.js
+                3: punctuation.definition.tag.end.js
+              pop: true
+            - match: (?={)
+              push: jsx-evaluated-code
+            - include: jsx-entities
 
-  jsx-tag-attribute-assignment:
-    - match: '=(?=\s*(?:''|"|{|/\*|//|\n))'
+  jsx-attributes:
+    - meta_scope: meta.tag.attribute.js
+    - match: '[_$a-zA-Z][-$\w]*'
+      scope: entity.other.attribute-name.js
+    - match: '='
       scope: keyword.operator.assignment.js
-
-  jsx-string-double-quoted:
-    - match: '"'
-      scope: punctuation.definition.string.begin.js
+    - match: (["''])
+      scope: punctuation.definition.string.quoted.begin.js
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
-        - match: '"'
-          scope: punctuation.definition.string.end.js
+        - meta_scope: string.quoted.js
+        - match: '\n'
+          scope: invalid.illegal.newline.js
+          pop: true
+        - match: '\1'
+          scope: punctuation.definition.string.quoted.end.js
           pop: true
         - include: jsx-entities
-
-  jsx-string-single-quoted:
-    - match: "'"
-      scope: punctuation.definition.string.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
-        - match: "'"
-          scope: punctuation.definition.string.end.js
-          pop: true
-        - include: jsx-entities
+        - include: string-content
+    - match: (?={)
+      push: jsx-evaluated-code
+    - match: (?=/?>)
+      pop: true
 
   jsx-entities:
-    - match: "(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)"
+    - match: '(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)'
       scope: constant.character.entity.js
       captures:
         1: punctuation.definition.entity.js
@@ -1107,86 +1136,14 @@ contexts:
       scope: invalid.illegal.bad-ampersand.js
 
   jsx-evaluated-code:
-    - match: "{"
+    - match: '{'
       scope: punctuation.definition.brace.curly.start.js
-      push:
+      set:
         - meta_scope: meta.brace.curly.js
-        - match: "}"
+        - match: '}'
           scope: punctuation.definition.brace.curly.end.js
           pop: true
         - include: expression
-
-  jsx-tag-attributes-illegal:
-    - match: \S*
-      scope: invalid.illegal.attribute.js
-
-  jsx-tag-without-attributes:
-    - match: '(<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)'
-      captures:
-        1: punctuation.definition.tag.begin.js
-        2: entity.name.tag.js
-        3: punctuation.definition.tag.end.js
-      push:
-        - meta_scope: tag.without-attributes.js
-        - match: '(</)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)'
-          captures:
-            1: punctuation.definition.tag.begin.js
-            2: entity.name.tag.js
-            3: punctuation.definition.tag.end.js
-          pop: true
-        - include: jsx-children
-
-  jsx-tag-open:
-    - match: >-
-        (?x)
-          (<)
-          ([_$a-zA-Z][-$\w.]*(?<!\.|-))
-          (?=\s+(?!\?)|/?>)
-      captures:
-        1: punctuation.definition.tag.begin.js
-        2: entity.name.tag.js
-      push:
-        - meta_scope: tag.open.js
-        - match: '/?>'
-          scope: punctuation.definition.tag.end.js
-          pop: true
-        - include: jsx-tag-attributes
-        - include: jsx-tag-attributes-illegal
-
-  jsx-tag-close:
-    - match: '(</)([_$a-zA-Z][-$\w.]*(?<!\.|-))'
-      captures:
-        1: punctuation.definition.tag.begin.js
-        2: entity.name.tag.js
-      push:
-        - meta_scope: tag.close.js
-        - match: ">"
-          scope: punctuation.definition.tag.end.js
-          pop: true
-
-  jsx-tag-invalid:
-    - match: <\s*>
-      scope: invalid.illegal.tag.incomplete.js
-
-  jsx-children:
-    - include: jsx-tag-without-attributes
-    - include: jsx-tag-open
-    - include: jsx-tag-close
-    - include: jsx-tag-invalid
-    - include: jsx-evaluated-code
-    - include: jsx-entities
-
-  jsx:
-    - include: jsx-tag-without-attributes
-    - include: jsx-tag-open
-    - include: jsx-tag-close
-    - include: jsx-tag-invalid
-    - match: '(?<=(?:''|"|})>)'
-      push:
-        - meta_scope: meta.jsx.children.js
-        - match: (?=</)
-          pop: true
-        - include: jsx-children
 
   flow-definition:
     - match: (<|>|\?)
