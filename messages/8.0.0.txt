@@ -1,0 +1,14 @@
+babel-sublime
+-------------
+
+If you're on the Sublime Text 3 dev channel and using the latest Sublime
+build, you should now see substantially improved JSX matching:
+
+  1. A few lingering edge-cases w.r.t. JSXText have been fixed.
+
+  2. JSX matching won't interfere with Flow annotations. This is a huge step
+     towards full Flow support. Before, some Flow arrays got matched as JSX
+     and that made a mess. Now, they won't get matched, and at worst it just
+     looks plain.
+
+That's it.
