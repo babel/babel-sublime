@@ -22,8 +22,10 @@ export default React.createClass({
 
   render() {
     var {email} = this.state;
+    var list = this.props.secondary.map(pic => <img src={pic} />)}
     return (
       <div {...this.props}>
+        {list}
         <input /*cmt*/
           /*cmt*/value/*cmt*/=/*cmt*/{email}/*cmt*/
           onChange={/*cmt*/this.onChange/*cmt*/}
