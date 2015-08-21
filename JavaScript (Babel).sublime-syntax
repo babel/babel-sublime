@@ -96,7 +96,7 @@ contexts:
       scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.line.double-slash.js
-        - match: $
+        - match: $\n?
           pop: true
 
     - match: ^#!
