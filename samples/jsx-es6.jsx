@@ -26,6 +26,7 @@ export default React.createClass({
     return (
       <div {...this.props} overlay={<div>test</div>}>
         {list}
+        {[<span>in an array</span>]}
         <input /*cmt*/
           /*cmt*/value/*cmt*/=/*cmt*/{email}/*cmt*/
           onChange={/*cmt*/this.onChange/*cmt*/}
