@@ -921,21 +921,22 @@ contexts:
 
     - match: '`'
       scope: punctuation.definition.string.interpolated.begin.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.interpolated.js
-        - match: '`'
-          scope: punctuation.definition.string.interpolated.end.js
-          pop: true
-        - include: string-content
-        - match: '\${'
-          scope: punctuation.definition.string.interpolated.element.begin.js
-          push:
-            - meta_scope: source.js
-            - match: "}"
-              scope: punctuation.definition.string.interpolated.element.end.js
-              pop: true
-            - include: expressions
+      push: literal-template-string-inner
+
+  literal-template-string-inner:
+    - meta_include_prototype: false
+    - meta_scope: string.interpolated.js
+    - match: '`'
+      scope: punctuation.definition.string.interpolated.end.js
+      pop: true
+    - include: string-content
+    - match: '\${'
+      scope: punctuation.definition.string.interpolated.element.begin.js
+      set:
+        - match: "}"
+          scope: punctuation.definition.string.interpolated.element.end.js
+          set: literal-template-string-inner
+        - include: expression
 
   string-content:
     - match: \\\s*\n
