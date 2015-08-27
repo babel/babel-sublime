@@ -935,7 +935,7 @@ contexts:
             - match: "}"
               scope: punctuation.definition.string.interpolated.element.end.js
               pop: true
-            - include: expressions
+            - include: expression
 
   string-content:
     - match: \\\s*\n
