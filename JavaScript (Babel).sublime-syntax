@@ -931,10 +931,10 @@ contexts:
       pop: true
     - include: string-content
     - match: '\${'
-      scope: punctuation.definition.string.interpolated.element.begin.js
+      scope: keyword.operator.substitution.js
       set:
         - match: "}"
-          scope: punctuation.definition.string.interpolated.element.end.js
+          scope: keyword.operator.substitution.js
           set: literal-template-string-inner
         - include: expression
 
