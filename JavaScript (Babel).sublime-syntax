@@ -1075,11 +1075,11 @@ contexts:
             \Wreturn  |
             ^return   |
             ^
-          )\s*(?=<[_$a-zA-Z][-$\w.]*)
+          )\s*(?=<[_$a-zA-Z][-$:.\w]*[$\w]*)
       push: jsx-element
 
   jsx-element:
-    - match: (<)([_$a-zA-Z][-$\w.]*)
+    - match: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       captures:
         1: punctuation.definition.tag.begin.js
         2: entity.name.tag.js
@@ -1093,9 +1093,9 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.js
           set:
-            - match: (?=<[_$a-zA-Z][-$\w.]*)
+            - match: (?=<[_$a-zA-Z][-$:.\w]*[$\w]*)
               push: jsx-element
-            - match: (</)([_$a-zA-Z][-$\w.]*)(>)
+            - match: (</)([_$a-zA-Z][-$:.\w]*[$\w]*)(>)
               scope: tag.close.js
               captures:
                 1: punctuation.definition.tag.end.js
@@ -1117,9 +1117,6 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.js
-        - match: '\n'
-          scope: invalid.illegal.newline.js
-          pop: true
         - match: '\1'
           scope: punctuation.definition.string.quoted.end.js
           pop: true

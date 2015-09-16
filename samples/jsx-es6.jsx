@@ -23,8 +23,11 @@ export default React.createClass({
   render() {
     var {email} = this.state;
     var list = this.props.secondary.map(pic => <img src={pic} />)}
+    var multilineAttr = <a desc="ab
+      cdef"></a>
     return (
       <div {...this.props} overlay={<div>test</div>}>
+        <ns:tag></ns:tag>
         {list}
         {[<span>in an array</span>]}
         <input /*cmt*/
