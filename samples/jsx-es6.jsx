@@ -25,6 +25,7 @@ export default React.createClass({
     var list = this.props.secondary.map(pic => <img src={pic} />)}
     return (
       <div {...this.props} overlay={<div>test</div>}>
+        <ns:tag></ns:tag>
         {list}
         {[<span>in an array</span>]}
         <input /*cmt*/
