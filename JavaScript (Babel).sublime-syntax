@@ -1117,9 +1117,6 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.js
-        - match: '\n'
-          scope: invalid.illegal.newline.js
-          pop: true
         - match: '\1'
           scope: punctuation.definition.string.quoted.end.js
           pop: true
