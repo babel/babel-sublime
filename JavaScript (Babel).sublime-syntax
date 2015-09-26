@@ -853,12 +853,10 @@ contexts:
         2: punctuation.separator.key-value.js
 
   literal-number:
-    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
+    - match: (?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)
       scope: invalid.illegal.numeric.hex.js
-
-    - match: '(?:\B[-+]|\b)0[0-9]+\.(\B|\b[0-9]+)'
+    - match: (?:\B[-+]|\b)0[0-9]+\.(\B|\b[0-9]+)
       scope: invalid.illegal.numeric.octal.js
-
     - match: >-
         (?xi)
           (?:\B[-+])?
@@ -878,13 +876,12 @@ contexts:
   literal-punctuation:
     - match: \;
       scope: punctuation.terminator.statement.js
-
     - match: ","
       scope: meta.delimiter.comma.js
 
   literal-regexp:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
-    #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
+    # http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
     - match: >-
         (?x)
           (?<=
@@ -918,7 +915,6 @@ contexts:
           scope: punctuation.definition.string.quoted.end.js
           pop: true
         - include: string-content
-
     - match: '`'
       scope: punctuation.definition.string.interpolated.begin.js
       push: literal-template-string-inner
