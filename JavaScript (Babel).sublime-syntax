@@ -906,7 +906,7 @@ contexts:
         - include: scope:source.regexp.js
 
   literal-string:
-    - match: (["''])
+    - match: (["'])
       scope: punctuation.definition.string.quoted.begin.js
       push:
         - meta_include_prototype: false
@@ -941,7 +941,11 @@ contexts:
   string-content:
     - match: \\\s*\n
       scope: constant.character.escape.newline.js
-    - match: '\\(x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)'
+    - match: \\['|"|\\|n|r|t|b|f|0]
+      scope: constant.character.escape.js
+    - match: \\u((\{[0-9a-fA-F]+\})|[0-9a-fA-F]{4})
+      scope: constant.character.escape.js
+    - match: \\x[0-9a-fA-F]{2}
       scope: constant.character.escape.js
 
   literal-variable:
