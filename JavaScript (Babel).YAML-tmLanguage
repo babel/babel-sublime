@@ -1063,9 +1063,6 @@ repository:
         '3': {name: support.function.console.js}
 
     # node
-    - name: support.module.node.js
-      match: (?<!\.)\b(?>assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
-
     - match: (?<!\.)\b(process)(?:(\.)(?:(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule)|(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime)))?\b
       captures:
         '1': {name: support.type.object.process.js}
@@ -1081,9 +1078,6 @@ repository:
 
     - name: support.type.object.node.js
       match: (?<!\.)\b(?>global|GLOBAL|root|__dirname|__filename)\b
-
-    - name: support.class.node.js
-      match: \b(?>Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b
 
     # mustache
     - name: meta.tag.mustache.js
