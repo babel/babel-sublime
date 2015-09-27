@@ -1024,65 +1024,47 @@ repository:
       match: '[_$a-zA-Z][$\w]*'
 
   support:
+    # https://github.com/sindresorhus/globals
     patterns:
-    # built-ins
     - name: support.class.builtin.js
-      match: \b(?>Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b
+      match: \b(Array|ArrayBuffer|Boolean|DataView|Date|Error|EvalError|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|RangeError|ReferenceError|Reflect|RegExp|Set|String|Symbol|SyntaxError|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|URIError|WeakMap|WeakSet)\b
 
-    - name: support.function.js
-      match: (?<!\.)\b(?>decodeURIComponent|decodeURI|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
+    - name: support.class.node.js
+      match: \b(Buffer)\b
 
-    - name: support.function.mutator.js
-      match: (?<=\.)\b(?>shift|sort|splice|unshift|pop|push|reverse)\b
+    - name: support.function.builtin.js
+      match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|undefined|unescape|valueOf)\b
 
-    - name: support.class.error.js
-      match: (?<!\.)\b((?>Eval|Range|Reference|Syntax|Type|URI)?Error)\b
+    - name: support.function.node.js
+      match: (?<!\.)\b(clearImmediate|clearInterval|clearTimeout|require|setImmediate|setInterval|setTimeout)\b
 
-    # debugger
-    - name: keyword.other.js
-      match: (?<!\.)\bdebugger\b
-
-    # dom
     - name: support.type.object.dom.js
-      match: (?<!\.)\b(?>document|window)\b
+      match: (?<!\.)\b(document|window)\b
 
-    - name: support.constant.dom.js
-      match: >-
-        (?x)
-          \b(?>
-            ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
-            DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
-            WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
-          )\b
+    - name: support.type.object.node.js
+      match: (?<!\.)\b(global|GLOBAL|root|__dirname|__filename)\b
 
-    # console
-    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
+    - match: (?<!\.)\b(console)(?:(\.)(assert|count|dir|error|group|groupCollapsed|groupEnd|info|log|profile|profileEnd|table|time|timeEnd|trace|warn))?\b
       captures:
         '1': {name: support.type.object.console.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.function.console.js}
 
-    # node
-    - match: (?<!\.)\b(process)(?:(\.)(?:(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule)|(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime)))?\b
+    - match: (?<!\.)\b(process)(?:(\.)(?:(arch|argv|config|env|execArgv|execPath|exitCode|mainModule|pid|platform|stderr|stdin|stdout|title|version|versions)|(abort|chdir|cwd|exit|getgid|getgroups|getuid|hrtime|initgroups|kill|memoryUsage|nextTick|setgid|setgroups|setuid|umask|uptime)))?\b
       captures:
         '1': {name: support.type.object.process.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.process.js}
         '4': {name: support.function.process.js}
 
-    - match: (?<!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
+    - match: (?<!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b
       captures:
         '1': {name: support.type.object.module.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
 
-    - name: support.type.object.node.js
-      match: (?<!\.)\b(?>global|GLOBAL|root|__dirname|__filename)\b
-
-    # mustache
-    - name: meta.tag.mustache.js
-      begin: '{{'
-      end: '}}'
+    - name: keyword.other.js
+      match: (?<!\.)\b(debugger)\b
 
   jsx-tag-attributes:
     patterns:
