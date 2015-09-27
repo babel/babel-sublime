@@ -54,36 +54,30 @@ repository:
 
   round-brackets:
     patterns:
-    - name: meta.group.braces.round
+    - name: meta.group.round.js
       begin: \(
-      beginCaptures:
-        '0': {name: meta.brace.round.js}
       end: \)
-      endCaptures:
+      captures:
         '0': {name: meta.brace.round.js}
       patterns:
       - include: '#expression'
 
   square-brackets:
     patterns:
-    - name: meta.group.braces.square
+    - name: meta.group.square.js
       begin: \[
-      beginCaptures:
-        '0': {name: meta.brace.square.js}
       end: \]
-      endCaptures:
+      captures:
         '0': {name: meta.brace.square.js}
       patterns:
       - include: '#expression'
 
   curly-brackets:
     patterns:
-    - name: meta.group.braces.curly
+    - name: meta.group.curly.js
       begin: \{
-      beginCaptures:
-        '0': {name: meta.brace.curly.js}
       end: \}
-      endCaptures:
+      captures:
         '0': {name: meta.brace.curly.js}
       patterns:
       - include: $self
