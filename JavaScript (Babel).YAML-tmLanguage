@@ -90,12 +90,6 @@ repository:
 
   comments:
     patterns:
-    - name: comment.block.documentation.js
-      begin: /\*\*(?!/)
-      end: \*/
-      captures:
-        '0': {name: punctuation.definition.comment.js}
-
     - name: comment.block.js
       begin: /\*
       end: \*/
