@@ -7,8 +7,21 @@ first_line_match: ^#!\s*/.*\b(node|js)$\n?
 scope: source.js
 
 variables:
-  ident: '[_$a-zA-Z][$\w]*'
+  any_ident: '[_$a-zA-Z][$\w]*'
   class_ident: '_?[A-Z][$\w]*'
+
+  # for use in function lookaheads
+  gap_ptrn: '(?:\s|/\*.*\*/)*'
+  balanced_parens_ptrn: '(\((?:(?>[^()]+)|\g<-1>)*\))'
+  regular_func_ptrn: '(?:\b(?:async){{gap_ptrn}})?\b(?:function)\b'
+  arrow_func_ptrn:
+    (?x)
+      (?:\b(?:async){{gap_ptrn}})?
+      (?:{{any_ident}}|{{balanced_parens_ptrn}})
+      {{gap_ptrn}}
+      (?::{{gap_ptrn}}\??[\w]*{{gap_ptrn}})?
+      {{gap_ptrn}}
+      =>
 
 contexts:
   main:
@@ -121,7 +134,7 @@ contexts:
           pop: true
         - match: (?<!\.)\.\.\.
           scope: keyword.operator.spread.js
-        - match: '{{ident}}'
+        - match: '{{any_ident}}'
           scope: variable.parameter.function.js
         - match: ","
           scope: punctuation.separator.parameter.function.js
@@ -151,7 +164,7 @@ contexts:
       pop: true
 
   class_name:
-    - match: '\b{{ident}}\b'
+    - match: '\b{{any_ident}}\b'
       scope: entity.name.class.js
       pop: true
 
@@ -183,7 +196,7 @@ contexts:
         (?x)
           (?:\b(static)\s+)?
           (?:\b(async)\s+)?
-          (?:(\*)\s*)?({{ident}})\s*
+          (?:(\*)\s*)?({{any_ident}})\s*
           (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
@@ -201,7 +214,7 @@ contexts:
         (?x)
           \b(?:(static)\s+)?
           (get|set)\s+
-          ({{ident}})\s*
+          ({{any_ident}})\s*
           (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
@@ -215,7 +228,7 @@ contexts:
 
   literal-prototype:
     # e.g. Sound.prototype = {  } when extending an object
-    - match: '({{ident}})(\.)(prototype)\s*(=)\s*'
+    - match: '({{any_ident}})(\.)(prototype)\s*(=)\s*'
       scope: meta.prototype.declaration.js
       captures:
         1: entity.name.class.js
@@ -223,47 +236,119 @@ contexts:
         3: variable.language.prototype.js
 
     # e.g. Sound.prototype
-    - match: '({{ident}})(\.)(prototype)\b'
+    - match: '({{any_ident}})(\.)(prototype)\b'
       scope: meta.prototype.access.js
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: variable.language.prototype.js
 
+  regular-function:
+    - match: \b(async)\b
+      scope: storage.modifier.js
+    - match: \b(function)\b
+      scope: storage.type.function.js
+      push:
+        - match: '{{any_ident}}'
+          scope: entity.name.function.js
+        - match: '\*'
+          scope: keyword.generator.asterisk.js
+        - match: (?=<)
+          push: flow-type-parameter
+        - match: (?=\()
+          pop: true
+    - match: (?=\()
+      push: [flow-type-return, function-params]
+    - match: (?=\{)
+      pop: true
+
+  arrow-function:
+    - match: \b(async)\b
+      scope: storage.modifier.js
+    - match: '{{any_ident}}'
+      scope: variable.parameter.function.js
+    - match: (?=\()
+      push: [flow-type-return, function-params]
+    - match: '=>'
+      scope: storage.type.function.arrow.js
+      pop: true
+
+  function-params:
+    - match: '\('
+      scope: punctuation.definition.parameters.begin.js
+      set:
+        - match: '\)'
+          scope: punctuation.definition.parameters.end.js
+          pop: true
+        - match: (?<!\.)\.\.\.
+          scope: keyword.operator.spread.js
+        - match: '{{any_ident}}'
+          scope: variable.parameter.function.js
+        - match: ","
+          scope: punctuation.separator.parameter.function.js
+        - match: "="
+          scope: keyword.operator.assignment.js
+          push:
+            - meta_scope: meta.parameter.optional.js
+            - match: "(?=[,)])"
+              pop: true
+            - include: expression
+
+  flow-type-return:
+    - match: ':'
+      scope: keyword.flowtype.type-annotation.js
+      push:
+        - meta_scope: meta.flowtype.return.js
+        - match: (?={|=>|;|\n)
+          pop: true
+        - include: flow-type-tokens
+    - match: (?={|=>)
+      pop: true
+
+  flow-type-parameter:
+    - match: '<'
+      scope: keyword.flowtype.type-parameter.js
+      set:
+        - match: '>'
+          scope: keyword.flowtype.type-parameter.js
+          pop: true
+        - include: flow-type-tokens
+
+  flow-type-annotation:
+    - match: ':'
+      scope: keyword.flowtype.type-annotation.js
+      push:
+        - match: (?=,|=|{|\))
+          pop: true
+        - include: flow-type-tokens
+
+  flow-type-tokens:
+    - match: \b(any|boolean|mixed|number|string|void)\b
+      scope: constant.other.primitve.flowtype.js
+    - match: '{{any_ident}}'
+      scope: variable.other.flowtype.js
+    - match: ':'
+      scope: keyword.operator.separator.flowtype.js
+    - match: \?
+      scope: keyword.operator.optional.parameter.flowtype.js
+
+
   literal-function:
+    # e.g. Sound.prototype.play = function(arg1, arg2) {  }
+    # e.g. Sound.play = function(arg1, arg2) {  }
     # e.g. play = function(arg1, arg2) {  }
     # e.g. function play(arg1, arg2) {  }
     - match: >-
         (?x)
-          (?:\b({{ident}})\s*(=)\s*)?
-          (?:\b(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: entity.name.function.js
-        2: keyword.operator.assignment.js
-        3: storage.type.js
-        4: storage.type.function.js
-        5: keyword.generator.asterisk.js
-        6: entity.name.function.js
-      push:
-        - meta_scope: meta.function.js
-        - match: (?<=\))
-          set: flow-annotations
-        - include: function-declaration-parameters
-
-    # e.g. Sound.play = function(arg1, arg2) {  }
-    # e.g. Sound.prototype.play = function(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          \b
-          ({{class_ident}})
-          (?:(\.)(prototype))?
-          (\.)({{ident}})
-          \s*(=)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
+          (?:
+            (?:
+              ({{class_ident}})(\.)
+              (?:(prototype)(\.))?
+            )?
+            ({{any_ident}})\s*(=)
+            (?={{gap_ptrn}}{{regular_func_ptrn}})
+          )|
+          (?={{regular_func_ptrn}})
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -271,15 +356,9 @@ contexts:
         4: keyword.operator.accessor.js
         5: entity.name.function.js
         6: keyword.operator.assignment.js
-        7: storage.type.js
-        8: storage.type.function.js
-        9: keyword.generator.asterisk.js
-        10: entity.name.function.js
       push:
-        - meta_scope: meta.function.method.js
-        - match: (?<=\))
-          set: flow-annotations
-        - include: function-declaration-parameters
+        - meta_scope: meta.function.js
+        - include: regular-function
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }
@@ -290,12 +369,9 @@ contexts:
           (?:
             ((')((?:[^']|\\')*)('))|
             ((")((?:[^"]|\\")*)("))|
-            ({{ident}})
+            ({{any_ident}})
           )
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
+          \s*(:)(?={{gap_ptrn}}{{regular_func_ptrn}})
       captures:
         1: string.quoted.single.js
         2: punctuation.definition.string.begin.js
@@ -307,202 +383,47 @@ contexts:
         8: punctuation.definition.string.end.js
         9: entity.name.function.js
         10: punctuation.separator.key-value.js
-        11: storage.type.js
-        12: storage.type.function.js
-        13: keyword.generator.asterisk.js
-        14: entity.name.function.js
       push:
         - meta_scope: meta.function.json.js
-        - match: (?<=\))
-          set: flow-annotations
-        - include: function-declaration-parameters
+        - include: regular-function
 
   literal-arrow-function:
+    # e.g. Sound.prototype.play = (arg) => { }
+    # e.g. Sound.play = (arg) => { }
+    # e.g. play = (arg) => { }
     # e.g. (args) => { }
     - match: >-
         (?x)
-          (\basync)?\s*
-          (?=\([^()]*\)\s*(=>))
-      captures:
-        1: storage.type.js
-      push:
-        - meta_scope: meta.function.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. arg => { }
-    - match: >-
-        (?x)
-          (\basync)?\s*
-          \b({{ident}})\s*(=>)
-      scope: meta.function.arrow.js
-      captures:
-        1: storage.type.js
-        2: variable.parameter.function.js
-        3: storage.type.function.arrow.js
-
-    # e.g. play = (args) => { }
-    - match: >-
-        (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: entity.name.function.js
-        2: storage.type.js
-      push:
-        - meta_scope: meta.function.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. play = arg => { }
-    - match: >-
-        (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.function.arrow.js
-      captures:
-        1: entity.name.function.js
-        2: storage.type.js
-        3: variable.parameter.function.js
-        4: storage.type.function.arrow.js
-
-    # e.g. Sound.prototype.play = (args) => { }
-    - match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)(prototype)
-          (\.)({{ident}})
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
+          (?:
+            (?:
+              ({{class_ident}})(\.)
+              (?:(prototype)(\.))?
+            )?
+            ({{any_ident}})\s*(=)
+            (?={{gap_ptrn}}{{arrow_func_ptrn}})
+          )|
+          (?={{arrow_func_ptrn}})
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: variable.language.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
-        6: storage.type.js
+        6: keyword.operator.assignment.js
       push:
-        - meta_scope: meta.prototype.function.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. Sound.prototype.play = arg => { }
-    - match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)(prototype)
-          (\.)({{ident}})
-          \s*=
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.prototype.function.arrow.js
-      captures:
-        1: entity.name.class.js
-        2: keyword.operator.accessor.js
-        3: variable.language.prototype.js
-        4: keyword.operator.accessor.js
-        5: entity.name.function.js
-        6: storage.type.js
-        7: variable.parameter.function.js
-        8: storage.type.function.arrow.js
-
-    # e.g. Sound.play = (args) => { }
-    - match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)({{ident}})
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: entity.name.class.js
-        2: keyword.operator.accessor.js
-        3: entity.name.function.js
-        4: storage.type.js
-      push:
-        - meta_scope: meta.function.static.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. Sound.play = arg => { }
-    - match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)({{ident}})
-          \s*=
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.function.static.arrow.js
-      captures:
-        1: entity.name.class.js
-        2: keyword.operator.accessor.js
-        3: entity.name.function.js
-        4: storage.type.js
-        5: variable.parameter.function.js
-        6: storage.type.function.arrow.js
+        - meta_scope: meta.function.arrow.js
+        - include: arrow-function
 
   literal-arrow-function-labels:
-    # e.g. play: (args) => { }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-      push:
-        - meta_scope: meta.function.json.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. play: arg => { }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.function.json.arrow.js
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-        4: variable.parameter.function.js
-        5: storage.type.function.arrow.js
-
-    # e.g. "play": (args) => { }
+    # e.g. play: (arg) => {  }
     - match: >-
         (?x)
           (?:
             ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
+            ((")((?:[^"]|\\")*)("))|
+            ({{any_ident}})
           )
-          \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
+          \s*(:)(?={{gap_ptrn}}{{arrow_func_ptrn}})
       captures:
         1: string.quoted.single.js
         2: punctuation.definition.string.begin.js
@@ -512,45 +433,16 @@ contexts:
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
+        9: entity.name.function.js
+        10: punctuation.separator.key-value.js
       push:
         - meta_scope: meta.function.json.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. "play": arg => { }
-    - match: >-
-        (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.function.json.arrow.js
-      captures:
-        1: string.quoted.single.js
-        2: punctuation.definition.string.begin.js
-        3: entity.name.function.js
-        4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
-        6: punctuation.definition.string.begin.js
-        7: entity.name.function.js
-        8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-        11: variable.parameter.function.js
-        12: storage.type.function.arrow.js
+        - include: arrow-function
 
   literal-function-call:
     - match: >-
         (?x)
-          ({{ident}})\s*
+          ({{any_ident}})\s*
           (\(\s*\))
       scope: meta.function-call.without-arguments.js
       captures:
@@ -558,14 +450,14 @@ contexts:
         2: meta.group.braces.round.function.arguments.js
     - match: >-
         (?x)
-        ({{ident}})\s*
+        ({{any_ident}})\s*
         (?=\()
       scope: meta.function-call.with-arguments.js
       captures:
         1: variable.function.js
     - match: >-
         (?x)
-        ({{ident}})\s*
+        ({{any_ident}})\s*
         (?=`)
       scope: meta.function-call.tagged.js
       captures:
@@ -576,7 +468,7 @@ contexts:
         (?x)
           (?:(?<=\.)|\b)
           ([A-Z][$\w]*)\s*(\.)
-          ({{ident}})\s*
+          ({{any_ident}})\s*
           (\(\s*\))
       scope: meta.function-call.static.without-arguments.js
       captures:
@@ -588,7 +480,7 @@ contexts:
         (?x)
           (?:(?<=\.)|\b)
           ([A-Z][$\w]*)\s*(\.)
-          ({{ident}})\s*
+          ({{any_ident}})\s*
           (?=\()
       scope: meta.function-call.static.with-arguments.js
       captures:
@@ -598,7 +490,7 @@ contexts:
     - match: >-
         (?x)
           (?<=\.)
-          ({{ident}})\s*
+          ({{any_ident}})\s*
           (\(\s*\))
       scope: meta.function-call.method.without-arguments.js
       captures:
@@ -607,7 +499,7 @@ contexts:
     - match: >-
         (?x)
           (?<=\.)
-          ({{ident}})\s*
+          ({{any_ident}})\s*
           (?=\()
       scope: meta.function-call.method.with-arguments.js
       captures:
@@ -650,7 +542,7 @@ contexts:
         - match: '(?![_$a-zA-Z][$\w.]*)'
           pop: true
         - include: support
-        - match: '([_$a-zA-Z][$\w.]*\.)?({{ident}})'
+        - match: '([_$a-zA-Z][$\w.]*\.)?({{any_ident}})'
           captures:
             2: variable.function.constructor.js
 
@@ -794,7 +686,7 @@ contexts:
           scope: punctuation.separator.key-value.js
           pop: true
         - include: literal-string
-    - match: '(?<!\.|\?|\?\s)({{ident}})\s*(:)'
+    - match: '(?<!\.|\?|\?\s)({{any_ident}})\s*(:)'
       scope: constant.other.object.key.js
       captures:
         1: string.unquoted.label.js
@@ -907,7 +799,7 @@ contexts:
     - match: >-
         (?x)
           \b([A-Z][$\w]*)\s*(\.)
-          ({{ident}})
+          ({{any_ident}})
       scope: meta.property.class.js
       captures:
         1: variable.other.class.js
@@ -915,18 +807,18 @@ contexts:
         3: variable.other.property.static.js
 
     # e.g. obj.property
-    - match: '(?<!\.)({{ident}})\s*(?=[\[\.])'
+    - match: '(?<!\.)({{any_ident}})\s*(?=[\[\.])'
       scope: variable.other.object.js
       captures:
         1: variable.other.object.js
 
     # e.g. obj.property
-    - match: '(?<=\.)\s*({{ident}})'
+    - match: '(?<=\.)\s*({{any_ident}})'
       scope: meta.property.object.js
       captures:
         1: variable.other.object.js
 
-    - match: '{{ident}}'
+    - match: '{{any_ident}}'
       scope: variable.other.readwrite.js
 
   support:
@@ -1112,7 +1004,7 @@ contexts:
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:
-    - match: \b(static)?\s*\b({{ident}})\s*(=)\s*
+    - match: \b(static)?\s*\b({{any_ident}})\s*(=)\s*
       captures:
         1: storage.type.static.js
         2: variable.other.property.js
