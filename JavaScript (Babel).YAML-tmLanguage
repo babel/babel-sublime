@@ -1066,17 +1066,12 @@ repository:
     - name: support.module.node.js
       match: (?<!\.)\b(?>assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
 
-    - match: (?<!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
+    - match: (?<!\.)\b(process)(?:(\.)(?:(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule)|(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime)))?\b
       captures:
         '1': {name: support.type.object.process.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.process.js}
-
-    - match: (?<!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
-      captures:
-        '1': {name: support.type.object.process.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: support.function.process.js}
+        '4': {name: support.function.process.js}
 
     - match: (?<!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
       captures:
