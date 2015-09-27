@@ -2,7 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: JavaScript (Babel)
-file_extensions: [js, htc, jsx]
+file_extensions: [js, jsx, babel, es6]
 first_line_match: ^#!\s*/.*\b(node|js)$\n?
 scope: source.js
 
@@ -13,15 +13,31 @@ variables:
   # for use in function lookaheads
   gap_ptrn: '(?:\s|/\*.*\*/)*'
   balanced_parens_ptrn: '(\((?:(?>[^()]+)|\g<-1>)*\))'
+  flow_return_ptrn: '(?::{{gap_ptrn}}\??[\w]*{{gap_ptrn}})?'
   regular_func_ptrn: '(?:\b(?:async){{gap_ptrn}})?\b(?:function)\b'
   arrow_func_ptrn:
     (?x)
       (?:\b(?:async){{gap_ptrn}})?
       (?:{{any_ident}}|{{balanced_parens_ptrn}})
       {{gap_ptrn}}
-      (?::{{gap_ptrn}}\??[\w]*{{gap_ptrn}})?
+      {{flow_return_ptrn}}
+      {{gap_ptrn}} =>
+  obj_method_ptrn:
+    (?x)
+      (?:\b(?:async|\*){{gap_ptrn}})?
+      {{any_ident}}
       {{gap_ptrn}}
-      =>
+      {{balanced_parens_ptrn}}
+      {{gap_ptrn}}
+      {{flow_return_ptrn}} {
+  class_method_ptrn:
+    (?x)
+      (?:\b
+        (?:static)(?:{{gap_ptrn}})?
+      (?:\b(?:async){{gap_ptrn}})?
+      (?:\*{{gap_ptrn}})?
+      {{any_ident}}
+      {{gap_ptrn}} \(
 
 contexts:
   main:
@@ -186,45 +202,39 @@ contexts:
           scope: punctuation.definition.class.body.end.js
           pop: true
         - include: brackets
-        - include: es7-decorators
-        - include: es7-class-properties
-        - include: literal-method
+        - match: \b(static|async)\b
+          scope: storage.modifier.js
+        - match: \b(get|set)\b
+          scope: keyword.operator.accessor.js
+        - match: '\*'
+          scope: keyword.generator.asterisk.js
+        - match: '{{any_ident}}(?={{gap_ptrn}}\()'
+          scope: entity.name.function.js
+          push: [flow-type-return, function-params]
+        - match: '{{any_ident}}(?={{gap_ptrn}}\=)'
+          scope: variable.other.property.js
+          push:
+            - match: '='
+              scope: keyword.operator.assignment.js
+              set:
+                - include: expression
+                - match: (?=;|\n)
+                  pop: true
 
   literal-method:
+    # MISSING <T: t>
     # e.g. play(arg1, arg2) {  }
     - match: >-
         (?x)
-          (?:\b(static)\s+)?
-          (?:\b(async)\s+)?
-          (?:(\*)\s*)?({{any_ident}})\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
-      captures:
-        1: storage.type.js
-        2: storage.type.js
-        3: keyword.generator.asterisk.js
-        4: entity.name.function.js
-      push:
-        - meta_scope: meta.method.js
-        - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
-
-    # getter/setter
-    - match: >-
-        (?x)
-          \b(?:(static)\s+)?
-          (get|set)\s+
-          ({{any_ident}})\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
-      captures:
-        1: storage.type.js
-        2: storage.type.accessor.js
-        3: entity.name.accessor.js
-      push:
-        - meta_scope: meta.accessor.js
-        - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
+          (?=
+            (?:\b(?:async|\*|get|set){{gap_ptrn}})?
+            {{any_ident}}
+            {{gap_ptrn}}
+            {{balanced_parens_ptrn}}
+            {{gap_ptrn}}
+            {{flow_return_ptrn}} {
+          )
+      push: short-function
 
   literal-prototype:
     # e.g. Sound.prototype = {  } when extending an object
@@ -242,6 +252,20 @@ contexts:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: variable.language.prototype.js
+
+  short-function:
+    - match: \b(async|static)\b
+      scope: storage.modifier.js
+    - match: \b(get|set)\b(?!\()
+      scope: keyword.operator.accessor.js
+    - match: '\*'
+      scope: keyword.generator.asterisk.js
+    - match: '{{any_ident}}'
+      scope: entity.name.function.js
+    - match: (?=\()
+      push: [flow-type-return, function-params]
+    - match: (?=\{)
+      pop: true
 
   regular-function:
     - match: \b(async)\b
