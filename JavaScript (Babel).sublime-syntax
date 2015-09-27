@@ -318,32 +318,14 @@ contexts:
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-        4: storage.type.function.js
-        5: keyword.generator.asterisk.js
-        6: entity.name.function.js
-      push:
-        - meta_scope: meta.function.json.js
-        - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
-
+    # e.g. 'play': function(arg1, arg2) {  }
     # e.g. "play": function(arg1, arg2) {  }
     - match: >-
         (?x)
           (?:
             ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
+            ((")((?:[^"]|\\")*)("))|
+            ({{ident}})
           )
           \s*(:)
           \s*(?:(async)\s+)?
@@ -358,15 +340,16 @@ contexts:
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-        11: storage.type.function.js
-        12: keyword.generator.asterisk.js
-        13: entity.name.function.js
+        9: entity.name.function.js
+        10: punctuation.separator.key-value.js
+        11: storage.type.js
+        12: storage.type.function.js
+        13: keyword.generator.asterisk.js
+        14: entity.name.function.js
       push:
         - meta_scope: meta.function.json.js
         - match: (?<=\))
-          pop: true
+          set: flow-annotations
         - include: function-declaration-parameters
 
   literal-arrow-function:
