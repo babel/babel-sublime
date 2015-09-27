@@ -8,6 +8,7 @@ scope: source.js
 
 variables:
   ident: '[_$a-zA-Z][$\w]*'
+  class_ident: '_?[A-Z][$\w]*'
 
 contexts:
   main:
@@ -230,50 +231,36 @@ contexts:
         3: variable.language.prototype.js
 
   literal-function:
+    # e.g. play = function(arg1, arg2) {  }
     # e.g. function play(arg1, arg2) {  }
     - match: >-
         (?x)
+          (?:\b({{ident}})\s*(=)\s*)?
           (?:\b(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*({{ident}})?\s*
       captures:
-        1: storage.type.js
-        2: storage.type.function.js
-        3: keyword.generator.asterisk.js
-        4: entity.name.function.js
+        1: entity.name.function.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
+        4: storage.type.function.js
+        5: keyword.generator.asterisk.js
+        6: entity.name.function.js
       push:
         - meta_scope: meta.function.js
         - match: (?<=\))
           set: flow-annotations
         - include: function-declaration-parameters
 
-    # e.g. play = function(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: entity.name.function.js
-        2: storage.type.js
-        3: storage.type.function.js
-        4: keyword.generator.asterisk.js
-        5: entity.name.function.js
-      push:
-        - meta_scope: meta.function.js
-        - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
-
+    # e.g. Sound.play = function(arg1, arg2) {  }
     # e.g. Sound.prototype.play = function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)(prototype)
+          \b
+          ({{class_ident}})
+          (?:(\.)(prototype))?
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*({{ident}})?\s*
@@ -283,37 +270,15 @@ contexts:
         3: variable.language.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
-        6: storage.type.js
-        7: storage.type.function.js
-        8: keyword.generator.asterisk.js
-        9: entity.name.function.js
+        6: keyword.operator.assignment.js
+        7: storage.type.js
+        8: storage.type.function.js
+        9: keyword.generator.asterisk.js
+        10: entity.name.function.js
       push:
-        - meta_scope: meta.prototype.function.js
+        - meta_scope: meta.function.method.js
         - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
-
-    # e.g. Sound.play = function(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)({{ident}})
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: entity.name.class.js
-        2: keyword.operator.accessor.js
-        3: entity.name.function.js
-        4: storage.type.js
-        5: storage.type.function.js
-        6: keyword.generator.asterisk.js
-        7: entity.name.function.js
-      push:
-        - meta_scope: meta.function.static.js
-        - match: (?<=\))
-          pop: true
+          set: flow-annotations
         - include: function-declaration-parameters
 
   literal-function-labels:
