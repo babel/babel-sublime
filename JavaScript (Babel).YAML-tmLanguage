@@ -135,6 +135,56 @@ repository:
         - include: '#expression'
       - include: '#comments'
 
+  short-method:
+    patterns:
+    - include: '#comments'
+    - contentName: meta.method.js
+      begin: (?=(static|get|set|\*|async|[_$a-zA-Z][$\w]*))
+      end: (?={)
+      patterns:
+      - name: storage.modifier.js
+        match: \b(static)\b
+      - name: storage.modifier.js
+        match: \b(get|set)\b(?!\s*\()
+      - name: storage.type.js
+        match: \b(async)\b
+      - name: keyword.generator.asterisk.js
+        match: '\*'
+      - name: entity.name.function.js
+        match: \b([_$a-zA-Z][$\w]*)\b
+      - begin: (?=\()
+        end: (?<=\))
+        patterns:
+        - include: '#function-declaration-parameters'
+      - begin: (?=:)
+        end: (?<={)
+        patterns:
+        - include: '#flowtype'
+    - contentName: meta.computed-method.js
+      begin: (?=\[)
+      end: (?={)
+      patterns:
+      - include: '#square-brackets'
+
+  flowtype:
+    patterns:
+    - name: constant.other.primitve.flowtype.js
+      match: \b(any|boolean|mixed|number|string|void)\b
+    - name: variable.other.flowtype.js
+      match: '[_$a-zA-Z][$\w]*'
+    - name: keyword.operator.separator.flowtype.js
+      match: (?:|<|>|:)
+    - name: keyword.operator.maybe.flowtype.js
+      match: \?
+    - name: kewyword.operator.union.flowtype.js
+      match: \|
+    - name: kewyword.operator.intersection.flowtype.js
+      match: \&
+    - name: kewyword.operator.existential.flowtype.js
+      match: \*
+    - name: support.type.builtin.class.flowtype.js
+      match: \b(?:Boolean|Function|Number|Object|String)\b
+
   literal-module:
     patterns:
     - name: keyword.operator.module.js
@@ -142,72 +192,52 @@ repository:
 
   literal-class:
     patterns:
-    # e.g. class MyClass {  }
-    - name: meta.class.js
-      begin: >-
-        (?x)
-          (?<!\.)\b(class)
-          \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?
+    # e.g. class Sound extends Model { }
+    - begin: (?<!\.)\b(class)\b
       beginCaptures:
-        '1': {name: storage.type.class.js}
-        '2': {name: entity.name.class.js}
-      end: '}'
-      endCaptures:
-        '0': {name: meta.brace.curly.js}
+        '0': {name: storage.type.class.js}
+      end: (?<=})
       patterns:
-      - name: meta.class.extends.js
-        begin: \b(extends)\b
+      - begin: \b(extends)\b
         beginCaptures:
-          '1': {name: storage.type.extends.js}
-        end: '(?={)'
+          '0': {name: storage.type.extends.js}
+        end: (?={)
         patterns:
         - include: '#expression'
-
-      - begin: '{'
-        beginCaptures:
-          '0': {name: meta.brace.curly.js}
-        end: '(?=})'
+      - name: entity.name.class.js
+        match: \b([_$a-zA-Z][$\w]*)\b
+      - name: meta.class.js
+        begin: '{'
+        end: '}'
+        captures:
+          '0': {name: punctuation.section.class.js}
         patterns:
-        - include: '#brackets'
+        - include: '#short-method'
+        - include: '#curly-brackets'
         - include: '#es7-decorators'
         - include: '#comments'
         - include: '#es7-class-properties'
-        - include: '#literal-method'
 
   literal-method:
     patterns:
     # e.g. play(arg1, arg2) {  }
     - name: meta.method.js
       begin: >-
-        (?x)
-          (?:\b(static)\s+)?
-          (?:\b(async)\s+)?
-          (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
-      beginCaptures:
-        '1': {name: storage.type.js}
-        '2': {name: storage.type.js}
-        '3': {name: keyword.generator.asterisk.js}
-        '4': {name: entity.name.method.js}
-      end: (?<=\))
+        (?x)(?=
+          (?:\b
+            (?:async|\*|get|set)          # storage
+            (?:\s|/\*.*\*/)+              # some gap
+          )?
+          (?:[_$a-zA-Z][$\w]*)            # any identifier
+          (?:\s|/\*.*\*/)*                # maybe gap
+          (\((?:(?>[^()]+)|\g<-1>)*\))    # balanced parens
+          (?:\s|/\*.*\*/)*                # maybe gap
+          (?:[:|{])                       # flowtype-return or func body
+        )
+      end: (?<=})
       patterns:
-      - include: '#function-declaration-parameters'
-
-    # getter/setter
-    - name: meta.accessor.js
-      begin: >-
-        (?x)
-          \b(?:(static)\s+)?
-          (get|set)\s+
-          ([_$a-zA-Z][$\w]*)\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
-      beginCaptures:
-        '1': {name: storage.type.js}
-        '2': {name: storage.type.accessor.js}
-        '3': {name: entity.name.accessor.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
+      - include: '#short-method'
+      - include: '#curly-brackets'
 
   literal-prototype:
     patterns:
