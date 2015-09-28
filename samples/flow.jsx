@@ -42,7 +42,7 @@ class Bar {
 var a = [1, 2, 3];
 var b: Array<number> = a.map(function(x) { return x + 1; });
 
-class C {
+class CA {
   x: string; // optional semicolons
   y: number;
   constructor(x) { this.x = x; }
@@ -52,7 +52,7 @@ class C {
   static qux(): D { return new D(); }
 }
 
-class C<X> {
+class CB<X> {
   x: X;
   foo(x: X) { this.x = x; }
   bar(): X { return this.x; }
@@ -94,61 +94,20 @@ type T = number;
 type T = Array<string>;
 var x: T = [];
 
-function foo<X, Y>(f: F<X, Y>, x: X): Y { return f(x); }
+function foo<X: ?number, Y: >(f: F<X, Y>, x: X): Y { return f(x); }
 
-var b: { f : typeof Foo } = { f : Foo };
+var b: { f: typeof Foo } = { f : Foo };
 
 function foo(x: string | number | boolean): string { }
 
 declare function something(): void;
 
-function foo(x: { y: ?string }): string { }
+function foo(x: { y: ?string }): string { return; }
 
-declare class C {
+declare class CC {
   x: string;
 }
 
 declare module M {
   declare function foo(c: C): void;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-type F<U, V> = (x: U) => V;
-
-var f: (x: number) => number = x => x * 2;
-
-play = <a:{ }, a>(arg) => {}
-
-play = <T: x: number> T: x => {
-  console.log(Math.abs(obj.x));
-  return obj;
-}
-
-play = <T: Food>(meal: T): Indigestion<T> => { }
-
-class a extends b<a> {
-  method() {
-
-  }
-}
-
-declare class a extends b<a> {
-  method() {
-  }
-}
-
-interface xx extends bbb;
-
-interface xx;
-
-type Bar implements Foo {
-  str: String
-}
-
-interface Foo;
-
-type Root {
-  bar: Bar
 }
