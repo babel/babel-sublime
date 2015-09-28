@@ -137,36 +137,51 @@ repository:
 
   short-method:
     patterns:
-    - include: '#comments'
+    - name: storage.modifier.js
+      match: \b(static)\b
+    - name: storage.modifier.js
+      match: \b(get|set)\b(?!\s*\()
+    - name: storage.type.js
+      match: \b(async)\b
+    - name: keyword.generator.asterisk.js
+      match: '\*'
+
     - contentName: meta.method.js
-      begin: (?=(static|get|set|\*|async|[_$a-zA-Z][$\w]*))
+      begin: (?=["'$\w\d])
       end: (?={)
       patterns:
-      - name: storage.modifier.js
-        match: \b(static)\b
-      - name: storage.modifier.js
-        match: \b(get|set)\b(?!\s*\()
-      - name: storage.type.js
-        match: \b(async)\b
-      - name: keyword.generator.asterisk.js
-        match: '\*'
-      - name: entity.name.function.js
-        match: \b([_$a-zA-Z][$\w]*)\b
-      - begin: (?=\()
-        end: (?<=\))
-        patterns:
-        - include: '#function-declaration-parameters'
-      - begin: (?=:)
-        end: (?<={)
-        patterns:
-        - include: '#flowtype'
+      - match: >-
+          (?x)
+            ((["'])((?:\\.|(?!\2).)*)(\2))  | # string quoted
+            (?:\b([_$a-zA-Z][$\w]*)\b)      | # any identifier
+            (?:\b(\d+)\b)                     # number-only name
+        captures:
+          '1': {name: string.quoted.js}
+          '2': {name: punctuation.definition.string.js}
+          '3': {name: entity.name.function.js}
+          '4': {name: string.quoted.js}
+          '5': {name: entity.name.function.js}
+          '6': {name: entity.name.function.js}
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-return'
+      - include: '#comments'
+
     - contentName: meta.computed-method.js
       begin: (?=\[)
       end: (?={)
       patterns:
       - include: '#square-brackets'
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-return'
+      - include: '#comments'
 
-  flowtype:
+  flowtype-return:
+    begin: (?=:)
+    end: (?={)
+    patterns:
+    - include: '#flowtype-tokens'
+
+  flowtype-tokens:
     patterns:
     - name: constant.other.primitve.flowtype.js
       match: \b(any|boolean|mixed|number|string|void)\b
@@ -225,14 +240,19 @@ repository:
       begin: >-
         (?x)(?=
           (?:\b
-            (?:async|\*|get|set)          # storage
-            (?:\s|/\*.*\*/)+              # some gap
+            (?:async|\*|get|set)            # storage
+            (?:\s|/\*.*\*/)+                # some gap
           )?
-          (?:[_$a-zA-Z][$\w]*)            # any identifier
-          (?:\s|/\*.*\*/)*                # maybe gap
-          (\((?:(?>[^()]+)|\g<-1>)*\))    # balanced parens
-          (?:\s|/\*.*\*/)*                # maybe gap
-          (?:[:|{])                       # flowtype-return or func body
+          (?:                               # es6 short-method identifier:
+            (["'])(?:\\.|(?!\1).)*\1      | # string quoted
+            (?:\b[_$a-zA-Z][$\w]*\b)      | # any identifier
+            (?:\b\d+\b)                   | # number-only name
+            (\[(?:(?>[^\[\]]+)|\g<-1>)*\])  # balanced brackets (computed name)
+          )
+          (?:\s|/\*.*\*/)*                  # maybe gap
+          (\((?:(?>[^()]+)|\g<-1>)*\))      # balanced parens (arguments)
+          (?:\s|/\*.*\*/)*                  # maybe gap
+          (?:[:|{])                         # flowtype-return or function body
         )
       end: (?<=})
       patterns:
