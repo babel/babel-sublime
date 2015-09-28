@@ -1,23 +1,13 @@
 let Sound = {
   play() {},
   play(arg) {},
-  static play() {},
-  static play(arg) {},
+  get() {},
+  set() {},
   *play() {},
   *play(arg) {},
-  static *play() {},
-  static *play(arg) {},
   async play() {},
-  static async play() {},
-  static async play(arg) {},
   get play() {},
-  static get play() {},
-  get play(arg) {},
-  static get play(arg) {},
-  set play() {},
-  static set play() {},
   set play(arg) {},
-  static set play(arg) {},
   play: function() {},
   play: function(arg) {},
   play: function*() {},
@@ -40,6 +30,23 @@ let Sound = {
   "play": (arg) => {},
   "play": arg => {},
   "play": () => {},
+}
+
+class Sound {
+  play() {}
+  play(arg) {}
+  get() {}
+  set() {}
+  *play() {}
+  *play(arg) {}
+  async play() {}
+  get play() {}
+  set play(arg) {}
+  static play() {}
+  static *play() {}
+  static async play() {}
+  static get play() {}
+  static set play(arg) {}
 }
 
 Sound.prototype
@@ -93,8 +100,5 @@ return (arg) => {}
 return arg => {}
 return () => {}
 
-/////////
-
-yieldgenfunc;
 yield genfunc;
 yield* genfunc;

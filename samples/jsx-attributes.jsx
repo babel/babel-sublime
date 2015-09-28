@@ -2,14 +2,20 @@
 // GOOD JSX
 //
 <div className key>
+</div>
 <div /*cats*/ className /*dogs*/ key>
+</div>
 <div /*cats*/className/*dogs*/ key>
+</div>
+
 <div
   /*cats*/className // dogs
   // more cats
   />
 <div className='MyClass' key>
+</div>
 <div className='MyClass' key={1} >
+</div>
 <div className='MyClass' key={1} />
 <div className = 'MyClass' key={1} />
 <div className = 'MyClass' key={() => this.setState({})} />
