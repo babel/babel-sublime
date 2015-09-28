@@ -955,24 +955,13 @@ repository:
 
   literal-string:
     patterns:
-    - name: string.quoted.single.js
-      begin: "'"
+    - name: string.quoted.js
+      begin: (["'])
       beginCaptures:
-        '0': {name: punctuation.definition.string.begin.js}
-      end: (')|(\n)
+        '0': {name: punctuation.definition.string.js}
+      end: (\1)|(\n)
       endCaptures:
-        '1': {name: punctuation.definition.string.end.js}
-        '2': {name: invalid.illegal.newline.js}
-      patterns:
-      - include: '#string-content'
-
-    - name: string.quoted.double.js
-      begin: '"'
-      beginCaptures:
-        '0': {name: punctuation.definition.string.begin.js}
-      end: (")|(\n)
-      endCaptures:
-        '1': {name: punctuation.definition.string.end.js}
+        '1': {name: punctuation.definition.string.js}
         '2': {name: invalid.illegal.newline.js}
       patterns:
       - include: '#string-content'
