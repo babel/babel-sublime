@@ -228,7 +228,9 @@ repository:
   flowtype-tokens:
     patterns:
     - name: constant.other.primitve.flowtype.js
-      match: \b(any|boolean|mixed|number|string|void)\b
+      match: \b(?:any|boolean|mixed|number|string|void)\b
+    - name: support.type.builtin.class.flowtype.js
+      match: \b(?:Boolean|Function|Number|Object|String|Promise)\b
     - name: variable.other.flowtype.js
       match: '[_$a-zA-Z][$\w]*'
     - name: keyword.operator.separator.flowtype.js
@@ -241,8 +243,6 @@ repository:
       match: \&
     - name: kewyword.operator.existential.flowtype.js
       match: \*
-    - name: support.type.builtin.class.flowtype.js
-      match: \b(?:Boolean|Function|Number|Object|String)\b
     - begin: (?<=:)\s*({)
       end: (})
       captures:
