@@ -175,6 +175,17 @@ repository:
       - include: '#flowtype-return'
       - include: '#comments'
 
+  class-properties:
+    patterns:
+    - begin: (?=(?:[_$a-zA-Z][$\w]*)(?:\s|/\*.*\*/)*(?:=|;|\n))
+      end: (?<=;|\n)
+      patterns:
+      - include: '#comments'
+      - include: '#literal-variable'
+      - include: '#literal-operators'
+      - include: '#literal-punctuation'
+      - include: '#expression'
+
   flowtype-return:
     begin: (?=:)
     end: (?={)
@@ -227,11 +238,13 @@ repository:
         captures:
           '0': {name: punctuation.section.class.js}
         patterns:
+        - name: storage.modifier.js
+          match: \b(static)\b
+        - include: '#comments'
+        - include: '#class-properties'
         - include: '#short-method'
         - include: '#curly-brackets'
         - include: '#es7-decorators'
-        - include: '#comments'
-        - include: '#es7-class-properties'
 
   literal-method:
     patterns:
@@ -1192,19 +1205,6 @@ repository:
   jsx-attribute-illegal:
     name: invalid.illegal.attribute.jsx
     match: \S*
-
-  # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
-  es7-class-properties:
-    patterns:
-    - match: >-
-        (?x)
-          \b(static)?
-          \s*
-          \b([_$a-zA-Z][$\w]*)\s*(=)
-      captures:
-        '1': {name: storage.type.js}
-        '2': {name: variable.other.property.js}
-        '3': {name: storage.type.js}
 
   # https://github.com/wycats/javascript-decorators
   es7-decorators:
