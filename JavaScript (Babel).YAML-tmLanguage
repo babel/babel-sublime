@@ -597,7 +597,7 @@ repository:
           ([_$a-zA-Z][$\w]*)\s*
           (\(\s*\))
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
         '2': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.with-arguments.js
@@ -606,7 +606,7 @@ repository:
           ([_$a-zA-Z][$\w]*)\s*
           (?=\()
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
 
     - name: meta.function-call.tagged-template-string.js
       match: ([_$a-zA-Z][$\w]*)\s*(?=`)
@@ -625,7 +625,7 @@ repository:
       captures:
         '1': {name: variable.other.class.js}
         '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
+        '3': {name: variable.function.js}
         '4': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.static.with-arguments.js
@@ -638,7 +638,7 @@ repository:
       captures:
         '1': {name: variable.other.class.js}
         '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
+        '3': {name: variable.function.js}
 
     - name: meta.function-call.method.without-arguments.js
       match: >-
@@ -647,7 +647,7 @@ repository:
           ([_$a-zA-Z][$\w]*)\s*
           (\(\s*\))
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
         '2': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.method.with-arguments.js
@@ -657,7 +657,7 @@ repository:
           ([_$a-zA-Z][$\w]*)\s*
           (?=\()
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
 
   literal-language-variable:
     patterns:
@@ -710,7 +710,7 @@ repository:
       - include: '#support'
       - match: ([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)
         captures:
-          '2': {name: entity.name.type.new.js}
+          '2': {name: variable.function.constructor.js}
 
   literal-keyword-storage:
     patterns:
