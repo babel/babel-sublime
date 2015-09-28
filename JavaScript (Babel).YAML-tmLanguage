@@ -608,6 +608,11 @@ repository:
       captures:
         '1': {name: entity.name.function.js}
 
+    - name: meta.function-call.tagged-template-string.js
+      match: ([_$a-zA-Z][$\w]*)\s*(?=`)
+      captures:
+        '1': {name: variable.function.js}
+
   literal-method-call:
     patterns:
     - name: meta.function-call.static.without-arguments.js
@@ -909,26 +914,27 @@ repository:
       match: ','
 
   literal-quasi:
+    begin: '`'
+    end: '`'
+    captures:
+      '0': {name: punctuation.definition.quasi.js}
     patterns:
+    - include: '#string-content'
+    - include: '#quasi-content'
+    # [theme]: so interpolated expressions aren't scoped as "string"
     - name: string.quasi.js
-      begin: ([a-zA-Z$_][\w$_]*)?(`)
-      beginCaptures:
-        '1': {name: entity.quasi.tag.name.js}
-        '2': {name: punctuation.definition.quasi.begin.js}
-      end: '`'
-      endCaptures:
-        '0': {name: punctuation.definition.quasi.end.js}
+      match: '.'
+
+  quasi-content:
+    patterns:
+    - name: constant.character.escape.js
+      match: '\\`'
+    - begin: '\${'
+      end: '}'
+      captures:
+        '0': {name: keyword.operator.substitution.js}
       patterns:
-      - include: '#string-content'
-      - name: entity.quasi.element.js
-        begin: \${
-        beginCaptures:
-          '0': {name: punctuation.quasi.element.begin.js}
-        end: '}'
-        endCaptures:
-          '0': {name: punctuation.quasi.element.end.js}
-        patterns:
-        - include: '#expression'
+      - include: '#expression'
 
   literal-regexp:
     patterns:
