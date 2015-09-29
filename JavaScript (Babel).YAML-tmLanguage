@@ -154,7 +154,7 @@ repository:
       patterns:
       - include: '#function-parameters'
 
-  short-method:
+  function-storage:
     patterns:
     - name: storage.modifier.js
       match: \b(static)\b
@@ -162,9 +162,21 @@ repository:
       match: \b(get|set)\b(?!\s*\()
     - name: storage.type.js
       match: \b(async)\b
+    - name: storage.type.function.js
+      match: \b(function)\b
     - name: keyword.generator.asterisk.js
       match: '\*'
 
+  function-right-side:
+    patterns:
+    - include: '#flowtype-polymorphs'
+    - include: '#function-declaration-parameters'
+    - include: '#flowtype-return'
+    - include: '#comments'
+
+  short-method:
+    patterns:
+    - include: '#function-storage'
     - contentName: meta.method.js
       begin: (?=["'$\w\d])
       end: (?={)
@@ -181,19 +193,13 @@ repository:
           '4': {name: string.quoted.js}
           '5': {name: entity.name.function.js}
           '6': {name: entity.name.function.js}
-      - include: '#flowtype-polymorphs'
-      - include: '#function-declaration-parameters'
-      - include: '#flowtype-return'
-      - include: '#comments'
-
+      - include: '#function-right-side'
     - contentName: meta.computed-method.js
       begin: (?=\[)
       end: (?={)
       patterns:
       - include: '#square-brackets'
-      - include: '#function-declaration-parameters'
-      - include: '#flowtype-return'
-      - include: '#comments'
+      - include: '#function-right-side'
 
   class-properties:
     patterns:
@@ -208,20 +214,23 @@ repository:
       - include: '#expression'
 
   flowtype-polymorphs:
+    contentName: meta.flowtype.js
     begin: (?=<)
     end: (?<=>)
     patterns:
     - include: '#flowtype-tokens'
 
   flowtype-variable:
+    contentName: meta.flowtype.js
     begin: (?=:)
     end: (?=[,;)\n])
     patterns:
     - include: '#flowtype-tokens'
 
   flowtype-return:
+    contentName: meta.flowtype.js
     begin: (?=:)
-    end: (?={)
+    end: (?=\s*{)
     patterns:
     - include: '#flowtype-tokens'
 
@@ -239,12 +248,14 @@ repository:
       match: ':'
     - name: keyword.operator.maybe.flowtype.js
       match: \?
-    - name: kewyword.operator.union.flowtype.js
+    - name: keyword.operator.union.flowtype.js
       match: \|
-    - name: kewyword.operator.intersection.flowtype.js
+    - name: keyword.operator.intersection.flowtype.js
       match: \&
-    - name: kewyword.operator.existential.flowtype.js
+    - name: keyword.operator.existential.flowtype.js
       match: \*
+    - name: keyword.operator.function.flowtype.js
+      match: '=>'
     - begin: (?<=:)\s*({)
       end: (})
       captures:
@@ -253,6 +264,12 @@ repository:
       - include: '#flowtype-tokens'
     - begin: '<'
       end: '>'
+      captures:
+        '0': {name: keyword.operator.separator.flowtype.js}
+      patterns:
+      - include: '#flowtype-tokens'
+    - begin: '\('
+      end: '\)'
       captures:
         '0': {name: keyword.operator.separator.flowtype.js}
       patterns:
@@ -353,6 +370,7 @@ repository:
         '4': {name: entity.name.function.js}
       end: (?={)
       patterns:
+      - include: '#flowtype-polymorphs'
       - include: '#function-declaration-parameters'
       - include: '#flowtype-return'
 

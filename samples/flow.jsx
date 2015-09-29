@@ -23,6 +23,7 @@ var c: Function = 42;
 function foo(): Function {
   return function(x: number): number { return x; }
 }
+
 var d: (str: string) => string = foo();
 
 var a: mixed = 'some string';
@@ -50,6 +51,8 @@ class CA {
   bar() { return this.x; }
   bar(): number { return this.x; }
   static qux(): D { return new D(); }
+  [x+y+z]<U>(a, b) { return null; }
+  map<U>(f: (x: T) => U): List<U> { }
 }
 
 class CB<X> {
@@ -78,7 +81,7 @@ function bar(z, ...w) { }
 function foo<X>(x: X): X { return x; }
 
 class List<T> {
-  map<U>(f: (x: T) => U): List<U> { ... }
+  map<U>(f: (x: T) => U): List<U> { }
 }
 
 var o: ?string = null;
@@ -90,11 +93,14 @@ var x: A | B | number | C = new C();
 
 declare var f: ((x: Foo) => void) & ((x: Bar) => void);
 
+function foo(a: ?string, b: any): Array<number> {}
+
+
 type T = number;
 type T = Array<string>;
 var x: T = [];
 
-function foo<X: ?number, Y: >(f: F<X, Y>, x: X): Y { return f(x); }
+function foo<X: ?number, Y:x>f: F<X, Y>, x: X): Y { return f(x); }
 
 var b: { f: typeof Foo } = { f : Foo };
 
