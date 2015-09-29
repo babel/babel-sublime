@@ -110,5 +110,12 @@ return (arg) => {}
 return arg => {}
 return () => {}
 
+return function play() {}
+return function play(arg) {}
+return function* play() {}
+return function* play(arg) {}
+return async function play() {}
+return async function* play() {}
+
 yield genfunc;
 yield* genfunc;
