@@ -488,10 +488,10 @@ repository:
     - name: storage.modifier.js
       match: \b(static)\b
 
-    - name: storage.modifier.js
+    - name: storage.type.property.js
       match: \b(get|set)\b(?!\s*\()
 
-    - name: storage.type.js
+    - name: storage.type.async.js
       match: \b(async)\b
       # should * also be here?
 
