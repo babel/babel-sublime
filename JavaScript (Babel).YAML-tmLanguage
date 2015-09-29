@@ -35,8 +35,7 @@ repository:
     - include: '#literal-number'
     - include: '#literal-quasi'
     - include: '#literal-string'
-    - include: '#literal-language-constant'
-    - include: '#literal-language-variable'
+    - include: '#literal-language-builtin'
 
     - include: '#literal-method'
     - include: '#literal-module'
@@ -788,45 +787,14 @@ repository:
       captures:
         '1': {name: variable.function.js}
 
-  literal-language-variable:
+  literal-language-builtin:
     patterns:
-    - name: variable.language.arguments.js
-      match: (?<!(?<!\.\.)\.)\barguments\b
-
-    - name: variable.language.super.js
-      match: (?<!(?<!\.\.)\.)\bsuper\b
-
-    - name: variable.language.this.js
-      match: (?<!(?<!\.\.)\.)\bthis\b
-
-    - name: variable.language.self.js
-      match: (?<!(?<!\.\.)\.)\bself\b
-
-    - name: variable.language.proto.js
-      match: (?<=\.)\b__proto__\b
-
-    - name: variable.language.constructor.js
-      match: (?<=\.)\bconstructor\b
-
-    - name: variable.language.prototype.js
-      match: (?<=\.)\bprototype\b
-
-  literal-language-constant:
-    patterns:
-    - name: constant.language.boolean.true.js
-      match: (?<!\.)\btrue\b
-
-    - name: constant.language.boolean.false.js
-      match: (?<!\.)\bfalse\b
-
-    - name: constant.language.null.js
-      match: (?<!\.)\bnull\b
-
-    - name: constant.language.undefined.js
-      match: (?<!\.)\bundefined\b
-
-    - name: constant.language.nan.js
-      match: (?<!\.)\bNaN\b
+    - name: variable.language.js
+      match: (?<!(?<!\.\.)\.)\b(?>arguments|self|super|this)\b
+    - name: variable.language.js
+      match: (?<=\.)\b(?>__proto__|constructor|prototype)\b
+    - name: constant.language.js
+      match: (?<!\.)\b(?>true|false|null|undefined|NaN)\b
 
   literal-constructor:
     patterns:
