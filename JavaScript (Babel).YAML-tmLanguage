@@ -208,69 +208,6 @@ repository:
       - include: '#literal-punctuation'
       - include: '#expression'
 
-  flowtype-polymorph:
-    contentName: meta.flowtype.js
-    begin: (?=<)
-    end: (?<=>)
-    patterns:
-    - include: '#flowtype-tokens'
-
-  flowtype-variable:
-    contentName: meta.flowtype.js
-    begin: (?=:)
-    end: (?=[,;)\n])
-    patterns:
-    - include: '#flowtype-tokens'
-
-  flowtype-return:
-    contentName: meta.flowtype.js
-    begin: (?=:)
-    end: (?=\s*{)
-    patterns:
-    - include: '#flowtype-tokens'
-
-  flowtype-tokens:
-    patterns:
-    - include: '#comments'
-    - name: constant.other.primitve.flowtype.js
-      match: \b(?:any|boolean|mixed|number|string|void)\b
-    - name: support.type.builtin.class.flowtype.js
-      match: \b(?:Array|ArrayBuffer|Boolean|DataView|Date|Error|EvalError|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|RangeError|ReferenceError|Reflect|RegExp|Set|String|Symbol|SyntaxError|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|URIError|WeakMap|WeakSet)\b
-    - name: support.type.node.class.flowtype.js
-      match: \b(?:Buffer)\b
-    - name: variable.other.flowtype.js
-      match: '[_$a-zA-Z][$\w]*'
-    - name: keyword.operator.separator.flowtype.js
-      match: ':'
-    - name: keyword.operator.maybe.flowtype.js
-      match: \?
-    - name: keyword.operator.union.flowtype.js
-      match: \|
-    - name: keyword.operator.intersection.flowtype.js
-      match: \&
-    - name: keyword.operator.existential.flowtype.js
-      match: \*
-    - name: keyword.operator.function.flowtype.js
-      match: '=>'
-    - begin: (?<=:)\s*({)
-      end: (})
-      captures:
-        '1': {name: keyword.operator.separator.flowtype.js}
-      patterns:
-      - include: '#flowtype-tokens'
-    - begin: '<'
-      end: '>'
-      captures:
-        '0': {name: keyword.operator.separator.flowtype.js}
-      patterns:
-      - include: '#flowtype-tokens'
-    - begin: '\('
-      end: '\)'
-      captures:
-        '0': {name: keyword.operator.separator.flowtype.js}
-      patterns:
-      - include: '#flowtype-tokens'
-
   literal-module:
     patterns:
     - name: keyword.operator.module.js
@@ -902,6 +839,21 @@ repository:
     - name: keyword.other.js
       match: (?<!\.)\b(debugger)\b
 
+  # https://github.com/wycats/javascript-decorators
+  es7-decorators:
+    patterns:
+    - name: tag.decorator.js
+      match: >-
+        (?x)
+          (@)([_$a-zA-Z][$\w]*)\b
+      captures:
+        '1': {name: punctuation.definition.tag.js}
+        '2': {name: entity.name.tag.js}
+
+################################################################################
+## jsx
+################################################################################
+
   jsx:
     contentName: meta.jsx.js
     begin: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|^)\s*(?=<)
@@ -984,13 +936,73 @@ repository:
     name: invalid.illegal.attribute.jsx
     match: \S*
 
-  # https://github.com/wycats/javascript-decorators
-  es7-decorators:
+################################################################################
+## flow
+################################################################################
+
+  flowtype-polymorph:
+    contentName: meta.flowtype.js
+    begin: '<'
+    end: '>'
+    captures:
+      '0': {name: keyword.operator.flowtype.js}
     patterns:
-    - name: tag.decorator.js
-      match: >-
-        (?x)
-          (@)([_$a-zA-Z][$\w]*)\b
+    - include: '#flowtype-tokens'
+
+  flowtype-variable:
+    contentName: meta.flowtype.js
+    begin: ':'
+    end: (?=[,;)\n])
+    captures:
+      '0': {name: keyword.operator.flowtype.js}
+    patterns:
+    - include: '#flowtype-tokens'
+
+  flowtype-return:
+    contentName: meta.flowtype.js
+    begin: ':'
+    end: (?=\s*{)
+    captures:
+      '0': {name: keyword.operator.flowtype.js}
+    patterns:
+    - include: '#flowtype-tokens'
+
+  flowtype-tokens:
+    patterns:
+    - include: '#comments'
+
+    - name: constant.other.primitve.flowtype.js
+      match: \b(?:any|bool|boolean|mixed|number|string|void)\b
+
+    - name: support.type.builtin.class.flowtype.js
+      match: \b(?:Array|ArrayBuffer|Boolean|DataView|Date|Error|EvalError|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|RangeError|ReferenceError|Reflect|RegExp|Set|String|Symbol|SyntaxError|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|URIError|WeakMap|WeakSet)\b
+
+    - name: support.type.node.class.flowtype.js
+      match: \b(?:Buffer)\b
+
+    - name: variable.other.flowtype.js
+      match: '[_$a-zA-Z][$\w]*'
+
+    - name: punctuation.separator.flowtype.js
+      match: (\:|\?|\||\&|\*|=>)
+
+    - begin: (?<=:)\s*({)
+      end: (})
       captures:
-        '1': {name: punctuation.definition.tag.js}
-        '2': {name: entity.name.tag.js}
+        '1': {name: punctuation.section.flowtype.js}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: '<'
+      end: '>'
+      captures:
+        '0': {name: punctuation.section.flowtype.js}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: '\('
+      end: '\)'
+      captures:
+        '0': {name: punctuation.section.flowtype.js}
+      patterns:
+      - include: '#flowtype-tokens'
