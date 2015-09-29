@@ -818,13 +818,13 @@ repository:
     patterns:
     - include: '#literal-keyword-storage'
 
-    - match: (?<!\.)\b(yield)\b(?:\s*(\*))?
+    - match: (?<!\.)\b(?>await|yield)\b(?:\s*(\*))?
       captures:
         '1': {name: keyword.control.flow.js}
         '2': {name: keyword.generator.asterisk.js}
 
     - name: keyword.control.flow.js
-      match: (?<!\.)\b(?>await|return)\b
+      match: (?<!\.)\b(?>return)\b
 
     - name: keyword.control.conditional.js
       match: (?<!\.)\b(?>if|else)\b
