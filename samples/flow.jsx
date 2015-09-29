@@ -111,3 +111,5 @@ declare class CC {
 declare module M {
   declare function foo(c: C): void;
 }
+
+function foo(a: ?string, b: any): Array<number> {}

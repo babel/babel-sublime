@@ -230,7 +230,9 @@ repository:
     - name: constant.other.primitve.flowtype.js
       match: \b(?:any|boolean|mixed|number|string|void)\b
     - name: support.type.builtin.class.flowtype.js
-      match: \b(?:Boolean|Function|Number|Object|String|Promise)\b
+      match: \b(?:Array|ArrayBuffer|Boolean|DataView|Date|Error|EvalError|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|RangeError|ReferenceError|Reflect|RegExp|Set|String|Symbol|SyntaxError|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|URIError|WeakMap|WeakSet)\b
+    - name: support.type.node.class.flowtype.js
+      match: \b(?:Buffer)\b
     - name: variable.other.flowtype.js
       match: '[_$a-zA-Z][$\w]*'
     - name: keyword.operator.separator.flowtype.js
@@ -349,9 +351,10 @@ repository:
         '2': {name: storage.type.function.js}
         '3': {name: keyword.generator.asterisk.js}
         '4': {name: entity.name.function.js}
-      end: (?<=\))
+      end: (?={)
       patterns:
       - include: '#function-declaration-parameters'
+      - include: '#flowtype-return'
 
     # e.g. play = function(arg1, arg2) {  }
     - name: meta.function.js
