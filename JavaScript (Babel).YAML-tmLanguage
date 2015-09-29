@@ -1018,7 +1018,7 @@ repository:
     patterns:
     - include: '#string-content'
     - include: '#quasi-content'
-    # [theme]: so interpolated expressions aren't scoped as "string"
+    # [theme-support]: so interpolated expressions aren't scoped as "string"
     - name: string.quasi.js
       match: '.'
 
@@ -1036,7 +1036,7 @@ repository:
   literal-regexp:
     patterns:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
-    #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
+    # http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
     - name: string.regexp.js
       begin: >-
         (?x)
