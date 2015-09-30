@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Symbol List Banned</string>
 	<key>scope</key>
-	<string>source.js meta.function-call, source.js meta.instance.constructor</string>
+	<string>source.js meta.function-call, source.js meta.instance.constructor, source.js meta.function - entity.name.function.js</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>
