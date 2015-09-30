@@ -44,7 +44,7 @@ var a = [1, 2, 3];
 var b: Array<number> = a.map(function(x) { return x + 1; });
 
 class CA {
-  x: string; // optional semicolons
+  x: string // optional semicolons
   y: number;
   constructor(x) { this.x = x; }
   foo(x: number): void { this.x = x; }

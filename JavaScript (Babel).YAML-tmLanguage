@@ -10,20 +10,19 @@ patterns:
 repository:
   core:
     patterns:
-    - include: '#literal-function-label'
     - include: '#literal-label'
-
+    - include: '#literal-block'
+    - include: '#literal-variable-declaration' # needs destructuring check
     - include: '#literal-keywords'
     - include: '#literal-for'
     - include: '#literal-switch'
-
+    - include: '#literal-terminator'
     - include: '#expression'
-    - include: '#literal-punctuation'
 
   expression:
     patterns:
     - include: '#jsx'
-    - include: '#es7-decorators'
+    - include: '#literal-decorator'
 
     - include: '#support'
     - include: '#literal-function'
@@ -45,13 +44,17 @@ repository:
     - include: '#literal-method-call'
     - include: '#literal-function-call'
 
+    - include: '#literal-object'
+
     - include: '#comments'
-    - include: '#brackets'
+
+    - include: '#parenthesis'
+    - include: '#square-brackets'
 
     - include: '#literal-operators'
     - include: '#literal-variable'
 
-  round-brackets:
+  parenthesis:
     patterns:
     - name: meta.group.round.js
       begin: \(
@@ -62,6 +65,7 @@ repository:
       - include: '#expression'
 
   square-brackets:
+    # TODO: don't forget computed props / backet prop notation
     patterns:
     - name: meta.group.square.js
       begin: \[
@@ -71,21 +75,76 @@ repository:
       patterns:
       - include: '#expression'
 
-  curly-brackets:
+  literal-object:
     patterns:
-    - name: meta.group.curly.js
+    - name: meta.object.js
+      begin: \{
+      end: \}
+      captures:
+        '0': {name: meta.brace.curly.js}
+      patterns:
+      - include: '#comments'
+
+      - include: '#short-method'
+
+      - name: meta.object.key.js
+        match: \b([_$a-zA-Z][$\w]*)\b
+        captures:
+          '0': {name: string.unquoted.key.js}
+
+      - name: meta.object.key.js
+        contentName: string.quoted.key.js
+        begin: (["'])
+        beginCaptures:
+          '0': {name: punctuation.definition.string.js}
+        end: (\1)|(\n)
+        endCaptures:
+          '1': {name: punctuation.definition.string.js}
+          '2': {name: invalid.illegal.newline.js}
+        patterns:
+        - include: '#string-content'
+
+      - name: meta.object.computed-key.js
+        begin: '\['
+        end: '\]'
+        captures:
+          '0': {name: punctuation.definition.property.js}
+        patterns:
+        - include: '#expression'
+
+      # Can't scope the computed short method as such because
+      # we cheat when distringuishing between a computed key vs a computed
+      # short method. `{[prop]: {}} vs {[prop](){}}`
+      - begin: (?<=\])(?=\s*\()
+        end: (?<=})
+        patterns:
+        - include: '#flowtype-polymorph'
+        - include: '#function-declaration-parameters'
+        - include: '#flowtype-return'
+        - include: '#comments'
+        - name: meta.function.body.js
+          begin: '{'
+          end: '}'
+          patterns:
+          - include: $self
+
+      - name: meta.object.value.js
+        begin: ':'
+        beginCaptures:
+          '0': {name: punctuation.separator.key-value.js}
+        end: '(?=[,}])'
+        patterns:
+        - include: '#expression'
+
+  literal-block:
+    patterns:
+    - name: meta.group.block.js
       begin: \{
       end: \}
       captures:
         '0': {name: meta.brace.curly.js}
       patterns:
       - include: $self
-
-  brackets:
-    patterns:
-    - include: '#round-brackets'
-    - include: '#square-brackets'
-    - include: '#curly-brackets'
 
   comments:
     patterns:
@@ -169,31 +228,62 @@ repository:
     - include: '#comments'
 
   short-method:
+    # patterns:
+    # - include: '#function-storage'
     patterns:
-    - include: '#function-storage'
-    - contentName: meta.method.js
-      begin: (?=["'$\w\d])
-      end: (?={)
+    - name: meta.method.js
+      begin: >-
+        (?x)
+          (?:
+          ((["'])((?:\\.|(?!\2).)*)(\2))  | # string quoted
+          (?:\b([_$a-zA-Z][$\w]*)\b)      | # any identifier
+          (?:\b(\d+)\b)                     # number-only name
+          )(?=\<|\()
+      beginCaptures:
+        '1': {name: string.quoted.js}
+        '2': {name: punctuation.definition.string.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: string.quoted.js}
+        '5': {name: entity.name.function.js}
+        '6': {name: entity.name.function.js}
+      end: (?<=})
       patterns:
-      - match: >-
-          (?x)
-            ((["'])((?:\\.|(?!\2).)*)(\2))  | # string quoted
-            (?:\b([_$a-zA-Z][$\w]*)\b)      | # any identifier
-            (?:\b(\d+)\b)                     # number-only name
-        captures:
-          '1': {name: string.quoted.js}
-          '2': {name: punctuation.definition.string.js}
-          '3': {name: entity.name.function.js}
-          '4': {name: string.quoted.js}
-          '5': {name: entity.name.function.js}
-          '6': {name: entity.name.function.js}
-      - include: '#function-right-side'
-    - contentName: meta.computed-method.js
-      begin: (?=\[)
-      end: (?={)
-      patterns:
-      - include: '#square-brackets'
-      - include: '#function-right-side'
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-return'
+      - include: '#comments'
+      - name: meta.group.func-body.js
+        begin: '{'
+        end: '}'
+        patterns:
+        - include: $self
+
+    # - name: meta.computed-shortmethod.js
+    #   begin: (?<=\])(?=\s*\()
+    #   end: (?<=})
+    #   patterns:
+    #   - include: '#flowtype-polymorph'
+    #   - include: '#function-declaration-parameters'
+    #   - include: '#flowtype-return'
+    #   - include: '#comments'
+    #   - name: meta.group.func-body.js
+    #     begin: '{'
+    #     end: '}'
+    #     patterns:
+    #     - include: $self
+
+    # - contentName: meta.computed-method.js
+    #   begin: (?=\[)
+    #   end: (?={)
+    #   patterns:
+    #   - name: meta.group.curly.js
+    #     begin: \{
+    #     end: \}
+    #     captures:
+    #       '0': {name: meta.brace.curly.js}
+    #     patterns:
+    #     - include: $self
+    #   - include: '#function-right-side'
 
   class-properties:
     patterns:
@@ -239,8 +329,8 @@ repository:
         - include: '#comments'
         - include: '#class-properties'
         - include: '#short-method'
-        - include: '#curly-brackets'
-        - include: '#es7-decorators'
+        # - include: '#curly-brackets'
+        - include: '#literal-decorator'
 
   literal-method:
     patterns:
@@ -266,7 +356,7 @@ repository:
       end: (?<=})
       patterns:
       - include: '#short-method'
-      - include: '#curly-brackets'
+      # - include: '#curly-brackets'
 
   literal-prototype:
     patterns:
@@ -286,12 +376,17 @@ repository:
         '2': {name: storage.type.function.js}
         '3': {name: keyword.generator.asterisk.js}
         '4': {name: entity.name.function.js}
-      end: (?=\s*{)
+      end: (?<=})
       patterns:
       - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
       - include: '#flowtype-return'
       - include: '#comments'
+      - name: meta.group.func-body.js
+        begin: '{'
+        end: '}'
+        patterns:
+        - include: $self
 
     # e.g. arg => { }
     - name: meta.function.js # TODO: flowtype?
@@ -462,19 +557,15 @@ repository:
       match: \b(async)\b
       # should * also be here?
 
-  literal-keyword-storage:
+  literal-variable-declaration:
     patterns:
     - name: storage.type.js
       match: (?<!\.)\b(?>const|let|var)\b
 
   literal-keywords:
     patterns:
-    - include: '#literal-keyword-storage'
-
-    - match: (?<!\.)\b(?>await|yield)\b(?:\s*(\*))?
-      captures:
-        '1': {name: keyword.control.flow.js}
-        '2': {name: keyword.generator.asterisk.js}
+    # - include: '#literal-variable-declaration'
+    # - include: '#literal-control'
 
     - name: keyword.control.flow.js
       match: (?<!\.)\b(?>return)\b
@@ -487,6 +578,16 @@ repository:
 
     - name: keyword.control.loop.js
       match: (?<!\.)\b(?>break|continue|do|goto|while)\b
+
+    - name: keyword.other.js
+      match: (?<!\.)\b(debugger)\b
+
+  literal-control:
+    patterns:
+    - match: (?<!\.)\b(?>await|yield)\b(?:\s*(\*))?
+      captures:
+        '1': {name: keyword.control.flow.js}
+        '2': {name: keyword.generator.asterisk.js}
 
   literal-for:
     patterns:
@@ -503,7 +604,7 @@ repository:
           '0': {name: meta.brace.round.js}
         end: (?=\))
         patterns:
-        - include: '#literal-keyword-storage'
+        - include: '#literal-variable-declaration'
         - include: '#expression'
         - include: '#literal-punctuation'
 
@@ -517,7 +618,7 @@ repository:
       endCaptures:
         '0': {name: meta.brace.curly.js}
       patterns:
-      - include: '#round-brackets'
+      - include: '#parenthesis'
       - begin: \{
         beginCaptures:
           '0': {name: meta.brace.curly.js}
@@ -546,10 +647,19 @@ repository:
           &&    | # logical-and     left-to-right   both
           \|\|  | # logical-or      left-to-right   both
 
-    - name: keyword.operator.assignment.js
-      match: >-
+    # - name: keyword.operator.assignment.js
+    #   match: >-
+    #     (?x)
+    #       =(?!=)| # assignment      right-to-left   both
+
+    - begin: >-
         (?x)
-          =(?!=)| # assignment      right-to-left   both
+          =(?!=) # assignment      right-to-left   both
+      beginCaptures:
+        '0': {name: keyword.operator.assignment.js}
+      end: (?=;|\n)
+      patterns:
+      - include: '#expression'
 
     - name: keyword.operator.assignment.augmented.js
       match: >-
@@ -615,18 +725,6 @@ repository:
 
   literal-label:
     patterns:
-    - begin: >-
-        (?x)
-          (?<!\?)(?<!\?\s)(?=(
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )\s*:)
-      end: ':'
-      endCaptures:
-        '0': {name: punctuation.separator.key-value.js}
-      patterns:
-      - include: '#literal-string'
-
     - name: constant.other.object.key.js
       match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)
       captures:
@@ -657,6 +755,11 @@ repository:
 
     - name: constant.language.infinity.js
       match: (?:\B[-+]|\b)(Infinity)\b
+
+  literal-terminator:
+    patterns:
+    - name: punctuation.terminator.statement.js
+      match: ';'
 
   literal-punctuation:
     patterns:
@@ -803,11 +906,8 @@ repository:
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
 
-    - name: keyword.other.js
-      match: (?<!\.)\b(debugger)\b
-
   # https://github.com/wycats/javascript-decorators
-  es7-decorators:
+  literal-decorator:
     patterns:
     - name: tag.decorator.js
       match: >-
