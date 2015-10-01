@@ -32,12 +32,13 @@ repository:
     - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
 
     - include: '#literal-regexp'              # before operators to avoid ambiguities
+
+    - include: '#literal-method'              # before number to void number-only shortmethod ambiguities
     - include: '#literal-number'
     - include: '#literal-quasi'
     - include: '#literal-string'
     - include: '#literal-language-builtin'
 
-    - include: '#literal-method'
     - include: '#literal-module'
     - include: '#literal-class'
 
@@ -46,46 +47,41 @@ repository:
     - include: '#literal-function-call'
 
     - include: '#comments'
-    - include: '#brackets'
+
+    - include: '#round-brackets'
+    - include: '#square-brackets'
+    - include: '#curly-brackets'
 
     - include: '#literal-operators'
     - include: '#literal-variable'
 
-  round-brackets:
-    patterns:
-    - name: meta.group.round.js
-      begin: \(
-      end: \)
-      captures:
-        '0': {name: meta.brace.round.js}
-      patterns:
-      - include: '#expression'
-
-  square-brackets:
-    patterns:
-    - name: meta.group.square.js
-      begin: \[
-      end: \]
-      captures:
-        '0': {name: meta.brace.square.js}
-      patterns:
-      - include: '#expression'
 
   curly-brackets:
+    name: meta.group.curly.js
+    begin: \{
+    end: \}
+    captures:
+      '0': {name: meta.brace.curly.js}
     patterns:
-    - name: meta.group.curly.js
-      begin: \{
-      end: \}
-      captures:
-        '0': {name: meta.brace.curly.js}
-      patterns:
-      - include: $self
+    - include: $self
 
-  brackets:
+  round-brackets:
+    name: meta.group.round.js
+    begin: \(
+    end: \)
+    captures:
+      '0': {name: meta.brace.round.js}
     patterns:
-    - include: '#round-brackets'
-    - include: '#square-brackets'
-    - include: '#curly-brackets'
+    - include: '#expression'
+
+  square-brackets:
+    name: meta.group.square.js
+    begin: \[
+    end: \]
+    captures:
+      '0': {name: meta.brace.square.js}
+    patterns:
+    - include: '#expression'
 
   comments:
     patterns:
@@ -110,48 +106,78 @@ repository:
       captures:
         '1': {name: punctuation.definition.comment.js}
 
-  function-declaration-parameters:
+  function-parameters:
     patterns:
-    - begin: \(
+    - name: meta.group.parameters.js
+      begin: \(
       end: \)
       captures:
         '0': {name: punctuation.definition.parameters.js}
       patterns:
-      - include: '#function-parameters'
+      - include: '#parameters-declaration'
       - include: '#flowtype-variable'
 
-  function-parameters:
+  parameters-declaration:
     patterns:
-    - name: keyword.operator.spread.js
-      match: (?<!\.)\.\.\.
+    - include: '#spread-operator'
+
+    - name: punctuation.separator.identifier.js
+      match: ','
+
     - name: variable.parameter.function.js
       match: '[_$a-zA-Z][$\w]*'
-    - name: punctuation.separator.parameter.function.js
-      match: ','
-    - name: meta.parameter.optional.js
-      begin: '='
-      beginCaptures:
-        '0': {name: keyword.operator.assignment.js}
-      end: '(?=[,)}\]])'
+
+    - name: meta.parameter.default.js
+      begin: (?=[=])
+      end: (?=[,)}\]])
       patterns:
       - include: '#expression'
-    - include: '#function-destructure'
+
+    - begin: '\['
+      end: '\]'
+      captures:
+        '0': {name: punctuation.definition.destructure.js}
+      patterns:
+      - include: '#parameters-declaration'
+
+    - begin: '{'
+      end: '}'
+      captures:
+        '0': {name: punctuation.definition.destructure.js}
+      patterns:
+      - include: '#parameters-declaration'
+
     - include: '#comments'
 
-  function-destructure:
+  variable-declaration:
     patterns:
     - begin: '\['
       end: '\]'
       captures:
         '0': {name: punctuation.definition.destructure.js}
       patterns:
-      - include: '#function-parameters'
+      - include: '#parameters-declaration'
+
     - begin: '{'
       end: '}'
       captures:
         '0': {name: punctuation.definition.destructure.js}
       patterns:
-      - include: '#function-parameters'
+      - include: '#parameters-declaration'
+
+    - name: variable.parameter.function.js
+      match: '[_$a-zA-Z][$\w]*'
+
+    - include: '#spread-operator'
+    - include: '#literal-punctuation'
+    - include: '#comments'
+
+  variable-default:
+    name: meta.parameter.default.js
+    begin: (?=[=])
+    end: (?=[,)}\]])
+    patterns:
+    - include: '#expression'
 
   function-storage:
     patterns:
@@ -164,7 +190,7 @@ repository:
   function-right-side:
     patterns:
     - include: '#flowtype-polymorph'
-    - include: '#function-declaration-parameters'
+    - include: '#function-parameters'
     - include: '#flowtype-return'
     - include: '#comments'
 
@@ -259,6 +285,8 @@ repository:
             (\[(?:(?>[^\[\]]+)|\g<-1>)*\])  # balanced brackets (computed name)
           )
           (?:\s|/\*.*\*/)*                  # maybe gap
+          (<(?:(?>[^<>]+)|\g<-1>)*>)?       # balanced angle brackets (flow polymorph)
+          (?:\s|/\*.*\*/)*                  # maybe gap
           (\((?:(?>[^()]+)|\g<-1>)*\))      # balanced parens (arguments)
           (?:\s|/\*.*\*/)*                  # maybe gap
           (?:[:|{])                         # flowtype-return or function body
@@ -289,7 +317,7 @@ repository:
       end: (?=\s*{)
       patterns:
       - include: '#flowtype-polymorph'
-      - include: '#function-declaration-parameters'
+      - include: '#function-parameters'
       - include: '#flowtype-return'
       - include: '#comments'
 
@@ -310,7 +338,7 @@ repository:
       endCaptures:
         '1': {name: storage.type.function.js}
       patterns:
-      - include: '#function-declaration-parameters'
+      - include: '#function-parameters'
       - include: '#flowtype-return'
       - include: '#comments'
 
@@ -463,9 +491,25 @@ repository:
       # should * also be here?
 
   literal-keyword-storage:
+    # [known-issue]: Flow matching is only supported for one declarator per
+    # declaration because there is no token/char to signal the end of a
+    # declaration. It is possible to kinda support trailing comma style, but
+    # not comma first style. So I won't support either. The hack is commented out.
     patterns:
-    - name: storage.type.js
-      match: (?<!\.)\b(?>const|let|var)\b
+    - name: meta.variable.declaration.js
+      begin: (?<!\.)\b(const|let|var)\b
+      captures:
+        '1': {name: 'storage.type.js'}
+      end: (?=;|\n)
+      # end: (?=;)|((?<!,)(?=\n))
+      patterns:
+      - include: '#variable-declaration'
+      - include: '#flowtype-variable'
+      # - begin: '(?<=,)'
+      #   end: (?=[\S])
+      #   applyEndPatternLast: 1
+      #   patterns:
+      #   - include: '#comments'
 
   literal-keywords:
     patterns:
@@ -607,11 +651,14 @@ repository:
     - name: keyword.operator.ternary.js
       match: '\?|:'
 
-    - name: keyword.operator.spread.js
-      match: (?<!\.)\.\.\.
+    - include: '#spread-operator'
 
     - name: keyword.operator.accessor.js
       match: \.
+
+  spread-operator:
+    name: keyword.operator.spread.js
+    match: (?<!\.)\.\.\.
 
   literal-label:
     patterns:
@@ -660,11 +707,16 @@ repository:
 
   literal-punctuation:
     patterns:
-    - name: punctuation.terminator.statement.js
-      match: ';'
+    - include: '#literal-terminator'
+    - include: '#literal-delimiter'
 
-    - name: meta.delimiter.comma.js
-      match: ','
+  literal-terminator:
+    name: punctuation.terminator.statement.js
+    match: ';'
+
+  literal-delimiter:
+    name: meta.delimiter.comma.js
+    match: ','
 
   literal-quasi:
     begin: '`'
@@ -908,7 +960,7 @@ repository:
 ################################################################################
 
   flowtype-polymorph:
-    contentName: meta.flowtype.js
+    name: meta.flowtype.js
     begin: '<'
     end: '>'
     captures:
@@ -917,7 +969,7 @@ repository:
     - include: '#flowtype-tokens'
 
   flowtype-variable:
-    contentName: meta.flowtype.js
+    name: meta.flowtype.js
     begin: ':'
     # a line-comment is also a terminator since semicolons are optional
     end: (?=,|;|\)|\n|\s*\/\/)
@@ -927,7 +979,7 @@ repository:
     - include: '#flowtype-tokens'
 
   flowtype-return:
-    contentName: meta.flowtype.js
+    name: meta.flowtype.js
     begin: ':'
     end: (?=\s*{)
     captures:

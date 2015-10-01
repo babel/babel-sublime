@@ -1,6 +1,8 @@
 let Sound = {
   play() {},
   play(arg) {},
+  'play'() {},
+  'play'(arg) {},
   get() {},
   set() {},
   *play() {},
@@ -8,6 +10,12 @@ let Sound = {
   async play() {},
   get play() {},
   set play(arg) {},
+  *'play'() {},
+  *'play'(arg) {},
+  async 'play'() {},
+  async 'play'(arg) {},
+  get 'play'() {},
+  set 'play'(arg) {},
   play: function() {},
   play: function(arg) {},
   play: function*() {},
@@ -30,15 +38,36 @@ let Sound = {
   "play": (arg) => {},
   "play": arg => {},
   "play": () => {},
+  [play]: function() {},
+  [play]: function(arg) {},
+  [play]: function*() {},
+  [play]: function*(arg) {},
+  [play]: async function() {},
+  [play]: async function*() {},
+  [play]: async (arg) => {},
+  [play]: async arg => {},
+  [play]: (arg) => {},
+  [play]: arg => {},
+  [play]: () => {},
+  0() {},
+  0(arg) {},
+  *0() {},
+  *0(arg) {},
+  async 0(arg) {},
+  async 0(arg) {},
 }
 
 class Sound {
   play() {}
   play(arg) {}
+  'play'() {}
+  'play'(arg) {}
   get() {}
   set() {}
   *play() {}
   *play(arg) {}
+  *'play'() {}
+  *'play'(arg) {}
   async play() {}
   get play() {}
   set play(arg) {}
