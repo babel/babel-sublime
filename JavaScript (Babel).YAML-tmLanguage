@@ -13,6 +13,7 @@ repository:
     - include: '#literal-function-label'
     - include: '#literal-label'
 
+    - include: '#literal-keyword-storage'
     - include: '#literal-keywords'
     - include: '#literal-for'
     - include: '#literal-switch'
@@ -507,8 +508,6 @@ repository:
 
   literal-keywords:
     patterns:
-    - include: '#literal-keyword-storage'
-
     - match: (?<!\.)\b(?>await|yield)\b(?:\s*(\*))?
       captures:
         '1': {name: keyword.control.flow.js}
