@@ -37,11 +37,15 @@ function foo(a: string, b: number): void { }
 var x: boolean = someBool;
 class Bar {
   y: string;
+  x: WeakMap;
+  z: MyObjact;
   someMethod(a: number): string { }
 }
 
 var a = [1, 2, 3];
 var b: Array<number> = a.map(function(x) { return x + 1; });
+
+function c([b: number]) {}
 
 class CA {
   x: string // optional semicolons

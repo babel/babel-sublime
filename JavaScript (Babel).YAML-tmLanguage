@@ -55,7 +55,6 @@ repository:
     - include: '#literal-operators'
     - include: '#literal-variable'
 
-
   curly-brackets:
     name: meta.group.curly.js
     begin: \{
@@ -114,19 +113,16 @@ repository:
       captures:
         '0': {name: punctuation.definition.parameters.js}
       patterns:
-      - include: '#parameters-declaration'
       - include: '#flowtype-variable'
+      - include: '#parameters-declaration'
 
   parameters-declaration:
     patterns:
-    - include: '#spread-operator'
-
-    - name: punctuation.separator.identifier.js
-      match: ','
-
     - name: variable.parameter.function.js
       match: '[_$a-zA-Z][$\w]*'
 
+    # Default parameters are matched with `#expression` so only the identifier
+    # before the `=` gets scoped as "variable.paramater".
     - name: meta.parameter.default.js
       begin: (?=[=])
       end: (?=[,)}\]])
@@ -138,6 +134,7 @@ repository:
       captures:
         '0': {name: punctuation.definition.destructure.js}
       patterns:
+      - include: '#flowtype-variable'
       - include: '#parameters-declaration'
 
     - begin: '{'
@@ -145,38 +142,9 @@ repository:
       captures:
         '0': {name: punctuation.definition.destructure.js}
       patterns:
+      - include: '#flowtype-variable'
       - include: '#parameters-declaration'
 
-    - include: '#comments'
-
-  variable-declaration:
-    patterns:
-    - begin: '\['
-      end: '\]'
-      captures:
-        '0': {name: punctuation.definition.destructure.js}
-      patterns:
-      - include: '#parameters-declaration'
-
-    - begin: '{'
-      end: '}'
-      captures:
-        '0': {name: punctuation.definition.destructure.js}
-      patterns:
-      - include: '#parameters-declaration'
-
-    - name: variable.parameter.function.js
-      match: '[_$a-zA-Z][$\w]*'
-
-    - include: '#spread-operator'
-    - include: '#literal-punctuation'
-    - include: '#comments'
-
-  variable-default:
-    name: meta.parameter.default.js
-    begin: (?=[=])
-    end: (?=[,)}\]])
-    patterns:
     - include: '#expression'
 
   function-storage:
@@ -503,8 +471,23 @@ repository:
       end: (?=;|\n)
       # end: (?=;)|((?<!,)(?=\n))
       patterns:
-      - include: '#variable-declaration'
       - include: '#flowtype-variable'
+
+      - begin: '\['
+        end: '\]'
+        captures:
+          '0': {name: punctuation.definition.destructure.js}
+        patterns:
+        - include: '#expression'
+
+      - begin: '{'
+        end: '}'
+        captures:
+          '0': {name: punctuation.definition.destructure.js}
+        patterns:
+        - include: '#expression'
+
+      - include: '#expression'
       # - begin: '(?<=,)'
       #   end: (?=[\S])
       #   applyEndPatternLast: 1
@@ -707,16 +690,11 @@ repository:
 
   literal-punctuation:
     patterns:
-    - include: '#literal-terminator'
-    - include: '#literal-delimiter'
+    - name: punctuation.terminator.statement.js
+      match: ';'
 
-  literal-terminator:
-    name: punctuation.terminator.statement.js
-    match: ';'
-
-  literal-delimiter:
-    name: meta.delimiter.comma.js
-    match: ','
+    - name: meta.delimiter.comma.js
+      match: ','
 
   literal-quasi:
     begin: '`'
@@ -779,10 +757,10 @@ repository:
       - include: '#string-content'
 
   string-content:
+    # https://mathiasbynens.be/notes/javascript-escapes
     patterns:
     - name: constant.character.escape.newline.js
       match: \\\s*\n
-    # https://mathiasbynens.be/notes/javascript-escapes
     - name: constant.character.escape.js
       match: \\([1-7][0-7]{0,2}|[0-7]{2,3}|[bfnrtv0'"\\]|x\h{2}|u\{\h+\}|u\h{4})
 
