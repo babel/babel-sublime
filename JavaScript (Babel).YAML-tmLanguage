@@ -515,6 +515,9 @@ repository:
     - name: keyword.control.loop.js
       match: (?<!\.)\b(?>break|continue|do|goto|while)\b
 
+    - name: keyword.other.js
+      match: (?<!\.)\b(debugger)\b
+
   literal-for:
     patterns:
     - name: meta.for.js
@@ -825,9 +828,6 @@ repository:
         '1': {name: support.type.object.module.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
-
-    - name: keyword.other.js
-      match: (?<!\.)\b(debugger)\b
 
   # https://github.com/wycats/javascript-decorators
   es7-decorators:
