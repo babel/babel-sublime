@@ -634,14 +634,11 @@ repository:
     - name: keyword.operator.ternary.js
       match: '\?|:'
 
-    - include: '#spread-operator'
+    - name: keyword.operator.spread.js
+      match: (?<!\.)\.\.\.
 
     - name: keyword.operator.accessor.js
       match: \.
-
-  spread-operator:
-    name: keyword.operator.spread.js
-    match: (?<!\.)\.\.\.
 
   literal-label:
     patterns:
