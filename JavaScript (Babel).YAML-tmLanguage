@@ -696,30 +696,6 @@ repository:
     - name: meta.delimiter.comma.js
       match: ','
 
-  literal-quasi:
-    begin: '`'
-    end: '`'
-    captures:
-      '0': {name: punctuation.definition.quasi.js}
-    patterns:
-    - include: '#string-content'
-    - include: '#quasi-content'
-    # interpolated expressions aren't scoped as "string" so themes don't color
-    # them as such
-    - name: string.quasi.js
-      match: '.'
-
-  quasi-content:
-    patterns:
-    - name: constant.character.escape.js
-      match: '\\`'
-    - begin: '\${'
-      end: '}'
-      captures:
-        '0': {name: keyword.operator.substitution.js}
-      patterns:
-      - include: '#expression'
-
   literal-regexp:
     patterns:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
@@ -755,6 +731,26 @@ repository:
         '2': {name: invalid.illegal.newline.js}
       patterns:
       - include: '#string-content'
+
+  literal-quasi:
+    begin: '`'
+    end: '`'
+    captures:
+      '0': {name: punctuation.definition.quasi.js}
+    patterns:
+    - include: '#string-content'
+    - name: constant.character.escape.js
+      match: '\\`'
+    - begin: '\${'
+      end: '}'
+      captures:
+        '0': {name: keyword.operator.interpolate.js}
+      patterns:
+      - include: '#expression'
+    # Workaround so themes color the contents of template strings as "string",
+    # but not any interpolated expression within.
+    - name: string.quasi.js
+      match: '.'
 
   string-content:
     # https://mathiasbynens.be/notes/javascript-escapes
