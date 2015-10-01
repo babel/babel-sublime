@@ -960,30 +960,30 @@ repository:
 ################################################################################
 
   flowtype-polymorph:
-    name: meta.flowtype.js
+    name: meta.flowtype.polymorph.js
     begin: '<'
     end: '>'
     captures:
-      '0': {name: keyword.operator.flowtype.js}
+      '0': {name: punctuation.definition.flowtype.js}
     patterns:
     - include: '#flowtype-tokens'
 
   flowtype-variable:
-    name: meta.flowtype.js
+    name: meta.flowtype.variable.js
     begin: ':'
-    # a line-comment is also a terminator since semicolons are optional
-    end: (?=,|;|\)|\n|\s*\/\/)
-    captures:
+    beginCaptures:
       '0': {name: keyword.operator.flowtype.js}
+    # Line comments are also terminators since semicolons are optional
+    end: (?=\s*(?:,|;|=(?!>)|\)|\]|\n|\/\/))
     patterns:
     - include: '#flowtype-tokens'
 
   flowtype-return:
-    name: meta.flowtype.js
+    name: meta.flowtype.return.js
     begin: ':'
-    end: (?=\s*{)
-    captures:
+    beginCaptures:
       '0': {name: keyword.operator.flowtype.js}
+    end: (?=\s*{)
     patterns:
     - include: '#flowtype-tokens'
 
@@ -992,19 +992,16 @@ repository:
     - name: constant.other.primitve.flowtype.js
       match: \b(?:any|bool|boolean|mixed|number|string|void)\b
 
-    - name: support.type.builtin.class.flowtype.js
-      match: \b(?:Array|ArrayBuffer|Boolean|DataView|Date|Error|EvalError|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|RangeError|ReferenceError|Reflect|RegExp|Set|String|Symbol|SyntaxError|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|URIError|WeakMap|WeakSet)\b
-
-    - name: support.type.node.class.flowtype.js
-      match: \b(?:Buffer)\b
+    - include: '#support'
 
     - name: variable.other.flowtype.js
       match: '[_$a-zA-Z][$\w]*'
 
     - name: punctuation.separator.flowtype.js
-      match: (\:|\?|\||\&|\*|=>)
+      match: (\:)
 
-    - include: '#comments'
+    - name: keyword.operator.flowtype.js
+      match: (\?|\||\&|\*|=>|\.\.\.)
 
     - begin: (?<=:)\s*({)
       end: (})
@@ -1026,3 +1023,5 @@ repository:
         '0': {name: punctuation.section.flowtype.js}
       patterns:
       - include: '#flowtype-tokens'
+
+    - include: '#comments'
