@@ -201,6 +201,17 @@ repository:
       - include: '#literal-punctuation'
       - include: '#expression'
 
+  # https://github.com/wycats/javascript-decorators
+  es7-decorators:
+    patterns:
+    - name: tag.decorator.js
+      match: >-
+        (?x)
+          (@)([_$a-zA-Z][$\w]*)\b
+      captures:
+        '1': {name: punctuation.definition.tag.js}
+        '2': {name: entity.name.tag.js}
+
   literal-module:
     patterns:
     - name: keyword.operator.module.js
@@ -789,6 +800,10 @@ repository:
     - name: variable.other.readwrite.js
       match: '[_$a-zA-Z][$\w]*'
 
+################################################################################
+## support
+################################################################################
+
   support:
     # https://github.com/sindresorhus/globals
     patterns:
@@ -828,17 +843,6 @@ repository:
         '1': {name: support.type.object.module.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
-
-  # https://github.com/wycats/javascript-decorators
-  es7-decorators:
-    patterns:
-    - name: tag.decorator.js
-      match: >-
-        (?x)
-          (@)([_$a-zA-Z][$\w]*)\b
-      captures:
-        '1': {name: punctuation.definition.tag.js}
-        '2': {name: entity.name.tag.js}
 
 ################################################################################
 ## jsx
