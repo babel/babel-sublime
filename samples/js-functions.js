@@ -82,14 +82,25 @@ Sound
 Sound()
 Sound = {}
 Sound.play
+Sound[play]
 Sound.play()
+Sound[play]()
 Sound.play = {}
+Sound[play] = {}
 Sound.prototype
 Sound.prototype()
 Sound.prototype = {}
 Sound.prototype.play
 Sound.prototype.play()
+Sound.prototype[play]()
 Sound.prototype.play =
+Sound.prototype[play] =
+Sound.play.repeat
+Sound[play].repeat
+Sound.play.repeat()
+Sound[play].repeat()
+Sound.play.repeat = {}
+Sound[play].repeat = {}
 
 Sound.prototype.play = function() {}
 Sound.prototype.play = function(arg) {}
@@ -148,3 +159,7 @@ return async function* play() {}
 
 yield genfunc;
 yield* genfunc;
+
+// Not matched as function definitions
+Sound[play] = function(){}
+Sound.prototype.[play] = function(){}
