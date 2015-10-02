@@ -519,14 +519,6 @@ repository:
 
   literal-keywords:
     patterns:
-    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
-      captures:
-        '1': {name: keyword.control.flow.js}
-        '2': {name: keyword.generator.asterisk.js}
-
-    - name: keyword.control.flow.js
-      match: (?<!\.)\b(?>return)\b
-
     - name: keyword.control.conditional.js
       match: (?<!\.)\b(?>if|else)\b
 
@@ -588,7 +580,12 @@ repository:
       match: '=>'
 
     - name: keyword.operator.js
-      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with)\b
+      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|return)\b
+
+    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
+      captures:
+        '1': {name: keyword.control.operator.js}
+        '2': {name: keyword.generator.asterisk.js}
 
     - name: keyword.operator.logical.js
       match: >-
@@ -726,9 +723,9 @@ repository:
       begin: >-
         (?x)
           (?<=
-            \.|\(|,|{|}|\[|;|,|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
-            \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+            \.|\(|,|{|}|\[|;|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
+            \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|\Wyield|
+            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^yield|^
           )\s*
           (/)
           (?!/|\*|$)
