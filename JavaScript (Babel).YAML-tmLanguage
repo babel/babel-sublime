@@ -13,6 +13,7 @@ repository:
     - include: '#literal-function-label'
     - include: '#literal-label'
 
+    - include: '#flowtype-declaration'
     - include: '#literal-keyword-storage'
     - include: '#literal-keywords'
     - include: '#literal-for'
@@ -162,7 +163,8 @@ repository:
 
     - contentName: meta.method.js
       begin: (?=["'$\w\d])
-      end: (?={)
+      # Flow declarations end in `;`
+      end: (?=\s*{|;|\n)
       patterns:
       - match: >-
           (?x)
@@ -179,7 +181,8 @@ repository:
       - include: '#function-right-side'
     - contentName: meta.computed-method.js
       begin: (?=\[)
-      end: (?={)
+      # Flow declarations end in `;`
+      end: (?=\s*{|;|\n)
       patterns:
       - include: '#square-brackets'
       - include: '#function-right-side'
@@ -187,7 +190,7 @@ repository:
   class-properties:
     patterns:
     - begin: (?=(?:[_$a-zA-Z][$\w]*)(?:\s|/\*.*\*/)*(?:=|:|;|\n))
-      end: (?<=;|\n)
+      end: (?<=;|\n)|(?=\s*})
       patterns:
       - include: '#comments'
       - include: '#flowtype-annotation'
@@ -225,9 +228,11 @@ repository:
           '0': {name: storage.type.extends.js}
         end: (?={)
         patterns:
+        - include: '#flowtype-polymorph'
         - include: '#expression'
       - name: entity.name.class.js
         match: \b([_$a-zA-Z][$\w]*)\b
+      - include: '#flowtype-polymorph'
       - name: meta.class.js
         begin: '{'
         end: '}'
@@ -283,7 +288,8 @@ repository:
       begin: (?<!\.)\b(function)\b
       beginCaptures:
         '1': {name: storage.type.function.js}
-      end: (?=\s*{)
+      # Flow declarations end in `;`
+      end: (?=\s*{|;|\n)
       patterns:
       - name: keyword.generator.asterisk.js
         match: '\*'
@@ -949,7 +955,7 @@ repository:
     beginCaptures:
       '0': {name: keyword.operator.flowtype.js}
     # Line comments are also terminators since semicolons are optional
-    end: (?=\s*(?:,|;|=|\)|\]|\{|\n|\/\/))
+    end: (?=\s*(?:,|;|=|\)|\]|\}|\{|\n|\/\/))
     applyEndPatternLast: 1
     patterns:
     - include: '#flowtype-tokens'
@@ -961,14 +967,14 @@ repository:
 
     - include: '#support'
 
-    - name: variable.other.flowtype.js
-      match: '[_$a-zA-Z][$\w]*'
-
     - name: punctuation.separator.flowtype.js
       match: (\:)
 
     - name: keyword.operator.flowtype.js
-      match: (\?|\||\&|\*|\.\.\.)
+      match: (\?|\||\&|\*|\.\.\.|typeof)
+
+    - name: variable.other.flowtype.js
+      match: '[_$a-zA-Z][$\w]*'
 
     - begin: (?<=:|=>|\()\s*({)
       end: (})
@@ -993,3 +999,16 @@ repository:
       - include: '#flowtype-tokens'
 
     - include: '#comments'
+
+  flowtype-declaration:
+    patterns:
+    # - name: keyword.declaration.flowtype.js
+    #   match: (interface|declare)
+
+    - begin: (interface|declare)
+      beginCaptures:
+        '1': {name: keyword.declaration.flowtype.js}
+      end: (?<=}|;)
+      patterns:
+      - include: $self
+      # - include: '#flowtype-tokens'
