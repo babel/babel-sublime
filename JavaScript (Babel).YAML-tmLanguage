@@ -148,14 +148,6 @@ repository:
 
     - include: '#expression'
 
-  function-storage:
-    patterns:
-    - include: '#literal-function-storage'
-    - name: storage.type.function.js
-      match: \b(function)\b
-    - name: keyword.generator.asterisk.js
-      match: '\*'
-
   function-right-side:
     patterns:
     - include: '#flowtype-polymorph'
@@ -165,7 +157,9 @@ repository:
 
   short-method:
     patterns:
-    - include: '#function-storage'
+    - name: keyword.generator.asterisk.js
+      match: '\*'
+
     - contentName: meta.method.js
       begin: (?=["'$\w\d])
       end: (?={)
@@ -286,32 +280,33 @@ repository:
 
   literal-function:
     patterns:
-    # e.g. function play(arg1, arg2) { }
     - name: meta.function.js
-      begin: (?:\b(async)\s+)?\b(function)\s*(\*)?\s*([_$a-zA-Z][$\w]*)?(?=\s*[<(])
+      begin: (?<!\.)\b(function)\b
       beginCaptures:
-        '1': {name: storage.type.async.js}
-        '2': {name: storage.type.function.js}
-        '3': {name: keyword.generator.asterisk.js}
-        '4': {name: entity.name.function.js}
+        '1': {name: storage.type.function.js}
       end: (?=\s*{)
       patterns:
+      - name: keyword.generator.asterisk.js
+        match: '\*'
+
+      - name: entity.name.function.js
+        match: '[_$a-zA-Z][$\w]*'
+
       - include: '#flowtype-polymorph'
       - include: '#function-parameters'
       - include: '#flowtype-return'
       - include: '#comments'
 
     # e.g. arg => { }
-    - name: meta.function.js # TODO: flowtype?
-      match: (?:\b(async)\s+)?([_$a-zA-Z][$\w]*)\s*(=>)
+    - name: meta.function.arrow.js # TODO: flowtype?
+      match: (?<!\.)\b([_$a-zA-Z][$\w]*)\s*(=>)
       captures:
-        '1': {name: storage.type.async.js}
-        '2': {name: variable.parameter.js}
-        '3': {name: storage.type.function.js}
+        '1': {name: variable.parameter.js}
+        '2': {name: storage.type.function.js}
 
     # e.g. (args) => { }
-    - name: meta.function.js # TODO: '#flowtype-polymorph'?
-      begin: (?:\b(async)\s+)?(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?::|=>))
+    - name: meta.function.arrow.js # TODO: '#flowtype-polymorph'?
+      begin: (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?>:|=>))
       beginCaptures:
         '1': {name: storage.type.async.js}
       end: (=>)
@@ -327,7 +322,7 @@ repository:
     # e.g. play = function play(arg1, arg2) { }
     # e.g. play = (args) => { }
     patterns:
-    - name: meta.function.assignment.js
+    - name: meta.function.assignment.js #TODO: account for flowtype
       match: >-
         (?x)
           ([_$a-zA-Z][$\w]*)
@@ -336,7 +331,11 @@ repository:
             \s*(?:async\s+)?
             (?:
               (?:function\s*\*?\s*(?:[_$a-zA-Z][$\w]*)?\s*[<(]) |
-              (?:(?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))\s*(?::|=>))
+              (?:
+                (?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))
+                \s*
+                (?>:|=>)
+              )
             )
           )
       captures:
@@ -461,16 +460,16 @@ repository:
   literal-function-storage:
     patterns:
     - name: storage.modifier.js
-      match: \b(static)\b
+      match: (?<!\.)\b(static)\b
 
     - name: storage.type.property.js
-      match: \b(get|set)\b(?!\s*\()
+      match: (?<!\.)\b(get|set)\b(?!\s*\()
 
     - name: storage.type.async.js
-      match: \b(async)\b
-      # should * also be here?
+      match: (?<!\.)\b(async)\b
 
   literal-keyword-storage:
+    # TODO: fix this message
     # [known-issue]: Flow matching is only supported for one declarator per
     # declaration because there is no token/char to signal the end of a
     # declaration. It is possible to kinda support trailing comma style, but
@@ -654,6 +653,7 @@ repository:
       match: \.
 
   literal-label:
+   # TODO: Should this be "meta.object.member.js"?
     patterns:
     - begin: >-
         (?x)
