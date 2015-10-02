@@ -440,10 +440,15 @@ repository:
     patterns:
     - name: variable.language.js
       match: (?<!(?<!\.\.)\.)\b(?>arguments|self|super|this)\b
+
     - name: variable.language.js
       match: (?<=\.)\b(?>__proto__|constructor|prototype)\b
+
     - name: constant.language.js
       match: (?<!\.)\b(?>true|false|null|undefined|NaN)\b
+
+    - name: keyword.other.reserved.js
+      match: (?<!\.)\b(?>enum|public|default|extends|package|private|interface|protected|implements)\b
 
   literal-constructor:
     patterns:
