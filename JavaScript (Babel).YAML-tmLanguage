@@ -948,7 +948,7 @@ repository:
     beginCaptures:
       '0': {name: keyword.operator.flowtype.js}
     # Line comments are also terminators since semicolons are optional
-    end: (?=\s*(?:,|;|=(?!>)|\)|\]|\n|\/\/))
+    end: (?=\s*(?:,|;|=|\)|\]|\n|\/\/))
     patterns:
     - include: '#flowtype-tokens'
 
@@ -957,7 +957,7 @@ repository:
     begin: ':'
     beginCaptures:
       '0': {name: keyword.operator.flowtype.js}
-    end: (?=\s*{)
+    end: (?<!:)(?=\s*(?>{|=>))
     patterns:
     - include: '#flowtype-tokens'
 
@@ -975,7 +975,7 @@ repository:
       match: (\:)
 
     - name: keyword.operator.flowtype.js
-      match: (\?|\||\&|\*|=>|\.\.\.)
+      match: (\?|\||\&|\*|\.\.\.)
 
     - begin: (?<=:)\s*({)
       end: (})
@@ -991,10 +991,13 @@ repository:
       patterns:
       - include: '#flowtype-tokens'
 
-    - begin: '\('
-      end: '\)'
-      captures:
+    - begin: '(\()'
+      beginCaptures:
         '0': {name: punctuation.section.flowtype.js}
+      end: '(\))(?:\s*(=>))?'
+      endCaptures:
+        '1': {name: punctuation.section.flowtype.js}
+        '2': {name: keyword.operator.flowtype.js}
       patterns:
       - include: '#flowtype-tokens'
 
