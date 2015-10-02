@@ -234,9 +234,8 @@ repository:
         captures:
           '0': {name: punctuation.section.class.js}
         patterns:
-        - name: storage.modifier.js
-          match: \b(static)\b
         - include: '#comments'
+        - include: '#literal-function-storage'
         - include: '#class-properties'
         - include: '#short-method'
         - include: '#curly-brackets'
@@ -330,12 +329,8 @@ repository:
             \s*=
             \s*(?:async\s+)?
             (?:
-              (?:function\s*\*?\s*(?:[_$a-zA-Z][$\w]*)?\s*[<(]) |
-              (?:
-                (?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))
-                \s*
-                (?>:|=>)
-              )
+              \b(?:function)\b|
+              (?:(?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))\s*(?>:|=>))
             )
           )
       captures:
@@ -353,8 +348,8 @@ repository:
           (?=
             \s*(?:async\s+)?
             (?:
-              (?:function\s*\*?\s*(?:[_$a-zA-Z][$\w]*)?\s*[<(]) |
-              (?:(?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))\s*(?::|=>))
+              \b(?:function)\b|
+              (?:(?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))\s*(?>:|=>))
             )
           )
       captures:
@@ -498,6 +493,12 @@ repository:
         patterns:
         - include: '#expression'
 
+      # TODO: This can include something like a class body for "{"
+      - begin: (?==)
+        end: (?=,|;|\n)
+        patterns:
+        - include: '#expression'
+
       - include: '#expression'
       # - begin: '(?<=,)'
       #   end: (?=[\S])
@@ -507,7 +508,7 @@ repository:
 
   literal-keywords:
     patterns:
-    - match: (?<!\.)\b(?>await|yield)\b(?:\s*(\*))?
+    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
       captures:
         '1': {name: keyword.control.flow.js}
         '2': {name: keyword.generator.asterisk.js}
