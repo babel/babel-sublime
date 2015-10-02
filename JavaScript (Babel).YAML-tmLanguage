@@ -114,7 +114,7 @@ repository:
       captures:
         '0': {name: punctuation.definition.parameters.js}
       patterns:
-      - include: '#flowtype-variable'
+      - include: '#flowtype-annotation'
       - include: '#parameters-declaration'
 
   parameters-declaration:
@@ -135,7 +135,7 @@ repository:
       captures:
         '0': {name: punctuation.definition.destructure.js}
       patterns:
-      - include: '#flowtype-variable'
+      - include: '#flowtype-annotation'
       - include: '#parameters-declaration'
 
     - begin: '{'
@@ -143,7 +143,7 @@ repository:
       captures:
         '0': {name: punctuation.definition.destructure.js}
       patterns:
-      - include: '#flowtype-variable'
+      - include: '#flowtype-annotation'
       - include: '#parameters-declaration'
 
     - include: '#expression'
@@ -152,7 +152,7 @@ repository:
     patterns:
     - include: '#flowtype-polymorph'
     - include: '#function-parameters'
-    - include: '#flowtype-return'
+    - include: '#flowtype-annotation'
     - include: '#comments'
 
   short-method:
@@ -190,7 +190,7 @@ repository:
       end: (?<=;|\n)
       patterns:
       - include: '#comments'
-      - include: '#flowtype-variable'
+      - include: '#flowtype-annotation'
       - include: '#literal-variable'
       - include: '#literal-operators'
       - include: '#literal-punctuation'
@@ -263,7 +263,7 @@ repository:
           (?:\s|/\*.*\*/)*                  # maybe gap
           (\((?:(?>[^()]+)|\g<-1>)*\))      # balanced parens (arguments)
           (?:\s|/\*.*\*/)*                  # maybe gap
-          (?:[:|{])                         # flowtype-return or function body
+          (?:[:|{])                         # flowtype-annotation or function body
         )
       end: (?<=})
       patterns:
@@ -294,7 +294,7 @@ repository:
 
       - include: '#flowtype-polymorph'
       - include: '#function-parameters'
-      - include: '#flowtype-return'
+      - include: '#flowtype-annotation'
       - include: '#comments'
 
     # e.g. arg => { }
@@ -314,7 +314,7 @@ repository:
         '1': {name: storage.type.function.js}
       patterns:
       - include: '#function-parameters'
-      - include: '#flowtype-return'
+      - include: '#flowtype-annotation'
       - include: '#comments'
 
   literal-function-assignment:
@@ -482,7 +482,7 @@ repository:
       end: (?=;|\n)
       # end: (?=;)|((?<!,)(?=\n))
       patterns:
-      - include: '#flowtype-variable'
+      - include: '#flowtype-annotation'
 
       - begin: '\['
         end: '\]'
@@ -942,22 +942,14 @@ repository:
     patterns:
     - include: '#flowtype-tokens'
 
-  flowtype-variable:
+  flowtype-annotation:
     name: meta.flowtype.variable.js
     begin: ':'
     beginCaptures:
       '0': {name: keyword.operator.flowtype.js}
     # Line comments are also terminators since semicolons are optional
-    end: (?=\s*(?:,|;|=|\)|\]|\n|\/\/))
-    patterns:
-    - include: '#flowtype-tokens'
-
-  flowtype-return:
-    name: meta.flowtype.return.js
-    begin: ':'
-    beginCaptures:
-      '0': {name: keyword.operator.flowtype.js}
-    end: (?<!:)(?=\s*(?>{|=>))
+    end: (?=\s*(?:,|;|=|\)|\]|\{|\n|\/\/))
+    applyEndPatternLast: 1
     patterns:
     - include: '#flowtype-tokens'
 
@@ -977,7 +969,7 @@ repository:
     - name: keyword.operator.flowtype.js
       match: (\?|\||\&|\*|\.\.\.)
 
-    - begin: (?<=:)\s*({)
+    - begin: (?<=:|=>|\()\s*({)
       end: (})
       captures:
         '1': {name: punctuation.section.flowtype.js}
@@ -992,10 +984,8 @@ repository:
       - include: '#flowtype-tokens'
 
     - begin: '(\()'
-      beginCaptures:
-        '0': {name: punctuation.section.flowtype.js}
       end: '(\))(?:\s*(=>))?'
-      endCaptures:
+      captures:
         '1': {name: punctuation.section.flowtype.js}
         '2': {name: keyword.operator.flowtype.js}
       patterns:

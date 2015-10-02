@@ -99,12 +99,17 @@ declare var f: ((x: Foo) => void) & ((x: Bar) => void);
 
 function foo(a: ?string, b: any): Array<number> {}
 
+function fooStillBad(obj: { x: number }): (str: string) => {a: string} {
+  console.log(Math.abs(obj.x));
+  return obj;
+}
+
 
 type T = number;
 type T = Array<string>;
 var x: T = [];
 
-function foo<X: ?number, Y:x>f: F<X, Y>, x: X): Y { return f(x); }
+function foo<X: ?number, Y:x>(f: F<X, Y>, x: X): Y { return f(x); }
 
 var b: { f: typeof Foo } = { f : Foo };
 
