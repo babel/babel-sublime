@@ -35,7 +35,6 @@ repository:
 
     - include: '#literal-regexp'              # before operators to avoid ambiguities
 
-    - include: '#literal-method'              # before number to void number-only shortmethod ambiguities
     - include: '#literal-number'
     - include: '#literal-quasi'
     - include: '#literal-string'
@@ -43,16 +42,17 @@ repository:
 
     - include: '#literal-module'
     - include: '#literal-class'
+    - include: '#literal-object'
 
     - include: '#literal-constructor'
     - include: '#literal-method-call'
     - include: '#literal-function-call'
 
-    - include: '#comments'
-
     - include: '#round-brackets'
     - include: '#square-brackets'
     - include: '#curly-brackets'
+
+    - include: '#comments'
 
     - include: '#literal-operators'
     - include: '#literal-variable'
@@ -107,6 +107,33 @@ repository:
       captures:
         '1': {name: punctuation.definition.comment.js}
 
+  literal-object:
+    # arrow funcs here? no prob
+    # jsx expr ={  ??
+    name: meta.object.js
+    begin: (?<=\(|\[|,|&&|\|\||\?|=|=>|\Wreturn|^return)\s*(?=\{)
+    end: (?<=\})
+    patterns:
+      - include: '#object'
+
+  object:
+    name: meta.object.js
+    begin: \{
+    end: \}
+    captures:
+      '0': {name: meta.brace.curly.js}
+    patterns:
+      - include: '#literal-function-label'
+      - include: '#literal-label'
+      - include: '#comments'
+      - include: '#literal-function-storage'
+      - include: '#literal-function'
+      - include: '#short-method'
+      - include: '#class-properties'
+      - include: '#object'
+      - include: '#es7-decorators'
+      - include: '#square-brackets'
+
   function-parameters:
     patterns:
     - name: meta.group.parameters.js
@@ -149,43 +176,43 @@ repository:
 
     - include: '#expression'
 
-  function-right-side:
-    patterns:
-    - include: '#flowtype-polymorph'
-    - include: '#function-parameters'
-    - include: '#flowtype-annotation'
-    - include: '#comments'
-
   short-method:
     patterns:
-    - name: keyword.generator.asterisk.js
-      match: '\*'
-
-    - contentName: meta.method.js
-      begin: (?=["'$\w\d])
-      # Flow declarations end in `;`
-      end: (?=\s*{|;|\n)
+    - name: meta.method.js
+      begin: >-
+        (?x)
+          (?:(\*)\s*)?
+          (?:
+            ((["'])((?:\\.|(?!\3).)*)(\3))  | # string quoted
+            (?:\b([_$a-zA-Z][$\w]*|\d+)\b)    # any/number-only identifier
+          )(?=\s*(?:<|\())
+      beginCaptures:
+        '1': {name: keyword.generator.asterisk.js}
+        '2': {name: string.quoted.js}
+        '3': {name: punctuation.definition.string.js}
+        '4': {name: entity.name.function.js}
+        '5': {name: string.quoted.js}
+        '6': {name: entity.name.function.js}
+      end: (?<=})
       patterns:
-      - match: >-
-          (?x)
-            ((["'])((?:\\.|(?!\2).)*)(\2))  | # string quoted
-            (?:\b([_$a-zA-Z][$\w]*)\b)      | # any identifier
-            (?:\b(\d+)\b)                     # number-only name
-        captures:
-          '1': {name: string.quoted.js}
-          '2': {name: punctuation.definition.string.js}
-          '3': {name: entity.name.function.js}
-          '4': {name: string.quoted.js}
-          '5': {name: entity.name.function.js}
-          '6': {name: entity.name.function.js}
-      - include: '#function-right-side'
-    - contentName: meta.computed-method.js
-      begin: (?=\[)
-      # Flow declarations end in `;`
-      end: (?=\s*{|;|\n)
+      - include: '#flowtype-polymorph'
+      - include: '#function-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#curly-brackets'
+      - include: '#comments'
+
+    - name: meta.method.computed.js
+      begin: (?:(\*)\s*)?(?=(\[(?:(?>[^\[\]]+)|\g<-1>)*\])\s*(?:<|\())
+      beginCaptures:
+        '1': {name: keyword.generator.asterisk.js}
+      end: (?<=})
       patterns:
       - include: '#square-brackets'
-      - include: '#function-right-side'
+      - include: '#flowtype-polymorph'
+      - include: '#function-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#curly-brackets'
+      - include: '#comments'
 
   class-properties:
     patterns:
@@ -218,61 +245,22 @@ repository:
   literal-class:
     patterns:
     # e.g. class Sound extends Model { }
-    - begin: (?<!\.)\b(class)\b
+    - name: meta.class.js
+      begin: (?<!\.)\b(class)\s+([_$a-zA-Z][$\w]*)
       beginCaptures:
-        '0': {name: storage.type.class.js}
+        '1': {name: storage.type.class.js}
+        '2': {name: entity.name.class.js}
       end: (?<=})
       patterns:
-      - begin: \b(extends)\b
-        beginCaptures:
-          '0': {name: storage.type.extends.js}
-        end: (?={)
-        patterns:
-        - include: '#flowtype-polymorph'
-        - include: '#expression'
-      - name: entity.name.class.js
-        match: \b([_$a-zA-Z][$\w]*)\b
       - include: '#flowtype-polymorph'
-      - name: meta.class.js
-        begin: '{'
-        end: '}'
-        captures:
-          '0': {name: punctuation.section.class.js}
-        patterns:
-        - include: '#comments'
-        - include: '#literal-function-storage'
-        - include: '#class-properties'
-        - include: '#short-method'
-        - include: '#curly-brackets'
-        - include: '#es7-decorators'
+      - include: '#object'
 
-  literal-method:
-    patterns:
-    # e.g. play(arg1, arg2) {  }
-    - name: meta.method.js
-      begin: >-
-        (?x)(?=
-          (?:\b
-            (?:async|\*|get|set)            # storage
-            (?:\s|/\*.*\*/)+                # some gap
-          )?
-          (?:                               # es6 short-method identifier:
-            (["'])(?:\\.|(?!\1).)*\1      | # string quoted
-            (?:\b[_$a-zA-Z][$\w]*\b)      | # any identifier
-            (?:\b\d+\b)                   | # number-only name
-            (\[(?:(?>[^\[\]]+)|\g<-1>)*\])  # balanced brackets (computed name)
-          )
-          (?:\s|/\*.*\*/)*                  # maybe gap
-          (<(?:(?>[^<>]+)|\g<-1>)*>)?       # balanced angle brackets (flow polymorph)
-          (?:\s|/\*.*\*/)*                  # maybe gap
-          (\((?:(?>[^()]+)|\g<-1>)*\))      # balanced parens (arguments)
-          (?:\s|/\*.*\*/)*                  # maybe gap
-          (?:[:|{])                         # flowtype-annotation or function body
-        )
-      end: (?<=})
-      patterns:
-      - include: '#short-method'
-      - include: '#curly-brackets'
+      - begin: (?<!\.)\b(extends)\b
+        beginCaptures:
+          '1': {name: storage.type.extends.js}
+        end: (?=<|{)
+        patterns:
+        - include: '#expression'
 
   literal-prototype:
     patterns:
@@ -311,7 +299,7 @@ repository:
 
     # e.g. (args) => { }
     - name: meta.function.arrow.js # TODO: '#flowtype-polymorph'?
-      begin: (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?>:|=>))
+      begin: (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?:)(=>))
       beginCaptures:
         '1': {name: storage.type.async.js}
       end: (=>)

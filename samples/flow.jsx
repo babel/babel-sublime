@@ -65,6 +65,8 @@ class CB<X> {
   bar(): X { return this.x; }
 }
 
+class A<T: void> extends B<T: void> {}
+
 class D extends C<number> {
   bar(): number {
     this.x = super.bar() + 1;
