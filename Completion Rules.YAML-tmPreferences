@@ -1,5 +1,4 @@
 # [PackageDev] target_format: plist, ext: tmPreferences
 scope: source.js
-uuid: b215c1c2-77d6-41d0-9e21-f3db3b643466
 settings:
   cancelCompletion: ^\s*(\{?\s*(else|return|do)|(function)\s*[a-zA-Z_0-9]+)$
