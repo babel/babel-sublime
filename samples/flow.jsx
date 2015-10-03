@@ -25,6 +25,12 @@ function foo(): Function {
 }
 
 var d: (str: string) => string = foo();
+var d: (str: string) => {str: string} = foo();
+
+var f: (
+  ((x: Foo) => void) &
+  ((x: Bar) => void)
+)
 
 var a: mixed = 'some string';
 var b: mixed = undefined;
