@@ -35,8 +35,8 @@ repository:
     - include: '#literal-class'
     - include: '#object-literal'
 
-    # TODO: Fix ternary
-    # - include: '#flowtype-annotation'     # ({}: any)
+    - include: '#flowtype-annotation'
+    - include: '#ternary'
 
     - include: '#literal-builtins'
 
@@ -613,7 +613,9 @@ repository:
         - begin: (?<!\.)\b(case|default)\b
           beginCaptures:
             '1': {name: keyword.control.switch.js}
-          end: (?=:)
+          end: (:)
+          endCaptures:
+            '1': {name: keyword.control.definition.js}
           patterns:
           - include: '#expression'
         - include: $self
@@ -688,9 +690,6 @@ repository:
           \+   | # addition        left-to-right   both
           -      # subtraction     left-to-right   both
 
-    - name: keyword.operator.ternary.js
-      match: '\?|:'
-
     - name: keyword.operator.spread.js
       match: (?<!\.)\.\.\.
 
@@ -702,6 +701,15 @@ repository:
     captures:
       '1': {name: entity.other.label.js}
       '2': {name: keyword.control.definition.js}
+
+  ternary:
+    name: meta.ternary.js
+    begin: '\?'
+    end: ':'
+    captures:
+      '0': {name: keyword.operator.ternary.js}
+    patterns:
+    - include: '#expression'
 
   literal-number:
     patterns:
