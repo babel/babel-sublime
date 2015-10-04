@@ -4,14 +4,22 @@ scopeName: source.js
 fileTypes: [js, jsx, babel, es6]
 firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
+# TODO:
+# * Handle linebreaks between "= {" since that's a common case
+#
+# DOCS:
+# * Explain why "disable JavaScript":
+#   * "firstLine" works
+#   * cleaner Symbol List
+
 patterns:
 - include: '#label'
 - include: '#keywords'
 - include: '#for-statement'
 - include: '#switch-statement'
 - include: '#var-declaration'
-- include: '#flowtype-declaration'
-- include: '#flowtype-type'
+# - include: '#flowtype-declaration'
+- include: '#flowtype-type-alias'
 - include: '#expression'
 - include: '#punctuation'
 
@@ -181,20 +189,6 @@ repository:
           - include: '#object-content'
       - include: $self
 
-    # [known-issue] In objects, unlike classes, it can't be assumed that a start
-    # quote or start square-bracket is for a method. So for multiline method keys
-    # and multiline computed methods only the polymorphism contraints and paramaters
-    # are matched.
-    - name: meta.object.method.multiline-params.js
-      begin: (?<=[]"'])\s*(?=[<(])
-      end: (?<=})
-      patterns:
-      - include: '#flowtype-polymorph'
-      - include: '#parameters'
-      - include: '#flowtype-annotation'
-      - include: '#curly-brackets'
-      - include: '#comments'
-
     - include: '#short-method'
     - include: $self
 
@@ -246,8 +240,8 @@ repository:
         (?x)
           (?:
             ([_$a-zA-Z][$\w]*|\d+)             | # any or number-only identifier (also @@ for flow)
-            ((["'])((?:\\.|(?!\3).)*)(\3))     |      # string quoted
-            (static|@@iterator)                  # special flow method names
+            ((["'])((?:\\.|(?!\3).)*)(\3))     | # string quoted
+            (@@iterator|static)                  # special flow names
           )(?=\s*[<(])
       beginCaptures:
         '1': {name: entity.name.function.js}
@@ -264,21 +258,38 @@ repository:
       - include: '#flowtype-annotation'
       - include: '#comments'
 
-    - name: meta.method.computed.js
-      begin: >-
-        (?x)
-          (?=
-            (?:
-              (\[(?:(?>[^\[\]]+)|\g<-1>)*\])|
-              (\<(?:(?>[^\<\>]+)|\g<-1>)*\>)
-            )
-          \s*[<(])
-      end: (?=\s*[\n;{])
+    - name: meta.computed.js
+      begin: (?=[\[<])
+      end: (?<=[\]>])
       patterns:
       - include: '#square-brackets'
       - include: '#flowtype-polymorph'
       - include: '#parameters'
       - include: '#flowtype-annotation'
+      - include: '#comments'
+
+    # - name: meta.method.computed.js
+    #   begin: (?=(?:(\[(?:(?>[^\[\]]+)|\g<-1>)*\])|(\<(?:(?>[^\<\>]+)|\g<-1>)*\>))\s*[<(])
+    #   end: (?=\s*[\n;{])
+    #   patterns:
+    #   - include: '#square-brackets'
+    #   - include: '#flowtype-polymorph'
+    #   - include: '#parameters'
+    #   - include: '#flowtype-annotation'
+    #   - include: '#comments'
+
+    # [known-issue] In objects, unlike classes, it can't be assumed that a start
+    # quote or start square-bracket is for a method. So for multiline method keys
+    # and multiline computed methods only the polymorphism contraints and paramaters
+    # are matched.
+    - name: meta.object.method.multiline-params.js
+      begin: (?<=[]"'])\s*(?=[<(])
+      end: (?<=})
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#parameters'
+      - include: '#flowtype-annotation'
+      - include: '#curly-brackets'
       - include: '#comments'
 
     # name: meta.method.computed.js
@@ -292,7 +303,7 @@ repository:
 
   class-properties:
     patterns:
-    - name: meta.class.property.
+    - name: meta.class.property.js
       begin: (?=(?:[_$a-zA-Z][$\w]*)\s*[:;=\n])
       end: (?<=[;\n])|(?=\s*})
       patterns:
@@ -317,45 +328,42 @@ repository:
       match: (?<!\.)\b(?>import|export|default|from|as)\b
 
   literal-class:
+    # The flowtype `module` and `interface` keywords are also recognized as
+    # "meta.class.js" because they have nearly the same semantics as `class`.
     # e.g. class Sound extends Model { }
     patterns:
     - name: meta.class.js
-      begin: (?<!\.)\b(class)\b
+      begin: (?<!\.)\b(?:(class)|(module)|(interface))\b(?=\s+[_$a-zA-Z])
       beginCaptures:
-        '0': {name: storage.type.class.js}
-      end: (?<=})
+        '1': {name: storage.type.class.js}
+        '2': {name: storage.type.module.flowtype}
+        '3': {name: keyword.other.flowtype}
+      end: (?<=[;}])
       patterns:
-      - include: '#class-like-body'
-
-  class-like-body:
-    patterns:
-    - begin: (?<!\.)\b(extends)\b
-      beginCaptures:
-        '1': {name: storage.type.extends.js}
-      end: (?=[<{])
-      patterns:
-      - include: '#expression'
-
-    - name: entity.name.class.js
-      match: '[_$a-zA-Z][$\w]*'
-
-    - include: '#flowtype-polymorph'
-    - include: '#comments'
-
-    - name: meta.class.body.js
-      begin: \{
-      end: \}
-      captures:
-        '0': {name: meta.brace.curly.js}
-      patterns:
-      - include: '#function-storage'
-      - include: '#short-method'
-      - include: '#short-method2'
-      - include: '#class-properties'
-      - include: '#decorator'
-      # - include: '#expression'
-      - include: '#curly-brackets'
+      - include: '#flowtype-polymorph'
       - include: '#comments'
+      - begin: (?<!\.)\b(extends)\b
+        beginCaptures:
+          '1': {name: storage.type.extends.js}
+        end: (?=[<{])
+        patterns:
+        - include: '#expression'
+      - name: entity.name.class.js
+        match: '[_$a-zA-Z][$\w]*'
+      - name: meta.class.body.js
+        begin: \{
+        end: \}
+        captures:
+          '0': {name: meta.brace.curly.js}
+        patterns:
+        - include: '#short-method'
+        - include: '#function-storage'
+        - include: '#class-properties'
+        - include: '#function-definition'
+        - include: '#decorator'
+        # - include: '#expression'
+        - include: '#curly-brackets'
+        - include: '#comments'
 
   literal-prototype:
     patterns:
@@ -372,14 +380,12 @@ repository:
       beginCaptures:
         '1': {name: storage.type.function.js}
       # Flow declarations end in `;`
-      end: (?=\s*{|;|\n)
+      end: (?=\s*[\n;{])
       patterns:
       - name: keyword.generator.asterisk.js
         match: '\*'
-
       - name: entity.name.function.js
         match: '[_$a-zA-Z][$\w]*'
-
       - include: '#flowtype-polymorph'
       - include: '#parameters'
       - include: '#flowtype-annotation'
@@ -492,16 +498,16 @@ repository:
   literal-builtins:
     patterns:
     - name: variable.language.js
-      match: (?<!(?<!\.\.)\.)\b(?>arguments|self|super|this)\b
+      match: (?<=\.)(?>__proto__|constructor|prototype)\b
 
     - name: variable.language.js
-      match: (?<=\.)\b(?>__proto__|constructor|prototype)\b
+      match: (?<!(?<!\.\.)\.)\b(?>arguments|self|super|this)\b
 
     - name: constant.language.js
       match: (?<!\.)\b(?>true|false|null|undefined|NaN)\b
 
     - name: keyword.other.reserved.js
-      match: (?<!\.)\b(?>enum|public|default|extends|package|private|interface|protected|implements)\b
+      match: (?<!\.)\b(?>enum|module|public|extends|package|private|interface|protected|implements)\b
 
     - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
       captures:
@@ -527,13 +533,10 @@ repository:
   function-storage:
     patterns:
     - name: storage.modifier.js
-      match: (?<!\.)\b(static)\b
+      match: (?<!\.)\b(static|declare)\b
 
-    - name: storage.type.property.js
-      match: (?<!\.)\b(get|set)\b(?!\s*\()
-
-    - name: storage.type.async.js
-      match: (?<!\.)\b(async)\b
+    - name: storage.type.js
+      match: (?<!\.)\b(async|get|set)\b
 
     - name: keyword.generator.asterisk.js
       match: '\*'
@@ -850,10 +853,6 @@ repository:
     - name: variable.other.readwrite.js
       match: '[_$a-zA-Z][$\w]*'
 
-################################################################################
-## support
-################################################################################
-
   support:
     # https://github.com/sindresorhus/globals
     patterns:
@@ -893,10 +892,6 @@ repository:
         '1': {name: support.type.object.module.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
-
-################################################################################
-## https://facebook.github.io/jsx/
-################################################################################
 
   jsx:
     contentName: meta.jsx.js
@@ -980,10 +975,6 @@ repository:
     name: invalid.illegal.attribute.jsx
     match: \S*
 
-################################################################################
-## http://flowtype.org/
-################################################################################
-
   flowtype-polymorph:
     # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
     name: meta.flowtype.polymorph.js
@@ -1006,9 +997,6 @@ repository:
     patterns:
     - include: '#flowtype-tokens'
 
-  # flowtype-parameter:
-  #   name: meta.flowtype.parameter.js
-
   flowtype-tokens:
     patterns:
     - name: constant.other.primitve.flowtype
@@ -1017,12 +1005,12 @@ repository:
     - include: '#support'
 
     - name: keyword.operator.flowtype
-      match: (\:|\?|\||\&|\*|\.\.\.|typeof)
+      match: (\:|\?|\||\&|\*|\.\.\.|\btypeof\b)
 
     - name: variable.other.flowtype
       match: '[_$a-zA-Z][$\w]*'
 
-    - begin: (?<=:|=>|\(|=)\s*({)
+    - begin: (?<=:|=>|\(|=|\||\&)\s*({)
       end: (})
       captures:
         '1': {name: punctuation.section.flowtype}
@@ -1046,31 +1034,19 @@ repository:
 
     - include: '#comments'
 
-  flowtype-declaration:
-    patterns:
-    - name: meta.flowtype.interface.js
-      begin: \b(interface)\b
-      beginCaptures:
-        '1': {name: keyword.interface.flowtype}
-      end: (?<=}|;)
-      patterns:
-      - include: '#class-like-body'
-
-    - match: \b(declare)\b
-      name: keyword.declare.flowtype
-      # beginCaptures:
-      #   '1': {name: }
-      # end: (?<=}|;)
-      # patterns:
-      # - include: $self
-
-  flowtype-type:
+  flowtype-type-alias:
     patterns:
     - name: meta.flowtype.type.js
       begin: \b(type)\b(?=\s+[{_$a-zA-Z])
       beginCaptures:
         '1': {name: storage.type.flowtype}
-      end: (?<=}|;)
+      end: (?<=})|(?=;|\n|from)
       patterns:
+      - begin: '='
+        beginCaptures:
+          '0': {name: keyword.operator.flowtype}
+        end: (?=\s*(?:,|;|=|\)|\]|\}|\n|\/\/))
+        patterns:
+        - include: '#flowtype-tokens'
       - include: '#flowtype-tokens'
       - include: $self
