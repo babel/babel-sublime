@@ -104,22 +104,6 @@ repository:
     patterns:
     - include: $self
 
-  class-brackets:
-    name: meta.group.class.js
-    begin: \{
-    end: \}
-    captures:
-      '0': {name: meta.brace.curly.js}
-    patterns:
-    - include: '#short-method'
-    - include: '#square-brackets'
-    - include: '#function-storage'
-    - include: '#class-properties'
-    - include: '#function-definition'
-    - include: '#decorator'
-    - include: '#block-brackets'
-    - include: '#comments'
-
   object-brackets:
     name: meta.group.object.js
     begin: \{
@@ -247,7 +231,8 @@ repository:
     - include: '#expression'
 
   short-method:
-    # In flow annotations the method body "{}" is omitted in favor of ";"
+    # In flow annotations the method body "{}" is omitted in favor of ";", so
+    # all of these patterns must end with `(?=\s*[\n;{])`.
     patterns:
 
     # e,g. @@iterator(): Iterator<[K, V]>;
@@ -282,7 +267,7 @@ repository:
     # and parameters are matched.
     - name: meta.short-method.computed.js
       begin: (?<=[]"'])\s*(?=[<(])
-      end: (?<=})
+      end: (?=\s*[\n;{])
       patterns:
       - include: '#function-tail'
 
@@ -335,8 +320,24 @@ repository:
       - name: entity.name.class.js
         match: '[_$a-zA-Z][$\w]*'
 
+      - name: meta.group.class.js
+        begin: \{
+        end: \}
+        captures:
+          '0': {name: meta.brace.curly.js}
+        patterns:
+        - include: '#short-method'
+        - include: $self
+
+        # - include: '#square-brackets'
+        # - include: '#function-storage'
+        # - include: '#class-properties'
+        # - include: '#decorator'
+        # - include: '#block-brackets'
+        # - include: '#comments'
+        # - include: '#punctuation'
+
       - include: '#flowtype-polymorph'
-      - include: '#class-brackets'
       - include: '#comments'
 
   literal-prototype:
