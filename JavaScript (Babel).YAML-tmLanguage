@@ -39,6 +39,8 @@ repository:
     # TODO: Fix ternary
     # - include: '#flowtype-annotation'     # ({}: any)
 
+    - include: '#literal-builtins'
+
     - include: '#function-assignment'
     - include: '#literal-constructor'
     - include: '#literal-method-call'
@@ -50,7 +52,6 @@ repository:
 
     - include: '#comments'
 
-    - include: '#literal-builtins'
     - include: '#literal-operators'
     - include: '#literal-variable'
 
@@ -502,6 +503,14 @@ repository:
     - name: keyword.other.reserved.js
       match: (?<!\.)\b(?>enum|public|default|extends|package|private|interface|protected|implements)\b
 
+    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
+      captures:
+        '1': {name: keyword.control.operator.js}
+        '2': {name: keyword.generator.asterisk.js}
+
+    - name: keyword.operator.js
+      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|return)\b
+
   literal-constructor:
     patterns:
     - name: meta.instance.constructor
@@ -631,14 +640,6 @@ repository:
 
   literal-operators:
     patterns:
-    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
-      captures:
-        '1': {name: keyword.control.operator.js}
-        '2': {name: keyword.generator.asterisk.js}
-
-    - name: keyword.operator.js
-      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|return)\b
-
     - name: keyword.operator.arrow-function.js
       match: '=>'
 
@@ -863,7 +864,7 @@ repository:
       match: \b(Buffer)\b
 
     - name: support.function.builtin.js
-      match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|undefined|unescape|valueOf)\b
+      match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b
 
     - name: support.function.node.js
       match: (?<!\.)\b(clearImmediate|clearInterval|clearTimeout|require|setImmediate|setInterval|setTimeout)\b

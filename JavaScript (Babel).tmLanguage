@@ -349,6 +349,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-builtins</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#function-assignment</string>
 				</dict>
 				<dict>
@@ -378,10 +382,6 @@
 				<dict>
 					<key>include</key>
 					<string>#comments</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-builtins</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1152,6 +1152,29 @@
 					<key>name</key>
 					<string>keyword.other.reserved.js</string>
 				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.operator.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(await|yield)\b(?:\s*(\*))?</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(?&gt;delete|instanceof|in|new|of|typeof|void|with|return)\b</string>
+					<key>name</key>
+					<string>keyword.operator.js</string>
+				</dict>
 			</array>
 		</dict>
 		<key>literal-class</key>
@@ -1439,29 +1462,6 @@
 		<dict>
 			<key>patterns</key>
 			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.operator.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(await|yield)\b(?:\s*(\*))?</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;delete|instanceof|in|new|of|typeof|void|with|return)\b</string>
-					<key>name</key>
-					<string>keyword.operator.js</string>
-				</dict>
 				<dict>
 					<key>match</key>
 					<string>=&gt;</string>
@@ -2324,7 +2324,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|undefined|unescape|valueOf)\b</string>
+					<string>(?&lt;!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b</string>
 					<key>name</key>
 					<string>support.function.builtin.js</string>
 				</dict>
