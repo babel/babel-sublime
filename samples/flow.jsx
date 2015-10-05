@@ -136,3 +136,118 @@ declare module M {
 }
 
 function foo(a: ?string, b: any): Array<number> {}
+
+import type {ClassFoo4, ClassFoo5} from "./ExportCJSNamed_Class";
+import typeof {ClassFoo4, ClassFoo5} from "./ExportCJSNamed_Class";
+import {foo4Inst, foo5Inst} from "./ExportCJSNamed_Class";
+import type ClassFoo6 from "./issue-359";
+import typeof ClassFoo6 from "./issue-359";
+
+export type AliasFoo3 = {
+  givesANum(): number
+};
+
+
+declare class Object {
+  static (o: string): String;
+  static (o: ?void): {[key: any]: any};
+  static <T: Object>(o: T): T;
+  static create(o: any, properties?: any): any; // compiler magic
+  static assign(target: any, ...sources: Array<any>): any;
+  [key:any]: any;
+  apply(thisArg: any, argArray?: any): any;
+  call(thisArg: any, ...argArray: Array<any>): any;
+  arguments: any;
+  caller: Function;
+  max(...values: Array<number>): number;
+  pow(x: number, y: number): number;
+  @@iterator(): Iterator<T>;
+  toLocaleString(): string;
+  // concat creates a new array
+  concat<S>(...items: Array<Array<S> | S>): Array<T | S>;
+    reduceRight<U>(
+    callbackfn: (previousValue: T|U, currentValue: T, currentIndex: number, array: Array<T>) => U
+  ): U;
+  length: number;
+  static (...values:Array<any>): Array<any>;
+  static isArray(obj: any): bool;
+  static from<A, B>(arrayLike: any, mapFn?: ?(elem: A, index: number) => B, thisArg?: ?any): Array<B>;
+  replace(searchValue: string | RegExp, replaceValue: string | (substring: string, ...args: Array<any>) => string): string;
+  search(regexp: string | RegExp): number;
+}
+
+type IteratorResult<Yield,Return> = {
+  done: true,
+  value?: Return,
+} | {
+  done: false,
+  value: Yield,
+};
+
+interface $Iterator<Yield,Return,Next> {
+    @@iterator(): $Iterator<Yield,Return,Next>;
+    next(value?: Next): IteratorResult<Yield,Return>;
+}
+type Iterator<T> = $Iterator<T,void,void>;
+
+interface $Iterable<Yield,Return,Next> {
+    @@iterator(): $Iterator<Yield,Return,Next>;
+}
+type Iterable<T> = $Iterable<T,void,void>;
+
+/* Generators */
+interface Generator<Yield,Return,Next> {
+  @@iterator(): $Iterator<Yield,Return,Next>;
+  next(value?: Next): IteratorResult<Yield,Return>;
+  return<R>(value: R): { done: true, value: R };
+  throw(error?: any): IteratorResult<Yield,Return>;
+}
+
+var a: number = 123,
+    b: void = (x,y,z) => {};
+
+for (var len: number; len < arr.length; i++) {
+
+}
+
+declare class Map<K, V> {
+  @@iterator(): Iterator<[K, V]>;
+  <Key, Value>(): Map<Key, Value>;
+  <Key, Value>(iterable: Iterable<[Key, Value]>): Map<Key, Value>;
+  entries(): Iterator<[K, V]>;
+  forEach(callbackfn: (value: V, index: K, map: Map<K, V>) => void, thisArg?: any): void;
+  keys(): Iterator<K>;
+  set(key: K, value?: V): Map<K, V>;
+  size: number;
+  values(): Iterator<V>;
+}
+
+declare class Promise<R> {
+  constructor(callback: (
+    resolve: (result: Promise<R> | R) => void,
+    reject:  (error: any) => void
+  ) => void): void;
+
+  then<U>(
+    onFulfill?: (value: R) => Promise<U> | U,
+    onReject?: (error: any) => Promise<U> | U
+  ): Promise<U>;
+
+  catch<U>(
+    onReject?: (error: any) => ?Promise<U> | U
+  ): Promise<U>;
+
+  static resolve<T>(object?: Promise<T> | T): Promise<T>;
+  static reject<T>(error?: any): Promise<T>;
+  static all<T>(promises: Array<Promise<T>>): Promise<Array<T>>;
+  static race<T>(promises: Array<Promise<T>>): Promise<T>;
+
+  // Non-standard APIs common in some libraries
+
+  done<U>(
+    onFulfill?: (value: R) => void,
+    onReject?: (error: any) => void
+  ): void;
+
+  static cast<T>(object?: T): Promise<T>;
+}
