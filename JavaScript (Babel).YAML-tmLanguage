@@ -6,7 +6,6 @@ firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
 patterns:
 - include: '#literal-label'
-- include: '#literal-keywords'
 - include: '#literal-switch'
 - include: '#flowtype-type-alias'
 - include: '#expression'
@@ -28,6 +27,8 @@ repository:
     - include: '#literal-number'
     - include: '#literal-quasi'
     - include: '#literal-string'
+
+    - include: '#literal-keywords'
 
     - include: '#literal-module'
     - include: '#literal-class'
@@ -311,12 +312,14 @@ repository:
       - name: entity.name.class.js
         match: '[_$a-zA-Z][$\w]*'
 
-      - name: meta.group.class.js
+      - name: meta.class-body.js
         begin: \{
         end: \}
         captures:
-          '0': {name: meta.brace.curly.js}
+          '0': {name: punctuation.definition.class.body.js}
         patterns:
+        # lit-func-def must be first because they look like short methods
+        - include: '#literal-function-definition'
         - include: '#short-method'
         - include: '#expression'
 
@@ -503,6 +506,9 @@ repository:
 
     - name: keyword.operator.js
       match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|return)\b
+
+    - name: storage.type.js
+      match: (?<!\.)\b(class)\b
 
   literal-constructor:
     patterns:
