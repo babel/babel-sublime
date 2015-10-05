@@ -69,6 +69,7 @@ repository:
     captures:
       '0': {name: meta.brace.round.js}
     patterns:
+    - include: '#object-brackets'
     - include: '#expression'
 
   square-brackets:
@@ -78,6 +79,7 @@ repository:
     captures:
       '0': {name: meta.brace.square.js}
     patterns:
+    - include: '#object-brackets'
     - include: '#expression'
 
   comments:
@@ -104,6 +106,8 @@ repository:
         '1': {name: punctuation.definition.comment.js}
 
   literal-object:
+    # TODO: Are some of these really needed now that round-brackets and
+    # square-brakets include object-brackets first?
     begin: (?<=\(|\[|,|&&|\|\||\?|!|=|\Wreturn|^return)(?=\s*\{)
     end: (?<=\})
     captures:
@@ -314,7 +318,7 @@ repository:
           '0': {name: meta.brace.curly.js}
         patterns:
         - include: '#short-method'
-        - include: $self
+        - include: '#expression'
 
       - include: '#flowtype-polymorph'
       - include: '#comments'
@@ -333,6 +337,7 @@ repository:
     - include: '#function-parameters'
     - include: '#flowtype-annotation'
     - include: '#comments'
+    - include: '#curly-brackets'
 
   literal-function-storage:
     patterns:
@@ -352,7 +357,7 @@ repository:
       beginCaptures:
         '1': {name: storage.type.function.js}
       # Flow declarations end in `;`
-      end: (?=\s*[\n;{])
+      end: (?<=\})|(?=\s*[;\n])
       patterns:
       - name: keyword.generator.asterisk.js
         match: '\*'
@@ -361,7 +366,8 @@ repository:
       - include: '#function-tail'
 
     # e.g. (args) => { }
-    - name: meta.function.arrow.js # TODO: '#flowtype-polymorph'?
+    # TODO: '#flowtype-polymorph'
+    - name: meta.function.arrow.js
       begin: (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?:)(=>))
       beginCaptures:
         '1': {name: storage.type.async.js}
@@ -457,10 +463,11 @@ repository:
 
   literal-function-assignment:
     # So "Goto Symbol" can work for assignments based on the identifier.
+    # [known-issue] This doesn't work for flow annotated variables.
     # e.g. play = function play(arg1, arg2) { }
     # e.g. play = (args) => { }
     patterns:
-    - name: meta.function.assignment.js #TODO: account for flowtype
+    - name: meta.function.assignment.js
       match: >-
         (?x)
           ([_$a-zA-Z][$\w]*)
@@ -511,18 +518,13 @@ repository:
           '2': {name: variable.function.constructor.js}
 
   literal-declaration:
-    # TODO: fix this message
-    # [known-issue]: Flow matching is only supported for one declarator per
-    # declaration because there is no token/char to signal the end of a
-    # declaration. It is possible to kinda support trailing comma style, but
-    # not comma first style. So I won't support either. The hack is commented out.
     patterns:
     - name: meta.variable.declaration.js
       begin: (?<!\.)\b(const|let|var)\b
       captures:
         '1': {name: 'storage.type.js'}
-      end: (?=;|\n)
-      # end: (?=;)|((?<!,)(?=\n))
+      # The `)` is for for-loops (e.g. for(var key in obj) {})
+      end: (?=[;)\n])
       patterns:
       - include: '#flowtype-annotation'
 
@@ -540,18 +542,15 @@ repository:
         patterns:
         - include: '#expression'
 
-      # TODO: This can include something like a class body for "{"
-      - begin: (?==)
-        end: (?=,|;|\n)
+      # HACK: Support one var with multiple declarations across multiple lines.
+      # [known-issue]: Only works for trailing comma style.
+      - begin: ','
+        end: (?=\S)
         patterns:
-        - include: '#expression'
+        - match: '\n'
+        - include: '#comments'
 
       - include: '#expression'
-      # - begin: '(?<=,)'
-      #   end: (?=[\S])
-      #   applyEndPatternLast: 1
-      #   patterns:
-      #   - include: '#comments'
 
   literal-keywords:
     patterns:
@@ -974,6 +973,9 @@ repository:
     - include: '#flowtype-tokens'
 
   flowtype-tokens:
+    # [known-issue] If you're not in some block and you use a line-comment, it'll
+    # act as a terminator.
+    # [known-issue] This whole thing is very sensitive to line-breaks.
     patterns:
     - name: constant.other.primitve.flowtype
       match: \b(?:any|bool|boolean|mixed|number|string|void)\b
@@ -995,6 +997,13 @@ repository:
 
     - begin: '<'
       end: '>'
+      captures:
+        '0': {name: punctuation.section.flowtype}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: \[
+      end: \]
       captures:
         '0': {name: punctuation.section.flowtype}
       patterns:
