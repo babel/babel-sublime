@@ -952,7 +952,9 @@ repository:
         beginCaptures:
           '0': {name: keyword.operator.flowtype}
         end: (?=\s*(?:,|;|=|\)|\]|\}|\n|\/\/))
+        applyEndPatternLast: 1
         patterns:
+        - match: (?<==)\s*\n # HACK: swallow one linebreak (style)
         - include: '#flowtype-tokens'
       - include: '#flowtype-tokens'
       - include: $self

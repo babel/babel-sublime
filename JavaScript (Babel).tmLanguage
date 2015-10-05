@@ -442,6 +442,8 @@
 					<key>patterns</key>
 					<array>
 						<dict>
+							<key>applyEndPatternLast</key>
+							<integer>1</integer>
 							<key>begin</key>
 							<string>=</string>
 							<key>beginCaptures</key>
@@ -456,6 +458,10 @@
 							<string>(?=\s*(?:,|;|=|\)|\]|\}|\n|\/\/))</string>
 							<key>patterns</key>
 							<array>
+								<dict>
+									<key>match</key>
+									<string>(?&lt;==)\s*\n</string>
+								</dict>
 								<dict>
 									<key>include</key>
 									<string>#flowtype-tokens</string>
