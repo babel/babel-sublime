@@ -295,20 +295,21 @@ repository:
     patterns:
     # e.g. class Sound extends Model { }
     - name: meta.class.js
-      begin: (?<!\.)\b(?:(class)|(module)|(interface))\b(?=\s+[_$a-zA-Z])
+      begin: (?<!\.)\b(?:(class)|(module)|(interface))\b(?=\s+[_$a-zA-Z"'])
       beginCaptures:
         '1': {name: storage.type.class.js}
         '2': {name: storage.type.module.flowtype}
         '3': {name: keyword.other.flowtype}
       end: (?<=[;}])
       patterns:
-      - begin: (?<!\.)\b(extends)\b
+      - begin: (?<!\.)\b(extends|implements)\b
         beginCaptures:
-          '0': {name: storage.type.extends.js}
+          '0': {name: keyword.other.js}
         end: (?=[<{])
         patterns:
         - include: '#expression'
 
+      - include: '#literal-string' # declare module "./a/b.js" {}
       - name: entity.name.class.js
         match: '[_$a-zA-Z][$\w]*'
 
