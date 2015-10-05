@@ -5,54 +5,80 @@ fileTypes: [js, jsx, babel, es6]
 firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
 patterns:
-- include: '#label'
-- include: '#keywords'
-- include: '#for-statement'
-- include: '#switch-statement'
-- include: '#var-declaration'
+- include: '#literal-label'
+- include: '#literal-keywords'
+- include: '#literal-switch'
 - include: '#flowtype-type-alias'
 - include: '#expression'
-- include: '#punctuation'
+- include: '#literal-punctuation'
 
 repository:
   expression:
     patterns:
-    - include: '#jsx'
+    - include: '#literal-declaration'
+    - include: '#literal-jsx'
+
     - include: '#support'
-    - include: '#decorator'
 
-    - include: '#function-definition'
-    - include: '#function-storage'
-    - include: '#literal-prototype'
+    - include: '#literal-function-definition'
+    - include: '#literal-function-storage'
+    - include: '#literal-function-class'
 
-    - include: '#literal-regexp'            # before operators
-
+    - include: '#literal-regexp'  # before operators
     - include: '#literal-number'
     - include: '#literal-quasi'
     - include: '#literal-string'
 
     - include: '#literal-module'
     - include: '#literal-class'
-    - include: '#object-literal'
+    - include: '#literal-object'
 
     - include: '#flowtype-annotation'
-    - include: '#ternary'
 
-    - include: '#literal-builtins'
+    - include: '#literal-builtins' # before "*-calls"
 
-    - include: '#function-assignment'
+    - include: '#literal-function-assignment'
     - include: '#literal-constructor'
     - include: '#literal-method-call'
     - include: '#literal-function-call'
 
     - include: '#round-brackets'
     - include: '#square-brackets'
-    - include: '#block-brackets'
+    - include: '#curly-brackets'
 
     - include: '#comments'
 
+    - include: '#literal-decorator'
+    - include: '#literal-ternary'
     - include: '#literal-operators'
     - include: '#literal-variable'
+
+  curly-brackets:
+    name: meta.group.curly.js
+    begin: \{
+    end: \}
+    captures:
+      '0': {name: meta.brace.curly.js}
+    patterns:
+    - include: $self
+
+  round-brackets:
+    name: meta.group.round.js
+    begin: \(
+    end: \)
+    captures:
+      '0': {name: meta.brace.round.js}
+    patterns:
+    - include: '#expression'
+
+  square-brackets:
+    name: meta.group.square.js
+    begin: \[
+    end: \]
+    captures:
+      '0': {name: meta.brace.square.js}
+    patterns:
+    - include: '#expression'
 
   comments:
     patterns:
@@ -77,32 +103,13 @@ repository:
       captures:
         '1': {name: punctuation.definition.comment.js}
 
-  round-brackets:
-    name: meta.group.round.js
-    begin: \(
-    end: \)
+  literal-object:
+    begin: (?<=\(|\[|,|&&|\|\||\?|=|\Wreturn|^return)\s*(?=\{)
+    end: (?<=\})
     captures:
-      '0': {name: meta.brace.round.js}
+      '1': {name: meta.brace.curly.js}
     patterns:
-    - include: '#expression'
-
-  square-brackets:
-    name: meta.group.square.js
-    begin: \[
-    end: \]
-    captures:
-      '0': {name: meta.brace.square.js}
-    patterns:
-    - include: '#expression'
-
-  block-brackets:
-    name: meta.group.block.js
-    begin: \{
-    end: \}
-    captures:
-      '0': {name: meta.brace.curly.js}
-    patterns:
-    - include: $self
+      - include: '#object-brackets'
 
   object-brackets:
     name: meta.group.object.js
@@ -179,15 +186,7 @@ repository:
     - include: '#short-method'
     - include: $self
 
-  object-literal:
-    begin: (?<=\(|\[|,|&&|\|\||\?|=|\Wreturn|^return)\s*(?=\{)
-    end: (?<=\})
-    captures:
-      '1': {name: meta.brace.curly.js}
-    patterns:
-      - include: '#object-brackets'
-
-  parameters:
+  function-parameters:
     name: meta.group.parameters.js
     begin: \(
     end: \)
@@ -239,7 +238,7 @@ repository:
     # e.g. static (o: ?void): {[key: any]: any};
     # e.g. <T: Object>(o: T): T;
     - name: meta.short-method.flowtype.js
-      begin: (@@iterator|static)(?=\s*[<(])|(?=<)
+      begin: (@@iterator|static)(?=\s*[<(])|(?=\s*<)
       beginCaptures:
         '1': {name: keyword.operator.flowtype}
       end: (?=\s*[\n;{])
@@ -271,21 +270,8 @@ repository:
       patterns:
       - include: '#function-tail'
 
-  class-properties:
-    patterns:
-    - name: meta.class.property.js
-      begin: (?=(?:[_$a-zA-Z][$\w]*)\s*[:;=\n])
-      end: (?<=[;\n])|(?=\s*})
-      patterns:
-      - include: '#comments'
-      - include: '#flowtype-annotation'
-      - include: '#literal-variable'
-      - include: '#literal-operators'
-      - include: '#punctuation'
-      - include: '#expression'
-
   # https://github.com/wycats/javascript-decorators
-  decorator:
+  literal-decorator:
     name: tag.decorator.js
     match: (@)([_$a-zA-Z][$\w]*)\b
     captures:
@@ -329,18 +315,10 @@ repository:
         - include: '#short-method'
         - include: $self
 
-        # - include: '#square-brackets'
-        # - include: '#function-storage'
-        # - include: '#class-properties'
-        # - include: '#decorator'
-        # - include: '#block-brackets'
-        # - include: '#comments'
-        # - include: '#punctuation'
-
       - include: '#flowtype-polymorph'
       - include: '#comments'
 
-  literal-prototype:
+  literal-function-class:
     patterns:
     # e.g. "Sound =" or "Sound.* =" or "Sound.prototype.* ="
     - name: meta.function.class.js
@@ -351,11 +329,22 @@ repository:
   function-tail:
     patterns:
     - include: '#flowtype-polymorph'
-    - include: '#parameters'
+    - include: '#function-parameters'
     - include: '#flowtype-annotation'
     - include: '#comments'
 
-  function-definition:
+  literal-function-storage:
+    patterns:
+    - name: storage.modifier.js
+      match: (?<!\.)\b(static|declare)\b
+
+    - name: storage.type.js
+      match: (?<!\.)\b(async|get|set)\b
+
+    - name: keyword.generator.asterisk.js
+      match: '\*'
+
+  literal-function-definition:
     patterns:
     - name: meta.function.js
       begin: (?<!\.)\b(function)\b
@@ -388,6 +377,18 @@ repository:
       captures:
         '1': {name: variable.parameter.js}
         '2': {name: storage.type.function.js}
+
+    # HACK: Allow for weird line-breaks and spacing after the `=>` but still
+    # grab the `{}` as a block. It also means that arrow functions can be
+    # in an expression and the `{}` won't be i
+    - name: meta.function-body.arrow.js
+      begin: (?<==>)
+      end: (?=\S)
+      applyEndPatternLast: 1
+      patterns:
+      - match: '\n'
+      - include: '#curly-brackets'
+      - include: '#comments'
 
   literal-function-call:
     patterns:
@@ -453,7 +454,7 @@ repository:
       captures:
         '1': {name: variable.function.js}
 
-  function-assignment:
+  literal-function-assignment:
     # So "Goto Symbol" can work for assignments based on the identifier.
     # e.g. play = function play(arg1, arg2) { }
     # e.g. play = (args) => { }
@@ -508,18 +509,8 @@ repository:
         captures:
           '2': {name: variable.function.constructor.js}
 
-  function-storage:
-    patterns:
-    - name: storage.modifier.js
-      match: (?<!\.)\b(static|declare)\b
 
-    - name: storage.type.js
-      match: (?<!\.)\b(async|get|set)\b
-
-    - name: keyword.generator.asterisk.js
-      match: '\*'
-
-  var-declaration:
+  literal-declaration:
     # TODO: fix this message
     # [known-issue]: Flow matching is only supported for one declarator per
     # declaration because there is no token/char to signal the end of a
@@ -562,7 +553,7 @@ repository:
       #   patterns:
       #   - include: '#comments'
 
-  keywords:
+  literal-keywords:
     patterns:
     - name: keyword.control.conditional.js
       match: (?<!\.)\b(?>if|else)\b
@@ -571,31 +562,12 @@ repository:
       match: (?<!\.)\b(?>catch|finally|throw|try)\b
 
     - name: keyword.control.loop.js
-      match: (?<!\.)\b(?>break|continue|do|goto|while)\b
+      match: (?<!\.)\b(?>break|continue|do|goto|while|for)\b
 
     - name: keyword.other.js
       match: (?<!\.)\b(debugger)\b
 
-  for-statement:
-    patterns:
-    - name: meta.for.js
-      begin: (?<!\.)\b(for)\b
-      beginCaptures:
-        '1': {name: keyword.control.loop.js}
-      end: \)
-      endCaptures:
-        '0': {name: meta.brace.round.js}
-      patterns:
-      - begin: \(
-        beginCaptures:
-          '0': {name: meta.brace.round.js}
-        end: (?=\))
-        patterns:
-        - include: '#var-declaration'
-        - include: '#expression'
-        - include: '#punctuation'
-
-  switch-statement:
+  literal-switch:
     patterns:
     - name: meta.switch.js
       begin: (?<!\.)\b(switch)\b
@@ -697,13 +669,13 @@ repository:
     - name: keyword.operator.accessor.js
       match: \.
 
-  label:
+  literal-label:
     match: '\b([_$a-zA-Z][$\w]*)\s*(:)'
     captures:
       '1': {name: entity.other.label.js}
       '2': {name: keyword.control.definition.js}
 
-  ternary:
+  literal-ternary:
     name: meta.ternary.js
     begin: '\?'
     end: ':'
@@ -737,7 +709,7 @@ repository:
     - name: constant.language.infinity.js
       match: (?:\B[-+]|\b)(Infinity)\b
 
-  punctuation:
+  literal-punctuation:
     patterns:
     - name: punctuation.terminator.statement.js
       match: ';'
@@ -879,7 +851,7 @@ repository:
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
 
-  jsx:
+  literal-jsx:
     contentName: meta.jsx.js
     begin: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|^)\s*(?=<)
     end: (?<=/>|>)
@@ -939,6 +911,7 @@ repository:
     captures:
       '0': {name: punctuation.section.embedded.jsx}
     patterns:
+    - include: '#object-brackets'
     - include: '#expression'
 
   jsx-string-quoted:
@@ -960,6 +933,23 @@ repository:
   jsx-attribute-illegal:
     name: invalid.illegal.attribute.jsx
     match: \S*
+
+  flowtype-type-alias:
+    patterns:
+    - name: meta.flowtype.type.js
+      begin: \b(type)\b(?=\s+[{_$a-zA-Z])
+      beginCaptures:
+        '1': {name: storage.type.flowtype}
+      end: (?<=})|(?=;|\n|from)
+      patterns:
+      - begin: '='
+        beginCaptures:
+          '0': {name: keyword.operator.flowtype}
+        end: (?=\s*(?:,|;|=|\)|\]|\}|\n|\/\/))
+        patterns:
+        - include: '#flowtype-tokens'
+      - include: '#flowtype-tokens'
+      - include: $self
 
   flowtype-polymorph:
     # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
@@ -1019,20 +1009,3 @@ repository:
       - include: '#flowtype-tokens'
 
     - include: '#comments'
-
-  flowtype-type-alias:
-    patterns:
-    - name: meta.flowtype.type.js
-      begin: \b(type)\b(?=\s+[{_$a-zA-Z])
-      beginCaptures:
-        '1': {name: storage.type.flowtype}
-      end: (?<=})|(?=;|\n|from)
-      patterns:
-      - begin: '='
-        beginCaptures:
-          '0': {name: keyword.operator.flowtype}
-        end: (?=\s*(?:,|;|=|\)|\]|\}|\n|\/\/))
-        patterns:
-        - include: '#flowtype-tokens'
-      - include: '#flowtype-tokens'
-      - include: $self
