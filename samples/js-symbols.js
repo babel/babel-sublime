@@ -26,5 +26,12 @@ U.u = function(z) {}
 V.v = function vv() {}
 W.w = function ww(z) {}
 
-class X extends XX {}
-class Y {}
+class X {}
+class Y extends XX {
+   abc: void
+  ['noop']() {}
+  0() {}
+  Z() { abc: 1}
+  'ZA'() { abc: void }
+  static ZB = function() {abc: void }
+}

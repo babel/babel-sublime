@@ -39,3 +39,16 @@ export default React.createClass({
     );
   }
 });
+
+class Sound extends Model {
+  title: string;
+  plays: number;
+  constructor(id: number) {
+    super();
+    this.id = id;
+  }
+  [Private.getDebugSymbol()](opts: Object) {}
+  play(): void {}
+  pause(): void {}
+  static async fetch(id: number, retries: ?number): Promise {}
+}

@@ -15,6 +15,7 @@ var a = b <cat--
 var a = b < cat--
 
 var a = b <cat /*comment*/ />
+//
 var a = b <cat />
 var a = b <cat/>
 var a = b <cat-dog />

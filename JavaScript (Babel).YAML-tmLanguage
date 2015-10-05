@@ -1,110 +1,90 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: JavaScript (Babel)
 scopeName: source.js
-fileTypes: [js, htc, jsx]
-uuid: 30c49d33-6e4d-4985-8a18-34431c2535c6
+fileTypes: [js, jsx, babel, es6]
 firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
 patterns:
-- include: '#core'
+- include: '#literal-label'
+- include: '#literal-switch'
+- include: '#flowtype-type-alias'
+- include: '#expression'
+- include: '#literal-punctuation'
 
 repository:
-  core:
-    patterns:
-    - include: '#literal-function-labels'
-    - include: '#literal-arrow-function-labels'
-    - include: '#literal-labels'
-
-    - include: '#literal-keywords'
-    - include: '#literal-for'
-    - include: '#literal-switch'
-
-    - include: '#expression'
-    - include: '#literal-punctuation'
-
   expression:
     patterns:
-    - include: '#jsx'
-    - include: '#es7-decorators'
+    - include: '#literal-declaration'
+    - include: '#literal-jsx'
 
     - include: '#support'
-    - include: '#literal-function'
-    - include: '#literal-arrow-function'
-    - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
 
-    - include: '#literal-regexp'              # before operators to avoid ambiguities
+    - include: '#literal-function-definition'
+    - include: '#literal-function-storage'
+    - include: '#literal-function-class'
+
+    - include: '#literal-regexp'  # before operators
     - include: '#literal-number'
     - include: '#literal-quasi'
     - include: '#literal-string'
-    - include: '#literal-language-constant'
-    - include: '#literal-language-variable'
 
-    - include: '#literal-method'
+    - include: '#literal-keywords'
+
     - include: '#literal-module'
     - include: '#literal-class'
+    - include: '#literal-object'
 
+    - include: '#flowtype-annotation'
+
+    - include: '#literal-builtins' # before "*-calls"
+
+    - include: '#literal-function-assignment'
     - include: '#literal-constructor'
     - include: '#literal-method-call'
     - include: '#literal-function-call'
 
-    - include: '#comments'
-    - include: '#brackets'
-
-    - include: '#literal-operators'
-    - include: '#literal-variable'
-
-  round-brackets:
-    patterns:
-    - name: meta.group.braces.round
-      begin: \(
-      beginCaptures:
-        '0': {name: meta.brace.round.js}
-      end: \)
-      endCaptures:
-        '0': {name: meta.brace.round.js}
-      patterns:
-      - include: '#expression'
-
-  square-brackets:
-    patterns:
-    - name: meta.group.braces.square
-      begin: \[
-      beginCaptures:
-        '0': {name: meta.brace.square.js}
-      end: \]
-      endCaptures:
-        '0': {name: meta.brace.square.js}
-      patterns:
-      - include: '#expression'
-
-  curly-brackets:
-    patterns:
-    - name: meta.group.braces.curly
-      begin: \{
-      beginCaptures:
-        '0': {name: meta.brace.curly.js}
-      end: \}
-      endCaptures:
-        '0': {name: meta.brace.curly.js}
-      patterns:
-      - include: $self
-
-  brackets:
-    patterns:
     - include: '#round-brackets'
     - include: '#square-brackets'
     - include: '#curly-brackets'
 
+    - include: '#comments'
+
+    - include: '#literal-decorator'
+    - include: '#literal-ternary'
+    - include: '#literal-operators'
+    - include: '#literal-variable'
+
+  curly-brackets:
+    name: meta.group.curly.js
+    begin: \{
+    end: \}
+    captures:
+      '0': {name: meta.brace.curly.js}
+    patterns:
+    - include: $self
+
+  round-brackets:
+    name: meta.group.round.js
+    begin: \(
+    end: \)
+    captures:
+      '0': {name: meta.brace.round.js}
+    patterns:
+    - include: '#object-brackets'
+    - include: '#expression'
+
+  square-brackets:
+    name: meta.group.square.js
+    begin: \[
+    end: \]
+    captures:
+      '0': {name: meta.brace.square.js}
+    patterns:
+    - include: '#object-brackets'
+    - include: '#expression'
+
   comments:
     patterns:
-    - include: '#special-comments-conditional-compilation'
-
-    - name: comment.block.documentation.js
-      begin: /\*\*(?!/)
-      end: \*/
-      captures:
-        '0': {name: punctuation.definition.comment.js}
-
     - name: comment.block.js
       begin: /\*
       end: \*/
@@ -126,54 +106,183 @@ repository:
       captures:
         '1': {name: punctuation.definition.comment.js}
 
-  special-comments-conditional-compilation:
+  literal-object:
+    # TODO: Are some of these really needed now that round-brackets and
+    # square-brakets include object-brackets first?
+    begin: (?<=\(|\[|,|&&|\|\||\?|!|=|\Wreturn|^return)(?=\s*\{)
+    end: (?<=\})
+    captures:
+      '1': {name: meta.brace.curly.js}
     patterns:
-    - name: comment.block.conditional.js
-      begin: /\*(?=@)
-      end: \*/
-      endCaptures:
-        '1': {name: keyword.control.conditional.js}
-        '2': {name: punctuation.definition.keyword.js}
+      - include: '#object-brackets'
+
+  object-brackets:
+    name: meta.group.object.js
+    begin: \{
+    end: \}
+    captures:
+      '0': {name: meta.brace.curly.js}
+    patterns:
+    # Object keys with a function or arrow-function property are captured
+    # as "entity.name.function" so they can be found in "Goto Symbol".
+
+    # e.g. play: function(arg1, arg2) {  }
+    # e.g. play: (args) => { }
+    - name: meta.object.method-key.js
+      match: >-
+        (?x)
+          (?:
+            (([_$a-zA-Z][$\w]*|\d+))                          | # unquoted key (any or number-only identifier)
+            ((["'])((?:\\.|(?!\4).)*)(\4))                      # quoted key
+          )
+          (?=
+            \s*:
+            \s*(?:async\s+)?
+            (?:
+              \b(?:function)\b                                | # function
+              (?:[_$a-zA-Z][$\w]*\s*(?>:|=>))                 | # arrow-function with single param
+              (?:(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?>:|=>))       # arrow-function with parens
+            )
+          )
       captures:
-        '0': {name: punctuation.definition.comment.js}
+        '1': {name: string.unquoted.js}
+        '2': {name: entity.name.function.js}
+        '3': {name: string.quoted.js}
+        '4': {name: punctuation.definition.string.js}
+        '5': {name: entity.name.function.js}
+        '6': {name: punctuation.definition.string.js}
+
+    # e.g. play:
+    - name: meta.object.property-key.js
+      match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*|\d+)(?=\s*:)
+      captures:
+        '1': {name: string.unquoted.js}
+
+    # e.g. "play":
+    - name: meta.object.property-key.js
+      begin: (?<!\?)(?<!\?\s)(?=((["'])((?:\\.|(?!\2).)*)(\2))\s*:)
+      end: (?=:)
       patterns:
-      - name: punctuation.definition.comment.js
-        match: /\*
-      - include: $self
+      - include: '#literal-string'
 
-    - name: keyword.control.conditional.js
-      match: (@)(if|elif|else|end|ifdef|endif|cc_on|set)\b
-      captures:
-        '1': {name: punctuation.definition.keyword.js}
+    # e.g. [play]:
+    - name: meta.object.property-key.js
+      begin: (?=(\[(?:(?>[^\[\]]+)|\g<-1>)*\])\s*:)
+      end: (?=:)
+      patterns:
+      - include: '#square-brackets'
 
-    - name: variable.other.conditional.js
-      match: (@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript|_jscript_build|_jscript_version|_debug|_fast|[a-zA-Z]\w+)
-      captures:
-        '1': {name: punctuation.definition.variable.js}
-
-  function-declaration-parameters:
-    patterns:
-    - begin: \(
+    - name: meta.object.property-value.js
+      begin: ':'
       beginCaptures:
-        '0': {name: punctuation.definition.parameters.begin.js}
-      end: \)
-      endCaptures:
-        '0': {name: punctuation.definition.parameters.end.js}
+        '0': {name: punctuation.separator.key-value.js}
+      end: (?=[,}])
       patterns:
-      - name: keyword.operator.spread.js
-        match: (?<!\.)\.\.\.
-      - name: variable.parameter.function.js
-        match: '[_$a-zA-Z][$\w]*'
-      - name: punctuation.separator.parameter.function.js
-        match: ','
-      - name: meta.parameter.optional.js
-        begin: '='
-        beginCaptures:
-          '0': {name: keyword.operator.assignment.js}
-        end: '(?=[,)])'
-        patterns:
-        - include: '#expression'
+      # HACK: Kinda like what is done for `=>` but in reverse.
+      - match: '\n'
       - include: '#comments'
+      - begin: (?={)
+        end: (?<=})
+        patterns:
+        - include: '#object-brackets'
+      - begin: (?=\S)
+        end: (?=[,}])
+        patterns:
+        - include: $self
+
+    - include: '#short-method'
+    - include: $self
+
+  function-parameters:
+    name: meta.group.parameters.js
+    begin: \(
+    end: \)
+    captures:
+      '0': {name: punctuation.definition.parameters.js}
+    patterns:
+    - include: '#flowtype-annotation'
+    - include: '#parameters-content'
+
+  parameters-content:
+    patterns:
+    - name: variable.parameter.function.js
+      match: '[_$a-zA-Z][$\w]*'
+
+    # Default parameters are matched with `#expression` so only the identifier
+    # before the `=` gets captured as "variable.paramater".
+    - name: meta.parameter.default.js
+      begin: (?=[=])
+      end: (?=[],)}])
+      patterns:
+      - include: '#expression'
+
+    - name: meta.parameter.destructure.js
+      begin: \[
+      end: \]
+      captures:
+        '0': {name: punctuation.definition.destructure.js}
+      patterns:
+      - include: '#flowtype-annotation'
+      - include: '#parameters-content'
+
+    - name: meta.parameter.destructure.js
+      begin: \{
+      end: \}
+      captures:
+        '0': {name: punctuation.definition.destructure.js}
+      patterns:
+      - include: '#flowtype-annotation'
+      - include: '#parameters-content'
+
+    - include: '#expression'
+
+  short-method:
+    # In flow annotations the method body "{}" is omitted in favor of ";", so
+    # all of these patterns must end with `(?=\s*[\n;{])`.
+    patterns:
+    # e,g. @@iterator(): Iterator<[K, V]>;
+    # e.g. static (o: ?void): {[key: any]: any};
+    # e.g. <T: Object>(o: T): T;
+    - name: meta.short-method.flowtype.js
+      begin: (@@iterator|static)(?=\s*[<(])|(?=\s*<)
+      beginCaptures:
+        '1': {name: keyword.operator.flowtype}
+      end: (?=\s*[\n;{])
+      patterns:
+      - include: '#function-tail'
+
+    # e.g. play() {}
+    # e.g. 1234() {}
+    # e.g. 'play'() {}
+    - name: meta.short-method.js
+      begin: (?:([_$a-zA-Z][$\w]*|\d+)|((["'])((?:\\.|(?!\3).)*)(\3)))(?=\s*[<(])
+      beginCaptures:
+        '1': {name: entity.name.function.js}
+        '2': {name: string.quoted.js}
+        '3': {name: punctuation.definition.string.js}
+        '4': {name: entity.name.function.js}
+        '5': {name: punctuation.definition.string.js}
+      end: (?=\s*[\n;{])
+      patterns:
+      - include: '#function-tail'
+
+    # In objects and flow annotations it can't be assumed that a start quote
+    # or start square-bracket is for a method. For multi-line quoted short
+    # methods and computed property methods, only the polymorphism constraints
+    # and parameters are matched.
+    - name: meta.short-method.computed.js
+      begin: (?<=[]"'])\s*(?=[<(])
+      end: (?=\s*[\n;{])
+      patterns:
+      - include: '#function-tail'
+
+  # https://github.com/wycats/javascript-decorators
+  literal-decorator:
+    name: tag.decorator.js
+    match: (@)([_$a-zA-Z][$\w]*)\b
+    captures:
+      '1': {name: keyword.operator.decorator.js}
+      '2': {name: entity.name.tag.js}
 
   literal-module:
     patterns:
@@ -181,472 +290,134 @@ repository:
       match: (?<!\.)\b(?>import|export|default|from|as)\b
 
   literal-class:
+    # The flowtype `module` and `interface` keywords are also recognized as
+    # "meta.class.js" because they have nearly the same semantics as `class`.
     patterns:
-    # e.g. class MyClass {  }
+    # e.g. class Sound extends Model { }
     - name: meta.class.js
-      begin: >-
-        (?x)
-          (?<!\.)\b(class)
-          \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?
+      begin: (?<!\.)\b(?:(class)|(module)|(interface))\b(?=\s+[_$a-zA-Z"'])
       beginCaptures:
         '1': {name: storage.type.class.js}
-        '2': {name: entity.name.class.js}
-      end: '}'
-      endCaptures:
-        '0': {name: meta.brace.curly.js}
+        '2': {name: storage.type.module.flowtype}
+        '3': {name: keyword.other.flowtype}
+      end: (?<=[;}])
       patterns:
-      - name: meta.class.extends.js
-        begin: \b(extends)\b
+      - begin: (?<!\.)\b(extends|implements)\b
         beginCaptures:
-          '1': {name: storage.type.extends.js}
-        end: '(?={)'
+          '0': {name: keyword.other.js}
+        end: (?=[<{])
         patterns:
         - include: '#expression'
 
-      - begin: '{'
-        beginCaptures:
-          '0': {name: meta.brace.curly.js}
-        end: '(?=})'
+      - include: '#literal-string' # declare module "./a/b.js" {}
+      - name: entity.name.class.js
+        match: '[_$a-zA-Z][$\w]*'
+
+      - name: meta.class-body.js
+        begin: \{
+        end: \}
+        captures:
+          '0': {name: punctuation.definition.class.body.js}
         patterns:
-        - include: '#brackets'
-        - include: '#es7-decorators'
-        - include: '#comments'
-        - include: '#es7-class-properties'
-        - include: '#literal-method'
+        # lit-func-def must be first because they look like short methods
+        - include: '#literal-function-definition'
+        - include: '#short-method'
+        - include: '#expression'
 
-  literal-method:
+      - include: '#flowtype-polymorph'
+      - include: '#comments'
+
+  literal-function-class:
     patterns:
-    # e.g. play(arg1, arg2) {  }
-    - name: meta.method.js
-      begin: >-
-        (?x)
-          (?:\b(static)\s+)?
-          (?:\b(async)\s+)?
-          (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
-      beginCaptures:
-        '1': {name: storage.type.js}
-        '2': {name: storage.type.js}
-        '3': {name: keyword.generator.asterisk.js}
-        '4': {name: entity.name.method.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # getter/setter
-    - name: meta.accessor.js
-      begin: >-
-        (?x)
-          \b(?:(static)\s+)?
-          (get|set)\s+
-          ([_$a-zA-Z][$\w]*)\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
-      beginCaptures:
-        '1': {name: storage.type.js}
-        '2': {name: storage.type.accessor.js}
-        '3': {name: entity.name.accessor.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-  literal-prototype:
-    patterns:
-    # e.g. Sound.prototype = {  } when extending an object
-    - name: meta.prototype.declaration.js
-      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*
+    # e.g. "Sound =" or "Sound.* =" or "Sound.prototype.* ="
+    - name: meta.function.class.js
+      match: (?<!\.)\b(_?[A-Z][$\w]*)(?=(?:\.[_$a-zA-Z][$\w]*|\.prototype\.[_$a-zA-Z][$\w]*)\s*=)
       captures:
         '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: variable.language.prototype.js}
 
-    # e.g. Sound.prototype
-    - name: meta.prototype.access.js
-      match: ([_$a-zA-Z][$\w]*)(\.)(prototype)\b
-      captures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: variable.language.prototype.js}
-
-  literal-function:
+  function-tail:
     patterns:
-    # e.g. function play(arg1, arg2) {  }
+    - include: '#flowtype-polymorph'
+    - include: '#function-parameters'
+    - include: '#flowtype-annotation'
+    - include: '#comments'
+    - include: '#curly-brackets'
+
+  literal-function-storage:
+    patterns:
+    - name: storage.modifier.js
+      match: (?<!\.)\b(static|declare)\b
+
+    - name: storage.type.js
+      match: (?<!\.)\b(async|get|set)\b
+
+    - name: keyword.generator.asterisk.js
+      match: '\*'
+
+  literal-function-definition:
+    patterns:
     - name: meta.function.js
-      begin: >-
-        (?x)
-          (?:\b(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
+      begin: (?<!\.)\b(function)\b
       beginCaptures:
-        '1': {name: storage.type.js}
-        '2': {name: storage.type.function.js}
-        '3': {name: keyword.generator.asterisk.js}
-        '4': {name: entity.name.function.js}
-      end: (?<=\))
+        '1': {name: storage.type.function.js}
+      # Flow declarations end in `;`
+      end: (?<=\})|(?=\s*[;\n])
       patterns:
-      - include: '#function-declaration-parameters'
+      - name: keyword.generator.asterisk.js
+        match: '\*'
+      - name: entity.name.function.js
+        match: '[_$a-zA-Z][$\w]*'
+      - include: '#function-tail'
 
-    # e.g. play = function(arg1, arg2) {  }
-    - name: meta.function.js
-      begin: >-
-        (?x)
-          (\b[_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
-      beginCaptures:
-        '1': {name: entity.name.function.js}
-        '2': {name: storage.type.js}
-        '3': {name: storage.type.function.js}
-        '4': {name: keyword.generator.asterisk.js}
-        '5': {name: entity.name.function.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. Sound.prototype.play = function(arg1, arg2) {  }
-    - name: meta.prototype.function.js
-      begin: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)(prototype)
-          (\.)([_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
-      beginCaptures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: variable.language.prototype.js}
-        '4': {name: keyword.operator.accessor.js}
-        '5': {name: entity.name.function.js}
-        '6': {name: storage.type.js}
-        '7': {name: storage.type.function.js}
-        '8': {name: keyword.generator.asterisk.js}
-        '9': {name: entity.name.function.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. Sound.play = function(arg1, arg2) {  }
-    - name: meta.function.static.js
-      begin: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)([_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
-      beginCaptures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: storage.type.js}
-        '5': {name: storage.type.function.js}
-        '6': {name: keyword.generator.asterisk.js}
-        '7': {name: entity.name.function.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-  literal-function-labels:
-    patterns:
-    # e.g. play: function(arg1, arg2) {  }
-    - name: meta.function.json.js
-      begin: >-
-        (?x)
-          \b([_$a-zA-Z][$\w]*)
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
-      beginCaptures:
-        '1': {name: entity.name.function.js}
-        '2': {name: punctuation.separator.key-value.js}
-        '3': {name: storage.type.js}
-        '4': {name: storage.type.function.js}
-        '5': {name: keyword.generator.asterisk.js}
-        '6': {name: entity.name.function.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. "play": function(arg1, arg2) {  }
-    - name: meta.function.json.js
-      begin: >-
-        (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
-      beginCaptures:
-        '1': {name: string.quoted.single.js}
-        '2': {name: punctuation.definition.string.begin.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: punctuation.definition.string.end.js}
-        '5': {name: string.quoted.double.js}
-        '6': {name: punctuation.definition.string.begin.js}
-        '7': {name: entity.name.function.js}
-        '8': {name: punctuation.definition.string.end.js}
-        '9': {name: punctuation.separator.key-value.js}
-        '10': {name: storage.type.js}
-        '11': {name: storage.type.function.js}
-        '12': {name: keyword.generator.asterisk.js}
-        '13': {name: entity.name.function.js}
-      end: (?<=\))
-      patterns:
-      - include: '#function-declaration-parameters'
-
-  literal-arrow-function:
-    patterns:
     # e.g. (args) => { }
+    # TODO: '#flowtype-polymorph'
     - name: meta.function.arrow.js
-      begin: >-
-        (?x)
-          (\basync)?\s*
-          (?=\([^()]*\)\s*(=>))
+      begin: (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(?:)(=>))
       beginCaptures:
-        '1': {name: storage.type.js}
-      end: (?<=\))\s*(=>)
+        '1': {name: storage.type.async.js}
+      end: (=>)
       endCaptures:
-        '1': {name: storage.type.function.arrow.js}
+        '1': {name: storage.type.function.js}
       patterns:
-      - include: '#function-declaration-parameters'
+      - include: '#function-tail'
 
     # e.g. arg => { }
+    # No flowtype for arrow functions w/o parens
     - name: meta.function.arrow.js
-      match: >-
-        (?x)
-          (\basync)?\s*
-          \b([_$a-zA-Z][$\w]*)\s*(=>)
+      match: (?<!\.)\b([_$a-zA-Z][$\w]*)\s*(=>)
       captures:
-        '1': {name: storage.type.js}
-        '2': {name: variable.parameter.function.js}
-        '3': {name: storage.type.function.arrow.js}
+        '1': {name: variable.parameter.js}
+        '2': {name: storage.type.function.js}
 
-    # e.g. play = (args) => { }
-    - name: meta.function.arrow.js
-      begin: >-
-        (?x)
-          (\b[_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      beginCaptures:
-        '1': {name: entity.name.function.js}
-        '2': {name: storage.type.js}
-      end: (?<=\))\s*(=>)
-      endCaptures:
-        '1': {name: storage.type.function.arrow.js}
+    # HACK: Allow for weird line-breaks and spacing after the `=>` but still
+    # grab the `{}` as a block. It also means that arrow functions can be
+    # in an expression and the `{}` won't be an object.
+    - name: meta.function-body.arrow.js
+      begin: (?<==>)
+      end: (?=\S)
+      applyEndPatternLast: 1
       patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. play = arg => { }
-    - name: meta.function.arrow.js
-      match: >-
-        (?x)
-          (\b[_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
-      captures:
-        '1': {name: entity.name.function.js}
-        '2': {name: storage.type.js}
-        '3': {name: variable.parameter.function.js}
-        '4': {name: storage.type.function.arrow.js}
-
-    # e.g. Sound.prototype.play = (args) => { }
-    - name: meta.prototype.function.arrow.js
-      begin: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)(prototype)
-          (\.)([_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      beginCaptures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: variable.language.prototype.js}
-        '4': {name: keyword.operator.accessor.js}
-        '5': {name: entity.name.function.js}
-        '6': {name: storage.type.js}
-      end: (?<=\))\s*(=>)
-      endCaptures:
-        '1': {name: storage.type.function.arrow.js}
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. Sound.prototype.play = arg => { }
-    - name: meta.prototype.function.arrow.js
-      match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)(prototype)
-          (\.)([_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
-      captures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: variable.language.prototype.js}
-        '4': {name: keyword.operator.accessor.js}
-        '5': {name: entity.name.function.js}
-        '6': {name: storage.type.js}
-        '7': {name: variable.parameter.function.js}
-        '8': {name: storage.type.function.arrow.js}
-
-    # e.g. Sound.play = (args) => { }
-    - name: meta.function.static.arrow.js
-      begin: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)([_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      beginCaptures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: storage.type.js}
-      end: (?<=\))\s*(=>)
-      endCaptures:
-        '1': {name: storage.type.function.arrow.js}
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. Sound.play = arg => { }
-    - name: meta.function.static.arrow.js
-      match: >-
-        (?x)
-          (\b_?[A-Z][$\w]*)?
-          (\.)([_$a-zA-Z][$\w]*)
-          \s*=
-          \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
-      captures:
-        '1': {name: entity.name.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: storage.type.js}
-        '5': {name: variable.parameter.function.js}
-        '6': {name: storage.type.function.arrow.js}
-
-  literal-arrow-function-labels:
-    patterns:
-    # e.g. play: (args) => { }
-    - name: meta.function.json.arrow.js
-      begin: >-
-        (?x)
-          \b([_$a-zA-Z][$\w]*)
-          \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      beginCaptures:
-        '1': {name: entity.name.function.js}
-        '2': {name: punctuation.separator.key-value.js}
-        '3': {name: storage.type.js}
-      end: (?<=\))\s*(=>)
-      endCaptures:
-        '1': {name: storage.type.function.arrow.js}
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. play: arg => { }
-    - name: meta.function.json.arrow.js
-      match: >-
-        (?x)
-          \b([_$a-zA-Z][$\w]*)
-          \s*(:)
-          \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
-      captures:
-        '1': {name: entity.name.function.js}
-        '2': {name: punctuation.separator.key-value.js}
-        '3': {name: storage.type.js}
-        '4': {name: variable.parameter.function.js}
-        '5': {name: storage.type.function.arrow.js}
-
-    # e.g. "play": (args) => { }
-    - name: meta.function.json.arrow.js
-      begin: >-
-        (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      beginCaptures:
-        '1': {name: string.quoted.single.js}
-        '2': {name: punctuation.definition.string.begin.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: punctuation.definition.string.end.js}
-        '5': {name: string.quoted.double.js}
-        '6': {name: punctuation.definition.string.begin.js}
-        '7': {name: entity.name.function.js}
-        '8': {name: punctuation.definition.string.end.js}
-        '9': {name: punctuation.separator.key-value.js}
-        '10': {name: storage.type.js}
-      end: (?<=\))\s*(=>)
-      endCaptures:
-        '1': {name: storage.type.function.arrow.js}
-      patterns:
-      - include: '#function-declaration-parameters'
-
-    # e.g. "play": arg => { }
-    - name: meta.function.json.arrow.js
-      match: >-
-        (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(async)?
-          \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
-      captures:
-        '1': {name: string.quoted.single.js}
-        '2': {name: punctuation.definition.string.begin.js}
-        '3': {name: entity.name.function.js}
-        '4': {name: punctuation.definition.string.end.js}
-        '5': {name: string.quoted.double.js}
-        '6': {name: punctuation.definition.string.begin.js}
-        '7': {name: entity.name.function.js}
-        '8': {name: punctuation.definition.string.end.js}
-        '9': {name: punctuation.separator.key-value.js}
-        '10': {name: storage.type.js}
-        '11': {name: variable.parameter.function.js}
-        '12': {name: storage.type.function.arrow.js}
+      - match: '\n'
+      - include: '#curly-brackets'
+      - include: '#comments'
 
   literal-function-call:
     patterns:
     - name: meta.function-call.without-arguments.js
-      match: >-
-        (?x)
-          ([_$a-zA-Z][$\w]*)\s*
-          (\(\s*\))
+      match: ([_$a-zA-Z][$\w]*)\s*(\(\s*\))
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
         '2': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.with-arguments.js
-      match: >-
-        (?x)
-          ([_$a-zA-Z][$\w]*)\s*
-          (?=\()
+      match: ([_$a-zA-Z][$\w]*)(?=\s*\()
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
+
+    - name: meta.function-call.tagged-template-string.js
+      match: ([_$a-zA-Z][$\w]*)\s*(?=`)
+      captures:
+        '1': {name: variable.function.js}
 
   literal-method-call:
     patterns:
@@ -660,7 +431,7 @@ repository:
       captures:
         '1': {name: variable.other.class.js}
         '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
+        '3': {name: variable.function.js}
         '4': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.static.with-arguments.js
@@ -673,7 +444,7 @@ repository:
       captures:
         '1': {name: variable.other.class.js}
         '2': {name: keyword.operator.accessor.js}
-        '3': {name: entity.name.function.js}
+        '3': {name: variable.function.js}
 
     - name: meta.function-call.method.without-arguments.js
       match: >-
@@ -682,7 +453,7 @@ repository:
           ([_$a-zA-Z][$\w]*)\s*
           (\(\s*\))
       captures:
-        '1': {name: entity.name.function.js}
+        '1': {name: variable.function.js}
         '2': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.method.with-arguments.js
@@ -692,47 +463,53 @@ repository:
           ([_$a-zA-Z][$\w]*)\s*
           (?=\()
       captures:
+        '1': {name: variable.function.js}
+
+  literal-function-assignment:
+    # So "Goto Symbol" can work for assignments based on the identifier.
+    # [known-issue] This doesn't work for flow annotated variables.
+    # e.g. play = function play(arg1, arg2) { }
+    # e.g. play = (args) => { }
+    patterns:
+    - name: meta.function.assignment.js
+      match: >-
+        (?x)
+          ([_$a-zA-Z][$\w]*)
+          (?=
+            \s*=
+            \s*(?:async\s+)?
+            (?:
+              \b(?:function)\b|
+              (?:(?:[_$a-zA-Z][$\w]*|(\((?:(?>[^()]+)|\g<-1>)*\)))\s*(?>:|=>))
+            )
+          )
+      captures:
         '1': {name: entity.name.function.js}
 
-  literal-language-variable:
+  literal-builtins:
     patterns:
-    - name: variable.language.arguments.js
-      match: (?<!(?<!\.\.)\.)\barguments\b
+    - name: variable.language.js
+      match: (?<=\.)(?>__proto__|constructor|prototype)\b
 
-    - name: variable.language.super.js
-      match: (?<!(?<!\.\.)\.)\bsuper\b
+    - name: variable.language.js
+      match: (?<!(?<!\.\.)\.)\b(?>arguments|self|super|this)\b
 
-    - name: variable.language.this.js
-      match: (?<!(?<!\.\.)\.)\bthis\b
+    - name: constant.language.js
+      match: (?<!\.)\b(?>true|false|null|undefined|NaN)\b
 
-    - name: variable.language.self.js
-      match: (?<!(?<!\.\.)\.)\bself\b
+    - name: keyword.other.reserved.js
+      match: (?<!\.)\b(?>enum|module|public|extends|package|private|interface|protected|implements)\b
 
-    - name: variable.language.proto.js
-      match: (?<=\.)\b__proto__\b
+    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
+      captures:
+        '1': {name: keyword.control.operator.js}
+        '2': {name: keyword.generator.asterisk.js}
 
-    - name: variable.language.constructor.js
-      match: (?<=\.)\bconstructor\b
+    - name: keyword.operator.js
+      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|return)\b
 
-    - name: variable.language.prototype.js
-      match: (?<=\.)\bprototype\b
-
-  literal-language-constant:
-    patterns:
-    - name: constant.language.boolean.true.js
-      match: (?<!\.)\btrue\b
-
-    - name: constant.language.boolean.false.js
-      match: (?<!\.)\bfalse\b
-
-    - name: constant.language.null.js
-      match: (?<!\.)\bnull\b
-
-    - name: constant.language.undefined.js
-      match: (?<!\.)\bundefined\b
-
-    - name: constant.language.nan.js
-      match: (?<!\.)\bNaN\b
+    - name: storage.type.js
+      match: (?<!\.)\b(class)\b
 
   literal-constructor:
     patterns:
@@ -745,25 +522,45 @@ repository:
       - include: '#support'
       - match: ([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)
         captures:
-          '2': {name: entity.name.type.new.js}
+          '2': {name: variable.function.constructor.js}
 
-  literal-keyword-storage:
+  literal-declaration:
     patterns:
-    - name: storage.type.js
-      match: (?<!\.)\b(?>const|let|var)\b
+    - name: meta.variable.declaration.js
+      begin: (?<!\.)\b(const|let|var)\b
+      captures:
+        '1': {name: 'storage.type.js'}
+      # The `)` is for for-loops (e.g. for(var key in obj) {})
+      end: (?=[;)\n])
+      patterns:
+      - include: '#flowtype-annotation'
+
+      - begin: '\['
+        end: '\]'
+        captures:
+          '0': {name: punctuation.definition.destructure.js}
+        patterns:
+        - include: '#expression'
+
+      - begin: '{'
+        end: '}'
+        captures:
+          '0': {name: punctuation.definition.destructure.js}
+        patterns:
+        - include: '#expression'
+
+      # HACK: Support one var with multiple declarations across multiple lines.
+      # [known-issue]: Only works for trailing comma style.
+      - begin: ','
+        end: (?=\S)
+        patterns:
+        - match: '\n'
+        - include: '#comments'
+
+      - include: '#expression'
 
   literal-keywords:
     patterns:
-    - include: '#literal-keyword-storage'
-
-    - match: (?<!\.)\b(yield)\b(?:\s*(\*))?
-      captures:
-        '1': {name: keyword.control.flow.js}
-        '2': {name: keyword.generator.asterisk.js}
-
-    - name: keyword.control.flow.js
-      match: (?<!\.)\b(?>await|return)\b
-
     - name: keyword.control.conditional.js
       match: (?<!\.)\b(?>if|else)\b
 
@@ -771,26 +568,10 @@ repository:
       match: (?<!\.)\b(?>catch|finally|throw|try)\b
 
     - name: keyword.control.loop.js
-      match: (?<!\.)\b(?>break|continue|do|goto|while)\b
+      match: (?<!\.)\b(?>break|continue|do|goto|while|for)\b
 
-  literal-for:
-    patterns:
-    - name: meta.for.js
-      begin: (?<!\.)\b(for)\b
-      beginCaptures:
-        '1': {name: keyword.control.loop.js}
-      end: \)
-      endCaptures:
-        '0': {name: meta.brace.round.js}
-      patterns:
-      - begin: \(
-        beginCaptures:
-          '0': {name: meta.brace.round.js}
-        end: (?=\))
-        patterns:
-        - include: '#literal-keyword-storage'
-        - include: '#expression'
-        - include: '#literal-punctuation'
+    - name: keyword.other.js
+      match: (?<!\.)\b(debugger)\b
 
   literal-switch:
     patterns:
@@ -811,15 +592,17 @@ repository:
         - begin: (?<!\.)\b(case|default)\b
           beginCaptures:
             '1': {name: keyword.control.switch.js}
-          end: (?=:)
+          end: (:)
+          endCaptures:
+            '1': {name: keyword.control.definition.js}
           patterns:
           - include: '#expression'
         - include: $self
 
   literal-operators:
     patterns:
-    - name: keyword.operator.js
-      match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with)\b
+    - name: keyword.operator.arrow-function.js
+      match: '=>'
 
     - name: keyword.operator.logical.js
       match: >-
@@ -886,34 +669,26 @@ repository:
           \+   | # addition        left-to-right   both
           -      # subtraction     left-to-right   both
 
-    - name: keyword.operator.ternary.js
-      match: '\?|:'
-
     - name: keyword.operator.spread.js
       match: (?<!\.)\.\.\.
 
     - name: keyword.operator.accessor.js
       match: \.
 
-  literal-labels:
-    patterns:
-    - begin: >-
-        (?x)
-          (?<!\?)(?<!\?\s)(?=(
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )\s*:)
-      end: ':'
-      endCaptures:
-        '0': {name: punctuation.separator.key-value.js}
-      patterns:
-      - include: '#literal-string'
+  literal-label:
+    match: '\b([_$a-zA-Z][$\w]*)\s*(:)'
+    captures:
+      '1': {name: entity.other.label.js}
+      '2': {name: keyword.control.definition.js}
 
-    - name: constant.other.object.key.js
-      match: (?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)
-      captures:
-        '1': {name: string.unquoted.label.js}
-        '2': {name: punctuation.separator.key-value.js}
+  literal-ternary:
+    name: meta.ternary.js
+    begin: '\?'
+    end: ':'
+    captures:
+      '0': {name: keyword.operator.ternary.js}
+    patterns:
+    - include: '#expression'
 
   literal-number:
     patterns:
@@ -943,87 +718,75 @@ repository:
   literal-punctuation:
     patterns:
     - name: punctuation.terminator.statement.js
-      match: \;
+      match: ';'
 
     - name: meta.delimiter.comma.js
       match: ','
 
-  literal-quasi:
-    patterns:
-    - name: string.quasi.js
-      begin: ([a-zA-Z$_][\w$_]*)?(`)
-      beginCaptures:
-        '1': {name: entity.quasi.tag.name.js}
-        '2': {name: punctuation.definition.quasi.begin.js}
-      end: '`'
-      endCaptures:
-        '0': {name: punctuation.definition.quasi.end.js}
-      patterns:
-      - include: '#string-content'
-      - name: entity.quasi.element.js
-        begin: \${
-        beginCaptures:
-          '0': {name: punctuation.quasi.element.begin.js}
-        end: '}'
-        endCaptures:
-          '0': {name: punctuation.quasi.element.end.js}
-        patterns:
-        - include: '#expression'
-
   literal-regexp:
     patterns:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
-    #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
+    # http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
     - name: string.regexp.js
       begin: >-
         (?x)
           (?<=
-            \.|\(|,|{|}|\[|;|,|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
-            \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+            \.|\(|,|{|}|\[|;|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
+            \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|\Wyield|
+            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^yield|^
           )\s*
           (/)
           (?!/|\*|$)
       beginCaptures:
-        '1': {name: punctuation.definition.string.begin.js}
+        '1': {name: punctuation.definition.string.js}
       end: (/)([gimy]*)
       endCaptures:
-        '1': {name: punctuation.definition.string.end.js}
+        '1': {name: punctuation.definition.string.js}
         '2': {name: keyword.other.js}
       patterns:
       - include: source.regexp.js
 
   literal-string:
     patterns:
-    - name: string.quoted.single.js
-      begin: "'"
+    - name: string.quoted.js
+      begin: (["'])
       beginCaptures:
-        '0': {name: punctuation.definition.string.begin.js}
-      end: (')|(\n)
+        '0': {name: punctuation.definition.string.js}
+      end: (\1)|(\n)
       endCaptures:
-        '1': {name: punctuation.definition.string.end.js}
+        '1': {name: punctuation.definition.string.js}
         '2': {name: invalid.illegal.newline.js}
       patterns:
       - include: '#string-content'
 
-    - name: string.quoted.double.js
-      begin: '"'
-      beginCaptures:
-        '0': {name: punctuation.definition.string.begin.js}
-      end: (")|(\n)
-      endCaptures:
-        '1': {name: punctuation.definition.string.end.js}
-        '2': {name: invalid.illegal.newline.js}
+  literal-quasi:
+    begin: '`'
+    end: '`'
+    captures:
+      '0': {name: punctuation.definition.quasi.js}
+    patterns:
+    - include: '#string-content'
+    - name: constant.character.escape.js
+      match: '\\`'
+    - begin: '\${'
+      end: '}'
+      captures:
+        '0': {name: keyword.operator.interpolate.js}
       patterns:
-      - include: '#string-content'
+      - include: '#expression'
+    # Workaround so themes color the contents of template strings as "string",
+    # but not any interpolated expression within.
+    - name: string.quasi.js
+      match: '.'
 
   string-content:
+    # https://mathiasbynens.be/notes/javascript-escapes
     patterns:
     - name: constant.character.escape.newline.js
       match: \\\s*\n
 
     - name: constant.character.escape.js
-      match: \\(x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)
+      match: \\([1-7][0-7]{0,2}|[0-7]{2,3}|[bfnrtv0'"\\]|x\h{2}|u\{\h+\}|u\h{4})
 
   literal-variable:
     patterns:
@@ -1031,24 +794,15 @@ repository:
     - name: variable.other.constant.js
       match: '[A-Z][_$\dA-Z]*\b'
 
-    # dollar variables
-    - name: variable.other.dollar.js
-      match: '(\$)[$\w]+'
-      captures:
-        '1': {name: punctuation.dollar.js}
-
     # e.g. Class.property
     - name: meta.property.class.js
       match: >-
         (?x)
-          \b([A-Z][$\w]*)\s*(\.)
-          ([_$a-zA-Z][$\w]*)
+          (?<!\.)\b(_?[A-Z][$\w]*)(?=\s*\.[_$a-zA-Z][$\w]*)
       captures:
         '1': {name: variable.other.class.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: variable.other.property.static.js}
 
-    # e.g. obj.property
+    # e.g. "obj." or "obj[]"
     - name: variable.other.object.js
       match: (?<!\.)([_$a-zA-Z][$\w]*)\s*(?=[\[\.])
       captures:
@@ -1064,238 +818,212 @@ repository:
       match: '[_$a-zA-Z][$\w]*'
 
   support:
+    # https://github.com/sindresorhus/globals
     patterns:
-    # built-ins
     - name: support.class.builtin.js
-      match: \b(?>Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b
+      match: (?<!\.)\b(Array|ArrayBuffer|Boolean|DataView|Date|Error|EvalError|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|RangeError|ReferenceError|Reflect|RegExp|Set|String|Symbol|SyntaxError|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|URIError|WeakMap|WeakSet)\b
 
-    - name: support.function.js
-      match: (?<!\.)\b(?>decodeURIComponent|decodeURI|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
+    - name: support.class.node.js
+      match: \b(Buffer)\b
 
-    - name: support.function.mutator.js
-      match: (?<=\.)\b(?>shift|sort|splice|unshift|pop|push|reverse)\b
+    - name: support.function.builtin.js
+      match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b
 
-    - name: support.class.error.js
-      match: (?<!\.)\b((?>Eval|Range|Reference|Syntax|Type|URI)?Error)\b
+    - name: support.function.node.js
+      match: (?<!\.)\b(clearImmediate|clearInterval|clearTimeout|require|setImmediate|setInterval|setTimeout)\b
 
-    # debugger
-    - name: keyword.other.js
-      match: (?<!\.)\bdebugger\b
-
-    # dom
     - name: support.type.object.dom.js
-      match: (?<!\.)\b(?>document|window)\b
+      match: (?<!\.)\b(document|window)\b
 
-    - name: support.constant.dom.js
-      match: >-
-        (?x)
-          \b(?>
-            ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
-            DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
-            WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
-          )\b
+    - name: support.type.object.node.js
+      match: (?<!\.)\b(global|GLOBAL|root|__dirname|__filename)\b
 
-    # console
-    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
+    - match: (?<!\.)\b(console)(?:(\.)(assert|count|dir|error|group|groupCollapsed|groupEnd|info|log|profile|profileEnd|table|time|timeEnd|trace|warn))?\b
       captures:
         '1': {name: support.type.object.console.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.function.console.js}
 
-    # node
-    - name: support.module.node.js
-      match: (?<!\.)\b(?>assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
-
-    - match: (?<!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
+    - match: (?<!\.)\b(process)(?:(\.)(?:(arch|argv|config|env|execArgv|execPath|exitCode|mainModule|pid|platform|stderr|stdin|stdout|title|version|versions)|(abort|chdir|cwd|exit|getgid|getgroups|getuid|hrtime|initgroups|kill|memoryUsage|nextTick|setgid|setgroups|setuid|umask|uptime)))?\b
       captures:
         '1': {name: support.type.object.process.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.process.js}
+        '4': {name: support.function.process.js}
 
-    - match: (?<!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
-      captures:
-        '1': {name: support.type.object.process.js}
-        '2': {name: keyword.operator.accessor.js}
-        '3': {name: support.function.process.js}
-
-    - match: (?<!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
+    - match: (?<!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b
       captures:
         '1': {name: support.type.object.module.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: support.type.object.module.js}
 
-    - name: support.type.object.node.js
-      match: (?<!\.)\b(?>global|GLOBAL|root|__dirname|__filename)\b
-
-    - name: support.class.node.js
-      match: \b(?>Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b
-
-    # mustache
-    - name: meta.tag.mustache.js
-      begin: '{{'
-      end: '}}'
-
-  jsx-tag-attributes:
+  literal-jsx:
+    contentName: meta.jsx.js
+    begin: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|^)\s*(?=<)
+    end: (?<=/>|>)
     patterns:
-      - include: '#jsx-tag-attribute-name'
-      - include: '#jsx-tag-attribute-assignment'
-      - include: '#jsx-string-double-quoted'
-      - include: '#jsx-string-single-quoted'
-      - include: '#jsx-evaluated-code'
+    - include: '#jsx-tag-start'
 
-  jsx-tag-attribute-name:
-    name: meta.tag.attribute-name.js
-    match: >-
-      (?x)
-        \s*
-        ([_$a-zA-Z][-$\w]*)
-        (?=\s|=|/?>|/\*|//)
-    captures:
-      '1': {name: entity.other.attribute-name.js}
+  jsx-tag-start:
+    patterns:
+    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
+      beginCaptures:
+        '1': {name: punctuation.definition.tag.jsx}
+        '2': {name: entity.name.tag.jsx}
+      end: (</)(\2)(>)|(/>)
+      endCaptures:
+        '1': {name: punctuation.definition.tag.jsx}
+        '2': {name: entity.name.tag.jsx}
+        '3': {name: punctuation.definition.tag.jsx}
+        '4': {name: punctuation.definition.tag.jsx}
+      patterns:
+      - include: '#comments'
+      - include: '#jsx-tag-end'
+      - include: '#jsx-attributes'
 
-  jsx-tag-attribute-assignment:
-    name: keyword.operator.assignment.js
-    match: =(?=\s*(?:'|"|{|/\*|//|\n))
+    - name: invalid.illegal.tag.incomplete.jsx
+      match: '<'
 
-  jsx-string-double-quoted:
-    name: string.quoted.double.js
-    begin: '"'
-    end: '"'
+  jsx-tag-end:
+    begin: '>'
     beginCaptures:
-      '0': {name: punctuation.definition.string.begin.js}
-    endCaptures:
-      '0': {name: punctuation.definition.string.end.js}
+      '0': {name: punctuation.definition.tag.jsx}
+    end: (?=</)
     patterns:
+    - include: '#jsx-tag-start'
+    - include: '#jsx-evaluated-code'
     - include: '#jsx-entities'
 
-  jsx-string-single-quoted:
-    name: string.quoted.single.js
-    begin: "'"
-    end: "'"
-    beginCaptures:
-      '0': {name: punctuation.definition.string.begin.js}
-    endCaptures:
-      '0': {name: punctuation.definition.string.end.js}
+  jsx-attributes:
+    patterns:
+    - include: '#jsx-attribute-name'
+    - include: '#jsx-attribute-assignment'
+    - include: '#jsx-string-quoted'
+    - include: '#jsx-evaluated-code'
+    - include: '#jsx-attribute-illegal'
+
+  jsx-attribute-name:
+    name: entity.other.attribute-name.jsx
+    match: '[_$a-zA-Z][-$\w]*'
+
+  jsx-attribute-assignment:
+    name: keyword.operator.assignment.jsx
+    match: '='
+
+  jsx-evaluated-code:
+    name: meta.embedded.expression.jsx
+    begin: '{'
+    end: '}'
+    captures:
+      '0': {name: punctuation.section.embedded.jsx}
+    patterns:
+    - include: '#object-brackets'
+    - include: '#expression'
+
+  jsx-string-quoted:
+    name: string.quoted.jsx
+    begin: (["'])
+    end: (\1)
+    captures:
+      '0': {name: punctuation.definition.string.jsx}
     patterns:
     - include: '#jsx-entities'
 
   jsx-entities:
     patterns:
-    - name: constant.character.entity.js
-      match: (&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)
-      captures:
-        '1': {name: punctuation.definition.entity.js}
-        '3': {name: punctuation.definition.entity.js}
-    - name: invalid.illegal.bad-ampersand.js
-      match: '&'
+    - name: constant.character.entity.jsx
+      match: '&(?:[a-zA-Z0-9]+|#\d+|#x\h+);'
+    - name: invalid.illegal.bad-ampersand.jsx
+      match: '&\S*;'
 
-  jsx-evaluated-code:
-    name: meta.brace.curly.js
-    begin: '{'
-    end: '}'
-    beginCaptures:
-      '0': {name: punctuation.definition.brace.curly.start.js}
-    endCaptures:
-      '0': {name: punctuation.definition.brace.curly.end.js}
-    patterns:
-    - include: '#expression'
-
-  jsx-tag-attributes-illegal:
-    name: invalid.illegal.attribute.js
+  jsx-attribute-illegal:
+    name: invalid.illegal.attribute.jsx
     match: \S*
 
-  jsx-tag-without-attributes:
-    name: tag.without-attributes.js
-    begin: (<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
-    end: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-      '3': {name: punctuation.definition.tag.end.js}
-    endCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-      '3': {name: punctuation.definition.tag.end.js}
+  flowtype-type-alias:
     patterns:
-    - include: '#jsx-children'
-
-  jsx-tag-open:
-    name: tag.open.js
-    begin: >-
-      (?x)
-        (<)
-        ([_$a-zA-Z][-$\w.]*(?<!\.|-))
-        (?=\s+(?!\?)|/?>)
-    end: (/?>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-    endCaptures:
-      '1': {name: punctuation.definition.tag.end.js}
-    patterns:
-    - include: '#comments'
-    - include: '#jsx-tag-attributes'
-    - include: '#jsx-tag-attributes-illegal'
-
-  jsx-tag-close:
-    name: tag.close.js
-    begin: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))
-    end: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-    endCaptures:
-      '1': {name: punctuation.definition.tag.end.js}
-    patterns:
-    - include: '#comments'
-
-  jsx-tag-invalid:
-    name: invalid.illegal.tag.incomplete.js
-    match: <\s*>
-
-  jsx-children:
-    patterns:
-    - include: '#jsx-tag-without-attributes'
-    - include: '#jsx-tag-open'
-    - include: '#jsx-tag-close'
-    - include: '#jsx-tag-invalid'
-    - include: '#jsx-evaluated-code'
-    - include: '#jsx-entities'
-
-  jsx:
-    name: meta.jsx.js
-    patterns:
-    - include: '#jsx-tag-without-attributes'
-    - include: '#jsx-tag-open'
-    - include: '#jsx-tag-close'
-    - include: '#jsx-tag-invalid'
-
-    - name: meta.jsx.children.js
-      begin: (?<=(?:'|"|})>)
-      end: (?=</)
+    - name: meta.flowtype.type.js
+      begin: \b(type)\b(?=\s+[{_$a-zA-Z])
+      beginCaptures:
+        '1': {name: storage.type.flowtype}
+      end: (?<=})|(?=;|\n|from)
       patterns:
-      - include: '#jsx-children'
+      - begin: '='
+        beginCaptures:
+          '0': {name: keyword.operator.flowtype}
+        end: (?=\s*(?:,|;|=|\)|\]|\}|\n|\/\/))
+        applyEndPatternLast: 1
+        patterns:
+        - match: (?<==)\s*\n # HACK: swallow one linebreak (style)
+        - include: '#flowtype-tokens'
+      - include: '#flowtype-tokens'
+      - include: $self
 
-  # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
-  es7-class-properties:
+  flowtype-polymorph:
+    # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
+    name: meta.flowtype.polymorph.js
+    begin: '<'
+    end: '>'
+    captures:
+      '0': {name: punctuation.definition.flowtype}
     patterns:
-    - match: >-
-        (?x)
-          \b(static)?
-          \s*
-          \b([_$a-zA-Z][$\w]*)\s*(=)
-      captures:
-        '1': {name: storage.type.js}
-        '2': {name: variable.other.property.js}
-        '3': {name: storage.type.js}
+    - include: '#flowtype-tokens'
 
-  # https://github.com/wycats/javascript-decorators
-  es7-decorators:
+  flowtype-annotation:
+    name: meta.flowtype.annotation.js
+    begin: (?:(\?)\s*)?(:)
+    beginCaptures:
+      '1': {name: keyword.operator.flowtype}
+      '2': {name: keyword.operator.flowtype}
+    # Line comments are also terminators since semicolons are optional
+    end: (?=\s*(?:,|;|=|\)|\]|\}|\{|\n|\/\/))
+    applyEndPatternLast: 1
     patterns:
-    - name: tag.decorator.js
-      match: >-
-        (?x)
-          (@)([_$a-zA-Z][$\w]*)\b
+    - include: '#flowtype-tokens'
+
+  flowtype-tokens:
+    # [known-issue] If you're not in some block and you use a line-comment, it'll
+    # act as a terminator.
+    # [known-issue] This whole thing is very sensitive to line-breaks.
+    patterns:
+    - name: constant.other.primitve.flowtype
+      match: \b(?:any|bool|boolean|mixed|number|string|void)\b
+
+    - include: '#support'
+
+    - name: keyword.operator.flowtype
+      match: (\:|\?|\||\&|\*|\.\.\.|\b(typeof)\b)
+
+    - name: variable.other.flowtype
+      match: '[_$a-zA-Z][$\w]*'
+
+    - begin: (?<=:|=>|\(|=|\||\&)\s*({)
+      end: (})
       captures:
-        '1': {name: punctuation.definition.tag.js}
-        '2': {name: entity.name.tag.js}
+        '1': {name: punctuation.section.flowtype}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: '<'
+      end: '>'
+      captures:
+        '0': {name: punctuation.section.flowtype}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: \[
+      end: \]
+      captures:
+        '0': {name: punctuation.section.flowtype}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: '(\()'
+      end: '(\))(?:\s*(=>))?'
+      captures:
+        '1': {name: punctuation.section.flowtype}
+        '2': {name: keyword.operator.flowtype}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - include: '#comments'

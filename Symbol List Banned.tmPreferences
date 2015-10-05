@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Symbol List Banned</string>
 	<key>scope</key>
-	<string>source.js meta.function-call, source.js meta.instance.constructor</string>
+	<string>source.js meta.function-call, source.js meta.instance.constructor, source.js meta.function - entity.name.function.js</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>
@@ -13,7 +13,5 @@
 		<key>showInSymbolList</key>
 		<string>0</string>
 	</dict>
-	<key>uuid</key>
-	<string>b90e75aa-e41b-48a1-b864-1ed38fdb9bdc</string>
 </dict>
 </plist>
