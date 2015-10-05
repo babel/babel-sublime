@@ -104,7 +104,7 @@ repository:
         '1': {name: punctuation.definition.comment.js}
 
   literal-object:
-    begin: (?<=\(|\[|,|&&|\|\||\?|=|\Wreturn|^return)\s*(?=\{)
+    begin: (?<=\(|\[|,|&&|\|\||\?|!|=|\Wreturn|^return)(?=\s*\{)
     end: (?<=\})
     captures:
       '1': {name: meta.brace.curly.js}
@@ -168,20 +168,22 @@ repository:
       - include: '#square-brackets'
 
     - name: meta.object.property-value.js
-      begin: :(?=\s*{)
-      beginCaptures:
-        '0': {name: punctuation.separator.key-value.js}
-      end: (?=[,}])
-      patterns:
-      - include: '#object-brackets'
-
-    - name: meta.object.property-value.js
       begin: ':'
       beginCaptures:
         '0': {name: punctuation.separator.key-value.js}
       end: (?=[,}])
       patterns:
-      - include: $self
+      # HACK: Kinda like what is done for `=>` but in reverse.
+      - match: '\n'
+      - include: '#comments'
+      - begin: (?={)
+        end: (?<=})
+        patterns:
+        - include: '#object-brackets'
+      - begin: (?=\S)
+        end: (?=[,}])
+        patterns:
+        - include: $self
 
     - include: '#short-method'
     - include: $self
@@ -233,7 +235,6 @@ repository:
     # In flow annotations the method body "{}" is omitted in favor of ";", so
     # all of these patterns must end with `(?=\s*[\n;{])`.
     patterns:
-
     # e,g. @@iterator(): Iterator<[K, V]>;
     # e.g. static (o: ?void): {[key: any]: any};
     # e.g. <T: Object>(o: T): T;
@@ -286,8 +287,8 @@ repository:
   literal-class:
     # The flowtype `module` and `interface` keywords are also recognized as
     # "meta.class.js" because they have nearly the same semantics as `class`.
-    # e.g. class Sound extends Model { }
     patterns:
+    # e.g. class Sound extends Model { }
     - name: meta.class.js
       begin: (?<!\.)\b(?:(class)|(module)|(interface))\b(?=\s+[_$a-zA-Z])
       beginCaptures:
@@ -380,7 +381,7 @@ repository:
 
     # HACK: Allow for weird line-breaks and spacing after the `=>` but still
     # grab the `{}` as a block. It also means that arrow functions can be
-    # in an expression and the `{}` won't be i
+    # in an expression and the `{}` won't be an object.
     - name: meta.function-body.arrow.js
       begin: (?<==>)
       end: (?=\S)
@@ -508,7 +509,6 @@ repository:
       - match: ([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)
         captures:
           '2': {name: variable.function.constructor.js}
-
 
   literal-declaration:
     # TODO: fix this message
@@ -981,7 +981,7 @@ repository:
     - include: '#support'
 
     - name: keyword.operator.flowtype
-      match: (\:|\?|\||\&|\*|\.\.\.|\btypeof\b)
+      match: (\:|\?|\||\&|\*|\.\.\.|\b(typeof)\b)
 
     - name: variable.other.flowtype
       match: '[_$a-zA-Z][$\w]*'
