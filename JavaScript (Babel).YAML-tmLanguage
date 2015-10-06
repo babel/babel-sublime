@@ -58,10 +58,8 @@ repository:
     patterns:
     - name: meta.group.braces.round
       begin: \(
-      beginCaptures:
-        '0': {name: meta.brace.round.js}
       end: \)
-      endCaptures:
+      captures:
         '0': {name: meta.brace.round.js}
       patterns:
       - include: '#expression'
@@ -70,10 +68,8 @@ repository:
     patterns:
     - name: meta.group.braces.square
       begin: \[
-      beginCaptures:
-        '0': {name: meta.brace.square.js}
       end: \]
-      endCaptures:
+      captures:
         '0': {name: meta.brace.square.js}
       patterns:
       - include: '#expression'
@@ -82,10 +78,8 @@ repository:
     patterns:
     - name: meta.group.braces.curly
       begin: \{
-      beginCaptures:
-        '0': {name: meta.brace.curly.js}
       end: \}
-      endCaptures:
+      captures:
         '0': {name: meta.brace.curly.js}
       patterns:
       - include: $self

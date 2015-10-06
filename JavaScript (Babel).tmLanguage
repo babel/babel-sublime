@@ -144,7 +144,7 @@
 				<dict>
 					<key>begin</key>
 					<string>\{</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
@@ -154,14 +154,6 @@
 					</dict>
 					<key>end</key>
 					<string>\}</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>meta.brace.curly.js</string>
-						</dict>
-					</dict>
 					<key>name</key>
 					<string>meta.group.braces.curly</string>
 					<key>patterns</key>
@@ -2843,7 +2835,7 @@
 				<dict>
 					<key>begin</key>
 					<string>\(</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
@@ -2853,14 +2845,6 @@
 					</dict>
 					<key>end</key>
 					<string>\)</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>meta.brace.round.js</string>
-						</dict>
-					</dict>
 					<key>name</key>
 					<string>meta.group.braces.round</string>
 					<key>patterns</key>
@@ -2880,7 +2864,7 @@
 				<dict>
 					<key>begin</key>
 					<string>\[</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
@@ -2890,14 +2874,6 @@
 					</dict>
 					<key>end</key>
 					<string>\]</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>meta.brace.square.js</string>
-						</dict>
-					</dict>
 					<key>name</key>
 					<string>meta.group.braces.square</string>
 					<key>patterns</key>
