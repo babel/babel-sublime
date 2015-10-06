@@ -1230,9 +1230,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?x)
-  (?&lt;!\.)\b(class)
-  \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?</string>
+					<string>(?&lt;!\.)\b(class)\s+([_$a-zA-Z][$\w]*)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1247,7 +1245,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>}</string>
+					<string>\}</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -1262,10 +1260,10 @@
 					<array>
 						<dict>
 							<key>begin</key>
-							<string>\b(extends)\b</string>
+							<string>(?&lt;!\.)\b(extends)\b</string>
 							<key>beginCaptures</key>
 							<dict>
-								<key>1</key>
+								<key>0</key>
 								<dict>
 									<key>name</key>
 									<string>storage.type.extends.js</string>
@@ -1285,7 +1283,7 @@
 						</dict>
 						<dict>
 							<key>begin</key>
-							<string>{</string>
+							<string>\{</string>
 							<key>beginCaptures</key>
 							<dict>
 								<key>0</key>
@@ -1308,19 +1306,25 @@
 								</dict>
 								<dict>
 									<key>include</key>
-									<string>#comments</string>
-								</dict>
-								<dict>
-									<key>include</key>
 									<string>#es7-class-properties</string>
 								</dict>
 								<dict>
 									<key>include</key>
 									<string>#literal-method</string>
 								</dict>
+								<dict>
+									<key>include</key>
+									<string>#comments</string>
+								</dict>
 							</array>
 						</dict>
 					</array>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(class)\b</string>
+					<key>name</key>
+					<string>storage.type.class.js</string>
 				</dict>
 			</array>
 		</dict>

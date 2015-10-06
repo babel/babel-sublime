@@ -185,35 +185,35 @@ repository:
     patterns:
     # e.g. class MyClass {  }
     - name: meta.class.js
-      begin: >-
-        (?x)
-          (?<!\.)\b(class)
-          \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?
+      begin: (?<!\.)\b(class)\s+([_$a-zA-Z][$\w]*)
       beginCaptures:
         '1': {name: storage.type.class.js}
         '2': {name: entity.name.class.js}
-      end: '}'
+      end: \}
       endCaptures:
         '0': {name: meta.brace.curly.js}
       patterns:
       - name: meta.class.extends.js
-        begin: \b(extends)\b
+        begin: (?<!\.)\b(extends)\b
         beginCaptures:
-          '1': {name: storage.type.extends.js}
-        end: '(?={)'
+          '0': {name: storage.type.extends.js}
+        end: (?={)
         patterns:
         - include: '#expression'
 
-      - begin: '{'
+      - begin: \{
         beginCaptures:
           '0': {name: meta.brace.curly.js}
-        end: '(?=})'
+        end: (?=})
         patterns:
         - include: '#brackets'
         - include: '#es7-decorators'
-        - include: '#comments'
         - include: '#es7-class-properties'
         - include: '#literal-method'
+        - include: '#comments'
+
+    - name: storage.type.class.js
+      match: (?<!\.)\b(class)\b
 
   literal-method:
     patterns:
