@@ -25,7 +25,7 @@ repository:
     patterns:
     - include: '#literal-regexp'              # before operators and keywords to avoid ambiguities
 
-    - include: '#jsx'
+    - include: '#literal-jsx'
     - include: '#es7-decorators'
 
     - include: '#support'
@@ -1136,146 +1136,82 @@ repository:
       begin: '{{'
       end: '}}'
 
-  jsx-tag-attributes:
+  literal-jsx:
+    contentName: meta.jsx.js
+    begin: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|^)(?=\s*<)
+    end: (?<=/>|>)
     patterns:
-      - include: '#jsx-tag-attribute-name'
-      - include: '#jsx-tag-attribute-assignment'
-      - include: '#jsx-string-double-quoted'
-      - include: '#jsx-string-single-quoted'
-      - include: '#jsx-evaluated-code'
+    - include: '#jsx-tag-start'
 
-  jsx-tag-attribute-name:
-    name: meta.tag.attribute-name.js
-    match: >-
-      (?x)
-        \s*
-        ([_$a-zA-Z][-$\w]*)
-        (?=\s|=|/?>|/\*|//)
-    captures:
-      '1': {name: entity.other.attribute-name.js}
+  jsx-tag-start:
+    patterns:
+    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
+      beginCaptures:
+        '1': {name: punctuation.definition.tag.jsx}
+        '2': {name: entity.name.tag.jsx}
+      end: (</)(\2)(>)|(/>)
+      endCaptures:
+        '1': {name: punctuation.definition.tag.jsx}
+        '2': {name: entity.name.tag.jsx}
+        '3': {name: punctuation.definition.tag.jsx}
+        '4': {name: punctuation.definition.tag.jsx}
+      patterns:
+      - include: '#jsx-tag-end'
+      - include: '#jsx-attributes'
 
-  jsx-tag-attribute-assignment:
-    name: keyword.operator.assignment.js
-    match: =(?=\s*(?:'|"|{|/\*|//|\n))
+    - name: invalid.illegal.tag.incomplete.jsx
+      match: '<'
 
-  jsx-string-double-quoted:
-    name: string.quoted.double.js
-    begin: '"'
-    end: '"'
+  jsx-tag-end:
+    begin: '>'
     beginCaptures:
-      '0': {name: punctuation.definition.string.begin.js}
-    endCaptures:
-      '0': {name: punctuation.definition.string.end.js}
+      '0': {name: punctuation.definition.tag.jsx}
+    end: (?=</)
     patterns:
+    - include: '#jsx-tag-start'
+    - include: '#jsx-evaluated-code'
     - include: '#jsx-entities'
 
-  jsx-string-single-quoted:
-    name: string.quoted.single.js
-    begin: "'"
-    end: "'"
-    beginCaptures:
-      '0': {name: punctuation.definition.string.begin.js}
-    endCaptures:
-      '0': {name: punctuation.definition.string.end.js}
+  jsx-attributes:
+    patterns:
+    - include: '#jsx-attribute-name'
+    - include: '#jsx-attribute-assignment'
+    - include: '#jsx-string-quoted'
+    - include: '#jsx-evaluated-code'
+    - include: '#comments'
+
+  jsx-attribute-name:
+    name: entity.other.attribute-name.jsx
+    match: '[_$a-zA-Z][-$\w]*'
+
+  jsx-attribute-assignment:
+    name: keyword.operator.assignment.jsx
+    match: '='
+
+  jsx-evaluated-code:
+    name: meta.embedded.expression.jsx
+    begin: '{'
+    end: '}'
+    captures:
+      '0': {name: punctuation.section.embedded.jsx}
+    patterns:
+    - include: '#expression'
+
+  jsx-string-quoted:
+    name: string.quoted.jsx
+    begin: (["'])
+    end: (\1)
+    captures:
+      '0': {name: punctuation.definition.string.jsx}
     patterns:
     - include: '#jsx-entities'
 
   jsx-entities:
     patterns:
-    - name: constant.character.entity.js
-      match: (&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)
-      captures:
-        '1': {name: punctuation.definition.entity.js}
-        '3': {name: punctuation.definition.entity.js}
-    - name: invalid.illegal.bad-ampersand.js
-      match: '&'
-
-  jsx-evaluated-code:
-    name: meta.brace.curly.js
-    begin: '{'
-    end: '}'
-    beginCaptures:
-      '0': {name: punctuation.definition.brace.curly.start.js}
-    endCaptures:
-      '0': {name: punctuation.definition.brace.curly.end.js}
-    patterns:
-    - include: '#expression'
-
-  jsx-tag-attributes-illegal:
-    name: invalid.illegal.attribute.js
-    match: \S*
-
-  jsx-tag-without-attributes:
-    name: tag.without-attributes.js
-    begin: (<)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
-    end: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))(>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-      '3': {name: punctuation.definition.tag.end.js}
-    endCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-      '3': {name: punctuation.definition.tag.end.js}
-    patterns:
-    - include: '#jsx-children'
-
-  jsx-tag-open:
-    name: tag.open.js
-    begin: >-
-      (?x)
-        (<)
-        ([_$a-zA-Z][-$\w.]*(?<!\.|-))
-        (?=\s+(?!\?)|/?>)
-    end: (/?>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-    endCaptures:
-      '1': {name: punctuation.definition.tag.end.js}
-    patterns:
-    - include: '#comments'
-    - include: '#jsx-tag-attributes'
-    - include: '#jsx-tag-attributes-illegal'
-
-  jsx-tag-close:
-    name: tag.close.js
-    begin: (</)([_$a-zA-Z][-$\w.]*(?<!\.|-))
-    end: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.begin.js}
-      '2': {name: entity.name.tag.js}
-    endCaptures:
-      '1': {name: punctuation.definition.tag.end.js}
-    patterns:
-    - include: '#comments'
-
-  jsx-tag-invalid:
-    name: invalid.illegal.tag.incomplete.js
-    match: <\s*>
-
-  jsx-children:
-    patterns:
-    - include: '#jsx-tag-without-attributes'
-    - include: '#jsx-tag-open'
-    - include: '#jsx-tag-close'
-    - include: '#jsx-tag-invalid'
-    - include: '#jsx-evaluated-code'
-    - include: '#jsx-entities'
-
-  jsx:
-    name: meta.jsx.js
-    patterns:
-    - include: '#jsx-tag-without-attributes'
-    - include: '#jsx-tag-open'
-    - include: '#jsx-tag-close'
-    - include: '#jsx-tag-invalid'
-
-    - name: meta.jsx.children.js
-      begin: (?<=(?:'|"|})>)
-      end: (?=</)
-      patterns:
-      - include: '#jsx-children'
+    - name: constant.character.entity.jsx
+      match: '&(?:[a-zA-Z0-9]+|#\d+|#x\h+);'
+    - name: invalid.illegal.bad-ampersand.jsx
+      match: '&\S*;'
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:
