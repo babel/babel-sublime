@@ -304,7 +304,7 @@ repository:
       patterns:
       - begin: (?<!\.)\b(extends|implements)\b
         beginCaptures:
-          '0': {name: keyword.other.js}
+          '0': {name: storage.type.class.js}
         end: (?=[<{])
         patterns:
         - include: '#expression'
@@ -498,7 +498,7 @@ repository:
       match: (?<!\.)\b(?>true|false|null|undefined|NaN)\b
 
     - name: keyword.other.reserved.js
-      match: (?<!\.)\b(?>enum|module|public|extends|package|private|interface|protected|implements)\b
+      match: (?<!\.)\b(?>enum|module|public|package|private|interface|protected)\b
 
     - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
       captures:
@@ -509,7 +509,7 @@ repository:
       match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with|return)\b
 
     - name: storage.type.js
-      match: (?<!\.)\b(class)\b
+      match: (?<!\.)\b(class|extends|implements)\b
 
   literal-constructor:
     patterns:

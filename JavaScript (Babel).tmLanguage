@@ -774,7 +774,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;enum|module|public|extends|package|private|interface|protected|implements)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;enum|module|public|package|private|interface|protected)\b</string>
 					<key>name</key>
 					<string>keyword.other.reserved.js</string>
 				</dict>
@@ -803,7 +803,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(class)\b</string>
+					<string>(?&lt;!\.)\b(class|extends|implements)\b</string>
 					<key>name</key>
 					<string>storage.type.js</string>
 				</dict>
@@ -848,7 +848,7 @@
 								<key>0</key>
 								<dict>
 									<key>name</key>
-									<string>keyword.other.js</string>
+									<string>storage.type.class.js</string>
 								</dict>
 							</dict>
 							<key>end</key>
