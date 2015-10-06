@@ -85,12 +85,17 @@ contexts:
 
   comments:
     - match: /\*
-      scope: punctuation.definition.comment.begin.js
+      scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.block.js
         - match: \*/
-          scope: punctuation.definition.comment.end.js
+          scope: punctuation.definition.comment.js
           pop: true
+
+    - match: (<!--|-->)
+      scope: comment.block.html.js
+      captures:
+        0: punctuation.definition.comment.js
 
     - match: //
       scope: punctuation.definition.comment.js
@@ -105,11 +110,6 @@ contexts:
         - meta_scope: comment.line.shebang.js
         - match: $
           pop: true
-
-    - match: (<!--|-->)
-      scope: comment.block.html.js
-      captures:
-        0: punctuation.definition.comment.js
 
   function-declaration-parameters:
     - match: '\('

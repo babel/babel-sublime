@@ -44,26 +44,6 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>#special-comments-conditional-compilation</string>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>/\*\*(?!/)</string>
-					<key>captures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>\*/</string>
-					<key>name</key>
-					<string>comment.block.documentation.js</string>
-				</dict>
-				<dict>
 					<key>begin</key>
 					<string>/\*</string>
 					<key>captures</key>
@@ -2890,82 +2870,6 @@
 							<string>#expression</string>
 						</dict>
 					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>special-comments-conditional-compilation</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>/\*(?=@)</string>
-					<key>captures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>\*/</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.conditional.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.keyword.js</string>
-						</dict>
-					</dict>
-					<key>name</key>
-					<string>comment.block.conditional.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>match</key>
-							<string>/\*</string>
-							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>$self</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.keyword.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(@)(if|elif|else|end|ifdef|endif|cc_on|set)\b</string>
-					<key>name</key>
-					<string>keyword.control.conditional.js</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.variable.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript|_jscript_build|_jscript_version|_debug|_fast|[a-zA-Z]\w+)</string>
-					<key>name</key>
-					<string>variable.other.conditional.js</string>
 				</dict>
 			</array>
 		</dict>
