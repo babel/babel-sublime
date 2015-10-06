@@ -1921,6 +1921,12 @@
 					<key>name</key>
 					<string>keyword.control.loop.js</string>
 				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(?&gt;debugger)\b</string>
+					<key>name</key>
+					<string>keyword.other.js</string>
+				</dict>
 			</array>
 		</dict>
 		<key>literal-labels</key>
@@ -3020,21 +3026,9 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(?&gt;Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b</string>
+					<string>(?&lt;!\.)\b(Array|ArrayBuffer|Boolean|DataView|Date|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|Reflect|RegExp|Set|String|Symbol|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|WeakMap|WeakSet)\b</string>
 					<key>name</key>
 					<string>support.class.builtin.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;decodeURIComponent|decodeURI|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b</string>
-					<key>name</key>
-					<string>support.function.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;=\.)\b(?&gt;shift|sort|splice|unshift|pop|push|reverse)\b</string>
-					<key>name</key>
-					<string>support.function.mutator.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -3044,9 +3038,21 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\bdebugger\b</string>
+					<string>\b(?&gt;Buffer)\b</string>
 					<key>name</key>
-					<string>keyword.other.js</string>
+					<string>support.class.node.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b</string>
+					<key>name</key>
+					<string>support.function.builtin.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(clearImmediate|clearInterval|clearTimeout|require|setImmediate|setInterval|setTimeout)\b</string>
+					<key>name</key>
+					<string>support.function.node.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -3056,14 +3062,9 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?x)
-  \b(?&gt;
-    ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
-    DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
-    WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
-  )\b</string>
+					<string>(?&lt;!\.)\b(?&gt;global|GLOBAL|root|__dirname|__filename)\b</string>
 					<key>name</key>
-					<string>support.constant.dom.js</string>
+					<string>support.type.object.node.js</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3085,13 +3086,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b</string>
-					<key>name</key>
-					<string>support.module.node.js</string>
+					<string>(?&lt;!\.)\b(console)(?:(\.)(assert|count|dir|error|group|groupCollapsed|groupEnd|info|log|profile|profileEnd|table|time|timeEnd|trace|warn))?\b</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3111,31 +3106,14 @@
 							<key>name</key>
 							<string>support.type.object.process.js</string>
 						</dict>
-					</dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.type.object.process.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.operator.accessor.js</string>
-						</dict>
-						<key>3</key>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>support.function.process.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b</string>
+					<string>(?&lt;!\.)\b(process)(?:(\.)(?:(arch|argv|config|env|execArgv|execPath|exitCode|mainModule|pid|platform|stderr|stdin|stdout|title|version|versions)|(abort|chdir|cwd|exit|getgid|getgroups|getuid|hrtime|initgroups|kill|memoryUsage|nextTick|setgid|setgroups|setuid|umask|uptime)))?\b</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3157,19 +3135,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;global|GLOBAL|root|__dirname|__filename)\b</string>
-					<key>name</key>
-					<string>support.type.object.node.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\b(?&gt;Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b</string>
-					<key>name</key>
-					<string>support.class.node.js</string>
+					<string>(?&lt;!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b</string>
 				</dict>
 				<dict>
 					<key>begin</key>

@@ -724,6 +724,8 @@ contexts:
       scope: keyword.control.trycatch.js
     - match: (?<!\.)\b(?>break|continue|do|goto|while)\b
       scope: keyword.control.loop.js
+    - match: (?<!\.)\b(?>debugger)\b
+      scope: keyword.other.js
 
   literal-for:
     - match: (?<!\.)\bfor\b
@@ -984,72 +986,46 @@ contexts:
       scope: variable.other.readwrite.js
 
   support:
-    # built-ins
-    - match: \b(?>Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b
+    - match: (?<!\.)\b(Array|ArrayBuffer|Boolean|DataView|Date|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|Reflect|RegExp|Set|String|Symbol|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|WeakMap|WeakSet)\b
       scope: support.class.builtin.js
-
-    - match: (?<!\.)\b(?>decodeURIComponent|decodeURI|encodeURIComponent|encodeURI|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
-      scope: support.function.js
-
-    - match: (?<=\.)(?>shift|sort|splice|unshift|pop|push|reverse)\b
-      scope: support.function.mutator.js
 
     - match: (?<!\.)\b((?>Eval|Range|Reference|Syntax|Type|URI)?Error)\b
       scope: support.class.error.js
+    - match: \b(?>Buffer)\b
 
-    # debugger
-    - match: (?<!\.)\bdebugger\b
-      scope: keyword.other.js
+      scope: support.class.node.js
 
-    # dom
+    - match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b
+      scope: support.function.builtin.js
+
+    - match: (?<!\.)\b(clearImmediate|clearInterval|clearTimeout|require|setImmediate|setInterval|setTimeout)\b
+      scope: support.function.node.js
+
     - match: (?<!\.)\b(?>document|window)\b
       scope: support.type.object.dom.js
 
-    - match: >-
-        (?x)
-          \b(?>
-            ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
-            DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
-            WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
-          )\b
-      scope: support.constant.dom.js
+    - match: (?<!\.)\b(?>global|GLOBAL|root|__dirname|__filename)\b
+      scope: support.type.object.node.js
 
-    # console
-    - match: (?<!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
+    - match: (?<!\.)\b(console)(?:(\.)(assert|count|dir|error|group|groupCollapsed|groupEnd|info|log|profile|profileEnd|table|time|timeEnd|trace|warn))?\b
       captures:
         1: support.type.object.console.js
         2: keyword.operator.accessor.js
         3: support.function.console.js
 
-    # node
-    - match: (?<!\.)\b(?>assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
-      scope: support.module.node.js
-
-    - match: (?<!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
+    - match: (?<!\.)\b(process)(?:(\.)(?:(arch|argv|config|env|execArgv|execPath|exitCode|mainModule|pid|platform|stderr|stdin|stdout|title|version|versions)|(abort|chdir|cwd|exit|getgid|getgroups|getuid|hrtime|initgroups|kill|memoryUsage|nextTick|setgid|setgroups|setuid|umask|uptime)))?\b
       captures:
         1: support.type.object.process.js
         2: keyword.operator.accessor.js
         3: support.type.object.process.js
+        4: support.function.process.js
 
-    - match: (?<!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
-      captures:
-        1: support.type.object.process.js
-        2: keyword.operator.accessor.js
-        3: support.function.process.js
-
-    - match: (?<!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
+    - match: (?<!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b
       captures:
         1: support.type.object.module.js
         2: keyword.operator.accessor.js
         3: support.type.object.module.js
 
-    - match: (?<!\.)\b(?>global|GLOBAL|root|__dirname|__filename)\b
-      scope: support.type.object.node.js
-
-    - match: \b(?>Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b
-      scope: support.class.node.js
-
-    # mustache
     - match: "{{"
       push:
         - meta_scope: meta.tag.mustache.js
