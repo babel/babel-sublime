@@ -196,7 +196,7 @@ repository:
         '1': {name: storage.type.js}
         '2': {name: storage.type.js}
         '3': {name: keyword.generator.asterisk.js}
-        '4': {name: entity.name.method.js}
+        '4': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
       - include: '#function-declaration-parameters'

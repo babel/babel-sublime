@@ -2078,7 +2078,7 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.method.js</string>
+							<string>entity.name.function.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
