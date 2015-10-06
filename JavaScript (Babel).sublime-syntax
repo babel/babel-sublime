@@ -230,10 +230,28 @@ contexts:
         3: variable.language.prototype.js
 
   literal-function:
+    # e.g. function play(arg1, arg2) {  }
+    - match: >-
+        (?x)
+          (?:\b(async)\s+)?
+          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*({{ident}})?\s*
+      captures:
+        1: storage.type.js
+        2: storage.type.function.js
+        3: keyword.generator.asterisk.js
+        4: entity.name.function.js
+      push:
+        - meta_scope: meta.function.js
+        - match: (?<=\))
+          set: flow-annotations
+        - include: function-declaration-parameters
+
     # e.g. play = function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (?:({{ident}})\s*=)?
+          (\b{{ident}})
+          \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*({{ident}})?\s*
@@ -300,26 +318,51 @@ contexts:
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }
-    # e.g. "play": function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (?:(({{ident}}|\d+))|((["'])((?:\\.|(?!\4).)*)(\4)))
+          \b({{ident}})
           \s*(:)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*({{ident}})?\s*
       captures:
-        1: string.unquoted.js
-        2: entity.name.function.js
-        3: string.quoted.js
-        4: punctuation.definition.string.js
-        5: entity.name.function.js
-        6: punctuation.definition.string.js
-        7: punctuation.separator.key-value.js
-        8: storage.type.js
-        9: storage.type.function.js
-        10: keyword.generator.asterisk.js
-        11: entity.name.function.js
+        1: entity.name.function.js
+        2: punctuation.separator.key-value.js
+        3: storage.type.js
+        4: storage.type.function.js
+        5: keyword.generator.asterisk.js
+        6: entity.name.function.js
+      push:
+        - meta_scope: meta.function.json.js
+        - match: (?<=\))
+          pop: true
+        - include: function-declaration-parameters
+
+    # e.g. "play": function(arg1, arg2) {  }
+    - match: >-
+        (?x)
+          (?:
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))
+          )
+          \s*(:)
+          \s*(?:(async)\s+)?
+          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*({{ident}})?\s*
+      captures:
+        1: string.quoted.single.js
+        2: punctuation.definition.string.begin.js
+        3: entity.name.function.js
+        4: punctuation.definition.string.end.js
+        5: string.quoted.double.js
+        6: punctuation.definition.string.begin.js
+        7: entity.name.function.js
+        8: punctuation.definition.string.end.js
+        9: punctuation.separator.key-value.js
+        10: storage.type.js
+        11: storage.type.function.js
+        12: keyword.generator.asterisk.js
+        13: entity.name.function.js
       push:
         - meta_scope: meta.function.json.js
         - match: (?<=\))

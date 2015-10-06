@@ -231,11 +231,28 @@ repository:
 
   literal-function:
     patterns:
+    # e.g. function play(arg1, arg2) {  }
+    - name: meta.function.js
+      begin: >-
+        (?x)
+          (?:\b(async)\s+)?
+          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*([_$a-zA-Z][$\w]*)?\s*
+      beginCaptures:
+        '1': {name: storage.type.js}
+        '2': {name: storage.type.function.js}
+        '3': {name: keyword.generator.asterisk.js}
+        '4': {name: entity.name.function.js}
+      end: (?<=\))
+      patterns:
+      - include: '#function-declaration-parameters'
+
     # e.g. play = function(arg1, arg2) {  }
     - name: meta.function.js
       begin: >-
         (?x)
-          (?:([_$a-zA-Z][$\w]*)\s*=)?
+          (\b[_$a-zA-Z][$\w]*)
+          \s*=
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*([_$a-zA-Z][$\w]*)?\s*
@@ -299,27 +316,51 @@ repository:
   literal-function-labels:
     patterns:
     # e.g. play: function(arg1, arg2) {  }
-    # e.g. "play": function(arg1, arg2) {  }
     - name: meta.function.json.js
       begin: >-
         (?x)
-          (?:(([_$a-zA-Z][$\w]*|\d+))|((["'])((?:\\.|(?!\4).)*)(\4)))
+          \b([_$a-zA-Z][$\w]*)
           \s*(:)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
-        '1': {name: string.unquoted.js}
-        '2': {name: entity.name.function.js}
-        '3': {name: string.quoted.js}
-        '4': {name: punctuation.definition.string.js}
-        '5': {name: entity.name.function.js}
-        '6': {name: punctuation.definition.string.js}
-        '7': {name: punctuation.separator.key-value.js}
-        '8': {name: storage.type.js}
-        '9': {name: storage.type.function.js}
-        '10': {name: keyword.generator.asterisk.js}
-        '11': {name: entity.name.function.js}
+        '1': {name: entity.name.function.js}
+        '2': {name: punctuation.separator.key-value.js}
+        '3': {name: storage.type.js}
+        '4': {name: storage.type.function.js}
+        '5': {name: keyword.generator.asterisk.js}
+        '6': {name: entity.name.function.js}
+      end: (?<=\))
+      patterns:
+      - include: '#function-declaration-parameters'
+
+    # e.g. "play": function(arg1, arg2) {  }
+    - name: meta.function.json.js
+      begin: >-
+        (?x)
+          (?:
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))
+          )
+          \s*(:)
+          \s*(?:(async)\s+)?
+          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*([_$a-zA-Z][$\w]*)?\s*
+      beginCaptures:
+        '1': {name: string.quoted.single.js}
+        '2': {name: punctuation.definition.string.begin.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: punctuation.definition.string.end.js}
+        '5': {name: string.quoted.double.js}
+        '6': {name: punctuation.definition.string.begin.js}
+        '7': {name: entity.name.function.js}
+        '8': {name: punctuation.definition.string.end.js}
+        '9': {name: punctuation.separator.key-value.js}
+        '10': {name: storage.type.js}
+        '11': {name: storage.type.function.js}
+        '12': {name: keyword.generator.asterisk.js}
+        '13': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
       - include: '#function-declaration-parameters'
