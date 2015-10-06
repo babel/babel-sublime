@@ -1899,11 +1899,11 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(yield)\b(?:\s*(\*))?</string>
+					<string>(?&lt;!\.)\b(await|yield)\b(?:\s*(\*))?</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;await|return)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;return)\b</string>
 					<key>name</key>
 					<string>keyword.control.flow.js</string>
 				</dict>

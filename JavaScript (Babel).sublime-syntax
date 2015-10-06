@@ -712,11 +712,11 @@ contexts:
 
   literal-keywords:
     - include: literal-keyword-storage
-    - match: (?<!\.)\b(yield)\b(?:\s*(\*))?
+    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
       captures:
         1: keyword.control.flow.js
         2: keyword.generator.asterisk.js
-    - match: (?<!\.)\b(?>await|return)\b
+    - match: (?<!\.)\b(?>return)\b
       scope: keyword.control.flow.js
     - match: (?<!\.)\b(?>if|else)\b
       scope: keyword.control.conditional.js
