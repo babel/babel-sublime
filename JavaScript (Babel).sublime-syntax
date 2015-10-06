@@ -231,36 +231,20 @@ contexts:
 
   literal-function:
     # e.g. function play(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          (?:\b(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: storage.type.js
-        2: storage.type.function.js
-        3: keyword.generator.asterisk.js
-        4: entity.name.function.js
-      push:
-        - meta_scope: meta.function.js
-        - match: (?<=\))
-          set: flow-annotations
-        - include: function-declaration-parameters
-
     # e.g. play = function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
+          (?:({{ident}})\s*(=)\s*)?
+          (?:(async)\s+)?
+          (function)(?:\s*(\*)|(?=[\s(]))
+          \s*({{ident}})?
       captures:
         1: entity.name.function.js
-        2: storage.type.js
-        3: storage.type.function.js
-        4: keyword.generator.asterisk.js
-        5: entity.name.function.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
+        4: storage.type.function.js
+        5: keyword.generator.asterisk.js
+        6: entity.name.function.js
       push:
         - meta_scope: meta.function.js
         - match: (?<=\))
@@ -318,51 +302,34 @@ contexts:
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-        4: storage.type.function.js
-        5: keyword.generator.asterisk.js
-        6: entity.name.function.js
-      push:
-        - meta_scope: meta.function.json.js
-        - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
-
     # e.g. "play": function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
+        (?>
+          ((')((?:[^']|\\')*)('))|
+          ((")((?:[^"]|\\")*)("))|
+          (({{ident}}|\d+))
+        )
+        \s*(:)
+        \s*(?:\b(async)\s+)?
+        \s*(function)(?:\s*(\*)|(?=[\s(]))
+        \s*({{ident}})?
       captures:
-        1: string.quoted.single.js
+        1: string.quoted.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: string.quoted.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-        11: storage.type.function.js
-        12: keyword.generator.asterisk.js
-        13: entity.name.function.js
+        9: string.unquoted.js
+        10: entity.name.function.js
+        11: punctuation.separator.key-value.js
+        12: storage.type.js
+        13: storage.type.function.js
+        14: keyword.generator.asterisk.js
+        15: entity.name.function.js
       push:
         - meta_scope: meta.function.json.js
         - match: (?<=\))
@@ -371,12 +338,16 @@ contexts:
 
   literal-arrow-function:
     # e.g. (args) => { }
+    # e.g. play = (args) => { }
     - match: >-
         (?x)
-          (\basync)?\s*
-          (?=\([^()]*\)\s*(=>))
+          (?:({{ident}})\s*(=)\s*)?
+          (?:\b(async)\s+)?
+          (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
-        1: storage.type.js
+        1: entity.name.function.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
       push:
         - meta_scope: meta.function.arrow.js
         - match: (?<=\))\s*(=>)
@@ -386,47 +357,19 @@ contexts:
         - include: function-declaration-parameters
 
     # e.g. arg => { }
-    - match: >-
-        (?x)
-          (\basync)?\s*
-          \b({{ident}})\s*(=>)
-      scope: meta.function.arrow.js
-      captures:
-        1: storage.type.js
-        2: variable.parameter.function.js
-        3: storage.type.function.arrow.js
-
-    # e.g. play = (args) => { }
-    - match: >-
-        (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: entity.name.function.js
-        2: storage.type.js
-      push:
-        - meta_scope: meta.function.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
     # e.g. play = arg => { }
     - match: >-
         (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
+          (?:({{ident}})\s*(=)\s*)?
+          (?:(async)\s+)?
+          \b({{ident}})\s*(=>)
       scope: meta.function.arrow.js
       captures:
         1: entity.name.function.js
-        2: storage.type.js
-        3: variable.parameter.function.js
-        4: storage.type.function.arrow.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
+        4: variable.parameter.function.js
+        5: storage.type.function.arrow.js
 
     # e.g. Sound.prototype.play = (args) => { }
     - match: >-
@@ -512,16 +455,30 @@ contexts:
 
   literal-arrow-function-labels:
     # e.g. play: (args) => { }
+    # e.g. "play": (args) => { }
     - match: >-
         (?x)
-          \b({{ident}})
+          (?>
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))|
+            (({{ident}}|\d+))
+          )
           \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
+          \s*(?:\b(async)\s+)?
+          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
+        1: string.quoted.js
+        2: punctuation.definition.string.begin.js
+        3: entity.name.function.js
+        4: punctuation.definition.string.end.js
+        5: string.quoted.js
+        6: punctuation.definition.string.begin.js
+        7: entity.name.function.js
+        8: punctuation.definition.string.end.js
+        9: string.unquoted.js
+        10: entity.name.function.js
+        11: punctuation.separator.key-value.js
+        12: storage.type.js
       push:
         - meta_scope: meta.function.json.arrow.js
         - match: (?<=\))\s*(=>)
@@ -531,73 +488,33 @@ contexts:
         - include: function-declaration-parameters
 
     # e.g. play: arg => { }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.function.json.arrow.js
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-        4: variable.parameter.function.js
-        5: storage.type.function.arrow.js
-
-    # e.g. "play": (args) => { }
-    - match: >-
-        (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: string.quoted.single.js
-        2: punctuation.definition.string.begin.js
-        3: entity.name.function.js
-        4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
-        6: punctuation.definition.string.begin.js
-        7: entity.name.function.js
-        8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-      push:
-        - meta_scope: meta.function.json.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
     # e.g. "play": arg => { }
     - match: >-
         (?x)
-          (?:
+          (?>
             ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
+            ((")((?:[^"]|\\")*)("))|
+            (({{ident}}|\d+))
           )
           \s*(:)
-          \s*(async)?
+          \s*(?:\b(async)\s+)?
           \s*\b({{ident}})\s*(=>)
       scope: meta.function.json.arrow.js
       captures:
-        1: string.quoted.single.js
+        1: string.quoted.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: string.quoted.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-        11: variable.parameter.function.js
-        12: storage.type.function.arrow.js
+        9: string.unquoted.js
+        10: entity.name.function.js
+        11: punctuation.separator.key-value.js
+        12: storage.type.js
+        13: variable.parameter.function.js
+        14: storage.type.function.arrow.js
 
   literal-function-call:
     - match: >-
