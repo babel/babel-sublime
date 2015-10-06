@@ -20,20 +20,20 @@ contexts:
     - include: literal-function-labels
     - include: literal-arrow-function-labels
     - include: literal-labels
-    - include: literal-keywords
     - include: literal-for
     - include: literal-switch
     - include: expression
     - include: literal-punctuation
 
   expression:
+    - include: literal-regexp
     - include: jsx
     - include: es7-decorators
     - include: support
     - include: literal-function
     - include: literal-arrow-function
     - include: literal-prototype
-    - include: literal-regexp
+    - include: literal-keywords
     - include: literal-number
     - include: literal-string
     - include: literal-language-constant
@@ -884,13 +884,13 @@ contexts:
 
   literal-regexp:
     # ignore ++, -- since they're uncommon, distinguishing them is not possible in sublime text, see:
-    #   http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
+    # http://stackoverflow.com/questions/5519596/when-parsing-javascript-what-determines-the-meaning-of-a-slash
     - match: >-
         (?x)
           (?<=
-            \.|\(|,|{|}|\[|;|,|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
-            \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+            \.|\(|,|{|}|\[|;|<|>|<=|>=|==|!=|===|!==|\+|-|\*|%|\+\+|--|<<|>>|>>>|&|\||\^|!|~|&&|\|\||\?|:|=|\+=|-=|\*=|%=|<<=|>>=|>>>=|&=|\|=|\^=|/|/=|
+            \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|\Wyield
+            ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^yield|^
           )\s*
           (/)
           (?!/|\*|$)

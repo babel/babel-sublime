@@ -141,10 +141,6 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-keywords</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#literal-for</string>
 				</dict>
 				<dict>
@@ -261,6 +257,10 @@
 			<array>
 				<dict>
 					<key>include</key>
+					<string>#literal-regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#jsx</string>
 				</dict>
 				<dict>
@@ -285,7 +285,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-regexp</string>
+					<string>#literal-keywords</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -2743,9 +2743,9 @@
 					<key>begin</key>
 					<string>(?x)
   (?&lt;=
-    \.|\(|,|{|}|\[|;|,|&lt;|&gt;|&lt;=|&gt;=|==|!=|===|!==|\+|-|\*|%|\+\+|--|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\||\^|!|~|&amp;&amp;|\|\||\?|:|=|\+=|-=|\*=|%=|&lt;&lt;=|&gt;&gt;=|&gt;&gt;&gt;=|&amp;=|\|=|\^=|/|/=|
-    \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-    ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+    \.|\(|,|{|}|\[|;|&lt;|&gt;|&lt;=|&gt;=|==|!=|===|!==|\+|-|\*|%|\+\+|--|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\||\^|!|~|&amp;&amp;|\|\||\?|:|=|\+=|-=|\*=|%=|&lt;&lt;=|&gt;&gt;=|&gt;&gt;&gt;=|&amp;=|\|=|\^=|/|/=|
+    \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|\Wyield|
+    ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^yield|^
   )\s*
   (/)
   (?!/|\*|$)</string>
