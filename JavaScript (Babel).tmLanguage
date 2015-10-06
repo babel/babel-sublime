@@ -44,26 +44,6 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>#special-comments-conditional-compilation</string>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>/\*\*(?!/)</string>
-					<key>captures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>\*/</string>
-					<key>name</key>
-					<string>comment.block.documentation.js</string>
-				</dict>
-				<dict>
 					<key>begin</key>
 					<string>/\*</string>
 					<key>captures</key>
@@ -141,10 +121,6 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-keywords</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#literal-for</string>
 				</dict>
 				<dict>
@@ -168,7 +144,7 @@
 				<dict>
 					<key>begin</key>
 					<string>\{</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
@@ -178,14 +154,6 @@
 					</dict>
 					<key>end</key>
 					<string>\}</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>meta.brace.curly.js</string>
-						</dict>
-					</dict>
 					<key>name</key>
 					<string>meta.group.braces.curly</string>
 					<key>patterns</key>
@@ -261,7 +229,11 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#jsx</string>
+					<string>#literal-regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#literal-jsx</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -285,7 +257,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-regexp</string>
+					<string>#literal-keywords</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -425,64 +397,35 @@
 				</dict>
 			</array>
 		</dict>
-		<key>jsx</key>
+		<key>jsx-attribute-assignment</key>
 		<dict>
+			<key>match</key>
+			<string>=</string>
 			<key>name</key>
-			<string>meta.jsx.js</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#jsx-tag-without-attributes</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-tag-open</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-tag-close</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-tag-invalid</string>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>(?&lt;=(?:'|"|})&gt;)</string>
-					<key>end</key>
-					<string>(?=&lt;/)</string>
-					<key>name</key>
-					<string>meta.jsx.children.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#jsx-children</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
+			<string>keyword.operator.assignment.jsx</string>
 		</dict>
-		<key>jsx-children</key>
+		<key>jsx-attribute-name</key>
+		<dict>
+			<key>match</key>
+			<string>[_$a-zA-Z][-$\w]*</string>
+			<key>name</key>
+			<string>entity.other.attribute-name.jsx</string>
+		</dict>
+		<key>jsx-attributes</key>
 		<dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#jsx-tag-without-attributes</string>
+					<string>#jsx-attribute-name</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#jsx-tag-open</string>
+					<string>#jsx-attribute-assignment</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#jsx-tag-close</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-tag-invalid</string>
+					<string>#jsx-string-quoted</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -490,7 +433,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#jsx-entities</string>
+					<string>#comments</string>
 				</dict>
 			</array>
 		</dict>
@@ -499,29 +442,16 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.entity.js</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.entity.js</string>
-						</dict>
-					</dict>
 					<key>match</key>
-					<string>(&amp;)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)</string>
+					<string>&amp;(?:[a-zA-Z0-9]+|#\d+|#x\h+);</string>
 					<key>name</key>
-					<string>constant.character.entity.js</string>
+					<string>constant.character.entity.jsx</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>&amp;</string>
+					<string>&amp;\S*;</string>
 					<key>name</key>
-					<string>invalid.illegal.bad-ampersand.js</string>
+					<string>invalid.illegal.bad-ampersand.jsx</string>
 				</dict>
 			</array>
 		</dict>
@@ -529,26 +459,18 @@
 		<dict>
 			<key>begin</key>
 			<string>{</string>
-			<key>beginCaptures</key>
+			<key>captures</key>
 			<dict>
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.brace.curly.start.js</string>
+					<string>punctuation.section.embedded.jsx</string>
 				</dict>
 			</dict>
 			<key>end</key>
 			<string>}</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.brace.curly.end.js</string>
-				</dict>
-			</dict>
 			<key>name</key>
-			<string>meta.brace.curly.js</string>
+			<string>meta.embedded.expression.jsx</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -557,269 +479,122 @@
 				</dict>
 			</array>
 		</dict>
-		<key>jsx-string-double-quoted</key>
+		<key>jsx-string-quoted</key>
 		<dict>
 			<key>begin</key>
-			<string>"</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.begin.js</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>"</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.end.js</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>string.quoted.double.js</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#jsx-entities</string>
-				</dict>
-			</array>
-		</dict>
-		<key>jsx-string-single-quoted</key>
-		<dict>
-			<key>begin</key>
-			<string>'</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.begin.js</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>'</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.end.js</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>string.quoted.single.js</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#jsx-entities</string>
-				</dict>
-			</array>
-		</dict>
-		<key>jsx-tag-attribute-assignment</key>
-		<dict>
-			<key>match</key>
-			<string>=(?=\s*(?:'|"|{|/\*|//|\n))</string>
-			<key>name</key>
-			<string>keyword.operator.assignment.js</string>
-		</dict>
-		<key>jsx-tag-attribute-name</key>
-		<dict>
+			<string>(["'])</string>
 			<key>captures</key>
 			<dict>
-				<key>1</key>
+				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>entity.other.attribute-name.js</string>
+					<string>punctuation.definition.string.jsx</string>
 				</dict>
 			</dict>
-			<key>match</key>
-			<string>(?x)
-  \s*
-  ([_$a-zA-Z][-$\w]*)
-  (?=\s|=|/?&gt;|/\*|//)</string>
+			<key>end</key>
+			<string>(\1)</string>
 			<key>name</key>
-			<string>meta.tag.attribute-name.js</string>
-		</dict>
-		<key>jsx-tag-attributes</key>
-		<dict>
+			<string>string.quoted.jsx</string>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#jsx-tag-attribute-name</string>
+					<string>#jsx-entities</string>
 				</dict>
+			</array>
+		</dict>
+		<key>jsx-tag-end</key>
+		<dict>
+			<key>begin</key>
+			<string>&gt;</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.tag.jsx</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?=&lt;/)</string>
+			<key>patterns</key>
+			<array>
 				<dict>
 					<key>include</key>
-					<string>#jsx-tag-attribute-assignment</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-string-double-quoted</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-string-single-quoted</string>
+					<string>#jsx-tag-start</string>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>#jsx-evaluated-code</string>
 				</dict>
-			</array>
-		</dict>
-		<key>jsx-tag-attributes-illegal</key>
-		<dict>
-			<key>match</key>
-			<string>\S*</string>
-			<key>name</key>
-			<string>invalid.illegal.attribute.js</string>
-		</dict>
-		<key>jsx-tag-close</key>
-		<dict>
-			<key>begin</key>
-			<string>(&lt;/)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.begin.js</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.tag.js</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(&gt;)</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.end.js</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>tag.close.js</string>
-			<key>patterns</key>
-			<array>
 				<dict>
 					<key>include</key>
-					<string>#comments</string>
+					<string>#jsx-entities</string>
 				</dict>
 			</array>
 		</dict>
-		<key>jsx-tag-invalid</key>
+		<key>jsx-tag-start</key>
 		<dict>
-			<key>match</key>
-			<string>&lt;\s*&gt;</string>
-			<key>name</key>
-			<string>invalid.illegal.tag.incomplete.js</string>
-		</dict>
-		<key>jsx-tag-open</key>
-		<dict>
-			<key>begin</key>
-			<string>(?x)
-  (&lt;)
-  ([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))
-  (?=\s+(?!\?)|/?&gt;)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.begin.js</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.tag.js</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(/?&gt;)</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.end.js</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>tag.open.js</string>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>#comments</string>
+					<key>begin</key>
+					<string>(&lt;)([_$a-zA-Z][-$:.\w]*[$\w]*)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.tag.jsx</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.tag.jsx</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(&lt;/)(\2)(&gt;)|(/&gt;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.tag.jsx</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.tag.jsx</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.tag.jsx</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.tag.jsx</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#jsx-tag-end</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#jsx-attributes</string>
+						</dict>
+					</array>
 				</dict>
 				<dict>
-					<key>include</key>
-					<string>#jsx-tag-attributes</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#jsx-tag-attributes-illegal</string>
-				</dict>
-			</array>
-		</dict>
-		<key>jsx-tag-without-attributes</key>
-		<dict>
-			<key>begin</key>
-			<string>(&lt;)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))(&gt;)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
+					<key>match</key>
+					<string>&lt;</string>
 					<key>name</key>
-					<string>punctuation.definition.tag.begin.js</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.tag.js</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.end.js</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(&lt;/)([_$a-zA-Z][-$\w.]*(?&lt;!\.|-))(&gt;)</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.begin.js</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.tag.js</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.tag.end.js</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>tag.without-attributes.js</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#jsx-children</string>
+					<string>invalid.illegal.tag.incomplete.jsx</string>
 				</dict>
 			</array>
 		</dict>
@@ -1427,9 +1202,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?x)
-  (?&lt;!\.)\b(class)
-  \s+((?!\b(extends)\b)[_$a-zA-Z][$\w]*)?</string>
+					<string>(?&lt;!\.)\b(class)\s+([_$a-zA-Z][$\w]*)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1444,7 +1217,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>}</string>
+					<string>\}</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -1459,10 +1232,10 @@
 					<array>
 						<dict>
 							<key>begin</key>
-							<string>\b(extends)\b</string>
+							<string>(?&lt;!\.)\b(extends)\b</string>
 							<key>beginCaptures</key>
 							<dict>
-								<key>1</key>
+								<key>0</key>
 								<dict>
 									<key>name</key>
 									<string>storage.type.extends.js</string>
@@ -1482,7 +1255,7 @@
 						</dict>
 						<dict>
 							<key>begin</key>
-							<string>{</string>
+							<string>\{</string>
 							<key>beginCaptures</key>
 							<dict>
 								<key>0</key>
@@ -1505,19 +1278,25 @@
 								</dict>
 								<dict>
 									<key>include</key>
-									<string>#comments</string>
-								</dict>
-								<dict>
-									<key>include</key>
 									<string>#es7-class-properties</string>
 								</dict>
 								<dict>
 									<key>include</key>
 									<string>#literal-method</string>
 								</dict>
+								<dict>
+									<key>include</key>
+									<string>#comments</string>
+								</dict>
 							</array>
 						</dict>
 					</array>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(class)\b</string>
+					<key>name</key>
+					<string>storage.type.class.js</string>
 				</dict>
 			</array>
 		</dict>
@@ -1552,7 +1331,7 @@
 								<key>2</key>
 								<dict>
 									<key>name</key>
-									<string>entity.name.type.new.js</string>
+									<string>variable.function.constructor.js</string>
 								</dict>
 							</dict>
 							<key>match</key>
@@ -1631,49 +1410,7 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-  (?:\b(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=\s|[(]))
-  \s*([_$a-zA-Z][$\w]*)?\s*</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.function.js</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?&lt;=\))</string>
-					<key>name</key>
-					<string>meta.function.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#function-declaration-parameters</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>(?x)
-  (\b[_$a-zA-Z][$\w]*)
-  \s*=
+  (?:([_$a-zA-Z][$\w]*)\s*=)?
   \s*(?:(async)\s+)?
   \s*(function)(?:\s*(\*)|(?=\s|[(]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
@@ -1858,7 +1595,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>variable.function.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1879,7 +1616,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>variable.function.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -1898,7 +1635,7 @@
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-  \b([_$a-zA-Z][$\w]*)
+  (?:(([_$a-zA-Z][$\w]*|\d+))|((["'])((?:\\.|(?!\4).)*)(\4)))
   \s*(:)
   \s*(?:(async)\s+)?
   \s*(function)(?:\s*(\*)|(?=\s|[(]))
@@ -1908,32 +1645,57 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
+							<string>string.unquoted.js</string>
+						</dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+						<key>11</key>
+						<dict>
+							<key>name</key>
 							<string>entity.name.function.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.separator.key-value.js</string>
+							<string>entity.name.function.js</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.js</string>
+							<string>string.quoted.js</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.function.js</string>
+							<string>punctuation.definition.string.js</string>
 						</dict>
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
+							<string>entity.name.function.js</string>
 						</dict>
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>punctuation.definition.string.js</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.separator.key-value.js</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.js</string>
+						</dict>
+						<key>9</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.function.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1948,96 +1710,21 @@
 						</dict>
 					</array>
 				</dict>
+			</array>
+		</dict>
+		<key>literal-jsx</key>
+		<dict>
+			<key>begin</key>
+			<string>(?&lt;=\(|\{|\[|,|&amp;&amp;|\|\||\?|:|=|=&gt;|\Wreturn|^return|^)(?=\s*&lt;)</string>
+			<key>contentName</key>
+			<string>meta.jsx.js</string>
+			<key>end</key>
+			<string>(?&lt;=/&gt;|&gt;)</string>
+			<key>patterns</key>
+			<array>
 				<dict>
-					<key>begin</key>
-					<string>(?x)
-  (?:
-    ((')((?:[^']|\\')*)('))|
-    ((")((?:[^"]|\\")*)("))
-  )
-  \s*(:)
-  \s*(?:(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=\s|[(]))
-  \s*([_$a-zA-Z][$\w]*)?\s*</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>string.quoted.single.js</string>
-						</dict>
-						<key>10</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.js</string>
-						</dict>
-						<key>11</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.function.js</string>
-						</dict>
-						<key>12</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
-						</dict>
-						<key>13</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.begin.js</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
-						</dict>
-						<key>4</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.end.js</string>
-						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>string.quoted.double.js</string>
-						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.begin.js</string>
-						</dict>
-						<key>7</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
-						</dict>
-						<key>8</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.end.js</string>
-						</dict>
-						<key>9</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.separator.key-value.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?&lt;=\))</string>
-					<key>name</key>
-					<string>meta.function.json.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#function-declaration-parameters</string>
-						</dict>
-					</array>
+					<key>include</key>
+					<string>#jsx-tag-start</string>
 				</dict>
 			</array>
 		</dict>
@@ -2076,11 +1763,11 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(yield)\b(?:\s*(\*))?</string>
+					<string>(?&lt;!\.)\b(await|yield)\b(?:\s*(\*))?</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;await|return)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;return)\b</string>
 					<key>name</key>
 					<string>keyword.control.flow.js</string>
 				</dict>
@@ -2101,6 +1788,12 @@
 					<string>(?&lt;!\.)\b(?&gt;break|continue|do|goto|while)\b</string>
 					<key>name</key>
 					<string>keyword.control.loop.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(?&gt;debugger)\b</string>
+					<key>name</key>
+					<string>keyword.other.js</string>
 				</dict>
 			</array>
 		</dict>
@@ -2269,7 +1962,7 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.method.js</string>
+							<string>entity.name.function.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -2343,7 +2036,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>variable.function.js</string>
 						</dict>
 						<key>4</key>
 						<dict>
@@ -2376,7 +2069,7 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>variable.function.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -2394,7 +2087,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>variable.function.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -2416,7 +2109,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>variable.function.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -2743,9 +2436,9 @@
 					<key>begin</key>
 					<string>(?x)
   (?&lt;=
-    \.|\(|,|{|}|\[|;|,|&lt;|&gt;|&lt;=|&gt;=|==|!=|===|!==|\+|-|\*|%|\+\+|--|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\||\^|!|~|&amp;&amp;|\|\||\?|:|=|\+=|-=|\*=|%=|&lt;&lt;=|&gt;&gt;=|&gt;&gt;&gt;=|&amp;=|\|=|\^=|/|/=|
-    \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|
-    ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^
+    \.|\(|,|{|}|\[|;|&lt;|&gt;|&lt;=|&gt;=|==|!=|===|!==|\+|-|\*|%|\+\+|--|&lt;&lt;|&gt;&gt;|&gt;&gt;&gt;|&amp;|\||\^|!|~|&amp;&amp;|\|\||\?|:|=|\+=|-=|\*=|%=|&lt;&lt;=|&gt;&gt;=|&gt;&gt;&gt;=|&amp;=|\|=|\^=|/|/=|
+    \Wnew|\Wdelete|\Wvoid|\Wtypeof|\Winstanceof|\Win|\Wdo|\Wreturn|\Wcase|\Wthrow|\Wyield|
+    ^new|^delete|^void|^typeof|^instanceof|^in|^do|^return|^case|^throw|^yield|^
   )\s*
   (/)
   (?!/|\*|$)</string>
@@ -3034,7 +2727,7 @@
 				<dict>
 					<key>begin</key>
 					<string>\(</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
@@ -3044,14 +2737,6 @@
 					</dict>
 					<key>end</key>
 					<string>\)</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>meta.brace.round.js</string>
-						</dict>
-					</dict>
 					<key>name</key>
 					<string>meta.group.braces.round</string>
 					<key>patterns</key>
@@ -3064,82 +2749,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>special-comments-conditional-compilation</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>/\*(?=@)</string>
-					<key>captures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>\*/</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.conditional.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.keyword.js</string>
-						</dict>
-					</dict>
-					<key>name</key>
-					<string>comment.block.conditional.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>match</key>
-							<string>/\*</string>
-							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>$self</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.keyword.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(@)(if|elif|else|end|ifdef|endif|cc_on|set)\b</string>
-					<key>name</key>
-					<string>keyword.control.conditional.js</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.variable.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript|_jscript_build|_jscript_version|_debug|_fast|[a-zA-Z]\w+)</string>
-					<key>name</key>
-					<string>variable.other.conditional.js</string>
-				</dict>
-			</array>
-		</dict>
 		<key>square-brackets</key>
 		<dict>
 			<key>patterns</key>
@@ -3147,7 +2756,7 @@
 				<dict>
 					<key>begin</key>
 					<string>\[</string>
-					<key>beginCaptures</key>
+					<key>captures</key>
 					<dict>
 						<key>0</key>
 						<dict>
@@ -3157,14 +2766,6 @@
 					</dict>
 					<key>end</key>
 					<string>\]</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>meta.brace.square.js</string>
-						</dict>
-					</dict>
 					<key>name</key>
 					<string>meta.group.braces.square</string>
 					<key>patterns</key>
@@ -3189,7 +2790,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\\(x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)</string>
+					<string>\\([1-7][0-7]{0,2}|[0-7]{2,3}|[bfnrtv0'"\\]|x\h{2}|u\{\h+\}|u\h{4})</string>
 					<key>name</key>
 					<string>constant.character.escape.js</string>
 				</dict>
@@ -3201,21 +2802,9 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(?&gt;Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|WeakSet)\b</string>
+					<string>(?&lt;!\.)\b(Array|ArrayBuffer|Boolean|DataView|Date|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|Reflect|RegExp|Set|String|Symbol|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|WeakMap|WeakSet)\b</string>
 					<key>name</key>
 					<string>support.class.builtin.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;decodeURIComponent|decodeURI|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b</string>
-					<key>name</key>
-					<string>support.function.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;=\.)\b(?&gt;shift|sort|splice|unshift|pop|push|reverse)\b</string>
-					<key>name</key>
-					<string>support.function.mutator.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -3225,9 +2814,21 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\bdebugger\b</string>
+					<string>\b(?&gt;Buffer)\b</string>
 					<key>name</key>
-					<string>keyword.other.js</string>
+					<string>support.class.node.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b</string>
+					<key>name</key>
+					<string>support.function.builtin.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\.)\b(clearImmediate|clearInterval|clearTimeout|require|setImmediate|setInterval|setTimeout)\b</string>
+					<key>name</key>
+					<string>support.function.node.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -3237,14 +2838,9 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?x)
-  \b(?&gt;
-    ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
-    DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
-    WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
-  )\b</string>
+					<string>(?&lt;!\.)\b(?&gt;global|GLOBAL|root|__dirname|__filename)\b</string>
 					<key>name</key>
-					<string>support.constant.dom.js</string>
+					<string>support.type.object.node.js</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3266,13 +2862,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|https|http|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b</string>
-					<key>name</key>
-					<string>support.module.node.js</string>
+					<string>(?&lt;!\.)\b(console)(?:(\.)(assert|count|dir|error|group|groupCollapsed|groupEnd|info|log|profile|profileEnd|table|time|timeEnd|trace|warn))?\b</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3292,31 +2882,14 @@
 							<key>name</key>
 							<string>support.type.object.process.js</string>
 						</dict>
-					</dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.type.object.process.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.operator.accessor.js</string>
-						</dict>
-						<key>3</key>
+						<key>4</key>
 						<dict>
 							<key>name</key>
 							<string>support.function.process.js</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b</string>
+					<string>(?&lt;!\.)\b(process)(?:(\.)(?:(arch|argv|config|env|execArgv|execPath|exitCode|mainModule|pid|platform|stderr|stdin|stdout|title|version|versions)|(abort|chdir|cwd|exit|getgid|getgroups|getuid|hrtime|initgroups|kill|memoryUsage|nextTick|setgid|setgroups|setuid|umask|uptime)))?\b</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3338,19 +2911,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;global|GLOBAL|root|__dirname|__filename)\b</string>
-					<key>name</key>
-					<string>support.type.object.node.js</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\b(?&gt;Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|InflateRaw|DeflateRaw|Inflate|Deflate|GZip|GUnzip|Unzip|Zip)\b</string>
-					<key>name</key>
-					<string>support.class.node.js</string>
+					<string>(?&lt;!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b</string>
 				</dict>
 				<dict>
 					<key>begin</key>
