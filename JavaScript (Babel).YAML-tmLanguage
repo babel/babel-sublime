@@ -1019,12 +1019,13 @@ repository:
       - include: '#string-content'
 
   string-content:
+    # https://mathiasbynens.be/notes/javascript-escapes
     patterns:
     - name: constant.character.escape.newline.js
       match: \\\s*\n
 
     - name: constant.character.escape.js
-      match: \\(x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)
+      match: \\([1-7][0-7]{0,2}|[0-7]{2,3}|[bfnrtv0'"\\]|x\h{2}|u\{\h+\}|u\h{4})
 
   literal-variable:
     patterns:
