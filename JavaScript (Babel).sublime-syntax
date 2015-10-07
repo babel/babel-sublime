@@ -52,7 +52,7 @@ contexts:
     - match: '\('
       scope: meta.brace.round.js
       push:
-        - meta_scope: meta.group.braces.round
+        - meta_scope: meta.group.braces.round.js
         - match: '\)'
           scope: meta.brace.round.js
           pop: true
@@ -62,7 +62,7 @@ contexts:
     - match: '\['
       scope: meta.brace.square.js
       push:
-        - meta_scope: meta.group.braces.square
+        - meta_scope: meta.group.braces.square.js
         - match: '\]'
           scope: meta.brace.square.js
           pop: true
@@ -72,7 +72,7 @@ contexts:
     - match: '\{'
       scope: meta.brace.curly.js
       push:
-        - meta_scope: meta.group.braces.curly
+        - meta_scope: meta.group.braces.curly.js
         - match: '\}'
           scope: meta.brace.curly.js
           pop: true

@@ -155,7 +155,7 @@
 					<key>end</key>
 					<string>\}</string>
 					<key>name</key>
-					<string>meta.group.braces.curly</string>
+					<string>meta.group.braces.curly.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -2619,7 +2619,7 @@
 					<key>end</key>
 					<string>\)</string>
 					<key>name</key>
-					<string>meta.group.braces.round</string>
+					<string>meta.group.braces.round.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -2648,7 +2648,7 @@
 					<key>end</key>
 					<string>\]</string>
 					<key>name</key>
-					<string>meta.group.braces.square</string>
+					<string>meta.group.braces.square.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>

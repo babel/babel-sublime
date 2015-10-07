@@ -56,7 +56,7 @@ repository:
 
   round-brackets:
     patterns:
-    - name: meta.group.braces.round
+    - name: meta.group.braces.round.js
       begin: \(
       end: \)
       captures:
@@ -66,7 +66,7 @@ repository:
 
   square-brackets:
     patterns:
-    - name: meta.group.braces.square
+    - name: meta.group.braces.square.js
       begin: \[
       end: \]
       captures:
@@ -76,7 +76,7 @@ repository:
 
   curly-brackets:
     patterns:
-    - name: meta.group.braces.curly
+    - name: meta.group.braces.curly.js
       begin: \{
       end: \}
       captures:
