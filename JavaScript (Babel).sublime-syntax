@@ -825,7 +825,7 @@ contexts:
         - include: scope:source.regexp.js
 
   literal-string:
-    - match: (["''])
+    - match: (["'])
       scope: punctuation.definition.string.quoted.begin.js
       push:
         - meta_include_prototype: false
@@ -989,7 +989,7 @@ contexts:
         - include: expression
 
   jsx-string-quoted:
-    - match: '(["''])'
+    - match: (["'])
       scope: punctuation.definition.string.jsx
       push:
         - meta_include_prototype: false

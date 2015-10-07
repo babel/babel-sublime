@@ -2400,7 +2400,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>'</string>
+					<string>(["'])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -2410,7 +2410,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(')|(\n)</string>
+					<string>(\1)|(\n)</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2425,43 +2425,7 @@
 						</dict>
 					</dict>
 					<key>name</key>
-					<string>string.quoted.single.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#string-content</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string>"</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.begin.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(")|(\n)</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.end.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>invalid.illegal.newline.js</string>
-						</dict>
-					</dict>
-					<key>name</key>
-					<string>string.quoted.double.js</string>
+					<string>string.quoted.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
