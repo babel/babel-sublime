@@ -35,6 +35,7 @@ contexts:
     - include: literal-prototype
     - include: literal-keywords
     - include: literal-number
+    - include: literal-template-string
     - include: literal-string
     - include: literal-language-constant
     - include: literal-language-variable
@@ -838,23 +839,26 @@ contexts:
           pop: true
         - include: string-content
 
+  literal-template-string:
     - match: '`'
-      scope: punctuation.definition.string.interpolated.begin.js
-      push: literal-template-string-inner
+      scope: keyword.other.template.js
+      push: template-string-body
 
-  literal-template-string-inner:
+  template-string-body:
     - meta_include_prototype: false
     - meta_scope: string.interpolated.js
+    - match: '\\`'
+      scope: constant.character.escape.js
     - match: '`'
-      scope: punctuation.definition.string.interpolated.end.js
+      scope: keyword.other.template.js
       pop: true
     - include: string-content
-    - match: '\${'
-      scope: keyword.operator.substitution.js
+    - match: \${
+      scope: keyword.other.substitution.js
       set:
-        - match: "}"
-          scope: keyword.operator.substitution.js
-          set: literal-template-string-inner
+        - match: \}
+          scope: keyword.other.substitution.js
+          set: template-string-body
         - include: expression
 
   string-content:

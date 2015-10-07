@@ -35,7 +35,7 @@ repository:
 
     - include: '#literal-keywords'
     - include: '#literal-number'
-    - include: '#literal-quasi'
+    - include: '#literal-template-string'
     - include: '#literal-string'
     - include: '#literal-language-constant'
     - include: '#literal-language-variable'
@@ -834,27 +834,25 @@ repository:
     - name: meta.delimiter.comma.js
       match: ','
 
-  literal-quasi:
+  literal-template-string:
+    begin: '`'
+    end: '`'
+    captures:
+      '0': {name: string.interpolated.js keyword.other.template.js}
     patterns:
-    - name: string.quasi.js
-      begin: ([a-zA-Z$_][\w$_]*)?(`)
-      beginCaptures:
-        '1': {name: entity.quasi.tag.name.js}
-        '2': {name: punctuation.definition.quasi.begin.js}
-      end: '`'
-      endCaptures:
-        '0': {name: punctuation.definition.quasi.end.js}
+    - include: '#string-content'
+    - name: constant.character.escape.js
+      match: \\`
+    - begin: \${
+      end: \}
+      captures:
+        '0': {name: keyword.other.substitution.js}
       patterns:
-      - include: '#string-content'
-      - name: entity.quasi.element.js
-        begin: \${
-        beginCaptures:
-          '0': {name: punctuation.quasi.element.begin.js}
-        end: '}'
-        endCaptures:
-          '0': {name: punctuation.quasi.element.end.js}
-        patterns:
-        - include: '#expression'
+      - include: '#expression'
+    # Workaround so themes color the contents of template strings as "string",
+    # but not any interpolated expression within.
+    - name: string.interpolated.js
+      match: '.'
 
   literal-regexp:
     patterns:

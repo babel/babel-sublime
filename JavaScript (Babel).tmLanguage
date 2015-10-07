@@ -265,7 +265,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#literal-quasi</string>
+					<string>#literal-template-string</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -2272,79 +2272,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>literal-quasi</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>([a-zA-Z$_][\w$_]*)?(`)</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>entity.quasi.tag.name.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.quasi.begin.js</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>`</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>0</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.quasi.end.js</string>
-						</dict>
-					</dict>
-					<key>name</key>
-					<string>string.quasi.js</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#string-content</string>
-						</dict>
-						<dict>
-							<key>begin</key>
-							<string>\${</string>
-							<key>beginCaptures</key>
-							<dict>
-								<key>0</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.quasi.element.begin.js</string>
-								</dict>
-							</dict>
-							<key>end</key>
-							<string>}</string>
-							<key>endCaptures</key>
-							<dict>
-								<key>0</key>
-								<dict>
-									<key>name</key>
-									<string>punctuation.quasi.element.end.js</string>
-								</dict>
-							</dict>
-							<key>name</key>
-							<string>entity.quasi.element.js</string>
-							<key>patterns</key>
-							<array>
-								<dict>
-									<key>include</key>
-									<string>#expression</string>
-								</dict>
-							</array>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
 		<key>literal-regexp</key>
 		<dict>
 			<key>patterns</key>
@@ -2512,6 +2439,61 @@
 							</array>
 						</dict>
 					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>literal-template-string</key>
+		<dict>
+			<key>begin</key>
+			<string>`</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>string.interpolated.js keyword.other.template.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>`</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#string-content</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\`</string>
+					<key>name</key>
+					<string>constant.character.escape.js</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>\${</string>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.substitution.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\}</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#expression</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>.</string>
+					<key>name</key>
+					<string>string.interpolated.js</string>
 				</dict>
 			</array>
 		</dict>
