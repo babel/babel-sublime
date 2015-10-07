@@ -2,9 +2,7 @@
 name: Regular Expressions (Babel)
 scopeName: source.regexp.js
 fileTypes: [re]
-uuid: 4141bf2f-6bb2-4ee0-a07e-3443efbd0b62
-foldingStartMarker: (/\*|\{|\()
-foldingStopMarker: (\*/|\}|\))
+hidden: true
 
 patterns:
 - include: '#anchor'
