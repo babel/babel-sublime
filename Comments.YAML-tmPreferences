@@ -1,6 +1,9 @@
 # [PackageDev] target_format: plist, ext: tmPreferences
 name: Comments
-scope: source.js, source.json
+scope: >-
+  source.js - meta.jsx.js,
+  source.js meta.jsx.js meta.embedded.expression,
+  source.json
 settings:
   shellVariables:
   - name: TM_COMMENT_START
