@@ -2,7 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: JavaScript (Babel)
-file_extensions: [js, htc, jsx]
+file_extensions: [js, jsx, babel, es6]
 first_line_match: ^#!\s*/.*\b(node|js)$\n?
 scope: source.js
 

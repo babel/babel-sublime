@@ -1,7 +1,7 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: JavaScript (Babel)
 scopeName: source.js
-fileTypes: [js, htc, jsx]
+fileTypes: [js, jsx, babel, es6]
 firstLineMatch: ^#!\s*/.*\b(node|js)$\n?
 
 patterns:
