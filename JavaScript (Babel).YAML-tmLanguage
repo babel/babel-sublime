@@ -613,7 +613,7 @@ repository:
       match: (?<!\.)\b(?>true)\b
 
     - name: constant.language.boolean.false.js
-      match: (?<!\.)\b(>false)\b
+      match: (?<!\.)\b(?>false)\b
 
     - name: constant.language.null.js
       match: (?<!\.)\b(?>null)\b

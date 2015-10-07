@@ -1791,7 +1791,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(&gt;false)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;false)\b</string>
 					<key>name</key>
 					<string>constant.language.boolean.false.js</string>
 				</dict>
