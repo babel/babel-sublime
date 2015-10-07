@@ -1770,31 +1770,31 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\btrue\b</string>
+					<string>(?&lt;!\.)\b(?&gt;true)\b</string>
 					<key>name</key>
 					<string>constant.language.boolean.true.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\bfalse\b</string>
+					<string>(?&lt;!\.)\b(&gt;false)\b</string>
 					<key>name</key>
 					<string>constant.language.boolean.false.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\bnull\b</string>
+					<string>(?&lt;!\.)\b(?&gt;null)\b</string>
 					<key>name</key>
 					<string>constant.language.null.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\bundefined\b</string>
+					<string>(?&lt;!\.)\b(?&gt;undefined)\b</string>
 					<key>name</key>
 					<string>constant.language.undefined.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\bNaN\b</string>
+					<string>(?&lt;!\.)\b(?&gt;NaN)\b</string>
 					<key>name</key>
 					<string>constant.language.nan.js</string>
 				</dict>
@@ -1806,43 +1806,43 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\barguments\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;arguments)\b</string>
 					<key>name</key>
 					<string>variable.language.arguments.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\bsuper\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;super)\b</string>
 					<key>name</key>
 					<string>variable.language.super.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\bthis\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;this)\b</string>
 					<key>name</key>
 					<string>variable.language.this.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\bself\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;self)\b</string>
 					<key>name</key>
 					<string>variable.language.self.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b__proto__\b</string>
+					<string>(?&lt;=\.)\b(?&gt;__proto__)\b</string>
 					<key>name</key>
 					<string>variable.language.proto.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\bconstructor\b</string>
+					<string>(?&lt;=\.)\b(?&gt;constructor)\b</string>
 					<key>name</key>
 					<string>variable.language.constructor.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\bprototype\b</string>
+					<string>(?&lt;=\.)\b(?&gt;prototype)\b</string>
 					<key>name</key>
 					<string>variable.language.prototype.js</string>
 				</dict>
