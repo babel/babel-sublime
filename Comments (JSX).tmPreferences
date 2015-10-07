@@ -5,28 +5,22 @@
 	<key>name</key>
 	<string>Comments</string>
 	<key>scope</key>
-	<string>source.js - meta.jsx.js, source.js meta.jsx.js meta.embedded.expression, source.json</string>
+	<string>source.js meta.jsx.js - meta.embedded.expression</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
 		<array>
 			<dict>
 				<key>name</key>
-				<string>TM_COMMENT_START</string>
-				<key>value</key>
-				<string>// </string>
-			</dict>
-			<dict>
-				<key>name</key>
 				<string>TM_COMMENT_START_2</string>
 				<key>value</key>
-				<string>/*</string>
+				<string>{/*</string>
 			</dict>
 			<dict>
 				<key>name</key>
 				<string>TM_COMMENT_END_2</string>
 				<key>value</key>
-				<string>*/</string>
+				<string>*/}</string>
 			</dict>
 		</array>
 	</dict>

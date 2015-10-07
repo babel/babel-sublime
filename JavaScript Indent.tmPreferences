@@ -11,13 +11,11 @@
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)
   ^ \s* \b(if|while|else)\b [^;]* $
-  | ^ \s* \b(for)\b .* $</string>
+| ^ \s* \b(for)\b .* $</string>
 		<key>decreaseIndentPattern</key>
 		<string>^(.*\*/)?\s*[}].*$</string>
 		<key>increaseIndentPattern</key>
 		<string>^.*\{[^}"']*$</string>
 	</dict>
-	<key>uuid</key>
-	<string>8a0c166b-cb02-42ca-8eeb-8df963c80a37</string>
 </dict>
 </plist>

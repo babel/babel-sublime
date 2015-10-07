@@ -6,10 +6,8 @@
 	<array>
 		<string>re</string>
 	</array>
-	<key>foldingStartMarker</key>
-	<string>(/\*|\{|\()</string>
-	<key>foldingStopMarker</key>
-	<string>(\*/|\}|\))</string>
+	<key>hidden</key>
+	<true/>
 	<key>name</key>
 	<string>Regular Expressions (Babel)</string>
 	<key>patterns</key>
@@ -301,7 +299,5 @@
 	</dict>
 	<key>scopeName</key>
 	<string>source.regexp.js</string>
-	<key>uuid</key>
-	<string>4141bf2f-6bb2-4ee0-a07e-3443efbd0b62</string>
 </dict>
 </plist>

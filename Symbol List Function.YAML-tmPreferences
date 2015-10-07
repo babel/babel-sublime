@@ -1,7 +1,12 @@
 # [PackageDev] target_format: plist, ext: tmPreferences
 name: Symbol List Function
-uuid: 003b7720-9497-49e9-86ed-06c837765a00
-scope: source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js, source.js meta.prototype.function.arrow.js, source.js meta.class.js entity.name.class.js
+scope: >-
+  source.js meta.function entity.name.function,
+  source.js meta.function.prototype,
+  source.js meta.function.static,
+  source.js meta.accessor entity.name.accessor,
+  source.js meta.method entity.name.function,
+  source.js meta.class entity.name.class
 settings:
   showInSymbolList: '1'
-  symbolTransformation: s/^\s+//g; s/\s+/ /g;
+  symbolTransformation: s/^\s+//g; s/\s+/ /g; s/\s*=.*$//g;

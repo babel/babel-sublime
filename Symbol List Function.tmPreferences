@@ -5,15 +5,13 @@
 	<key>name</key>
 	<string>Symbol List Function</string>
 	<key>scope</key>
-	<string>source.js meta.function, source.js meta.accessor.js, source.js meta.method.js, source.js meta.prototype.function.js, source.js meta.prototype.function.arrow.js, source.js meta.class.js entity.name.class.js</string>
+	<string>source.js meta.function entity.name.function, source.js meta.function.prototype, source.js meta.function.static, source.js meta.accessor entity.name.accessor, source.js meta.method entity.name.function, source.js meta.class entity.name.class</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<string>1</string>
 		<key>symbolTransformation</key>
-		<string>s/^\s+//g; s/\s+/ /g;</string>
+		<string>s/^\s+//g; s/\s+/ /g; s/\s*=.*$//g;</string>
 	</dict>
-	<key>uuid</key>
-	<string>003b7720-9497-49e9-86ed-06c837765a00</string>
 </dict>
 </plist>

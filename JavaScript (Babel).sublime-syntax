@@ -2,7 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: JavaScript (Babel)
-file_extensions: [js, htc, jsx]
+file_extensions: [js, jsx, babel, es6]
 first_line_match: ^#!\s*/.*\b(node|js)$\n?
 scope: source.js
 
@@ -35,6 +35,7 @@ contexts:
     - include: literal-prototype
     - include: literal-keywords
     - include: literal-number
+    - include: literal-template-string
     - include: literal-string
     - include: literal-language-constant
     - include: literal-language-variable
@@ -52,7 +53,7 @@ contexts:
     - match: '\('
       scope: meta.brace.round.js
       push:
-        - meta_scope: meta.group.braces.round
+        - meta_scope: meta.group.braces.round.js
         - match: '\)'
           scope: meta.brace.round.js
           pop: true
@@ -62,7 +63,7 @@ contexts:
     - match: '\['
       scope: meta.brace.square.js
       push:
-        - meta_scope: meta.group.braces.square
+        - meta_scope: meta.group.braces.square.js
         - match: '\]'
           scope: meta.brace.square.js
           pop: true
@@ -72,7 +73,7 @@ contexts:
     - match: '\{'
       scope: meta.brace.curly.js
       push:
-        - meta_scope: meta.group.braces.curly
+        - meta_scope: meta.group.braces.curly.js
         - match: '\}'
           scope: meta.brace.curly.js
           pop: true
@@ -231,36 +232,20 @@ contexts:
 
   literal-function:
     # e.g. function play(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          (?:\b(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: storage.type.js
-        2: storage.type.function.js
-        3: keyword.generator.asterisk.js
-        4: entity.name.function.js
-      push:
-        - meta_scope: meta.function.js
-        - match: (?<=\))
-          set: flow-annotations
-        - include: function-declaration-parameters
-
     # e.g. play = function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
+          (?:({{ident}})\s*(=)\s*)?
+          (?:(async)\s+)?
+          (function)(?:\s*(\*)|(?=[\s(]))
+          \s*({{ident}})?
       captures:
         1: entity.name.function.js
-        2: storage.type.js
-        3: storage.type.function.js
-        4: keyword.generator.asterisk.js
-        5: entity.name.function.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
+        4: storage.type.function.js
+        5: keyword.generator.asterisk.js
+        6: entity.name.function.js
       push:
         - meta_scope: meta.function.js
         - match: (?<=\))
@@ -288,7 +273,7 @@ contexts:
         8: keyword.generator.asterisk.js
         9: entity.name.function.js
       push:
-        - meta_scope: meta.prototype.function.js
+        - meta_scope: meta.function.prototype.js
         - match: (?<=\))
           pop: true
         - include: function-declaration-parameters
@@ -318,51 +303,34 @@ contexts:
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-        4: storage.type.function.js
-        5: keyword.generator.asterisk.js
-        6: entity.name.function.js
-      push:
-        - meta_scope: meta.function.json.js
-        - match: (?<=\))
-          pop: true
-        - include: function-declaration-parameters
-
     # e.g. "play": function(arg1, arg2) {  }
     - match: >-
         (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
-          \s*({{ident}})?\s*
+        (?>
+          ((')((?:[^']|\\')*)('))|
+          ((")((?:[^"]|\\")*)("))|
+          (({{ident}}|\d+))
+        )
+        \s*(:)
+        \s*(?:\b(async)\s+)?
+        \s*(function)(?:\s*(\*)|(?=[\s(]))
+        \s*({{ident}})?
       captures:
-        1: string.quoted.single.js
+        1: string.quoted.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: string.quoted.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-        11: storage.type.function.js
-        12: keyword.generator.asterisk.js
-        13: entity.name.function.js
+        9: string.unquoted.js
+        10: entity.name.function.js
+        11: punctuation.separator.key-value.js
+        12: storage.type.js
+        13: storage.type.function.js
+        14: keyword.generator.asterisk.js
+        15: entity.name.function.js
       push:
         - meta_scope: meta.function.json.js
         - match: (?<=\))
@@ -371,12 +339,16 @@ contexts:
 
   literal-arrow-function:
     # e.g. (args) => { }
+    # e.g. play = (args) => { }
     - match: >-
         (?x)
-          (\basync)?\s*
-          (?=\([^()]*\)\s*(=>))
+          (?:({{ident}})\s*(=)\s*)?
+          (?:\b(async)\s+)?
+          (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
-        1: storage.type.js
+        1: entity.name.function.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
       push:
         - meta_scope: meta.function.arrow.js
         - match: (?<=\))\s*(=>)
@@ -386,47 +358,19 @@ contexts:
         - include: function-declaration-parameters
 
     # e.g. arg => { }
-    - match: >-
-        (?x)
-          (\basync)?\s*
-          \b({{ident}})\s*(=>)
-      scope: meta.function.arrow.js
-      captures:
-        1: storage.type.js
-        2: variable.parameter.function.js
-        3: storage.type.function.arrow.js
-
-    # e.g. play = (args) => { }
-    - match: >-
-        (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: entity.name.function.js
-        2: storage.type.js
-      push:
-        - meta_scope: meta.function.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
     # e.g. play = arg => { }
     - match: >-
         (?x)
-          (\b{{ident}})
-          \s*=
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
+          (?:({{ident}})\s*(=)\s*)?
+          (?:(async)\s+)?
+          \b({{ident}})\s*(=>)
       scope: meta.function.arrow.js
       captures:
         1: entity.name.function.js
-        2: storage.type.js
-        3: variable.parameter.function.js
-        4: storage.type.function.arrow.js
+        2: keyword.operator.assignment.js
+        3: storage.type.js
+        4: variable.parameter.function.js
+        5: storage.type.function.arrow.js
 
     # e.g. Sound.prototype.play = (args) => { }
     - match: >-
@@ -512,16 +456,30 @@ contexts:
 
   literal-arrow-function-labels:
     # e.g. play: (args) => { }
+    # e.g. "play": (args) => { }
     - match: >-
         (?x)
-          \b({{ident}})
+          (?>
+            ((')((?:[^']|\\')*)('))|
+            ((")((?:[^"]|\\")*)("))|
+            (({{ident}}|\d+))
+          )
           \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
+          \s*(?:\b(async)\s+)?
+          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
+        1: string.quoted.js
+        2: punctuation.definition.string.begin.js
+        3: entity.name.function.js
+        4: punctuation.definition.string.end.js
+        5: string.quoted.js
+        6: punctuation.definition.string.begin.js
+        7: entity.name.function.js
+        8: punctuation.definition.string.end.js
+        9: string.unquoted.js
+        10: entity.name.function.js
+        11: punctuation.separator.key-value.js
+        12: storage.type.js
       push:
         - meta_scope: meta.function.json.arrow.js
         - match: (?<=\))\s*(=>)
@@ -531,73 +489,33 @@ contexts:
         - include: function-declaration-parameters
 
     # e.g. play: arg => { }
-    - match: >-
-        (?x)
-          \b({{ident}})
-          \s*(:)
-          \s*(async)?
-          \s*\b({{ident}})\s*(=>)
-      scope: meta.function.json.arrow.js
-      captures:
-        1: entity.name.function.js
-        2: punctuation.separator.key-value.js
-        3: storage.type.js
-        4: variable.parameter.function.js
-        5: storage.type.function.arrow.js
-
-    # e.g. "play": (args) => { }
-    - match: >-
-        (?x)
-          (?:
-            ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
-          )
-          \s*(:)
-          \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
-      captures:
-        1: string.quoted.single.js
-        2: punctuation.definition.string.begin.js
-        3: entity.name.function.js
-        4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
-        6: punctuation.definition.string.begin.js
-        7: entity.name.function.js
-        8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-      push:
-        - meta_scope: meta.function.json.arrow.js
-        - match: (?<=\))\s*(=>)
-          captures:
-            1: storage.type.function.arrow.js
-          pop: true
-        - include: function-declaration-parameters
-
     # e.g. "play": arg => { }
     - match: >-
         (?x)
-          (?:
+          (?>
             ((')((?:[^']|\\')*)('))|
-            ((")((?:[^"]|\\")*)("))
+            ((")((?:[^"]|\\")*)("))|
+            (({{ident}}|\d+))
           )
           \s*(:)
-          \s*(async)?
+          \s*(?:\b(async)\s+)?
           \s*\b({{ident}})\s*(=>)
       scope: meta.function.json.arrow.js
       captures:
-        1: string.quoted.single.js
+        1: string.quoted.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: string.quoted.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
-        9: punctuation.separator.key-value.js
-        10: storage.type.js
-        11: variable.parameter.function.js
-        12: storage.type.function.arrow.js
+        9: string.unquoted.js
+        10: entity.name.function.js
+        11: punctuation.separator.key-value.js
+        12: storage.type.js
+        13: variable.parameter.function.js
+        14: storage.type.function.arrow.js
 
   literal-function-call:
     - match: >-
@@ -619,7 +537,7 @@ contexts:
         (?x)
         ({{ident}})\s*
         (?=`)
-      scope: meta.function-call.tagged.js
+      scope: meta.function-call.tagged-template.js
       captures:
         1: variable.function.js
 
@@ -666,31 +584,31 @@ contexts:
         1: variable.function.js
 
   literal-language-variable:
-    - match: (?<!(?<!\.\.)\.)\barguments\b
+    - match: (?<!(?<!\.\.)\.)\b(?>arguments)\b
       scope: variable.language.arguments.js
-    - match: (?<!(?<!\.\.)\.)\bsuper\b
+    - match: (?<!(?<!\.\.)\.)\b(?>super)\b
       scope: variable.language.super.js
-    - match: (?<!(?<!\.\.)\.)\bthis\b
+    - match: (?<!(?<!\.\.)\.)\b(?>this)\b
       scope: variable.language.this.js
-    - match: (?<!(?<!\.\.)\.)\bself\b
+    - match: (?<!(?<!\.\.)\.)\b(?>self)\b
       scope: variable.language.self.js
-    - match: (?<=\.)\b__proto__\b
+    - match: (?<=\.)\b(?>__proto__)\b
       scope: variable.language.proto.js
-    - match: (?<=\.)\bconstructor\b
+    - match: (?<=\.)\b(?>constructor)\b
       scope: variable.language.constructor.js
-    - match: (?<=\.)\bprototype\b
+    - match: (?<=\.)\b(?>prototype)\b
       scope: variable.language.prototype.js
 
   literal-language-constant:
-    - match: (?<!\.)\btrue\b
+    - match: (?<!\.)\b(?>true)\b
       scope: constant.language.boolean.true.js
-    - match: (?<!\.)\bfalse\b
+    - match: (?<!\.)\b(?>false)\b
       scope: constant.language.boolean.false.js
-    - match: (?<!\.)\bnull\b
+    - match: (?<!\.)\b(?>null)\b
       scope: constant.language.null.js
-    - match: (?<!\.)\bundefined\b
+    - match: (?<!\.)\bu(?>ndefined)\b
       scope: constant.language.undefined.js
-    - match: (?<!\.)\bNaN\b
+    - match: (?<!\.)\b(?>NaN)\b
       scope: constant.language.nan.js
 
   literal-constructor:
@@ -908,7 +826,7 @@ contexts:
         - include: scope:source.regexp.js
 
   literal-string:
-    - match: (["''])
+    - match: (["'])
       scope: punctuation.definition.string.quoted.begin.js
       push:
         - meta_include_prototype: false
@@ -921,23 +839,26 @@ contexts:
           pop: true
         - include: string-content
 
+  literal-template-string:
     - match: '`'
-      scope: punctuation.definition.string.interpolated.begin.js
-      push: literal-template-string-inner
+      scope: keyword.other.template.js
+      push: template-string-body
 
-  literal-template-string-inner:
+  template-string-body:
     - meta_include_prototype: false
     - meta_scope: string.interpolated.js
+    - match: '\\`'
+      scope: constant.character.escape.js
     - match: '`'
-      scope: punctuation.definition.string.interpolated.end.js
+      scope: keyword.other.template.js
       pop: true
     - include: string-content
-    - match: '\${'
-      scope: keyword.operator.substitution.js
+    - match: \${
+      scope: keyword.other.substitution.js
       set:
-        - match: "}"
-          scope: keyword.operator.substitution.js
-          set: literal-template-string-inner
+        - match: \}
+          scope: keyword.other.substitution.js
+          set: template-string-body
         - include: expression
 
   string-content:
@@ -1072,9 +993,10 @@ contexts:
         - include: expression
 
   jsx-string-quoted:
-    - match: '(["''])'
+    - match: (["'])
       scope: punctuation.definition.string.jsx
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.jsx
         - match: (\1)
           scope: punctuation.definition.string.jsx
