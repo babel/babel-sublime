@@ -1519,6 +1519,20 @@
 					<key>name</key>
 					<string>meta.function-call.with-arguments.js</string>
 				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.function.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(?x) ([_$a-zA-Z][$\w]*)\s* (?=`)</string>
+					<key>name</key>
+					<string>meta.function-call.tagged-template.js</string>
+				</dict>
 			</array>
 		</dict>
 		<key>literal-function-labels</key>

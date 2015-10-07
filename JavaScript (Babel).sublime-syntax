@@ -537,7 +537,7 @@ contexts:
         (?x)
         ({{ident}})\s*
         (?=`)
-      scope: meta.function-call.tagged.js
+      scope: meta.function-call.tagged-template.js
       captures:
         1: variable.function.js
 

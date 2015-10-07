@@ -531,6 +531,14 @@ repository:
       captures:
         '1': {name: variable.function.js}
 
+    - name: meta.function-call.tagged-template.js
+      match: >-
+        (?x)
+        ([_$a-zA-Z][$\w]*)\s*
+        (?=`)
+      captures:
+        '1': {name: variable.function.js}
+
   literal-method-call:
     patterns:
     - name: meta.function-call.static.without-arguments.js
