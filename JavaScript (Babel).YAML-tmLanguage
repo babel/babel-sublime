@@ -251,7 +251,7 @@ repository:
       - include: '#function-declaration-parameters'
 
     # e.g. Sound.prototype.play = function(arg1, arg2) {  }
-    - name: meta.prototype.function.js
+    - name: meta.function.prototype.js
       begin: >-
         (?x)
           (\b_?[A-Z][$\w]*)?

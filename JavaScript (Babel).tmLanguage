@@ -1409,7 +1409,7 @@
 					<key>end</key>
 					<string>(?&lt;=\))</string>
 					<key>name</key>
-					<string>meta.prototype.function.js</string>
+					<string>meta.function.prototype.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>

@@ -273,7 +273,7 @@ contexts:
         8: keyword.generator.asterisk.js
         9: entity.name.function.js
       push:
-        - meta_scope: meta.prototype.function.js
+        - meta_scope: meta.function.prototype.js
         - match: (?<=\))
           pop: true
         - include: function-declaration-parameters
