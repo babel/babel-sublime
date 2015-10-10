@@ -22,6 +22,7 @@ repository:
 
   expression:
     patterns:
+    - include: '#merge-conflits'
     - include: '#literal-regexp'              # before operators and keywords to avoid ambiguities
 
     - include: '#literal-jsx'
@@ -1092,3 +1093,17 @@ repository:
       captures:
         '1': {name: punctuation.definition.tag.js}
         '2': {name: entity.name.tag.js}
+
+  merge-conflits:
+    patterns:
+    - match: ^([<]{7}) (.+)$
+      captures:
+        '1': {name: invalid.illegal.conflict-marker.merge-into.js}
+        '2': {name: invalid.illegal.string.js}
+    - match: ^([=|]{7})$
+      captures:
+        '1': {name: invalid.illegal.conflict-marker.separator.js}
+    - match: ^([>]{7}) (.+)$
+      captures:
+        '1': {name: invalid.illegal.conflict-marker.other-commit.js}
+        '2': {name: invalid.illegal.string.js}
