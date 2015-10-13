@@ -660,7 +660,7 @@
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.tag.jsx</string>
+					<string>punctuation.definition.tag.end.jsx</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -693,7 +693,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.begin.jsx</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -708,7 +708,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.begin.jsx</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -718,12 +718,12 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.end.jsx</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.end.jsx</string>
 						</dict>
 					</dict>
 					<key>patterns</key>

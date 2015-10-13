@@ -877,14 +877,14 @@ repository:
     patterns:
     - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       beginCaptures:
-        '1': {name: punctuation.definition.tag.jsx}
+        '1': {name: punctuation.definition.tag.begin.jsx}
         '2': {name: entity.name.tag.jsx}
       end: (</)(\2)(>)|(/>)
       endCaptures:
-        '1': {name: punctuation.definition.tag.jsx}
+        '1': {name: punctuation.definition.tag.begin.jsx}
         '2': {name: entity.name.tag.jsx}
-        '3': {name: punctuation.definition.tag.jsx}
-        '4': {name: punctuation.definition.tag.jsx}
+        '3': {name: punctuation.definition.tag.end.jsx}
+        '4': {name: punctuation.definition.tag.end.jsx}
       patterns:
       - include: '#comments'
       - include: '#jsx-tag-end'
@@ -896,7 +896,7 @@ repository:
   jsx-tag-end:
     begin: '>'
     beginCaptures:
-      '0': {name: punctuation.definition.tag.jsx}
+      '0': {name: punctuation.definition.tag.end.jsx}
     end: (?=</)
     patterns:
     - include: '#jsx-tag-start'
