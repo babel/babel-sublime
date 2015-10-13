@@ -14,6 +14,7 @@ patterns:
 repository:
   expression:
     patterns:
+    - include: '#merge-conflits'
     - include: '#literal-declaration'
     - include: '#literal-jsx'
 
@@ -1036,3 +1037,17 @@ repository:
       - include: '#flowtype-tokens'
 
     - include: '#comments'
+
+  merge-conflits:
+    patterns:
+    - match: ^([<]{7}) (.+)$
+      captures:
+        '1': {name: invalid.illegal.conflict-marker.merge-into.js}
+        '2': {name: invalid.illegal.string.js}
+    - match: ^([=|]{7})$
+      captures:
+        '1': {name: invalid.illegal.conflict-marker.separator.js}
+    - match: ^([>]{7}) (.+)$
+      captures:
+        '1': {name: invalid.illegal.conflict-marker.other-commit.js}
+        '2': {name: invalid.illegal.string.js}
