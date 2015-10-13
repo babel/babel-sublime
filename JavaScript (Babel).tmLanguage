@@ -2160,6 +2160,31 @@
 					</array>
 				</dict>
 				<dict>
+					<key>applyEndPatternLast</key>
+					<integer>1</integer>
+					<key>begin</key>
+					<string>(?&lt;!\.)\.\.\.</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.spread.js</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>(?=\S)</string>
+					<key>name</key>
+					<string>meta.spread.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#expression</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
 					<key>include</key>
 					<string>#short-method</string>
 				</dict>

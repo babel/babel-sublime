@@ -190,6 +190,15 @@ repository:
         patterns:
         - include: $self
 
+    - name: meta.spread.js
+      begin: (?<!\.)\.\.\.
+      beginCaptures:
+        '0': {name: keyword.operator.spread.js}
+      end: (?=\S)
+      applyEndPatternLast: 1
+      patterns:
+      - include: '#expression'
+
     - include: '#short-method'
     - include: $self
 
