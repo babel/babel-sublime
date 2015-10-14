@@ -28,7 +28,8 @@ repository:
     - include: '#literal-jsx'
     - include: '#es7-decorators'
 
-    - include: '#support'
+    - include: '#support-class'
+    - include: '#support-other'
     - include: '#literal-function'
     - include: '#literal-arrow-function'
     - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
@@ -645,7 +646,8 @@ repository:
         '1': {name: keyword.operator.new.js}
       end: (?![_$a-zA-Z][$\w.]*)
       patterns:
-      - include: '#support'
+      - include: '#support-class'
+      - include: '#support-other'
       - match: ([_$a-zA-Z][$\w.]*\.)?([_$a-zA-Z][$\w]*)
         captures:
           '2': {name: variable.function.constructor.js}
@@ -962,9 +964,8 @@ repository:
     - name: variable.other.readwrite.js
       match: '[_$a-zA-Z][$\w]*'
 
-  support:
+  support-class:
     patterns:
-    # built-ins
     - name: support.class.builtin.js
       match: (?<!\.)\b(Array|ArrayBuffer|Boolean|DataView|Date|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|Reflect|RegExp|Set|String|Symbol|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|WeakMap|WeakSet)\b
 
@@ -974,6 +975,8 @@ repository:
     - name: support.class.node.js
       match: \b(?>Buffer)\b
 
+  support-other:
+    patterns:
     - name: support.function.builtin.js
       match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b
 

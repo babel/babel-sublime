@@ -30,7 +30,8 @@ contexts:
     - include: literal-regexp
     - include: literal-jsx
     - include: es7-decorators
-    - include: support
+    - include: support-class
+    - include: support-other
     - include: literal-function
     - include: literal-arrow-function
     - include: literal-prototype
@@ -627,7 +628,8 @@ contexts:
         - meta_scope: meta.instance.constructor
         - match: '(?![_$a-zA-Z][$\w.]*)'
           pop: true
-        - include: support
+        - include: support-class
+        - include: support-other
         - match: '([_$a-zA-Z][$\w.]*\.)?({{ident}})'
           captures:
             2: variable.function.constructor.js
@@ -916,16 +918,17 @@ contexts:
     - match: '{{ident}}'
       scope: variable.other.readwrite.js
 
-  support:
+  support-class:
     - match: (?<!\.)\b(Array|ArrayBuffer|Boolean|DataView|Date|Float32Array|Float64Array|Function|Infinity|Int16Array|Int32Array|Int8Array|JSON|Map|Math|NaN|Number|Object|Promise|Proxy|Reflect|RegExp|Set|String|Symbol|System|TypeError|Uint16Array|Uint32Array|Uint8Array|Uint8ClampedArray|WeakMap|WeakSet)\b
       scope: support.class.builtin.js
 
     - match: (?<!\.)\b((?>Eval|Range|Reference|Syntax|Type|URI)?Error)\b
       scope: support.class.error.js
-    - match: \b(?>Buffer)\b
 
+    - match: \b(?>Buffer)\b
       scope: support.class.node.js
 
+  support-other:
     - match: (?<!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b
       scope: support.function.builtin.js
 

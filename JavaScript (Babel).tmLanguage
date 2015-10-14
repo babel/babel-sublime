@@ -246,7 +246,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#support</string>
+					<string>#support-class</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#support-other</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1256,7 +1260,11 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#support</string>
+							<string>#support-class</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#support-other</string>
 						</dict>
 						<dict>
 							<key>captures</key>
@@ -2799,7 +2807,7 @@
 				</dict>
 			</array>
 		</dict>
-		<key>support</key>
+		<key>support-class</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -2821,6 +2829,12 @@
 					<key>name</key>
 					<string>support.class.node.js</string>
 				</dict>
+			</array>
+		</dict>
+		<key>support-other</key>
+		<dict>
+			<key>patterns</key>
+			<array>
 				<dict>
 					<key>match</key>
 					<string>(?&lt;!\.)\b(constructor|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|hasOwnProperty|isFinite|isNaN|isPrototypeOf|parseFloat|parseInt|propertyIsEnumerable|toLocaleString|toString|unescape|valueOf)\b</string>
