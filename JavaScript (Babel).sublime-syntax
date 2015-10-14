@@ -955,7 +955,7 @@ contexts:
           pop: true
 
   literal-jsx:
-    - match: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|^)(?=\s*<)
+    - match: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|^)(?=\s*<[_$a-zA-Z])
       push:
         - meta_content_scope: meta.jsx.js
         - match: (?<=/>|>)

@@ -1675,7 +1675,7 @@
 		<key>literal-jsx</key>
 		<dict>
 			<key>begin</key>
-			<string>(?&lt;=\(|\{|\[|,|&amp;&amp;|\|\||\?|:|=|=&gt;|\Wreturn|^return|^)(?=\s*&lt;)</string>
+			<string>(?&lt;=\(|\{|\[|,|&amp;&amp;|\|\||\?|:|=|=&gt;|\Wreturn|^return|^)(?=\s*&lt;[_$a-zA-Z])</string>
 			<key>contentName</key>
 			<string>meta.jsx.js</string>
 			<key>end</key>
