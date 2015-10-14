@@ -975,7 +975,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(async)?
-  \s*(?=\([^()]*\)\s*(=&gt;))</string>
+  \s*(?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1101,7 +1101,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(async)?
-  \s*(?=\([^()]*\)\s*(=&gt;))</string>
+  \s*(?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2244,7 +2244,7 @@
   (?:\b(static)\s+)?
   (?:\b(async)\s+)?
   (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
-  (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)</string>
+  (?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?:\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2286,7 +2286,7 @@
   \b(?:(static)\s+)?
   (get|set)\s+
   ([_$a-zA-Z][$\w]*)\s*
-  (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)</string>
+  (?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?:\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

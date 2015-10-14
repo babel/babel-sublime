@@ -191,7 +191,7 @@ contexts:
           (?:\b(static)\s+)?
           (?:\b(async)\s+)?
           (?:(\*)\s*)?({{ident}})\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
+          (?=(\((?:(?>[^()]+)|\g<-1>)*\))(?:\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
         2: storage.type.js
@@ -209,7 +209,7 @@ contexts:
           \b(?:(static)\s+)?
           (get|set)\s+
           ({{ident}})\s*
-          (?=\([^())]*\)(?:\s|/\*.*\*/)*\{)
+          (?=(\((?:(?>[^()]+)|\g<-1>)*\))(?:\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
         2: storage.type.accessor.js
@@ -394,7 +394,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
+          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -439,7 +439,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(async)?
-          \s*(?=\([^()]*\)\s*(=>))
+          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
