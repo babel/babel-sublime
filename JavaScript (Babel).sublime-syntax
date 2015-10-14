@@ -118,6 +118,7 @@ contexts:
     - match: '\('
       scope: punctuation.definition.parameters.begin.js
       push:
+        - include: flowtype-annotation
         - match: '\)'
           scope: punctuation.definition.parameters.end.js
           pop: true
@@ -1045,22 +1046,6 @@ contexts:
     - match: <
       scope: invalid.illegal.tag.incomplete.jsx
 
-  flow-definition:
-    - match: (<|>|\?)
-      scope: punctuation.definition.type.js
-    - match: \w*
-      scope: support.type.js
-
-  flow-annotations:
-    - match: ':'
-      scope: keyword.operator.type.js
-      set:
-        - match: (?=\{|;)
-          pop: true
-        - include: flow-definition
-    - match: (?=\{)
-      pop: true
-
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
   es7-class-properties:
     - match: \b(static)?\s*\b({{ident}})\s*(=)\s*
@@ -1093,3 +1078,78 @@ contexts:
       captures:
         1: invalid.illegal.conflict-marker.other-commit.js
         2: invalid.illegal.string.js
+
+  flowtype-annotation:
+    - match: (?:(\?)\s*)?(:)
+      captures:
+        1: keyword.operator.flowtype.optional.js
+        2: keyword.operator.flowtype.annotation.js
+      push:
+      - meta_scope: meta.flowtype.annotation.js
+      - match: (?={)
+        push:
+        - match: (?<=})
+          pop: true
+        - include: flowtype-brackets
+      - include: flowtype-tokens
+      - match: (?=\S)
+        pop: true
+
+  flowtype-brackets:
+    - match: \{
+      scope: punctuation.section.flowtype.begin.js
+      push:
+      - match: \}
+        scope:  punctuation.section.flowtype.end.js
+        pop: true
+      - include: flowtype-tokens
+
+  flowtype-identifier:
+    - include: support-class
+
+    - match: \b(?:any|bool|boolean|mixed|number|string|void)\b
+      scope: constant.other.primitve.flowtype.js
+
+    - match: '[_$a-zA-Z][$\w]*'
+      scope: variable.other.flowtype.js
+
+  flowtype-tokens:
+    - match: '[*:?&|]|\.\.\.|\b(typeof)\b'
+      scope: keyword.operator.flowtype.other.js
+
+    - match: \<
+      scope: punctuation.section.flowtype.begin.js
+      push:
+      - match: \>
+        scope: punctuation.section.flowtype.end.js
+        pop: true
+      - include: flowtype-tokens
+
+    - match: \[
+      scope: punctuation.section.flowtype.begin.js
+      push:
+      - match: \]
+        scope: punctuation.section.flowtype.end.js
+        pop: true
+      - include: flowtype-tokens
+
+    - match: \(
+      scope: punctuation.section.flowtype.begin.js
+      push:
+      - match: \)
+        scope: punctuation.section.flowtype.end.js
+        pop: true
+      - include: flowtype-tokens
+
+    - match: '=>'
+      scope: keyword.operator.flowtype.js
+      push:
+      - meta_scope: meta.flowtype.function.js
+      - match: (?<=}|[_$a-zA-Z])
+        pop: true
+      - include: flowtype-brackets
+      - include: flowtype-identifier
+      - include: comments
+
+    - include: flowtype-identifier
+    - include: comments

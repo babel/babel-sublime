@@ -124,6 +124,7 @@ repository:
         '0': {name: punctuation.definition.parameters.end.js}
       patterns:
       - include: '#comments'
+      - include: '#flowtype-annotation'
       - name: keyword.operator.spread.js
         match: (?<!\.)\.\.\.
       - name: variable.parameter.function.js
@@ -1127,3 +1128,84 @@ repository:
       captures:
         '1': {name: invalid.illegal.conflict-marker.other-commit.js}
         '2': {name: invalid.illegal.string.js}
+
+  flowtype-annotation:
+    name: meta.flowtype.annotation.js
+    begin: (?:(\?)\s*)?(:)
+    beginCaptures:
+      '1': {name: keyword.operator.flowtype.optional.js}
+      '2': {name: keyword.operator.flowtype.annotation.js}
+    end: (?=\S)
+    applyEndPatternLast: 1
+    patterns:
+    - begin: (?={)
+      end: (?<=})
+      patterns:
+      - include: '#flowtype-brackets'
+    - include: '#flowtype-tokens'
+
+  flowtype-brackets:
+    patterns:
+    - begin: \{
+      beginCaptures:
+        '0': {name: punctuation.section.flowtype.begin.js}
+      end: \}
+      endCaptures:
+        '0': {name: punctuation.section.flowtype.end.js}
+      patterns:
+      - include: '#flowtype-tokens'
+
+  flowtype-identifier:
+    patterns:
+    - include: '#support-class'
+
+    - name: constant.other.primitve.flowtype.js
+      match: \b(?:any|bool|boolean|mixed|number|string|void)\b
+
+    - name: variable.other.flowtype.js
+      match: '[_$a-zA-Z][$\w]*'
+
+  flowtype-tokens:
+    patterns:
+    - name: keyword.operator.flowtype.other.js
+      match: '[*:?&|]|\.\.\.|\b(typeof)\b'
+
+    - begin: \<
+      beginCaptures:
+        '0': {name: punctuation.section.flowtype.begin.js}
+      end: \>
+      endCaptures:
+        '0': {name: punctuation.section.flowtype.end.js}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: \[
+      beginCaptures:
+        '0': {name: punctuation.section.flowtype.begin.js}
+      end: \]
+      endCaptures:
+        '0': {name: punctuation.section.flowtype.end.js}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - begin: \(
+      beginCaptures:
+        '0': {name: punctuation.section.flowtype.begin.js}
+      end: \)
+      endCaptures:
+        '0': {name: punctuation.section.flowtype.end.js}
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - name: meta.flowtype.function.js
+      begin: '=>'
+      beginCaptures:
+        '0': {name: keyword.operator.flowtype.js}
+      end: (?<=}|[_$a-zA-Z])
+      patterns:
+      - include: '#flowtype-brackets'
+      - include: '#flowtype-identifier'
+      - include: '#comments'
+
+    - include: '#flowtype-identifier'
+    - include: '#comments'
