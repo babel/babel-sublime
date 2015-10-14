@@ -230,6 +230,10 @@
 			<array>
 				<dict>
 					<key>include</key>
+					<string>#merge-conflits</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-regexp</string>
 				</dict>
 				<dict>
@@ -2595,6 +2599,58 @@
 					<string>[_$a-zA-Z][$\w]*</string>
 					<key>name</key>
 					<string>variable.other.readwrite.js</string>
+				</dict>
+			</array>
+		</dict>
+		<key>merge-conflits</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.conflict-marker.merge-into.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.string.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^([&lt;]{7}) (.+)$</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.conflict-marker.separator.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^([=|]{7})$</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.conflict-marker.other-commit.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>invalid.illegal.string.js</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^([&gt;]{7}) (.+)$</string>
 				</dict>
 			</array>
 		</dict>

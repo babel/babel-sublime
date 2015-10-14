@@ -26,6 +26,7 @@ contexts:
     - include: literal-punctuation
 
   expression:
+    - include: merge-conflits
     - include: literal-regexp
     - include: literal-jsx
     - include: es7-decorators
@@ -1067,3 +1068,16 @@ contexts:
       captures:
         1: punctuation.definition.tag.js
         2: entity.name.tag.js
+
+  merge-conflits:
+    - match: ^([<]{7}) (.+)$
+      captures:
+        1: invalid.illegal.conflict-marker.merge-into.js
+        2: invalid.illegal.string.js
+    - match: ^([=|]{7})$
+      captures:
+        1: invalid.illegal.conflict-marker.separator.js
+    - match: ^([>]{7}) (.+)$
+      captures:
+        1: invalid.illegal.conflict-marker.other-commit.js
+        2: invalid.illegal.string.js
