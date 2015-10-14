@@ -241,7 +241,7 @@ contexts:
         (?x)
           (?:({{ident}})\s*(=)\s*)?
           (?:(async)\s+)?
-          (function)(?:\s*(\*)|(?=[\s(]))
+          (function)(?:\s*(\*)|(?=[\s(<]))
           \s*({{ident}})?
       captures:
         1: entity.name.function.js
@@ -254,6 +254,7 @@ contexts:
         - meta_scope: meta.function.js
         - match: (?<=\))
           pop: true
+        - include: flowtype-polymorph
         - include: function-declaration-parameters
 
     # e.g. Sound.prototype.play = function(arg1, arg2) {  }
@@ -264,7 +265,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*(function)(?:\s*(\*)|(?=[\s(<]))
           \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
@@ -281,6 +282,7 @@ contexts:
         - meta_scope: meta.function.prototype.js
         - match: (?<=\))
           pop: true
+        - include: flowtype-polymorph
         - include: function-declaration-parameters
 
     # e.g. Sound.play = function(arg1, arg2) {  }
@@ -290,7 +292,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*(function)(?:\s*(\*)|(?=[\s(<]))
           \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
@@ -305,6 +307,7 @@ contexts:
         - meta_scope: meta.function.static.js
         - match: (?<=\))
           pop: true
+        - include: flowtype-polymorph
         - include: function-declaration-parameters
 
   literal-function-labels:
@@ -319,7 +322,7 @@ contexts:
         )
         \s*(:)
         \s*(?:\b(async)\s+)?
-        \s*(function)(?:\s*(\*)|(?=[\s(]))
+        \s*(function)(?:\s*(\*)|(?=[\s(<]))
         \s*({{ident}})?
       captures:
         1: string.quoted.js
@@ -341,6 +344,7 @@ contexts:
         - meta_scope: meta.function.json.js
         - match: (?<=\))
           pop: true
+        - include: flowtype-polymorph
         - include: function-declaration-parameters
 
   literal-arrow-function:
@@ -1078,6 +1082,17 @@ contexts:
       captures:
         1: invalid.illegal.conflict-marker.other-commit.js
         2: invalid.illegal.string.js
+
+  flowtype-polymorph:
+    # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
+    - match: \<
+      scope: punctuation.section.flowtype.begin.js
+      push:
+      - meta_scope: meta.flowtype.polymorph.js
+      - match: \>
+        scope: punctuation.section.flowtype.end.js
+        pop: true
+      - include: flowtype-tokens
 
   flowtype-annotation:
     - match: (?:(\?)\s*)?(:)

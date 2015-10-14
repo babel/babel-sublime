@@ -246,7 +246,7 @@ repository:
         (?x)
           (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
           (?:(async)\s+)?
-          (function)(?:\s*(\*)|(?=[\s(]))
+          (function)(?:\s*(\*)|(?=[\s(<]))
           \s*([_$a-zA-Z][$\w]*)?
       beginCaptures:
         '1': {name: entity.name.function.js}
@@ -257,6 +257,7 @@ repository:
         '6': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
+      - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
 
     # e.g. Sound.prototype.play = function(arg1, arg2) {  }
@@ -268,7 +269,7 @@ repository:
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*(function)(?:\s*(\*)|(?=[\s(<]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
@@ -283,6 +284,7 @@ repository:
         '10': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
+      - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
 
     # e.g. Sound.play = function(arg1, arg2) {  }
@@ -293,7 +295,7 @@ repository:
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=\s|[(]))
+          \s*(function)(?:\s*(\*)|(?=[\s(<]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
@@ -306,6 +308,7 @@ repository:
         '8': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
+      - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
 
   literal-function-labels:
@@ -322,7 +325,7 @@ repository:
             )
             \s*(:)
             \s*(?:\b(async)\s+)?
-            \s*(function)(?:\s*(\*)|(?=[\s(]))
+            \s*(function)(?:\s*(\*)|(?=[\s(<]))
             \s*([_$a-zA-Z][$\w]*)?
       beginCaptures:
         '1': {name: string.quoted.js}
@@ -342,6 +345,7 @@ repository:
         '15': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
+      - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
 
   literal-arrow-function:
@@ -1128,6 +1132,18 @@ repository:
       captures:
         '1': {name: invalid.illegal.conflict-marker.other-commit.js}
         '2': {name: invalid.illegal.string.js}
+
+  flowtype-polymorph:
+    # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
+    name: meta.flowtype.polymorph.js
+    begin: \<
+    beginCaptures:
+      '0': {name: punctuation.section.flowtype.begin.js}
+    end: \>
+    endCaptures:
+      '0': {name: punctuation.section.flowtype.end.js}
+    patterns:
+    - include: '#flowtype-tokens'
 
   flowtype-annotation:
     name: meta.flowtype.annotation.js

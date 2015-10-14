@@ -431,6 +431,38 @@
 				</dict>
 			</array>
 		</dict>
+		<key>flowtype-polymorph</key>
+		<dict>
+			<key>begin</key>
+			<string>\&lt;</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.section.flowtype.begin.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>\&gt;</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.section.flowtype.end.js</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.flowtype.polymorph.js</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#flowtype-tokens</string>
+				</dict>
+			</array>
+		</dict>
 		<key>flowtype-tokens</key>
 		<dict>
 			<key>patterns</key>
@@ -1600,7 +1632,7 @@
 					<string>(?x)
   (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
   (?:(async)\s+)?
-  (function)(?:\s*(\*)|(?=[\s(]))
+  (function)(?:\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1643,6 +1675,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#flowtype-polymorph</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#function-declaration-parameters</string>
 						</dict>
 					</array>
@@ -1655,7 +1691,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(?:(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=\s|[(]))
+  \s*(function)(?:\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1718,6 +1754,10 @@
 					<array>
 						<dict>
 							<key>include</key>
+							<string>#flowtype-polymorph</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#function-declaration-parameters</string>
 						</dict>
 					</array>
@@ -1729,7 +1769,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(?:(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=\s|[(]))
+  \s*(function)(?:\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1780,6 +1820,10 @@
 					<string>meta.function.static.js</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#flowtype-polymorph</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
@@ -1859,7 +1903,7 @@
   )
   \s*(:)
   \s*(?:\b(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=[\s(]))
+  \s*(function)(?:\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1945,6 +1989,10 @@
 					<string>meta.function.json.js</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#flowtype-polymorph</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
