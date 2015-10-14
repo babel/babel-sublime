@@ -222,6 +222,7 @@ contexts:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: variable.language.prototype.js
+        4: keyword.operator.assignment.js
 
     # e.g. Sound.prototype
     - match: '({{ident}})(\.)(prototype)\b'
@@ -259,7 +260,7 @@ contexts:
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*({{ident}})?\s*
@@ -269,10 +270,11 @@ contexts:
         3: variable.language.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
-        6: storage.type.js
-        7: storage.type.function.js
-        8: keyword.generator.asterisk.js
-        9: entity.name.function.js
+        6: keyword.operator.assignment.js
+        7: storage.type.js
+        8: storage.type.function.js
+        9: keyword.generator.asterisk.js
+        10: entity.name.function.js
       push:
         - meta_scope: meta.function.prototype.js
         - match: (?<=\))
@@ -284,7 +286,7 @@ contexts:
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(?:(async)\s+)?
           \s*(function)(?:\s*(\*)|(?=\s|[(]))
           \s*({{ident}})?\s*
@@ -292,10 +294,11 @@ contexts:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: entity.name.function.js
-        4: storage.type.js
-        5: storage.type.function.js
-        6: keyword.generator.asterisk.js
-        7: entity.name.function.js
+        4: keyword.operator.assignment.js
+        5: storage.type.js
+        6: storage.type.function.js
+        7: keyword.generator.asterisk.js
+        8: entity.name.function.js
       push:
         - meta_scope: meta.function.static.js
         - match: (?<=\))
@@ -379,7 +382,7 @@ contexts:
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
       captures:
@@ -388,7 +391,8 @@ contexts:
         3: variable.language.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
-        6: storage.type.js
+        6: keyword.operator.assignment.js
+        7: storage.type.js
       push:
         - meta_scope: meta.prototype.function.arrow.js
         - match: (?<=\))\s*(=>)
@@ -403,7 +407,7 @@ contexts:
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(async)?
           \s*\b({{ident}})\s*(=>)
       scope: meta.prototype.function.arrow.js
@@ -413,23 +417,25 @@ contexts:
         3: variable.language.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
-        6: storage.type.js
-        7: variable.parameter.function.js
-        8: storage.type.function.arrow.js
+        6: keyword.operator.assignment.js
+        7: storage.type.js
+        8: variable.parameter.function.js
+        9: storage.type.function.arrow.js
 
     # e.g. Sound.play = (args) => { }
     - match: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(async)?
           \s*(?=\([^()]*\)\s*(=>))
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: entity.name.function.js
-        4: storage.type.js
+        4: keyword.operator.assignment.js
+        5: storage.type.js
       push:
         - meta_scope: meta.function.static.arrow.js
         - match: (?<=\))\s*(=>)
@@ -443,7 +449,7 @@ contexts:
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)({{ident}})
-          \s*=
+          \s*(=)
           \s*(async)?
           \s*\b({{ident}})\s*(=>)
       scope: meta.function.static.arrow.js
@@ -451,9 +457,10 @@ contexts:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: entity.name.function.js
-        4: storage.type.js
-        5: variable.parameter.function.js
-        6: storage.type.function.arrow.js
+        4: keyword.operator.assignment.js
+        5: storage.type.js
+        6: variable.parameter.function.js
+        7: storage.type.function.arrow.js
 
   literal-arrow-function-labels:
     # e.g. play: (args) => { }

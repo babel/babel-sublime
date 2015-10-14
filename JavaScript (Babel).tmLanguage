@@ -694,7 +694,7 @@
   (\b_?[A-Z][$\w]*)?
   (\.)(prototype)
   (\.)([_$a-zA-Z][$\w]*)
-  \s*=
+  \s*(=)
   \s*(async)?
   \s*(?=\([^()]*\)\s*(=&gt;))</string>
 					<key>beginCaptures</key>
@@ -725,6 +725,11 @@
 							<string>entity.name.function.js</string>
 						</dict>
 						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.assignment.js</string>
+						</dict>
+						<key>7</key>
 						<dict>
 							<key>name</key>
 							<string>storage.type.js</string>
@@ -781,14 +786,19 @@
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.js</string>
+							<string>keyword.operator.assignment.js</string>
 						</dict>
 						<key>7</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.function.js</string>
+							<string>storage.type.js</string>
 						</dict>
 						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.function.js</string>
+						</dict>
+						<key>9</key>
 						<dict>
 							<key>name</key>
 							<string>storage.type.function.arrow.js</string>
@@ -799,7 +809,7 @@
   (\b_?[A-Z][$\w]*)?
   (\.)(prototype)
   (\.)([_$a-zA-Z][$\w]*)
-  \s*=
+  \s*(=)
   \s*(async)?
   \s*\b([_$a-zA-Z][$\w]*)\s*(=&gt;)</string>
 					<key>name</key>
@@ -810,7 +820,7 @@
 					<string>(?x)
   (\b_?[A-Z][$\w]*)?
   (\.)([_$a-zA-Z][$\w]*)
-  \s*=
+  \s*(=)
   \s*(async)?
   \s*(?=\([^()]*\)\s*(=&gt;))</string>
 					<key>beginCaptures</key>
@@ -831,6 +841,11 @@
 							<string>entity.name.function.js</string>
 						</dict>
 						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.assignment.js</string>
+						</dict>
+						<key>5</key>
 						<dict>
 							<key>name</key>
 							<string>storage.type.js</string>
@@ -877,14 +892,19 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.js</string>
+							<string>keyword.operator.assignment.js</string>
 						</dict>
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>variable.parameter.function.js</string>
+							<string>storage.type.js</string>
 						</dict>
 						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.function.js</string>
+						</dict>
+						<key>7</key>
 						<dict>
 							<key>name</key>
 							<string>storage.type.function.arrow.js</string>
@@ -894,7 +914,7 @@
 					<string>(?x)
   (\b_?[A-Z][$\w]*)?
   (\.)([_$a-zA-Z][$\w]*)
-  \s*=
+  \s*(=)
   \s*(async)?
   \s*\b([_$a-zA-Z][$\w]*)\s*(=&gt;)</string>
 					<key>name</key>
@@ -1382,7 +1402,7 @@
   (\b_?[A-Z][$\w]*)?
   (\.)(prototype)
   (\.)([_$a-zA-Z][$\w]*)
-  \s*=
+  \s*(=)
   \s*(?:(async)\s+)?
   \s*(function)(?:\s*(\*)|(?=\s|[(]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
@@ -1392,6 +1412,11 @@
 						<dict>
 							<key>name</key>
 							<string>entity.name.class.js</string>
+						</dict>
+						<key>10</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.function.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -1416,22 +1441,22 @@
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.js</string>
+							<string>keyword.operator.assignment.js</string>
 						</dict>
 						<key>7</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.function.js</string>
+							<string>storage.type.js</string>
 						</dict>
 						<key>8</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
+							<string>storage.type.function.js</string>
 						</dict>
 						<key>9</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.function.js</string>
+							<string>keyword.generator.asterisk.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1451,7 +1476,7 @@
 					<string>(?x)
   (\b_?[A-Z][$\w]*)?
   (\.)([_$a-zA-Z][$\w]*)
-  \s*=
+  \s*(=)
   \s*(?:(async)\s+)?
   \s*(function)(?:\s*(\*)|(?=\s|[(]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
@@ -1475,19 +1500,24 @@
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.js</string>
+							<string>keyword.operator.assignment.js</string>
 						</dict>
 						<key>5</key>
 						<dict>
 							<key>name</key>
-							<string>storage.type.function.js</string>
+							<string>storage.type.js</string>
 						</dict>
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
+							<string>storage.type.function.js</string>
 						</dict>
 						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.generator.asterisk.js</string>
+						</dict>
+						<key>8</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.function.js</string>
@@ -2271,9 +2301,14 @@
 							<key>name</key>
 							<string>variable.language.prototype.js</string>
 						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.operator.assignment.js</string>
+						</dict>
 					</dict>
 					<key>match</key>
-					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*</string>
+					<string>([_$a-zA-Z][$\w]*)(\.)(prototype)\s*(=)\s*</string>
 					<key>name</key>
 					<string>meta.prototype.declaration.js</string>
 				</dict>
