@@ -1441,6 +1441,10 @@
 									<string>#comments</string>
 								</dict>
 								<dict>
+									<key>include</key>
+									<string>#flowtype-polymorph</string>
+								</dict>
+								<dict>
 									<key>begin</key>
 									<string>(?&lt;!\.)\b(extends)\b</string>
 									<key>beginCaptures</key>
@@ -1457,6 +1461,10 @@
 									<string>meta.class.extends.js</string>
 									<key>patterns</key>
 									<array>
+										<dict>
+											<key>include</key>
+											<string>#flowtype-polymorph</string>
+										</dict>
 										<dict>
 											<key>include</key>
 											<string>#expression</string>

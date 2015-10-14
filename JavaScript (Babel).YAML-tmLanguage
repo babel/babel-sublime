@@ -162,12 +162,14 @@ repository:
         end: (?={)
         patterns:
         - include: '#comments'
+        - include: '#flowtype-polymorph'
         - name: meta.class.extends.js
           begin: (?<!\.)\b(extends)\b
           beginCaptures:
             '0': {name: storage.type.extends.js}
           end: (?={)
           patterns:
+          - include: '#flowtype-polymorph'
           - include: '#expression'
       - begin: \{
         beginCaptures:

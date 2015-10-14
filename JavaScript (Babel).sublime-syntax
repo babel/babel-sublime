@@ -156,7 +156,10 @@ contexts:
   class_name:
     - match: '\b{{ident}}\b'
       scope: entity.name.class.js
-      pop: true
+      set:
+        - include: flowtype-polymorph
+        - match: (?=\s*(?:extends|>|{))
+          pop: true
 
   class_extends:
     - match: \b(extends)\b
@@ -164,6 +167,7 @@ contexts:
       set:
         - match: "(?={)"
           pop: true
+        - include: flowtype-polymorph
         - include: expression
     - match: "(?={)"
       pop: true
