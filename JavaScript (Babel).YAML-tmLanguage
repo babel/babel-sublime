@@ -146,22 +146,27 @@ repository:
     patterns:
     # e.g. class MyClass {  }
     - name: meta.class.js
-      begin: (?<!\.)\b(class)\s+([_$a-zA-Z][$\w]*)
+      begin: (?<!\.)\b(class)\s+(?=\S)
       beginCaptures:
         '1': {name: storage.type.class.js}
-        '2': {name: entity.name.class.js}
       end: \}
       endCaptures:
         '0': {name: meta.brace.curly.js}
       patterns:
-      - name: meta.class.extends.js
-        begin: (?<!\.)\b(extends)\b
+      - include: '#comments'
+      - begin: ([_$a-zA-Z][$\w]*)
         beginCaptures:
-          '0': {name: storage.type.extends.js}
+          '0': {name: entity.name.class.js}
         end: (?={)
         patterns:
-        - include: '#expression'
-
+        - include: '#comments'
+        - name: meta.class.extends.js
+          begin: (?<!\.)\b(extends)\b
+          beginCaptures:
+            '0': {name: storage.type.extends.js}
+          end: (?={)
+          patterns:
+          - include: '#expression'
       - begin: \{
         beginCaptures:
           '0': {name: meta.brace.curly.js}

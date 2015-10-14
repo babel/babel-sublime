@@ -1095,18 +1095,13 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?&lt;!\.)\b(class)\s+([_$a-zA-Z][$\w]*)</string>
+					<string>(?&lt;!\.)\b(class)\s+(?=\S)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>storage.type.class.js</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.class.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1124,25 +1119,50 @@
 					<key>patterns</key>
 					<array>
 						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
 							<key>begin</key>
-							<string>(?&lt;!\.)\b(extends)\b</string>
+							<string>([_$a-zA-Z][$\w]*)</string>
 							<key>beginCaptures</key>
 							<dict>
 								<key>0</key>
 								<dict>
 									<key>name</key>
-									<string>storage.type.extends.js</string>
+									<string>entity.name.class.js</string>
 								</dict>
 							</dict>
 							<key>end</key>
 							<string>(?={)</string>
-							<key>name</key>
-							<string>meta.class.extends.js</string>
 							<key>patterns</key>
 							<array>
 								<dict>
 									<key>include</key>
-									<string>#expression</string>
+									<string>#comments</string>
+								</dict>
+								<dict>
+									<key>begin</key>
+									<string>(?&lt;!\.)\b(extends)\b</string>
+									<key>beginCaptures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>storage.type.extends.js</string>
+										</dict>
+									</dict>
+									<key>end</key>
+									<string>(?={)</string>
+									<key>name</key>
+									<string>meta.class.extends.js</string>
+									<key>patterns</key>
+									<array>
+										<dict>
+											<key>include</key>
+											<string>#expression</string>
+										</dict>
+									</array>
 								</dict>
 							</array>
 						</dict>
