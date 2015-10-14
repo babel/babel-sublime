@@ -122,6 +122,7 @@ repository:
       endCaptures:
         '0': {name: punctuation.definition.parameters.end.js}
       patterns:
+      - include: '#comments'
       - name: keyword.operator.spread.js
         match: (?<!\.)\.\.\.
       - name: variable.parameter.function.js
@@ -135,7 +136,6 @@ repository:
         end: '(?=[,)])'
         patterns:
         - include: '#expression'
-      - include: '#comments'
 
   literal-module:
     patterns:
@@ -682,6 +682,7 @@ repository:
       endCaptures:
         '0': {name: meta.brace.round.js}
       patterns:
+      - include: '#comments'
       - begin: \(
         beginCaptures:
           '0': {name: meta.brace.round.js}
@@ -701,6 +702,7 @@ repository:
       endCaptures:
         '0': {name: meta.brace.curly.js}
       patterns:
+      - include: '#comments'
       - include: '#round-brackets'
       - begin: \{
         beginCaptures:

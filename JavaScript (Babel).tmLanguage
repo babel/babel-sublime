@@ -354,6 +354,10 @@
 					<key>patterns</key>
 					<array>
 						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
+						<dict>
 							<key>match</key>
 							<string>(?&lt;!\.)\.\.\.</string>
 							<key>name</key>
@@ -393,10 +397,6 @@
 									<string>#expression</string>
 								</dict>
 							</array>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#comments</string>
 						</dict>
 					</array>
 				</dict>
@@ -1283,6 +1283,10 @@
 					<string>meta.for.js</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
 						<dict>
 							<key>begin</key>
 							<string>\(</string>
@@ -2431,6 +2435,10 @@
 					<string>meta.switch.js</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>include</key>
+							<string>#comments</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>#round-brackets</string>
