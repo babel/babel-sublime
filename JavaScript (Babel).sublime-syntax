@@ -757,7 +757,7 @@ contexts:
           \+   | # addition        left-to-right   both
           -      # subtraction     left-to-right   both
       scope: keyword.operator.arithmetic.js
-    - match: '\?|:'
+    - match: '[?:]'
       scope: keyword.operator.ternary.js
     - match: (?<!\.)\.\.\.
       scope: keyword.operator.spread.js
