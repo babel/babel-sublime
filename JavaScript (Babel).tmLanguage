@@ -1751,6 +1751,12 @@
 				</dict>
 				<dict>
 					<key>match</key>
+					<string>(?&lt;!\.)\b(?&gt;enum|module|public|package|private|interface|protected)\b</string>
+					<key>name</key>
+					<string>keyword.other.reserved.js</string>
+				</dict>
+				<dict>
+					<key>match</key>
 					<string>(?&lt;!\.)\b(?&gt;debugger)\b</string>
 					<key>name</key>
 					<string>keyword.other.js</string>

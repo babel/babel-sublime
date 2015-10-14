@@ -643,6 +643,8 @@ contexts:
       scope: keyword.control.trycatch.js
     - match: (?<!\.)\b(?>break|continue|do|goto|while)\b
       scope: keyword.control.loop.js
+    - match: (?<!\.)\b(?>enum|public|package|private|interface|protected)\b
+      scope: keyword.other.reserved.js
     - match: (?<!\.)\b(?>debugger)\b
       scope: keyword.other.js
 

@@ -669,6 +669,9 @@ repository:
     - name: keyword.control.loop.js
       match: (?<!\.)\b(?>break|continue|do|goto|while)\b
 
+    - name: keyword.other.reserved.js
+      match: (?<!\.)\b(?>enum|module|public|package|private|interface|protected)\b
+
     - name: keyword.other.js
       match: (?<!\.)\b(?>debugger)\b
 
