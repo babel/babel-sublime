@@ -82,10 +82,10 @@ repository:
   curly-brackets:
     patterns:
     - name: meta.group.braces.curly.js
-      begin: \{
+      begin: '{'
       beginCaptures:
         '0': {name: meta.brace.curly.begin.js}
-      end: \}
+      end: '}'
       endCaptures:
         '0': {name: meta.brace.curly.end.js}
       patterns:
@@ -143,7 +143,7 @@ repository:
         begin: '='
         beginCaptures:
           '0': {name: keyword.operator.assignment.js}
-        end: '(?=[,)])'
+        end: (?=[,)])
         patterns:
         - include: '#expression'
 
@@ -543,27 +543,18 @@ repository:
   literal-function-call:
     patterns:
     - name: meta.function-call.without-arguments.js
-      match: >-
-        (?x)
-          ([_$a-zA-Z][$\w]*)\s*
-          (\(\s*\))
+      match: ([_$a-zA-Z][$\w]*)\s*(\(\s*\))
       captures:
         '1': {name: variable.function.js}
         '2': {name: meta.group.braces.round.function.arguments.js}
 
     - name: meta.function-call.with-arguments.js
-      match: >-
-        (?x)
-          ([_$a-zA-Z][$\w]*)\s*
-          (?=\()
+      match: ([_$a-zA-Z][$\w]*)\s*(?=\()
       captures:
         '1': {name: variable.function.js}
 
     - name: meta.function-call.tagged-template.js
-      match: >-
-        (?x)
-        ([_$a-zA-Z][$\w]*)\s*
-        (?=`)
+      match: ([_$a-zA-Z][$\w]*)\s*(?=`)
       captures:
         '1': {name: variable.function.js}
 
@@ -655,7 +646,7 @@ repository:
 
   literal-constructor:
     patterns:
-    - name: meta.instance.constructor
+    - name: meta.instance.constructor.js
       begin: (new)\s+(?=[_$a-zA-Z][$\w.]*)
       beginCaptures:
         '1': {name: keyword.operator.new.js}
@@ -871,7 +862,7 @@ repository:
   literal-punctuation:
     patterns:
     - name: punctuation.terminator.statement.js
-      match: \;
+      match: ;
 
     - name: meta.delimiter.comma.js
       match: ','
@@ -926,7 +917,7 @@ repository:
     - begin: \${
       beginCaptures:
         '0': {name: keyword.other.substitution.begin.js}
-      end: \}
+      end: '}'
       endCaptures:
         '0': {name: keyword.other.substitution.end.js}
       patterns:
@@ -953,10 +944,7 @@ repository:
 
     # e.g. Class.property
     - name: meta.property.class.js
-      match: >-
-        (?x)
-          \b([A-Z][$\w]*)\s*(\.)
-          ([_$a-zA-Z][$\w]*)
+      match: \b([A-Z][$\w]*)\s*(\.)([_$a-zA-Z][$\w]*)
       captures:
         '1': {name: variable.other.class.js}
         '2': {name: keyword.operator.accessor.js}
@@ -1094,7 +1082,7 @@ repository:
     begin: (["'])
     beginCaptures:
       '0': {name: punctuation.definition.string.begin.jsx}
-    end: (\1)
+    end: \1
     endCaptures:
       '0': {name: punctuation.definition.string.end.jsx}
     patterns:
@@ -1133,14 +1121,14 @@ repository:
 
   merge-conflits:
     patterns:
-    - match: ^([<]{7}) (.+)$
+    - match: ^([<]{7})\s(.+)$
       captures:
         '1': {name: invalid.illegal.conflict-marker.merge-into.js}
         '2': {name: invalid.illegal.string.js}
     - match: ^([=|]{7})$
       captures:
         '1': {name: invalid.illegal.conflict-marker.separator.js}
-    - match: ^([>]{7}) (.+)$
+    - match: ^([>]{7})\s(.+)$
       captures:
         '1': {name: invalid.illegal.conflict-marker.other-commit.js}
         '2': {name: invalid.illegal.string.js}
@@ -1148,10 +1136,10 @@ repository:
   flowtype-polymorph:
     # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
     name: meta.flowtype.polymorph.js
-    begin: \<
+    begin: '<'
     beginCaptures:
       '0': {name: punctuation.section.flowtype.begin.js}
-    end: \>
+    end: '>'
     endCaptures:
       '0': {name: punctuation.section.flowtype.end.js}
     patterns:
@@ -1174,10 +1162,10 @@ repository:
 
   flowtype-brackets:
     patterns:
-    - begin: \{
+    - begin: '{'
       beginCaptures:
         '0': {name: punctuation.section.flowtype.begin.js}
-      end: \}
+      end: '}'
       endCaptures:
         '0': {name: punctuation.section.flowtype.end.js}
       patterns:
@@ -1198,10 +1186,10 @@ repository:
     - name: keyword.operator.flowtype.other.js
       match: '[*:?&|]|\.\.\.|\b(typeof)\b'
 
-    - begin: \<
+    - begin: '<'
       beginCaptures:
         '0': {name: punctuation.section.flowtype.begin.js}
-      end: \>
+      end: '>'
       endCaptures:
         '0': {name: punctuation.section.flowtype.end.js}
       patterns:

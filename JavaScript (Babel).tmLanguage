@@ -152,7 +152,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\{</string>
+					<string>{</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -162,7 +162,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>\}</string>
+					<string>}</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -396,7 +396,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>\{</string>
+					<string>{</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -406,7 +406,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>\}</string>
+					<string>}</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -450,7 +450,7 @@
 		<key>flowtype-polymorph</key>
 		<dict>
 			<key>begin</key>
-			<string>\&lt;</string>
+			<string>&lt;</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -460,7 +460,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>\&gt;</string>
+			<string>&gt;</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>0</key>
@@ -491,7 +491,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>\&lt;</string>
+					<string>&lt;</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -501,7 +501,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>\&gt;</string>
+					<string>&gt;</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -800,7 +800,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>(\1)</string>
+			<string>\1</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>0</key>
@@ -1570,7 +1570,7 @@
 					<key>end</key>
 					<string>(?![_$a-zA-Z][$\w.]*)</string>
 					<key>name</key>
-					<string>meta.instance.constructor</string>
+					<string>meta.instance.constructor.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -1891,9 +1891,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?x)
-  ([_$a-zA-Z][$\w]*)\s*
-  (\(\s*\))</string>
+					<string>([_$a-zA-Z][$\w]*)\s*(\(\s*\))</string>
 					<key>name</key>
 					<string>meta.function-call.without-arguments.js</string>
 				</dict>
@@ -1907,9 +1905,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?x)
-  ([_$a-zA-Z][$\w]*)\s*
-  (?=\()</string>
+					<string>([_$a-zA-Z][$\w]*)\s*(?=\()</string>
 					<key>name</key>
 					<string>meta.function-call.with-arguments.js</string>
 				</dict>
@@ -1923,7 +1919,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?x) ([_$a-zA-Z][$\w]*)\s* (?=`)</string>
+					<string>([_$a-zA-Z][$\w]*)\s*(?=`)</string>
 					<key>name</key>
 					<string>meta.function-call.tagged-template.js</string>
 				</dict>
@@ -2683,7 +2679,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\;</string>
+					<string>;</string>
 					<key>name</key>
 					<string>punctuation.terminator.statement.js</string>
 				</dict>
@@ -2915,7 +2911,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>\}</string>
+					<string>}</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>0</key>
@@ -2970,9 +2966,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?x)
-  \b([A-Z][$\w]*)\s*(\.)
-  ([_$a-zA-Z][$\w]*)</string>
+					<string>\b([A-Z][$\w]*)\s*(\.)([_$a-zA-Z][$\w]*)</string>
 					<key>name</key>
 					<string>meta.property.class.js</string>
 				</dict>
@@ -3031,7 +3025,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^([&lt;]{7}) (.+)$</string>
+					<string>^([&lt;]{7})\s(.+)$</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -3060,7 +3054,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>^([&gt;]{7}) (.+)$</string>
+					<string>^([&gt;]{7})\s(.+)$</string>
 				</dict>
 			</array>
 		</dict>

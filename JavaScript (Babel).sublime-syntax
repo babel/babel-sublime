@@ -52,31 +52,31 @@ contexts:
     - include: literal-variable
 
   round-brackets:
-    - match: '\('
+    - match: \(
       scope: meta.brace.round.begin.js
       push:
         - meta_scope: meta.group.braces.round.js
-        - match: '\)'
+        - match: \)
           scope: meta.brace.round.end.js
           pop: true
         - include: expression
 
   square-brackets:
-    - match: '\['
+    - match: \[
       scope: meta.brace.square.begin.js
       push:
         - meta_scope: meta.group.braces.square.js
-        - match: '\]'
+        - match: \]
           scope: meta.brace.square.end.js
           pop: true
         - include: expression
 
   curly-brackets:
-    - match: '\{'
+    - match: '{'
       scope: meta.brace.curly.begin.js
       push:
         - meta_scope: meta.group.braces.curly.js
-        - match: '\}'
+        - match: '}'
           scope: meta.brace.curly.end.js
           pop: true
         - include: main
@@ -115,24 +115,24 @@ contexts:
           pop: true
 
   function-declaration-parameters:
-    - match: '\('
+    - match: \(
       scope: punctuation.definition.parameters.begin.js
       push:
         - include: flowtype-annotation
-        - match: '\)'
+        - match: \)
           scope: punctuation.definition.parameters.end.js
           pop: true
         - match: (?<!\.)\.\.\.
           scope: keyword.operator.spread.js
         - match: '{{ident}}'
           scope: variable.parameter.function.js
-        - match: ","
+        - match: ','
           scope: punctuation.separator.parameter.function.js
-        - match: "="
+        - match: =
           scope: keyword.operator.assignment.js
           push:
             - meta_scope: meta.parameter.optional.js
-            - match: "(?=[,)])"
+            - match: (?=[,)])
               pop: true
             - include: expression
 
@@ -150,11 +150,11 @@ contexts:
     - match: \b(class)\b
       scope: storage.type.class.js
       push: [class_body, class_extends, class_name]
-    - match: "(?<=})"
+    - match: (?<=})
       pop: true
 
   class_name:
-    - match: '\b{{ident}}\b'
+    - match: \b({{ident}})\b
       scope: entity.name.class.js
       set:
         - include: flowtype-polymorph
@@ -165,18 +165,18 @@ contexts:
     - match: \b(extends)\b
       scope: storage.type.extends.js
       set:
-        - match: "(?={)"
+        - match: (?={)
           pop: true
         - include: flowtype-polymorph
         - include: expression
-    - match: "(?={)"
+    - match: (?={)
       pop: true
 
   class_body:
-    - match: "{"
+    - match: '{'
       scope: punctuation.definition.class.body.begin.js
       set:
-        - match: "}"
+        - match: '}'
           scope: punctuation.definition.class.body.end.js
           pop: true
         - include: brackets
@@ -222,7 +222,7 @@ contexts:
 
   literal-prototype:
     # e.g. Sound.prototype = {  } when extending an object
-    - match: '({{ident}})(\.)(prototype)\s*(=)\s*'
+    - match: ({{ident}})(\.)(prototype)\s*(=)\s*
       scope: meta.prototype.declaration.js
       captures:
         1: entity.name.class.js
@@ -231,7 +231,7 @@ contexts:
         4: keyword.operator.assignment.js
 
     # e.g. Sound.prototype
-    - match: '({{ident}})(\.)(prototype)\b'
+    - match: ({{ident}})(\.)(prototype)\b
       scope: meta.prototype.access.js
       captures:
         1: entity.name.class.js
@@ -536,25 +536,18 @@ contexts:
         14: storage.type.function.arrow.js
 
   literal-function-call:
-    - match: >-
-        (?x)
-          ({{ident}})\s*
-          (\(\s*\))
+    - match: ({{ident}})\s*(\(\s*\))
       scope: meta.function-call.without-arguments.js
       captures:
         1: variable.function.js
         2: meta.group.braces.round.function.arguments.js
-    - match: >-
-        (?x)
-        ({{ident}})\s*
-        (?=\()
+
+    - match: ({{ident}})\s*(?=\()
       scope: meta.function-call.with-arguments.js
       captures:
         1: variable.function.js
-    - match: >-
-        (?x)
-        ({{ident}})\s*
-        (?=`)
+
+    - match: ({{ident}})\s*(?=`)
       scope: meta.function-call.tagged-template.js
       captures:
         1: variable.function.js
@@ -572,6 +565,7 @@ contexts:
         2: keyword.operator.accessor.js
         3: variable.function.js
         4: meta.group.braces.round.function.arguments.js
+
     - match: >-
         (?x)
           (?:(?<=\.)|\b)
@@ -583,6 +577,7 @@ contexts:
         1: variable.other.class.js
         2: keyword.operator.accessor.js
         3: variable.function.js
+
     - match: >-
         (?x)
           (?<=\.)
@@ -592,6 +587,7 @@ contexts:
       captures:
         1: variable.function.js
         2: meta.group.braces.round.function.arguments.js
+
     - match: >-
         (?x)
           (?<=\.)
@@ -604,42 +600,52 @@ contexts:
   literal-language-variable:
     - match: (?<!(?<!\.\.)\.)\b(?>arguments)\b
       scope: variable.language.arguments.js
+
     - match: (?<!(?<!\.\.)\.)\b(?>super)\b
       scope: variable.language.super.js
+
     - match: (?<!(?<!\.\.)\.)\b(?>this)\b
       scope: variable.language.this.js
+
     - match: (?<!(?<!\.\.)\.)\b(?>self)\b
       scope: variable.language.self.js
+
     - match: (?<=\.)\b(?>__proto__)\b
       scope: variable.language.proto.js
+
     - match: (?<=\.)\b(?>constructor)\b
       scope: variable.language.constructor.js
+
     - match: (?<=\.)\b(?>prototype)\b
       scope: variable.language.prototype.js
 
   literal-language-constant:
     - match: (?<!\.)\b(?>true)\b
       scope: constant.language.boolean.true.js
+
     - match: (?<!\.)\b(?>false)\b
       scope: constant.language.boolean.false.js
+
     - match: (?<!\.)\b(?>null)\b
       scope: constant.language.null.js
+
     - match: (?<!\.)\b(?>undefined)\b
       scope: constant.language.undefined.js
+
     - match: (?<!\.)\b(?>NaN)\b
       scope: constant.language.nan.js
 
   literal-constructor:
-    - match: '(new)\s+(?=[_$a-zA-Z][$\w.]*)'
+    - match: (new)\s+(?=[_$a-zA-Z][$\w.]*)
       captures:
         1: keyword.operator.new.js
       push:
-        - meta_scope: meta.instance.constructor
-        - match: '(?![_$a-zA-Z][$\w.]*)'
+        - meta_scope: meta.instance.constructor.js
+        - match: (?![_$a-zA-Z][$\w.]*)
           pop: true
         - include: support-class
         - include: support-other
-        - match: '([_$a-zA-Z][$\w.]*\.)?({{ident}})'
+        - match: ([_$a-zA-Z][$\w.]*\.)?({{ident}})
           captures:
             2: variable.function.constructor.js
 
@@ -649,20 +655,27 @@ contexts:
 
   literal-keywords:
     - include: literal-keyword-storage
+
     - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
       captures:
         1: keyword.control.flow.js
         2: keyword.generator.asterisk.js
+
     - match: (?<!\.)\b(?>return)\b
       scope: keyword.control.flow.js
+
     - match: (?<!\.)\b(?>if|else)\b
       scope: keyword.control.conditional.js
+
     - match: (?<!\.)\b(?>catch|finally|throw|try)\b
       scope: keyword.control.trycatch.js
+
     - match: (?<!\.)\b(?>break|continue|do|goto|while)\b
       scope: keyword.control.loop.js
+
     - match: (?<!\.)\b(?>enum|public|package|private|interface|protected)\b
       scope: keyword.other.reserved.js
+
     - match: (?<!\.)\b(?>debugger)\b
       scope: keyword.other.js
 
@@ -689,14 +702,14 @@ contexts:
         1: keyword.control.switch.js
       push:
         - meta_scope: meta.switch.js
-        - match: '\}'
+        - match: \}
           scope: meta.brace.curly.end.js
           pop: true
         - include: round-brackets
-        - match: '\{'
+        - match: \{
           scope: meta.brace.curly.begin.js
           push:
-            - match: "(?=})"
+            - match: (?=})
               pop: true
             - match: (?<!\.)\b(case|default)\b
               captures:
@@ -710,16 +723,19 @@ contexts:
   literal-operators:
     - match: (?<!\.)\b(?>delete|instanceof|in|new|of|typeof|void|with)\b
       scope: keyword.operator.js
+
     - match: >-
         (?x)
           !(?!=)| # logical-not     right-to-left   right
           &&    | # logical-and     left-to-right   both
           \|\|  | # logical-or      left-to-right   both
       scope: keyword.operator.logical.js
+
     - match: >-
         (?x)
           =(?!=)| # assignment      right-to-left   both
       scope: keyword.operator.assignment.js
+
     - match: >-
         (?x)
           %=   | # assignment      right-to-left   both
@@ -734,6 +750,7 @@ contexts:
           >>=  | # assignment      right-to-left   both
           >>>= | # assignment      right-to-left   both
       scope: keyword.operator.assignment.augmented.js
+
     - match: >-
         (?x)
           ~    | # bitwise-not     right-to-left   right
@@ -744,6 +761,7 @@ contexts:
           \^   | # bitwise-xor     left-to-right   both
           \|     # bitwise-or      left-to-right   both
       scope: keyword.operator.bitwise.js
+
     - match: >-
         (?x)
           <=   | # relational      left-to-right   both
@@ -751,6 +769,7 @@ contexts:
           <    | # relational      left-to-right   both
           >      # relational      left-to-right   both
       scope: keyword.operator.relational.js
+
     - match: >-
         (?x)
           ===  | # equality        left-to-right   both
@@ -758,6 +777,7 @@ contexts:
           ==   | # equality        left-to-right   both
           !=     # equality        left-to-right   both
       scope: keyword.operator.comparison.js
+
     - match: >-
         (?x)
           --   | # decrement       n/a             right-or-left
@@ -768,10 +788,13 @@ contexts:
           \+   | # addition        left-to-right   both
           -      # subtraction     left-to-right   both
       scope: keyword.operator.arithmetic.js
+
     - match: '[?:]'
       scope: keyword.operator.ternary.js
+
     - match: (?<!\.)\.\.\.
       scope: keyword.operator.spread.js
+
     - match: \.
       scope: keyword.operator.accessor.js
 
@@ -783,21 +806,22 @@ contexts:
             ((")((?:[^"]|\\")*)("))
           )\s*:)
       push:
-        - match: ":"
+        - match: ':'
           scope: punctuation.separator.key-value.js
           pop: true
         - include: literal-string
-    - match: '(?<!\.|\?|\?\s)({{ident}})\s*(:)'
+
+    - match: (?<!\.|\?|\?\s)({{ident}})\s*(:)
       scope: constant.other.object.key.js
       captures:
         1: string.unquoted.label.js
         2: punctuation.separator.key-value.js
 
   literal-number:
-    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
+    - match: (?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)
       scope: invalid.illegal.numeric.hex.js
 
-    - match: '(?:\B[-+]|\b)0[0-9]+\.(\B|\b[0-9]+)'
+    - match: (?:\B[-+]|\b)0[0-9]+\.(\B|\b[0-9]+)
       scope: invalid.illegal.numeric.octal.js
 
     - match: >-
@@ -813,14 +837,15 @@ contexts:
             )(e[-+]?[0-9]+)?            # e.g. e+123, E-123
           )
       scope: constant.numeric.js
-    - match: '(?:\B[-+]|\b)(Infinity)\b'
+
+    - match: (?:\B[-+]|\b)(Infinity)\b
       scope: constant.language.infinity.js
 
   literal-punctuation:
-    - match: \;
+    - match: ;
       scope: punctuation.terminator.statement.js
 
-    - match: ","
+    - match: ','
       scope: meta.delimiter.comma.js
 
   literal-regexp:
@@ -839,7 +864,7 @@ contexts:
         1: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.regexp.js
-        - match: "(/)([gimy]*)"
+        - match: (/)([gimy]*)
           captures:
             1: punctuation.definition.string.end.js
             2: keyword.other.js
@@ -852,10 +877,10 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.js
-        - match: '\n'
+        - match: \n
           scope: invalid.illegal.newline.js
           pop: true
-        - match: '\1'
+        - match: \1
           scope: punctuation.definition.string.quoted.end.js
           pop: true
         - include: string-content
@@ -868,7 +893,7 @@ contexts:
   template-string-body:
     - meta_include_prototype: false
     - meta_scope: string.interpolated.js
-    - match: '\\`'
+    - match: \\`
       scope: constant.character.escape.js
     - match: '`'
       scope: keyword.other.template.end.js
@@ -876,7 +901,7 @@ contexts:
     - match: \${
       scope: keyword.other.substitution.begin.js
       set:
-        - match: \}
+        - match: '}'
           scope: keyword.other.substitution.end.js
           set: template-string-body
         - include: expression
@@ -896,10 +921,7 @@ contexts:
       scope: variable.other.constant.js
 
     # e.g. Class.property
-    - match: >-
-        (?x)
-          \b([A-Z][$\w]*)\s*(\.)
-          ({{ident}})
+    - match: \b([A-Z][$\w]*)\s*(\.)({{ident}})
       scope: meta.property.class.js
       captures:
         1: variable.other.class.js
@@ -907,13 +929,13 @@ contexts:
         3: variable.other.property.static.js
 
     # e.g. obj.property
-    - match: '(?<!\.)({{ident}})\s*(?=[\[\.])'
+    - match: (?<!\.)({{ident}})\s*(?=[\[\.])
       scope: variable.other.object.js
       captures:
         1: variable.other.object.js
 
     # e.g. obj.property
-    - match: '(?<=\.)\s*({{ident}})'
+    - match: (?<=\.)\s*({{ident}})
       scope: meta.property.object.js
       captures:
         1: variable.other.object.js
@@ -963,10 +985,10 @@ contexts:
         2: keyword.operator.accessor.js
         3: support.type.object.module.js
 
-    - match: "{{"
+    - match: '{{'
       push:
         - meta_scope: meta.tag.mustache.js
-        - match: "}}"
+        - match: '}}'
           pop: true
 
   literal-jsx:
@@ -978,7 +1000,7 @@ contexts:
         - include: jsx-tag-start
 
   jsx-attribute-assignment:
-    - match: "="
+    - match: =
       scope: keyword.operator.assignment.jsx
 
   jsx-attribute-name:
@@ -999,11 +1021,11 @@ contexts:
       scope: invalid.illegal.bad-ampersand.jsx
 
   jsx-evaluated-code:
-    - match: '{'
+    - match: \{
       scope: punctuation.section.embedded.begin.jsx
       push:
         - meta_scope: meta.embedded.expression.end.jsx
-        - match: '}'
+        - match: \}
           scope: punctuation.section.embedded.jsx
           pop: true
         - include: expression
@@ -1014,7 +1036,7 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.jsx
-        - match: (\1)
+        - match: \1
           scope: punctuation.definition.string.end.jsx
           pop: true
         - include: jsx-entities
@@ -1030,7 +1052,7 @@ contexts:
         - include: jsx-entities
 
   jsx-tag-start:
-    - match: '(<)([_$a-zA-Z][-$:.\w]*[$\w]*)'
+    - match: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       captures:
         1: punctuation.definition.tag.begin.jsx
         2: entity.name.tag.jsx
@@ -1045,7 +1067,7 @@ contexts:
         - include: jsx-tag-end
         - include: jsx-attributes
 
-    - match: <
+    - match: '<'
       scope: invalid.illegal.tag.incomplete.jsx
 
   # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
@@ -1069,25 +1091,25 @@ contexts:
         2: entity.name.tag.js
 
   merge-conflits:
-    - match: ^([<]{7}) (.+)$
+    - match: ^([<]{7})\s(.+)$
       captures:
         1: invalid.illegal.conflict-marker.merge-into.js
         2: invalid.illegal.string.js
     - match: ^([=|]{7})$
       captures:
         1: invalid.illegal.conflict-marker.separator.js
-    - match: ^([>]{7}) (.+)$
+    - match: ^([>]{7})\s(.+)$
       captures:
         1: invalid.illegal.conflict-marker.other-commit.js
         2: invalid.illegal.string.js
 
   flowtype-polymorph:
     # http://flowtype.org/blog/2015/03/12/Bounded-Polymorphism.html
-    - match: \<
+    - match: '<'
       scope: punctuation.section.flowtype.begin.js
       push:
       - meta_scope: meta.flowtype.polymorph.js
-      - match: \>
+      - match: '>'
         scope: punctuation.section.flowtype.end.js
         pop: true
       - include: flowtype-tokens
@@ -1109,10 +1131,10 @@ contexts:
         pop: true
 
   flowtype-brackets:
-    - match: \{
+    - match: '{'
       scope: punctuation.section.flowtype.begin.js
       push:
-      - match: \}
+      - match: '}'
         scope:  punctuation.section.flowtype.end.js
         pop: true
       - include: flowtype-tokens
@@ -1130,10 +1152,10 @@ contexts:
     - match: '[*:?&|]|\.\.\.|\b(typeof)\b'
       scope: keyword.operator.flowtype.other.js
 
-    - match: \<
+    - match: '<'
       scope: punctuation.section.flowtype.begin.js
       push:
-      - match: \>
+      - match: '>'
         scope: punctuation.section.flowtype.end.js
         pop: true
       - include: flowtype-tokens
