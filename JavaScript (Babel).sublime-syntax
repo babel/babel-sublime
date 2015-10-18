@@ -53,31 +53,31 @@ contexts:
 
   round-brackets:
     - match: '\('
-      scope: meta.brace.round.js
+      scope: meta.brace.round.begin.js
       push:
         - meta_scope: meta.group.braces.round.js
         - match: '\)'
-          scope: meta.brace.round.js
+          scope: meta.brace.round.end.js
           pop: true
         - include: expression
 
   square-brackets:
     - match: '\['
-      scope: meta.brace.square.js
+      scope: meta.brace.square.begin.js
       push:
         - meta_scope: meta.group.braces.square.js
         - match: '\]'
-          scope: meta.brace.square.js
+          scope: meta.brace.square.end.js
           pop: true
         - include: expression
 
   curly-brackets:
     - match: '\{'
-      scope: meta.brace.curly.js
+      scope: meta.brace.curly.begin.js
       push:
         - meta_scope: meta.group.braces.curly.js
         - match: '\}'
-          scope: meta.brace.curly.js
+          scope: meta.brace.curly.end.js
           pop: true
         - include: main
 
@@ -88,11 +88,11 @@ contexts:
 
   comments:
     - match: /\*
-      scope: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.begin.js
       push:
         - meta_scope: comment.block.js
         - match: \*/
-          scope: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.end.js
           pop: true
 
     - match: (<!--|-->)
@@ -672,10 +672,10 @@ contexts:
       push:
         - meta_scope: meta.for.js
         - match: \)
-          scope: meta.brace.round.js
+          scope: meta.brace.round.end.js
           pop: true
         - match: \(
-          scope: meta.brace.round.js
+          scope: meta.brace.round.begin.js
           push:
             - match: (?=\))
               pop: true
@@ -690,11 +690,11 @@ contexts:
       push:
         - meta_scope: meta.switch.js
         - match: '\}'
-          scope: meta.brace.curly.js
+          scope: meta.brace.curly.end.js
           pop: true
         - include: round-brackets
         - match: '\{'
-          scope: meta.brace.curly.js
+          scope: meta.brace.curly.begin.js
           push:
             - match: "(?=})"
               pop: true
@@ -862,7 +862,7 @@ contexts:
 
   literal-template-string:
     - match: '`'
-      scope: keyword.other.template.js
+      scope: keyword.other.template.begin.js
       push: template-string-body
 
   template-string-body:
@@ -871,14 +871,14 @@ contexts:
     - match: '\\`'
       scope: constant.character.escape.js
     - match: '`'
-      scope: keyword.other.template.js
+      scope: keyword.other.template.end.js
       pop: true
     - include: string-content
     - match: \${
-      scope: keyword.other.substitution.js
+      scope: keyword.other.substitution.begin.js
       set:
         - match: \}
-          scope: keyword.other.substitution.js
+          scope: keyword.other.substitution.end.js
           set: template-string-body
         - include: expression
 
@@ -1006,9 +1006,9 @@ contexts:
 
   jsx-evaluated-code:
     - match: '{'
-      scope: punctuation.section.embedded.jsx
+      scope: punctuation.section.embedded.begin.jsx
       push:
-        - meta_scope: meta.embedded.expression.jsx
+        - meta_scope: meta.embedded.expression.end.jsx
         - match: '}'
           scope: punctuation.section.embedded.jsx
           pop: true
@@ -1016,18 +1016,18 @@ contexts:
 
   jsx-string-quoted:
     - match: (["'])
-      scope: punctuation.definition.string.jsx
+      scope: punctuation.definition.string.begin.jsx
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.jsx
         - match: (\1)
-          scope: punctuation.definition.string.jsx
+          scope: punctuation.definition.string.end.jsx
           pop: true
         - include: jsx-entities
 
   jsx-tag-end:
     - match: '>'
-      scope: punctuation.definition.tag.jsx
+      scope: punctuation.definition.tag.end.jsx
       push:
         - match: (?=</)
           pop: true
@@ -1038,15 +1038,15 @@ contexts:
   jsx-tag-start:
     - match: '(<)([_$a-zA-Z][-$:.\w]*[$\w]*)'
       captures:
-        1: punctuation.definition.tag.jsx
+        1: punctuation.definition.tag.begin.jsx
         2: entity.name.tag.jsx
       push:
         - match: (</)(\2)(>)|(/>)
           captures:
-            1: punctuation.definition.tag.jsx
+            1: punctuation.definition.tag.begin.jsx
             2: entity.name.tag.jsx
-            3: punctuation.definition.tag.jsx
-            4: punctuation.definition.tag.jsx
+            3: punctuation.definition.tag.end.jsx
+            4: punctuation.definition.tag.end.jsx
           pop: true
         - include: jsx-tag-end
         - include: jsx-attributes

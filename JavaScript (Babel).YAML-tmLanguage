@@ -59,9 +59,11 @@ repository:
     patterns:
     - name: meta.group.braces.round.js
       begin: \(
+      beginCaptures:
+        '0': {name: meta.brace.round.begin.js}
       end: \)
-      captures:
-        '0': {name: meta.brace.round.js}
+      endCaptures:
+        '0': {name: meta.brace.round.end.js}
       patterns:
       - include: '#expression'
 
@@ -69,9 +71,11 @@ repository:
     patterns:
     - name: meta.group.braces.square.js
       begin: \[
+      beginCaptures:
+        '0': {name: meta.brace.square.begin.js}
       end: \]
-      captures:
-        '0': {name: meta.brace.square.js}
+      endCaptures:
+        '0': {name: meta.brace.square.end.js}
       patterns:
       - include: '#expression'
 
@@ -79,9 +83,11 @@ repository:
     patterns:
     - name: meta.group.braces.curly.js
       begin: \{
+      beginCaptures:
+        '0': {name: meta.brace.curly.begin.js}
       end: \}
-      captures:
-        '0': {name: meta.brace.curly.js}
+      endCaptures:
+        '0': {name: meta.brace.curly.end.js}
       patterns:
       - include: $self
 
@@ -95,9 +101,11 @@ repository:
     patterns:
     - name: comment.block.js
       begin: /\*
+      beginCaptures:
+        '0': {name: punctuation.definition.comment.begin.js}
       end: \*/
-      captures:
-        '0': {name: punctuation.definition.comment.js}
+      endCaptures:
+        '0': {name: punctuation.definition.comment.end.js}
 
     - name: comment.block.html.js
       match: (<!--|-->)
@@ -153,7 +161,7 @@ repository:
         '1': {name: storage.type.class.js}
       end: \}
       endCaptures:
-        '0': {name: meta.brace.curly.js}
+        '0': {name: meta.brace.curly.end.js}
       patterns:
       - include: '#comments'
       - begin: ([_$a-zA-Z][$\w]*)
@@ -173,7 +181,7 @@ repository:
           - include: '#expression'
       - begin: \{
         beginCaptures:
-          '0': {name: meta.brace.curly.js}
+          '0': {name: meta.brace.curly.begin.js}
         end: (?=})
         patterns:
         - include: '#brackets'
@@ -699,12 +707,12 @@ repository:
         '1': {name: keyword.control.loop.js}
       end: \)
       endCaptures:
-        '0': {name: meta.brace.round.js}
+        '0': {name: meta.brace.round.end.js}
       patterns:
       - include: '#comments'
       - begin: \(
         beginCaptures:
-          '0': {name: meta.brace.round.js}
+          '0': {name: meta.brace.round.begin.js}
         end: (?=\))
         patterns:
         - include: '#literal-keyword-storage'
@@ -719,13 +727,13 @@ repository:
         '1': {name: keyword.control.switch.js}
       end: \}
       endCaptures:
-        '0': {name: meta.brace.curly.js}
+        '0': {name: meta.brace.curly.end.js}
       patterns:
       - include: '#comments'
       - include: '#round-brackets'
       - begin: \{
         beginCaptures:
-          '0': {name: meta.brace.curly.js}
+          '0': {name: meta.brace.curly.begin.js}
         end: (?=})
         patterns:
         - begin: (?<!\.)\b(case|default)\b
@@ -870,17 +878,21 @@ repository:
 
   literal-template-string:
     begin: '`'
+    beginCaptures:
+      '0': {name: string.interpolated.js keyword.other.template.begin.js}
     end: '`'
     captures:
-      '0': {name: string.interpolated.js keyword.other.template.js}
+      '0': {name: string.interpolated.js keyword.other.template.end.js}
     patterns:
     - include: '#string-content'
     - name: constant.character.escape.js
       match: \\`
     - begin: \${
+      beginCaptures:
+        '0': {name: keyword.other.substitution.begin.js}
       end: \}
-      captures:
-        '0': {name: keyword.other.substitution.js}
+      endCaptures:
+        '0': {name: keyword.other.substitution.end.js}
       patterns:
       - include: '#expression'
     # Workaround so themes color the contents of template strings as "string",
@@ -1031,14 +1043,14 @@ repository:
     patterns:
     - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       beginCaptures:
-        '1': {name: punctuation.definition.tag.jsx}
+        '1': {name: punctuation.definition.tag.begin.jsx}
         '2': {name: entity.name.tag.jsx}
       end: (</)(\2)(>)|(/>)
       endCaptures:
-        '1': {name: punctuation.definition.tag.jsx}
+        '1': {name: punctuation.definition.tag.begin.jsx}
         '2': {name: entity.name.tag.jsx}
-        '3': {name: punctuation.definition.tag.jsx}
-        '4': {name: punctuation.definition.tag.jsx}
+        '3': {name: punctuation.definition.tag.end.jsx}
+        '4': {name: punctuation.definition.tag.end.jsx}
       patterns:
       - include: '#jsx-tag-end'
       - include: '#jsx-attributes'
@@ -1049,7 +1061,7 @@ repository:
   jsx-tag-end:
     begin: '>'
     beginCaptures:
-      '0': {name: punctuation.definition.tag.jsx}
+      '0': {name: punctuation.definition.tag.end.jsx}
     end: (?=</)
     patterns:
     - include: '#jsx-tag-start'
@@ -1075,18 +1087,22 @@ repository:
   jsx-evaluated-code:
     name: meta.embedded.expression.jsx
     begin: '{'
+    beginCaptures:
+      '0': {name: punctuation.section.embedded.begin.jsx}
     end: '}'
-    captures:
-      '0': {name: punctuation.section.embedded.jsx}
+    endCaptures:
+      '0': {name: punctuation.section.embedded.end.jsx}
     patterns:
     - include: '#expression'
 
   jsx-string-quoted:
     name: string.quoted.jsx
     begin: (["'])
+    beginCaptures:
+      '0': {name: punctuation.definition.string.begin.jsx}
     end: (\1)
-    captures:
-      '0': {name: punctuation.definition.string.jsx}
+    endCaptures:
+      '0': {name: punctuation.definition.string.end.jsx}
     patterns:
     - include: '#jsx-entities'
 

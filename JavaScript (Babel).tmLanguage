@@ -47,16 +47,24 @@
 				<dict>
 					<key>begin</key>
 					<string>/\*</string>
-					<key>captures</key>
+					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.comment.js</string>
+							<string>punctuation.definition.comment.begin.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>\*/</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.comment.end.js</string>
+						</dict>
+					</dict>
 					<key>name</key>
 					<string>comment.block.js</string>
 				</dict>
@@ -145,16 +153,24 @@
 				<dict>
 					<key>begin</key>
 					<string>\{</string>
-					<key>captures</key>
+					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.brace.curly.js</string>
+							<string>meta.brace.curly.begin.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>\}</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.curly.end.js</string>
+						</dict>
+					</dict>
 					<key>name</key>
 					<string>meta.group.braces.curly.js</string>
 					<key>patterns</key>
@@ -743,16 +759,24 @@
 		<dict>
 			<key>begin</key>
 			<string>{</string>
-			<key>captures</key>
+			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.section.embedded.jsx</string>
+					<string>punctuation.section.embedded.begin.jsx</string>
 				</dict>
 			</dict>
 			<key>end</key>
 			<string>}</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.section.embedded.end.jsx</string>
+				</dict>
+			</dict>
 			<key>name</key>
 			<string>meta.embedded.expression.jsx</string>
 			<key>patterns</key>
@@ -767,16 +791,24 @@
 		<dict>
 			<key>begin</key>
 			<string>(["'])</string>
-			<key>captures</key>
+			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.string.jsx</string>
+					<string>punctuation.definition.string.begin.jsx</string>
 				</dict>
 			</dict>
 			<key>end</key>
 			<string>(\1)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.jsx</string>
+				</dict>
+			</dict>
 			<key>name</key>
 			<string>string.quoted.jsx</string>
 			<key>patterns</key>
@@ -796,7 +828,7 @@
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.tag.jsx</string>
+					<string>punctuation.definition.tag.end.jsx</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -829,7 +861,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.begin.jsx</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -844,7 +876,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.begin.jsx</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -854,12 +886,12 @@
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.end.jsx</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.jsx</string>
+							<string>punctuation.definition.tag.end.jsx</string>
 						</dict>
 					</dict>
 					<key>patterns</key>
@@ -1410,7 +1442,7 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.brace.curly.js</string>
+							<string>meta.brace.curly.end.js</string>
 						</dict>
 					</dict>
 					<key>name</key>
@@ -1481,7 +1513,7 @@
 								<key>0</key>
 								<dict>
 									<key>name</key>
-									<string>meta.brace.curly.js</string>
+									<string>meta.brace.curly.begin.js</string>
 								</dict>
 							</dict>
 							<key>end</key>
@@ -1587,7 +1619,7 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.brace.round.js</string>
+							<string>meta.brace.round.end.js</string>
 						</dict>
 					</dict>
 					<key>name</key>
@@ -1606,7 +1638,7 @@
 								<key>0</key>
 								<dict>
 									<key>name</key>
-									<string>meta.brace.round.js</string>
+									<string>meta.brace.round.begin.js</string>
 								</dict>
 							</dict>
 							<key>end</key>
@@ -2776,7 +2808,7 @@
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.brace.curly.js</string>
+							<string>meta.brace.curly.end.js</string>
 						</dict>
 					</dict>
 					<key>name</key>
@@ -2799,7 +2831,7 @@
 								<key>0</key>
 								<dict>
 									<key>name</key>
-									<string>meta.brace.curly.js</string>
+									<string>meta.brace.curly.begin.js</string>
 								</dict>
 							</dict>
 							<key>end</key>
@@ -2841,12 +2873,20 @@
 		<dict>
 			<key>begin</key>
 			<string>`</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>string.interpolated.js keyword.other.template.begin.js</string>
+				</dict>
+			</dict>
 			<key>captures</key>
 			<dict>
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>string.interpolated.js keyword.other.template.js</string>
+					<string>string.interpolated.js keyword.other.template.end.js</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -2866,16 +2906,24 @@
 				<dict>
 					<key>begin</key>
 					<string>\${</string>
-					<key>captures</key>
+					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other.substitution.js</string>
+							<string>keyword.other.substitution.begin.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>\}</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.substitution.end.js</string>
+						</dict>
+					</dict>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3037,16 +3085,24 @@
 				<dict>
 					<key>begin</key>
 					<string>\(</string>
-					<key>captures</key>
+					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.brace.round.js</string>
+							<string>meta.brace.round.begin.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>\)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.round.end.js</string>
+						</dict>
+					</dict>
 					<key>name</key>
 					<string>meta.group.braces.round.js</string>
 					<key>patterns</key>
@@ -3066,16 +3122,24 @@
 				<dict>
 					<key>begin</key>
 					<string>\[</string>
-					<key>captures</key>
+					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
 						<dict>
 							<key>name</key>
-							<string>meta.brace.square.js</string>
+							<string>meta.brace.square.begin.js</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>\]</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.brace.square.end.js</string>
+						</dict>
+					</dict>
 					<key>name</key>
 					<string>meta.group.braces.square.js</string>
 					<key>patterns</key>
