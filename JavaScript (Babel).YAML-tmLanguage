@@ -108,7 +108,7 @@ repository:
         '0': {name: punctuation.definition.comment.end.js}
 
     - name: comment.block.html.js
-      match: (<!--|-->)
+      match: (?><!--|-->)
       captures:
         '0': {name: punctuation.definition.comment.js}
 
@@ -202,7 +202,7 @@ repository:
           (?:\b(static)\s+)?
           (?:\b(async)\s+)?
           (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
-          (?=(\((?:(?>[^()]+)|\g<-1>)*\))(?:\s|/\*.*\*/)*\{)
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
         '2': {name: storage.type.js}
@@ -219,7 +219,7 @@ repository:
           \b(?:(static)\s+)?
           (get|set)\s+
           ([_$a-zA-Z][$\w]*)\s*
-          (?=(\((?:(?>[^()]+)|\g<-1>)*\))(?:\s|/\*.*\*/)*\{)
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
         '2': {name: storage.type.accessor.js}
@@ -256,7 +256,7 @@ repository:
         (?x)
           (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
           (?:(async)\s+)?
-          (function)(?:\s*(\*)|(?=[\s(<]))
+          (function)(?>\s*(\*)|(?=[\s(<]))
           \s*([_$a-zA-Z][$\w]*)?
       beginCaptures:
         '1': {name: entity.name.function.js}
@@ -279,7 +279,7 @@ repository:
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=[\s(<]))
+          \s*(function)(?>\s*(\*)|(?=[\s(<]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
@@ -305,7 +305,7 @@ repository:
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=[\s(<]))
+          \s*(function)(?>\s*(\*)|(?=[\s(<]))
           \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
@@ -335,7 +335,7 @@ repository:
             )
             \s*(:)
             \s*(?:\b(async)\s+)?
-            \s*(function)(?:\s*(\*)|(?=[\s(<]))
+            \s*(function)(?>\s*(\*)|(?=[\s(<]))
             \s*([_$a-zA-Z][$\w]*)?
       beginCaptures:
         '1': {name: string.quoted.js}
@@ -367,7 +367,7 @@ repository:
         (?x)
           (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
           (?:\b(async)\s+)?
-          (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       beginCaptures:
         '1': {name: entity.name.function.js}
         '2': {name: keyword.operator.assignment.js}
@@ -402,7 +402,7 @@ repository:
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
           \s*(async)?
-          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       beginCaptures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
@@ -446,7 +446,7 @@ repository:
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
           \s*(async)?
-          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       beginCaptures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
@@ -491,7 +491,7 @@ repository:
           )
           \s*(:)
           \s*(?:\b(async)\s+)?
-          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       beginCaptures:
         '1': {name: string.quoted.js}
         '2': {name: punctuation.definition.string.begin.js}
@@ -607,42 +607,42 @@ repository:
   literal-language-variable:
     patterns:
     - name: variable.language.arguments.js
-      match: (?<!(?<!\.\.)\.)\b(?>arguments)\b
+      match: (?<!(?<!\.\.)\.)\b(arguments)\b
 
     - name: variable.language.super.js
-      match: (?<!(?<!\.\.)\.)\b(?>super)\b
+      match: (?<!(?<!\.\.)\.)\b(super)\b
 
     - name: variable.language.this.js
-      match: (?<!(?<!\.\.)\.)\b(?>this)\b
+      match: (?<!(?<!\.\.)\.)\b(this)\b
 
     - name: variable.language.self.js
-      match: (?<!(?<!\.\.)\.)\b(?>self)\b
+      match: (?<!(?<!\.\.)\.)\b(self)\b
 
     - name: variable.language.proto.js
-      match: (?<=\.)\b(?>__proto__)\b
+      match: (?<=\.)(__proto__)\b
 
     - name: variable.language.constructor.js
-      match: (?<=\.)\b(?>constructor)\b
+      match: (?<=\.)(constructor)\b
 
     - name: variable.language.prototype.js
-      match: (?<=\.)\b(?>prototype)\b
+      match: (?<=\.)(prototype)\b
 
   literal-language-constant:
     patterns:
     - name: constant.language.boolean.true.js
-      match: (?<!\.)\b(?>true)\b
+      match: (?<!\.)\b(true)\b
 
     - name: constant.language.boolean.false.js
-      match: (?<!\.)\b(?>false)\b
+      match: (?<!\.)\b(false)\b
 
     - name: constant.language.null.js
-      match: (?<!\.)\b(?>null)\b
+      match: (?<!\.)\b(null)\b
 
     - name: constant.language.undefined.js
-      match: (?<!\.)\b(?>undefined)\b
+      match: (?<!\.)\b(undefined)\b
 
     - name: constant.language.nan.js
-      match: (?<!\.)\b(?>NaN)\b
+      match: (?<!\.)\b(NaN)\b
 
   literal-constructor:
     patterns:
@@ -667,13 +667,13 @@ repository:
     patterns:
     - include: '#literal-keyword-storage'
 
-    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
+    - match: (?<!\.)\b((?>await|yield))\b(?:\s*(\*))?
       captures:
         '1': {name: keyword.control.flow.js}
         '2': {name: keyword.generator.asterisk.js}
 
     - name: keyword.control.flow.js
-      match: (?<!\.)\b(?>return)\b
+      match: (?<!\.)\b(return)\b
 
     - name: keyword.control.conditional.js
       match: (?<!\.)\b(?>if|else)\b
@@ -688,7 +688,7 @@ repository:
       match: (?<!\.)\b(?>enum|module|public|package|private|interface|protected)\b
 
     - name: keyword.other.js
-      match: (?<!\.)\b(?>debugger)\b
+      match: (?<!\.)\b(debugger)\b
 
   literal-for:
     patterns:

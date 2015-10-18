@@ -78,7 +78,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(&lt;!--|--&gt;)</string>
+					<string>(?&gt;&lt;!--|--&gt;)</string>
 					<key>name</key>
 					<string>comment.block.html.js</string>
 				</dict>
@@ -923,7 +923,7 @@
 					<string>(?x)
   (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
   (?:\b(async)\s+)?
-  (?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
+  (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1007,7 +1007,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(async)?
-  \s*(?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
+  \s*(?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1133,7 +1133,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(async)?
-  \s*(?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
+  \s*(?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1247,7 +1247,7 @@
   )
   \s*(:)
   \s*(?:\b(async)\s+)?
-  \s*(?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
+  \s*(?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))\s*(=&gt;))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -1672,7 +1672,7 @@
 					<string>(?x)
   (?:([_$a-zA-Z][$\w]*)\s*(=)\s*)?
   (?:(async)\s+)?
-  (function)(?:\s*(\*)|(?=[\s(&lt;]))
+  (function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1731,7 +1731,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(?:(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=[\s(&lt;]))
+  \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1809,7 +1809,7 @@
   (\.)([_$a-zA-Z][$\w]*)
   \s*(=)
   \s*(?:(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=[\s(&lt;]))
+  \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?\s*</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -1939,7 +1939,7 @@
   )
   \s*(:)
   \s*(?:\b(async)\s+)?
-  \s*(function)(?:\s*(\*)|(?=[\s(&lt;]))
+  \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
   \s*([_$a-zA-Z][$\w]*)?</string>
 					<key>beginCaptures</key>
 					<dict>
@@ -2088,11 +2088,11 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(await|yield)\b(?:\s*(\*))?</string>
+					<string>(?&lt;!\.)\b((?&gt;await|yield))\b(?:\s*(\*))?</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;return)\b</string>
+					<string>(?&lt;!\.)\b(return)\b</string>
 					<key>name</key>
 					<string>keyword.control.flow.js</string>
 				</dict>
@@ -2122,7 +2122,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;debugger)\b</string>
+					<string>(?&lt;!\.)\b(debugger)\b</string>
 					<key>name</key>
 					<string>keyword.other.js</string>
 				</dict>
@@ -2184,31 +2184,31 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;true)\b</string>
+					<string>(?&lt;!\.)\b(true)\b</string>
 					<key>name</key>
 					<string>constant.language.boolean.true.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;false)\b</string>
+					<string>(?&lt;!\.)\b(false)\b</string>
 					<key>name</key>
 					<string>constant.language.boolean.false.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;null)\b</string>
+					<string>(?&lt;!\.)\b(null)\b</string>
 					<key>name</key>
 					<string>constant.language.null.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;undefined)\b</string>
+					<string>(?&lt;!\.)\b(undefined)\b</string>
 					<key>name</key>
 					<string>constant.language.undefined.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;NaN)\b</string>
+					<string>(?&lt;!\.)\b(NaN)\b</string>
 					<key>name</key>
 					<string>constant.language.nan.js</string>
 				</dict>
@@ -2220,43 +2220,43 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;arguments)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(arguments)\b</string>
 					<key>name</key>
 					<string>variable.language.arguments.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;super)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(super)\b</string>
 					<key>name</key>
 					<string>variable.language.super.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;this)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(this)\b</string>
 					<key>name</key>
 					<string>variable.language.this.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!(?&lt;!\.\.)\.)\b(?&gt;self)\b</string>
+					<string>(?&lt;!(?&lt;!\.\.)\.)\b(self)\b</string>
 					<key>name</key>
 					<string>variable.language.self.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b(?&gt;__proto__)\b</string>
+					<string>(?&lt;=\.)(__proto__)\b</string>
 					<key>name</key>
 					<string>variable.language.proto.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b(?&gt;constructor)\b</string>
+					<string>(?&lt;=\.)(constructor)\b</string>
 					<key>name</key>
 					<string>variable.language.constructor.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;=\.)\b(?&gt;prototype)\b</string>
+					<string>(?&lt;=\.)(prototype)\b</string>
 					<key>name</key>
 					<string>variable.language.prototype.js</string>
 				</dict>
@@ -2272,7 +2272,7 @@
   (?:\b(static)\s+)?
   (?:\b(async)\s+)?
   (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
-  (?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?:\s|/\*.*\*/)*\{)</string>
+  (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?&gt;\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2314,7 +2314,7 @@
   \b(?:(static)\s+)?
   (get|set)\s+
   ([_$a-zA-Z][$\w]*)\s*
-  (?=(\((?:(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?:\s|/\*.*\*/)*\{)</string>
+  (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?&gt;\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

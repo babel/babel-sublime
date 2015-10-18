@@ -95,7 +95,7 @@ contexts:
           scope: punctuation.definition.comment.end.js
           pop: true
 
-    - match: (<!--|-->)
+    - match: (?><!--|-->)
       scope: comment.block.html.js
       captures:
         0: punctuation.definition.comment.js
@@ -158,7 +158,7 @@ contexts:
       scope: entity.name.class.js
       set:
         - include: flowtype-polymorph
-        - match: (?=\s*(?:extends|>|{))
+        - match: (?=\s*(?>extends|>|{))
           pop: true
 
   class_extends:
@@ -191,7 +191,7 @@ contexts:
           (?:\b(static)\s+)?
           (?:\b(async)\s+)?
           (?:(\*)\s*)?({{ident}})\s*
-          (?=(\((?:(?>[^()]+)|\g<-1>)*\))(?:\s|/\*.*\*/)*\{)
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
         2: storage.type.js
@@ -209,7 +209,7 @@ contexts:
           \b(?:(static)\s+)?
           (get|set)\s+
           ({{ident}})\s*
-          (?=(\((?:(?>[^()]+)|\g<-1>)*\))(?:\s|/\*.*\*/)*\{)
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js
         2: storage.type.accessor.js
@@ -245,7 +245,7 @@ contexts:
         (?x)
           (?:({{ident}})\s*(=)\s*)?
           (?:(async)\s+)?
-          (function)(?:\s*(\*)|(?=[\s(<]))
+          (function)(?>\s*(\*)|(?=[\s(<]))
           \s*({{ident}})?
       captures:
         1: entity.name.function.js
@@ -269,7 +269,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=[\s(<]))
+          \s*(function)(?>\s*(\*)|(?=[\s(<]))
           \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
@@ -296,7 +296,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(?:(async)\s+)?
-          \s*(function)(?:\s*(\*)|(?=[\s(<]))
+          \s*(function)(?>\s*(\*)|(?=[\s(<]))
           \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
@@ -326,7 +326,7 @@ contexts:
         )
         \s*(:)
         \s*(?:\b(async)\s+)?
-        \s*(function)(?:\s*(\*)|(?=[\s(<]))
+        \s*(function)(?>\s*(\*)|(?=[\s(<]))
         \s*({{ident}})?
       captures:
         1: string.quoted.js
@@ -358,7 +358,7 @@ contexts:
         (?x)
           (?:({{ident}})\s*(=)\s*)?
           (?:\b(async)\s+)?
-          (?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          (?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
         1: entity.name.function.js
         2: keyword.operator.assignment.js
@@ -394,7 +394,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(async)?
-          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -439,7 +439,7 @@ contexts:
           (\.)({{ident}})
           \s*(=)
           \s*(async)?
-          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -484,7 +484,7 @@ contexts:
           )
           \s*(:)
           \s*(?:\b(async)\s+)?
-          \s*(?=(\((?:(?>[^()]+)|\g<-1>)*\))\s*(=>))
+          \s*(?=(\((?>(?>[^()]+)|\g<-1>)*\))\s*(=>))
       captures:
         1: string.quoted.js
         2: punctuation.definition.string.begin.js
@@ -598,41 +598,41 @@ contexts:
         1: variable.function.js
 
   literal-language-variable:
-    - match: (?<!(?<!\.\.)\.)\b(?>arguments)\b
+    - match: (?<!(?<!\.\.)\.)\b(arguments)\b
       scope: variable.language.arguments.js
 
-    - match: (?<!(?<!\.\.)\.)\b(?>super)\b
+    - match: (?<!(?<!\.\.)\.)\b(super)\b
       scope: variable.language.super.js
 
-    - match: (?<!(?<!\.\.)\.)\b(?>this)\b
+    - match: (?<!(?<!\.\.)\.)\b(this)\b
       scope: variable.language.this.js
 
-    - match: (?<!(?<!\.\.)\.)\b(?>self)\b
+    - match: (?<!(?<!\.\.)\.)\b(self)\b
       scope: variable.language.self.js
 
-    - match: (?<=\.)\b(?>__proto__)\b
+    - match: (?<=\.)(__proto__)\b
       scope: variable.language.proto.js
 
-    - match: (?<=\.)\b(?>constructor)\b
+    - match: (?<=\.)(constructor)\b
       scope: variable.language.constructor.js
 
-    - match: (?<=\.)\b(?>prototype)\b
+    - match: (?<=\.)(prototype)\b
       scope: variable.language.prototype.js
 
   literal-language-constant:
-    - match: (?<!\.)\b(?>true)\b
+    - match: (?<!\.)\b(true)\b
       scope: constant.language.boolean.true.js
 
-    - match: (?<!\.)\b(?>false)\b
+    - match: (?<!\.)\b(false)\b
       scope: constant.language.boolean.false.js
 
-    - match: (?<!\.)\b(?>null)\b
+    - match: (?<!\.)\b(null)\b
       scope: constant.language.null.js
 
-    - match: (?<!\.)\b(?>undefined)\b
+    - match: (?<!\.)\b(undefined)\b
       scope: constant.language.undefined.js
 
-    - match: (?<!\.)\b(?>NaN)\b
+    - match: (?<!\.)\b(NaN)\b
       scope: constant.language.nan.js
 
   literal-constructor:
@@ -656,12 +656,12 @@ contexts:
   literal-keywords:
     - include: literal-keyword-storage
 
-    - match: (?<!\.)\b(await|yield)\b(?:\s*(\*))?
+    - match: (?<!\.)\b((?>await|yield))\b(?:\s*(\*))?
       captures:
         1: keyword.control.flow.js
         2: keyword.generator.asterisk.js
 
-    - match: (?<!\.)\b(?>return)\b
+    - match: (?<!\.)\b(return)\b
       scope: keyword.control.flow.js
 
     - match: (?<!\.)\b(?>if|else)\b
@@ -676,11 +676,11 @@ contexts:
     - match: (?<!\.)\b(?>enum|public|package|private|interface|protected)\b
       scope: keyword.other.reserved.js
 
-    - match: (?<!\.)\b(?>debugger)\b
+    - match: (?<!\.)\b(debugger)\b
       scope: keyword.other.js
 
   literal-for:
-    - match: (?<!\.)\bfor\b
+    - match: (?<!\.)\b(for)\b
       scope: keyword.control.loop.js
       push:
         - meta_scope: meta.for.js
@@ -698,8 +698,7 @@ contexts:
 
   literal-switch:
     - match: (?<!\.)\b(switch)\b
-      captures:
-        1: keyword.control.switch.js
+      scope: keyword.control.switch.js
       push:
         - meta_scope: meta.switch.js
         - match: \}
