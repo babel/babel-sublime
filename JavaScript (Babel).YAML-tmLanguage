@@ -136,7 +136,7 @@ repository:
       - name: keyword.operator.spread.js
         match: (?<!\.)\.\.\.
       - name: variable.parameter.function.js
-        match: '[_$a-zA-Z][$\w]*'
+        match: \b([_$a-zA-Z][$\w]*)\b
       - name: punctuation.separator.parameter.function.js
         match: ','
       - name: meta.parameter.optional.js
@@ -164,7 +164,7 @@ repository:
         '0': {name: meta.brace.curly.end.js}
       patterns:
       - include: '#comments'
-      - begin: ([_$a-zA-Z][$\w]*)
+      - begin: \b([_$a-zA-Z][$\w]*)\b
         beginCaptures:
           '0': {name: entity.name.class.js}
         end: (?={)

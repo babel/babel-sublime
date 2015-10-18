@@ -660,7 +660,7 @@
 						</dict>
 						<dict>
 							<key>match</key>
-							<string>[_$a-zA-Z][$\w]*</string>
+							<string>\b([_$a-zA-Z][$\w]*)\b</string>
 							<key>name</key>
 							<string>variable.parameter.function.js</string>
 						</dict>
@@ -1455,7 +1455,7 @@
 						</dict>
 						<dict>
 							<key>begin</key>
-							<string>([_$a-zA-Z][$\w]*)</string>
+							<string>\b([_$a-zA-Z][$\w]*)\b</string>
 							<key>beginCaptures</key>
 							<dict>
 								<key>0</key>

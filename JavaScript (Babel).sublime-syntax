@@ -124,7 +124,7 @@ contexts:
           pop: true
         - match: (?<!\.)\.\.\.
           scope: keyword.operator.spread.js
-        - match: '{{ident}}'
+        - match: \b({{ident}})\b
           scope: variable.parameter.function.js
         - match: ','
           scope: punctuation.separator.parameter.function.js
