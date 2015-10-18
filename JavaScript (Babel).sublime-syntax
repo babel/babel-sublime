@@ -873,7 +873,6 @@ contexts:
     - match: '`'
       scope: keyword.other.template.end.js
       pop: true
-    - include: string-content
     - match: \${
       scope: keyword.other.substitution.begin.js
       set:
@@ -881,6 +880,7 @@ contexts:
           scope: keyword.other.substitution.end.js
           set: template-string-body
         - include: expression
+    - include: string-content
 
   string-content:
     # https://mathiasbynens.be/notes/javascript-escapes
