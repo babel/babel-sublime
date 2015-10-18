@@ -2110,7 +2110,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(?&gt;break|continue|do|goto|while)\b</string>
+					<string>(?&lt;!\.)\b(?&gt;break|continue|do|goto|while|case|default)\b</string>
 					<key>name</key>
 					<string>keyword.control.loop.js</string>
 				</dict>

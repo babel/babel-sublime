@@ -682,7 +682,7 @@ repository:
       match: (?<!\.)\b(?>catch|finally|throw|try)\b
 
     - name: keyword.control.loop.js
-      match: (?<!\.)\b(?>break|continue|do|goto|while)\b
+      match: (?<!\.)\b(?>break|continue|do|goto|while|case|default)\b
 
     - name: keyword.other.reserved.js
       match: (?<!\.)\b(?>enum|module|public|package|private|interface|protected)\b

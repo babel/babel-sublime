@@ -670,7 +670,7 @@ contexts:
     - match: (?<!\.)\b(?>catch|finally|throw|try)\b
       scope: keyword.control.trycatch.js
 
-    - match: (?<!\.)\b(?>break|continue|do|goto|while)\b
+    - match: (?<!\.)\b(?>break|continue|do|goto|while|case|default)\b
       scope: keyword.control.loop.js
 
     - match: (?<!\.)\b(?>enum|public|package|private|interface|protected)\b
