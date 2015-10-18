@@ -892,7 +892,7 @@ contexts:
 
   literal-variable:
     # e.g. CONSTANT
-    - match: '[A-Z][_$\dA-Z]*\b'
+    - match: _*?[A-Z][_$\dA-Z]*\b
       scope: variable.other.constant.js
 
     # e.g. $dollar variables

@@ -949,7 +949,7 @@ repository:
     patterns:
     # e.g. CONSTANT
     - name: variable.other.constant.js
-      match: '[A-Z][_$\dA-Z]*\b'
+      match: _*?[A-Z][_$\dA-Z]*\b
 
     # dollar variables
     - name: variable.other.dollar.js
