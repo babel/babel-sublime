@@ -951,12 +951,6 @@ repository:
     - name: variable.other.constant.js
       match: _*?[A-Z][_$\dA-Z]*\b
 
-    # dollar variables
-    - name: variable.other.dollar.js
-      match: '(\$)[$\w]+'
-      captures:
-        '1': {name: punctuation.dollar.js}
-
     # e.g. Class.property
     - name: meta.property.class.js
       match: >-

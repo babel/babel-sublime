@@ -2956,20 +2956,6 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.dollar.js</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(\$)[$\w]+</string>
-					<key>name</key>
-					<string>variable.other.dollar.js</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
 							<string>variable.other.class.js</string>
 						</dict>
 						<key>2</key>

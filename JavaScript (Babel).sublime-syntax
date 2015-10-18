@@ -895,12 +895,6 @@ contexts:
     - match: _*?[A-Z][_$\dA-Z]*\b
       scope: variable.other.constant.js
 
-    # e.g. $dollar variables
-    - match: '(\$)[$\w]+'
-      scope: variable.other.dollar.js
-      captures:
-        1: punctuation.dollar.js
-
     # e.g. Class.property
     - match: >-
         (?x)
