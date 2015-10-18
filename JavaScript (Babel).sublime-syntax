@@ -624,7 +624,7 @@ contexts:
       scope: constant.language.boolean.false.js
     - match: (?<!\.)\b(?>null)\b
       scope: constant.language.null.js
-    - match: (?<!\.)\bu(?>ndefined)\b
+    - match: (?<!\.)\b(?>undefined)\b
       scope: constant.language.undefined.js
     - match: (?<!\.)\b(?>NaN)\b
       scope: constant.language.nan.js
