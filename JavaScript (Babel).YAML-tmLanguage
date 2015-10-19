@@ -34,16 +34,18 @@ repository:
     - include: '#literal-arrow-function'
     - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
 
+    - include: '#literal-method'
+    - include: '#literal-module'
+    - include: '#literal-class'
+
+    - include: '#flowtype-declaration'
+
     - include: '#literal-keywords'
     - include: '#literal-number'
     - include: '#literal-template-string'
     - include: '#literal-string'
     - include: '#literal-language-constant'
     - include: '#literal-language-variable'
-
-    - include: '#literal-method'
-    - include: '#literal-module'
-    - include: '#literal-class'
 
     - include: '#literal-constructor'
     - include: '#literal-method-call'
@@ -136,7 +138,7 @@ repository:
       - name: keyword.operator.spread.js
         match: (?<!\.)\.\.\.
       - name: variable.parameter.function.js
-        match: \b([_$a-zA-Z][$\w]*)\b
+        match: ([_$a-zA-Z][$\w]*)
       - name: punctuation.separator.parameter.function.js
         match: ','
       - name: meta.parameter.optional.js
@@ -156,15 +158,16 @@ repository:
     patterns:
     # e.g. class MyClass {  }
     - name: meta.class.js
-      begin: (?<!\.)\b(class)\s+(?=\S)
+      begin: (?<!\.)\b(?:(class)|(interface))\b
       beginCaptures:
         '1': {name: storage.type.class.js}
+        '2': {name: storage.type.interface.flowtype.js}
       end: \}
       endCaptures:
         '0': {name: meta.brace.curly.end.js}
       patterns:
       - include: '#comments'
-      - begin: \b([_$a-zA-Z][$\w]*)\b
+      - begin: ([_$a-zA-Z][$\w]*)
         beginCaptures:
           '0': {name: entity.name.class.js}
         end: (?={)
@@ -184,14 +187,150 @@ repository:
           '0': {name: meta.brace.curly.begin.js}
         end: (?=})
         patterns:
-        - include: '#brackets'
         - include: '#es7-decorators'
-        - include: '#es7-class-properties'
-        - include: '#literal-method'
+        - include: '#class-properties'
+        - include: '#class-method-definition'
+        - include: '#class-method-storage'
+        - include: '#brackets'
         - include: '#comments'
 
-    - name: storage.type.class.js
-      match: (?<!\.)\b(class)\b
+  flowtype-declaration:
+    patterns:
+    - name: support.type.declare.flowtype.js
+      match: (?<!\.)\b(declare)\b
+
+    - name: meta.type.flowtype.js
+      begin: (?<!\.)\b(type)\b(?=\s*[_$a-zA-Z])
+      beginCaptures:
+        '1': {name: support.type.type.flowtype.js}
+      end: (?=\s*(;|from))
+      patterns:
+      - include: '#flowtype-tokens'
+
+    - name: meta.type.flowtype.js
+      begin: (?<!\.)\b(type)\b(?=\s*{)
+      beginCaptures:
+        '1': {name: support.type.type.flowtype.js}
+      end: (?<=})
+      patterns:
+      - include: '#comments'
+      - include: '#flowtype-brackets'
+      - include: '#flowtype-polymorph'
+      - name: entity.name.type.js
+        match: ([_$a-zA-Z][$\w]*)
+
+  class-method-definition:
+    patterns:
+    # e,g. @@iterator(): Iterator<[K, V]>;
+    # e.g. static (o: ?void): {[key: any]: any};
+    # e.g. return<R>(value: R): { done: true, value: R };
+    # e.g. <T: Object>(o: T): T;
+    - name: meta.short-method.flowtype.js
+      begin: (@@[_$a-zA-Z][$\w]*|static|return)(?=\s*[<(])|(?=\s*<)
+      beginCaptures:
+        '1': {name: keyword.operator.flowtype.js}
+      end: (?=\s*[;{])
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#comments'
+      - include: '#curly-brackets'
+
+    # In objects and flow annotations it can't be assumed that a start quote
+    # or start square-bracket is for a method - it may be a computed property.
+    # For multi-line quoted short methods and computed property methods, only
+    # the polymorphism constraints and parameters are matched.
+    - name: meta.class-method.computed.js
+      begin: (?<=[]"'])\s*(?=[<(])
+      end: (?=\s*[;{])
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#comments'
+      - include: '#curly-brackets'
+
+    - name: meta.class-accessor.js
+      begin: >-
+        (?x)
+          ((?>get|set)\s+)
+          (?>
+            ((')((?>[^'\\]|\\.)*)('))|
+            ((")((?>[^"\\]|\\.)*)("))|
+            (([_$a-zA-Z][$\w]*|\d+))
+          )(?=\s*[<(])
+      beginCaptures:
+        '1': {name: storage.type.js}
+        '2': {name: string.quoted.js}
+        '3': {name: punctuation.definition.string.begin.js}
+        '4': {name: entity.name.function.js}
+        '5': {name: punctuation.definition.string.end.js}
+        '6': {name: string.quoted.js}
+        '7': {name: punctuation.definition.string.begin.js}
+        '8': {name: entity.name.function.js}
+        '9': {name: punctuation.definition.string.end.js}
+        '10': {name: string.unquoted.js}
+        '11': {name: entity.name.function.js}
+      end: (?=\s*[;{])
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#comments'
+      - include: '#curly-brackets'
+
+    - name: meta.class-method.js
+      begin: >-
+        (?x)
+          (?>
+            ((')((?>[^'\\]|\\.)*)('))|
+            ((")((?>[^"\\]|\\.)*)("))|
+            (([_$a-zA-Z][$\w]*|\d+))
+          )(?=\s*[<(])
+      beginCaptures:
+        '1': {name: string.quoted.js}
+        '2': {name: punctuation.definition.string.begin.js}
+        '3': {name: entity.name.function.js}
+        '4': {name: punctuation.definition.string.end.js}
+        '5': {name: string.quoted.js}
+        '6': {name: punctuation.definition.string.begin.js}
+        '7': {name: entity.name.function.js}
+        '8': {name: punctuation.definition.string.end.js}
+        '9': {name: string.unquoted.js}
+        '10': {name: entity.name.function.js}
+      end: (?=\s*[;{])
+      patterns:
+      - include: '#flowtype-polymorph'
+      - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#comments'
+      - include: '#curly-brackets'
+
+  class-method-storage:
+    patterns:
+    - name: storage.modifier.js
+      match: (?<!\.)\b(?>static|declare)\b
+
+    - name: storage.type.js
+      match: (?<!\.)\b(async)\b
+
+    - name: storage.type.js
+      match: (?<!\.)\b(get|set)\b(?!\s*\()
+
+    - name: keyword.generator.asterisk.js
+      match: \*
+
+  class-properties:
+    patterns:
+    - name: meta.class.property.js
+      begin: ([_$a-zA-Z][$\w]*)(?=\s*[:=])
+      beginCaptures:
+        '1': {name: variable.other.property.js}
+      end: (?=\s*[;}])
+      patterns:
+      - include: '#flowtype-annotation'
+      - include: '#expression'
 
   literal-method:
     patterns:
@@ -201,13 +340,27 @@ repository:
         (?x)
           (?:\b(static)\s+)?
           (?:\b(async)\s+)?
-          (?:(\*)\s*)?([_$a-zA-Z][$\w]*)\s*
+          (?:(\*)\s*)?
+          (?>
+            ((')((?>[^'\\]|\\.)*)('))|
+            ((")((?>[^"\\]|\\.)*)("))|
+            (([_$a-zA-Z][$\w]*|\d+))
+          )
           (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
         '2': {name: storage.type.js}
         '3': {name: keyword.generator.asterisk.js}
-        '4': {name: entity.name.function.js}
+        '4': {name: string.quoted.js}
+        '5': {name: punctuation.definition.string.begin.js}
+        '6': {name: entity.name.function.js}
+        '7': {name: punctuation.definition.string.end.js}
+        '8': {name: string.quoted.js}
+        '9': {name: punctuation.definition.string.begin.js}
+        '10': {name: entity.name.function.js}
+        '11': {name: punctuation.definition.string.end.js}
+        '12': {name: string.unquoted.js}
+        '13': {name: entity.name.function.js}
       end: (?<=\))
       patterns:
       - include: '#function-declaration-parameters'
@@ -1095,19 +1248,6 @@ repository:
     - name: invalid.illegal.bad-ampersand.jsx
       match: '&\S*;'
 
-  # stage 0 proposal: https://gist.github.com/jeffmo/054df782c05639da2adb
-  es7-class-properties:
-    patterns:
-    - match: >-
-        (?x)
-          \b(static)?
-          \s*
-          \b([_$a-zA-Z][$\w]*)\s*(=)
-      captures:
-        '1': {name: storage.type.js}
-        '2': {name: variable.other.property.js}
-        '3': {name: storage.type.js}
-
   # https://github.com/wycats/javascript-decorators
   es7-decorators:
     patterns:
@@ -1146,19 +1286,16 @@ repository:
     - include: '#flowtype-tokens'
 
   flowtype-annotation:
-    name: meta.flowtype.annotation.js
-    begin: (?:(\?)\s*)?(:)
-    beginCaptures:
-      '1': {name: keyword.operator.flowtype.optional.js}
-      '2': {name: keyword.operator.flowtype.annotation.js}
-    end: (?=\S)
-    applyEndPatternLast: 1
     patterns:
-    - begin: (?={)
-      end: (?<=})
+    - name: meta.flowtype.annotation.js
+      begin: (?:(\?)\s*)?(:)
+      beginCaptures:
+        '1': {name: keyword.operator.flowtype.optional.js}
+        '2': {name: keyword.operator.flowtype.annotation.js}
+      end: (?=\S)
+      applyEndPatternLast: 1
       patterns:
-      - include: '#flowtype-brackets'
-    - include: '#flowtype-tokens'
+      - include: '#flowtype-tokens'
 
   flowtype-brackets:
     patterns:
@@ -1181,10 +1318,23 @@ repository:
     - name: variable.other.flowtype.js
       match: '[_$a-zA-Z][$\w]*'
 
+    - name: keyword.operator.flowtype.optional.js
+      match: \?
+
   flowtype-tokens:
     patterns:
+    - begin: (?<=[:?|&=])(?=\s*{)
+      end: (?<=})
+      patterns:
+      - include: '#flowtype-brackets'
+
+    - name: meta.flowtype.set.js
+      match: \s*([|&])\s*
+      captures:
+        '1': {name: keyword.operator.flowtype.other.js}
+
     - name: keyword.operator.flowtype.other.js
-      match: '[*:?&|]|\.\.\.|\b(typeof)\b'
+      match: '[*:?&|.]|\.\.\.|\b(typeof)\b'
 
     - begin: '<'
       beginCaptures:
@@ -1224,4 +1374,5 @@ repository:
       - include: '#comments'
 
     - include: '#flowtype-identifier'
+    - include: '#literal-string'
     - include: '#comments'
