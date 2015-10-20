@@ -1291,6 +1291,8 @@
 							<string>punctuation.definition.tag.end.jsx</string>
 						</dict>
 					</dict>
+					<key>name</key>
+					<string>meta.tag.jsx</string>
 					<key>patterns</key>
 					<array>
 						<dict>

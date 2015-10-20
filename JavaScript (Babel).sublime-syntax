@@ -1174,9 +1174,9 @@ contexts:
     - match: \{
       scope: punctuation.section.embedded.begin.jsx
       push:
-        - meta_scope: meta.embedded.expression.end.jsx
+        - meta_scope: meta.embedded.expression.jsx
         - match: \}
-          scope: punctuation.section.embedded.jsx
+          scope: punctuation.section.embedded.end.jsx
           pop: true
         - include: expression
 
@@ -1207,6 +1207,7 @@ contexts:
         1: punctuation.definition.tag.begin.jsx
         2: entity.name.tag.jsx
       push:
+        - meta_scope: meta.tag.jsx
         - match: (</)(\2)(>)|(/>)
           captures:
             1: punctuation.definition.tag.begin.jsx

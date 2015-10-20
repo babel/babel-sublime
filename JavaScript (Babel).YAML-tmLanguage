@@ -1176,7 +1176,8 @@ repository:
 
   jsx-tag-start:
     patterns:
-    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
+    - name: meta.tag.jsx
+      begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       beginCaptures:
         '1': {name: punctuation.definition.tag.begin.jsx}
         '2': {name: entity.name.tag.jsx}
