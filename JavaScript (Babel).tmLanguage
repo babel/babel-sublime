@@ -2765,7 +2765,7 @@
 					<string>(?x)
   \b(?:(static)\s+)?
   (get|set)\s+
-  ([_$a-zA-Z][$\w]*)\s*
+  ([_$a-zA-Z][$\w]*|\d+)\s*
   (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?&gt;\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>

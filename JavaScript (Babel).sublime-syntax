@@ -359,7 +359,7 @@ contexts:
         (?x)
           \b(?:(static)\s+)?
           (get|set)\s+
-          ({{ident}})\s*
+          ({{ident}}|\d+)\s*
           (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       captures:
         1: storage.type.js

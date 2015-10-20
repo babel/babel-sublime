@@ -371,7 +371,7 @@ repository:
         (?x)
           \b(?:(static)\s+)?
           (get|set)\s+
-          ([_$a-zA-Z][$\w]*)\s*
+          ([_$a-zA-Z][$\w]*|\d+)\s*
           (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
