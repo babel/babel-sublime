@@ -27,28 +27,35 @@ contexts:
 
   expression:
     - include: merge-conflits
-    - include: literal-regexp
+    - include: literal-regexp             # before operators and keywords to avoid ambiguities
     - include: literal-jsx
     - include: es7-decorators
     - include: support-class
     - include: support-other
+
     - include: literal-function
     - include: literal-arrow-function
-    - include: literal-prototype
+    - include: literal-prototype          # after literal-function, which includes some prototype strings
+
+    - include: literal-keywords
+
     - include: literal-method
     - include: literal-module
     - include: literal-class
     - include: flowtype-declaration
-    - include: literal-keywords
-    - include: literal-number
+
+    - include: literal-number               # after literal-method since short methods can be numbers
     - include: literal-template-string
     - include: literal-string
     - include: literal-language-constant
     - include: literal-language-variable
+
     - include: literal-constructor
     - include: literal-method-call
     - include: literal-function-call
+
     - include: brackets
+
     - include: literal-operators
     - include: literal-variable
 

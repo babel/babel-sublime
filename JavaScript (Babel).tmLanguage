@@ -574,6 +574,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-keywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-method</string>
 				</dict>
 				<dict>
@@ -587,10 +591,6 @@
 				<dict>
 					<key>include</key>
 					<string>#flowtype-declaration</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-keywords</string>
 				</dict>
 				<dict>
 					<key>include</key>
