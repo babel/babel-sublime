@@ -574,6 +574,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-keywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#literal-method</string>
 				</dict>
 				<dict>
@@ -587,10 +591,6 @@
 				<dict>
 					<key>include</key>
 					<string>#flowtype-declaration</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#literal-keywords</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1291,6 +1291,8 @@
 							<string>punctuation.definition.tag.end.jsx</string>
 						</dict>
 					</dict>
+					<key>name</key>
+					<string>meta.tag.jsx</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -2763,7 +2765,7 @@
 					<string>(?x)
   \b(?:(static)\s+)?
   (get|set)\s+
-  ([_$a-zA-Z][$\w]*)\s*
+  ([_$a-zA-Z][$\w]*|\d+)\s*
   (?=(\((?&gt;(?&gt;[^()]+)|\g&lt;-1&gt;)*\))(?&gt;\s|/\*.*\*/)*\{)</string>
 					<key>beginCaptures</key>
 					<dict>

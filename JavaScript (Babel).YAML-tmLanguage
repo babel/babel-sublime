@@ -24,24 +24,23 @@ repository:
     patterns:
     - include: '#merge-conflits'
     - include: '#literal-regexp'              # before operators and keywords to avoid ambiguities
-
     - include: '#literal-jsx'
     - include: '#es7-decorators'
-
     - include: '#support-class'
     - include: '#support-other'
+
     - include: '#literal-function'
     - include: '#literal-arrow-function'
     - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
 
+    - include: '#literal-keywords'
+
     - include: '#literal-method'
     - include: '#literal-module'
     - include: '#literal-class'
-
     - include: '#flowtype-declaration'
 
-    - include: '#literal-keywords'
-    - include: '#literal-number'
+    - include: '#literal-number'              # after literal-method since short methods can be numbers
     - include: '#literal-template-string'
     - include: '#literal-string'
     - include: '#literal-language-constant'
@@ -371,7 +370,7 @@ repository:
         (?x)
           \b(?:(static)\s+)?
           (get|set)\s+
-          ([_$a-zA-Z][$\w]*)\s*
+          ([_$a-zA-Z][$\w]*|\d+)\s*
           (?=(\((?>(?>[^()]+)|\g<-1>)*\))(?>\s|/\*.*\*/)*\{)
       beginCaptures:
         '1': {name: storage.type.js}
@@ -1176,7 +1175,8 @@ repository:
 
   jsx-tag-start:
     patterns:
-    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
+    - name: meta.tag.jsx
+      begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       beginCaptures:
         '1': {name: punctuation.definition.tag.begin.jsx}
         '2': {name: entity.name.tag.jsx}
