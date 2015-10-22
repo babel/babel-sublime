@@ -1175,17 +1175,16 @@ repository:
 
   jsx-tag-start:
     patterns:
-    - name: meta.tag.jsx
-      begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
+    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       beginCaptures:
-        '1': {name: punctuation.definition.tag.begin.jsx}
-        '2': {name: entity.name.tag.jsx}
+        '1': {name: meta.tag.jsx punctuation.definition.tag.begin.jsx}
+        '2': {name: meta.tag.jsx entity.name.tag.jsx}
       end: (</)(\2)(>)|(/>)
       endCaptures:
-        '1': {name: punctuation.definition.tag.begin.jsx}
-        '2': {name: entity.name.tag.jsx}
-        '3': {name: punctuation.definition.tag.end.jsx}
-        '4': {name: punctuation.definition.tag.end.jsx}
+        '1': {name: meta.tag.jsx punctuation.definition.tag.begin.jsx}
+        '2': {name: meta.tag.jsx entity.name.tag.jsx}
+        '3': {name: meta.tag.jsx punctuation.definition.tag.end.jsx}
+        '4': {name: meta.tag.jsx punctuation.definition.tag.end.jsx}
       patterns:
       - include: '#jsx-tag-end'
       - include: '#jsx-attributes'
@@ -1196,7 +1195,7 @@ repository:
   jsx-tag-end:
     begin: '>'
     beginCaptures:
-      '0': {name: punctuation.definition.tag.end.jsx}
+      '0': {name: meta.tag.jsx punctuation.definition.tag.end.jsx}
     end: (?=</)
     patterns:
     - include: '#jsx-tag-start'

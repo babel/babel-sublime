@@ -1200,7 +1200,7 @@ contexts:
 
   jsx-tag-end:
     - match: '>'
-      scope: punctuation.definition.tag.end.jsx
+      scope: meta.tag.jsx punctuation.definition.tag.end.jsx
       push:
         - match: (?=</)
           pop: true
@@ -1211,16 +1211,15 @@ contexts:
   jsx-tag-start:
     - match: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
       captures:
-        1: punctuation.definition.tag.begin.jsx
-        2: entity.name.tag.jsx
+        1: meta.tag.jsx punctuation.definition.tag.begin.jsx
+        2: meta.tag.jsx entity.name.tag.jsx
       push:
-        - meta_scope: meta.tag.jsx
         - match: (</)(\2)(>)|(/>)
           captures:
-            1: punctuation.definition.tag.begin.jsx
-            2: entity.name.tag.jsx
-            3: punctuation.definition.tag.end.jsx
-            4: punctuation.definition.tag.end.jsx
+            1: meta.tag.jsx punctuation.definition.tag.begin.jsx
+            2: meta.tag.jsx entity.name.tag.jsx
+            3: meta.tag.jsx punctuation.definition.tag.end.jsx
+            4: meta.tag.jsx punctuation.definition.tag.end.jsx
           pop: true
         - include: jsx-tag-end
         - include: jsx-attributes

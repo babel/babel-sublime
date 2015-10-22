@@ -1225,7 +1225,7 @@
 				<key>0</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.tag.end.jsx</string>
+					<string>meta.tag.jsx punctuation.definition.tag.end.jsx</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -1258,12 +1258,12 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.begin.jsx</string>
+							<string>meta.tag.jsx punctuation.definition.tag.begin.jsx</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.tag.jsx</string>
+							<string>meta.tag.jsx entity.name.tag.jsx</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -1273,26 +1273,24 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.begin.jsx</string>
+							<string>meta.tag.jsx punctuation.definition.tag.begin.jsx</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>entity.name.tag.jsx</string>
+							<string>meta.tag.jsx entity.name.tag.jsx</string>
 						</dict>
 						<key>3</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.end.jsx</string>
+							<string>meta.tag.jsx punctuation.definition.tag.end.jsx</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.tag.end.jsx</string>
+							<string>meta.tag.jsx punctuation.definition.tag.end.jsx</string>
 						</dict>
 					</dict>
-					<key>name</key>
-					<string>meta.tag.jsx</string>
 					<key>patterns</key>
 					<array>
 						<dict>
