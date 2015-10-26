@@ -36,10 +36,6 @@ It's possible to set `Babel` as the _only_ JavaScript package by disabling the s
 
 * `babel-sublime` correctly matches JSX comments between attributes, namespaced components, and non-alpha characters in tag/attribute names.
 
-![babel-sublime-vs-sublime-react--jsx-illegal](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-illegal@2x.png)
-
-* Illegal JSX attribute names; missing equals, quotes or braces; and missing values, are highlighted to easily spot mistakes.
-
 ![babel-sublime-vs-sublime-react--jsx-tight](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-tight@2x.png)
 
 * Greater-/less-than comparisons are correctly identified as such and not mistaken for JSX tags.
