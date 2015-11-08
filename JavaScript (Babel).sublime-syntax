@@ -95,6 +95,14 @@ contexts:
     - include: curly-brackets
 
   comments:
+    - match: /\*\*(?!/)
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_scope: comment.block.documentation.js
+        - match: \*/
+          scope: punctuation.definition.comment.js
+          pop: true
+
     - match: /\*
       scope: punctuation.definition.comment.begin.js
       push:
