@@ -1,5 +1,7 @@
 # babel-sublime
 
+> Only supports **Sublime Text 3**. Sublime Text 2 is no longer supported.
+
 Language definitions for [ES6+ JavaScript](http://kangax.github.io/compat-table/es6/) with [React JSX syntax](http://facebook.github.io/react/docs/jsx-in-depth.html) extensions.
 
 ## Installation
