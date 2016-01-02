@@ -75,11 +75,10 @@ class BabelCommand(sublime_plugin.TextCommand):
 
 
 def node_bridge(data, bin, args=[]):
-    env = None
+    env = os.environ.copy()
     startupinfo = None
     if os_name == 'osx':
-        # GUI apps in OS X doesn't contain .bashrc/.zshrc set paths
-        env = os.environ.copy()
+        # GUI apps in OS X don't contain .bashrc/.zshrc set paths
         env['PATH'] += ':/usr/local/bin'
     elif os_name == 'windows':
         startupinfo = subprocess.STARTUPINFO()
