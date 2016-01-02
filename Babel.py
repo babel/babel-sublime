@@ -1,13 +1,10 @@
 import json
 import os
 import platform
-import sublime
-import sublime_plugin
 import subprocess
 
-# monkeypatch `Region` to be iterable
-sublime.Region.totuple = lambda self: (self.a, self.b)
-sublime.Region.__iter__ = lambda self: self.totuple().__iter__()
+import sublime
+import sublime_plugin
 
 if platform.system() == 'Darwin':
     os_name = 'osx'
@@ -61,8 +58,7 @@ class BabelCommand(sublime_plugin.TextCommand):
 
     def has_selection(self):
         for sel in self.view.sel():
-            start, end = sel
-            if start != end:
+            if sel.a != sel.b:
                 return True
         return False
 
