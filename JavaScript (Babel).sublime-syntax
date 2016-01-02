@@ -1177,7 +1177,6 @@ contexts:
     - include: jsx-attribute-assignment
     - include: jsx-string-quoted
     - include: jsx-evaluated-code
-    - include: comments
 
   jsx-entities:
     - match: '&(?:[a-zA-Z0-9]+|#\d+|#x\h+);'
@@ -1210,6 +1209,7 @@ contexts:
     - match: '>'
       scope: meta.tag.jsx punctuation.definition.tag.end.jsx
       push:
+        - meta_include_prototype: false
         - match: (?=</)
           pop: true
         - include: jsx-tag-start
