@@ -4,6 +4,8 @@
 import React from 'react';
 import { InputsMixin } from './Forms';
 
+export default <div><span /></div>
+
 export default React.createClass({
 
   mixins: [InputsMixin],
