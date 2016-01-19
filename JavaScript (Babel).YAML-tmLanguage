@@ -205,7 +205,11 @@ repository:
       match: (?<!\.)\b(declare)\b
 
     - name: meta.type.flowtype.js
-      begin: (?<!\.)\b(type)\b(?=\s*[_$a-zA-Z])
+      # this is pretty convoluted, but we want to explicitly avoid matching type
+      # in `type of x` (may appear in ES6 foreach), `type in x` and
+      # `type instanceof x`. (e.g. avoid matching any typical JS alphabetical
+      # binary operators)
+      begin: (?<!\.)\b(type)\b(?=\s*(?:[_$a-hj-np-zA-Z]|o[^f]|of\B|i[^n]|in[^s\W]|ins[^t]|inst[^a]|insta[^n]|instan[^c]|instanc[^e]|instance[^o]|instanceo[^f]|instanceof\B))
       beginCaptures:
         '1': {name: support.type.type.flowtype.js}
       end: (?=\s*(;|from))
