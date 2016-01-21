@@ -1,6 +1,10 @@
 # babel-sublime
 
 > Only supports **Sublime Text 3**. Sublime Text 2 is no longer supported.
+> 
+> Works best with a [recent Sublime Text 3 build][devbuilds] (at least 3095 is recommended).
+
+[devbuilds]: http://www.sublimetext.com/3dev
 
 Language definitions for [ES6+ JavaScript](http://kangax.github.io/compat-table/es6/) with [React JSX syntax](http://facebook.github.io/react/docs/jsx-in-depth.html) extensions.
 
