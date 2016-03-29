@@ -2145,21 +2145,13 @@
   (\b_?[A-Z][$\w]*)?
   (\.)(prototype)
   (\.)([_$a-zA-Z][$\w]*)
-  \s*(=)
-  \s*(?:(async)\s+)?
-  \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
-  \s*([_$a-zA-Z][$\w]*)?\s*</string>
+  \s*(=)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
 							<string>entity.name.class.js</string>
-						</dict>
-						<key>10</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
 						</dict>
 						<key>2</key>
 						<dict>
@@ -2186,47 +2178,25 @@
 							<key>name</key>
 							<string>keyword.operator.assignment.js</string>
 						</dict>
-						<key>7</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.js</string>
-						</dict>
-						<key>8</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.function.js</string>
-						</dict>
-						<key>9</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
-						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?&lt;=\))</string>
+					<string>(?=[^\s])</string>
 					<key>name</key>
 					<string>meta.function.prototype.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#flowtype-polymorph</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#function-declaration-parameters</string>
+							<string>#literal-function</string>
 						</dict>
 					</array>
 				</dict>
 				<dict>
 					<key>begin</key>
 					<string>(?x)
-  (\b_?[A-Z][$\w]*)?
+  (\b_?[A-Z][$\w]*)
   (\.)([_$a-zA-Z][$\w]*)
-  \s*(=)
-  \s*(?:(async)\s+)?
-  \s*(function)(?&gt;\s*(\*)|(?=[\s(&lt;]))
-  \s*([_$a-zA-Z][$\w]*)?\s*</string>
+  \s*(=)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2249,40 +2219,16 @@
 							<key>name</key>
 							<string>keyword.operator.assignment.js</string>
 						</dict>
-						<key>5</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.js</string>
-						</dict>
-						<key>6</key>
-						<dict>
-							<key>name</key>
-							<string>storage.type.function.js</string>
-						</dict>
-						<key>7</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.generator.asterisk.js</string>
-						</dict>
-						<key>8</key>
-						<dict>
-							<key>name</key>
-							<string>entity.name.function.js</string>
-						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?&lt;=\))</string>
+					<string>(?=[^\s])</string>
 					<key>name</key>
 					<string>meta.function.static.js</string>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#flowtype-polymorph</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#function-declaration-parameters</string>
+							<string>#literal-function</string>
 						</dict>
 					</array>
 				</dict>

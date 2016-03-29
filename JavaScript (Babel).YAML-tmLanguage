@@ -428,7 +428,7 @@ repository:
       - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
 
-    # e.g. Sound.prototype.play = function(arg1, arg2) {  }
+    # e.g. Sound.prototype.play =
     - name: meta.function.prototype.js
       begin: >-
         (?x)
@@ -436,9 +436,6 @@ repository:
           (\.)(prototype)
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
-          \s*(?:(async)\s+)?
-          \s*(function)(?>\s*(\*)|(?=[\s(<]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
@@ -446,38 +443,25 @@ repository:
         '4': {name: keyword.operator.accessor.js}
         '5': {name: entity.name.function.js}
         '6': {name: keyword.operator.assignment.js}
-        '7': {name: storage.type.js}
-        '8': {name: storage.type.function.js}
-        '9': {name: keyword.generator.asterisk.js}
-        '10': {name: entity.name.function.js}
-      end: (?<=\))
+      end: (?=[^\s])
       patterns:
-      - include: '#flowtype-polymorph'
-      - include: '#function-declaration-parameters'
+      - include: '#literal-function'
 
-    # e.g. Sound.play = function(arg1, arg2) {  }
+    # e.g. Sound.play =
     - name: meta.function.static.js
       begin: >-
         (?x)
-          (\b_?[A-Z][$\w]*)?
+          (\b_?[A-Z][$\w]*)
           (\.)([_$a-zA-Z][$\w]*)
           \s*(=)
-          \s*(?:(async)\s+)?
-          \s*(function)(?>\s*(\*)|(?=[\s(<]))
-          \s*([_$a-zA-Z][$\w]*)?\s*
       beginCaptures:
         '1': {name: entity.name.class.js}
         '2': {name: keyword.operator.accessor.js}
         '3': {name: entity.name.function.js}
         '4': {name: keyword.operator.assignment.js}
-        '5': {name: storage.type.js}
-        '6': {name: storage.type.function.js}
-        '7': {name: keyword.generator.asterisk.js}
-        '8': {name: entity.name.function.js}
-      end: (?<=\))
+      end: (?=[^\s])
       patterns:
-      - include: '#flowtype-polymorph'
-      - include: '#function-declaration-parameters'
+      - include: '#literal-function'
 
   literal-function-labels:
     patterns:
