@@ -48,15 +48,15 @@ Find them separately at [babel/babel-sublime-snippets](https://github.com/babel/
 
 ## Suggested Resources
 
+Sublime Text Color Schemes which are ready for JavaScript's new features and babel-sublime package.
+
 #### [Oceanic Next Color Scheme](https://github.com/voronianski/oceanic-next-theme)
 
 [![](https://raw.githubusercontent.com/voronianski/babel-sublime/master/screenshots/oceanic-next.png)](https://github.com/voronianski/oceanic-next-theme)
 
-Sublime Text Color Scheme which is ready for JavaScript's new features and babel-sublime package.
-
 #### [Zeus Color Scheme](https://github.com/zaynali53/Zeus-Theme)
 
-![zeus-color-scheme](https://raw.githubusercontent.com/zaynali53/Zeus-Theme/master/Zeus-Color-Scheme.PNG)
+[![zeus-color-scheme](https://raw.githubusercontent.com/zaynali53/Zeus-Theme/master/Zeus-Color-Scheme.PNG)](https://github.com/zaynali53/Zeus-Theme)
 
 ## About
 
