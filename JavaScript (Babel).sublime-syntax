@@ -173,6 +173,8 @@ contexts:
       pop: true
 
   class_name:
+    - match: (?=\s*extends|{)
+      pop: true
     - match: ({{ident}})
       scope: entity.name.class.js
       set:
