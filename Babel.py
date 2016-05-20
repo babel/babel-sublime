@@ -25,11 +25,39 @@ class BabelCommand(sublime_plugin.TextCommand):
         code = self.babelify(selected_text)
 
         if code:
-            w = sublime.Window.new_file(self.view.window())
+            window = self.view.window()
+            other_pane = self.determine_other_pane()
+            window.focus_group(other_pane)
+            w = window.new_file()
             w.settings().set('default_extension', 'js')
             w.set_syntax_file(self.view.settings().get('syntax'))
             w.set_scratch(True)
             w.insert(edit, 0, code)
+
+    def determine_other_pane(self):
+        window = self.view.window()
+        active_group = window.active_group()
+        num_groups = window.num_groups()
+        layout = window.get_layout()
+        cells = layout['cells']
+        cols = layout['cols']
+        if num_groups == 1:
+            # Only pane. Create a new one.
+            window.run_command('set_layout', {
+                "cols": [0.0, 0.5, 1.0],
+                "rows": [0.0, 1.0],
+                "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
+                })
+            return 1
+        elif active_group == num_groups - 1:
+            # Last pane in window. Use the previous one.
+            return active_group - 1
+        elif len(cols) > 2 and cells[active_group][2] == len(cols) - 1:
+            # Last pane in row. Use the previous one.
+            return active_group - 1
+        else:
+            # Otherwise, use the next one.
+            return active_group + 1
 
     def babelify(self, data):
         try:
