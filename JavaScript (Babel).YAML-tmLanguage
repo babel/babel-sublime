@@ -33,10 +33,10 @@ repository:
     - include: '#literal-arrow-function'
     - include: '#literal-prototype'           # after literal-function, which includes some prototype strings
 
+    - include: '#literal-module'              # before literal-keywords, so "default" isn't matched as keyword.control.loop
     - include: '#literal-keywords'
 
     - include: '#literal-method'
-    - include: '#literal-module'
     - include: '#literal-class'
     - include: '#flowtype-declaration'
 
