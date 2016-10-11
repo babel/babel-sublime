@@ -424,10 +424,12 @@ contexts:
         6: entity.name.function.js
       push:
         - meta_scope: meta.function.js
-        - match: (?<=\))
+        - match: (?=\s*[;{])
           pop: true
         - include: flowtype-polymorph
         - include: function-declaration-parameters
+        - include: flowtype-annotation
+        - include: curly-brackets
 
     # e.g. Sound.prototype.play = function(arg1, arg2) {  }
     - match: >-
@@ -452,10 +454,12 @@ contexts:
         10: entity.name.function.js
       push:
         - meta_scope: meta.function.prototype.js
-        - match: (?<=\))
+        - match: (?=\s*[;{])
           pop: true
         - include: flowtype-polymorph
         - include: function-declaration-parameters
+        - include: flowtype-annotation
+        - include: curly-brackets
 
     # e.g. Sound.play = function(arg1, arg2) {  }
     - match: >-
@@ -477,10 +481,12 @@ contexts:
         8: entity.name.function.js
       push:
         - meta_scope: meta.function.static.js
-        - match: (?<=\))
+        - match: (?=\s*[;{])
           pop: true
         - include: flowtype-polymorph
         - include: function-declaration-parameters
+        - include: flowtype-annotation
+        - include: curly-brackets
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }

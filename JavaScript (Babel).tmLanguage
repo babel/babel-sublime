@@ -2124,7 +2124,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?&lt;=\))</string>
+					<string>(?=\s*[;{])</string>
 					<key>name</key>
 					<string>meta.function.js</string>
 					<key>patterns</key>
@@ -2136,6 +2136,14 @@
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#flowtype-annotation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#curly-brackets</string>
 						</dict>
 					</array>
 				</dict>
@@ -2203,7 +2211,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?&lt;=\))</string>
+					<string>(?=\s*[;{])</string>
 					<key>name</key>
 					<string>meta.function.prototype.js</string>
 					<key>patterns</key>
@@ -2215,6 +2223,14 @@
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#flowtype-annotation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#curly-brackets</string>
 						</dict>
 					</array>
 				</dict>
@@ -2271,7 +2287,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?&lt;=\))</string>
+					<string>(?=\s*[;{])</string>
 					<key>name</key>
 					<string>meta.function.static.js</string>
 					<key>patterns</key>
@@ -2283,6 +2299,14 @@
 						<dict>
 							<key>include</key>
 							<string>#function-declaration-parameters</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#flowtype-annotation</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#curly-brackets</string>
 						</dict>
 					</array>
 				</dict>
