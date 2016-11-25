@@ -1,9 +1,0 @@
-# [PackageDev] target_format: plist, ext: tmPreferences
-name: Comments
-scope: source.js meta.jsx.js - meta.embedded.expression
-settings:
-  shellVariables:
-  - name: TM_COMMENT_START_2
-    value: '{/*'
-  - name: TM_COMMENT_END_2
-    value: '*/}'

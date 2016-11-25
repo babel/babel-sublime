@@ -1,6 +1,0 @@
-# [PackageDev] target_format: plist, ext: tmPreferences
-name: Symbol List Banned
-scope: source.js meta.function-call, source.js meta.instance.constructor
-settings:
-  showInSymbolList: '0'
-  showInIndexedSymbolList: '1'
