@@ -24,5 +24,21 @@
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
 		]
+	},
+	// Auto-pair interpolation
+	{ "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
+		[
+			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.js string.template.js - meta.template.expression.js", "match_all": true },
+			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\$$", "match_all": true }
+		]
+	},
+	{ "keys": ["$"], "command": "insert_snippet", "args": {"contents": "\\${${0:$SELECTION}}"}, "context":
+		[
+			{ "key": "selector", "operator": "equal", "operand": "source.js string.template.js - meta.template.expression.js", "match_all": true },
+			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
+		]
 	}
 ]
