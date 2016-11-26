@@ -183,34 +183,90 @@ Sound.play.repeat = {}
 Sound[play].repeat = {}
 
 Sound.prototype.play = function() {}
+Sound.prototype.play =
+  function() {}
 Sound.prototype.play = function(arg) {}
+Sound.prototype.play =
+  function(arg) {}
 Sound.prototype.play = function*() {}
+Sound.prototype.play =
+  function*() {}
 Sound.prototype.play = function*(arg) {}
+Sound.prototype.play =
+  function*(arg) {}
 Sound.prototype.play = async function() {}
+Sound.prototype.play =
+  async function() {}
 Sound.prototype.play = async function(arg) {}
+Sound.prototype.play =
+  async function(arg) {}
 Sound.prototype.play = async function*() {}
+Sound.prototype.play =
+  async function*() {}
 Sound.prototype.play = async function*(arg) {}
+Sound.prototype.play =
+  async function*(arg) {}
 Sound.prototype.play = async () => {}
+Sound.prototype.play =
+  async () => {}
 Sound.prototype.play = async (arg) => {}
+Sound.prototype.play =
+  async (arg) => {}
 Sound.prototype.play = async arg => {}
+Sound.prototype.play =
+  async arg => {}
 Sound.prototype.play = () => {}
+Sound.prototype.play =
+  () => {}
 Sound.prototype.play = (arg) => {}
+Sound.prototype.play =
+  (arg) => {}
 Sound.prototype.play = arg => {}
+Sound.prototype.play =
+  arg => {}
 
 Sound.play = function() {}
+Sound.play =
+  function() {}
 Sound.play = function(arg) {}
+Sound.play =
+  function(arg) {}
 Sound.play = function*() {}
+Sound.play =
+  function*() {}
 Sound.play = function*(arg) {}
+Sound.play =
+  function*(arg) {}
 Sound.play = async function() {}
+Sound.play =
+  async function() {}
 Sound.play = async function(arg) {}
+Sound.play =
+  async function(arg) {}
 Sound.play = async function*() {}
+Sound.play =
+  async function*() {}
 Sound.play = async function*(arg) {}
+Sound.play =
+  async function*(arg) {}
 Sound.play = async () => {}
+Sound.play =
+  async () => {}
 Sound.play = async (arg) => {}
+Sound.play =
+  async (arg) => {}
 Sound.play = async arg => {}
+Sound.play =
+  async arg => {}
 Sound.play = () => {}
+Sound.play =
+  () => {}
 Sound.play = (arg) => {}
+Sound.play =
+  (arg) => {}
 Sound.play = arg => {}
+Sound.play =
+  arg => {}
 
 play = function() {}
 play = function(arg) {}

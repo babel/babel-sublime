@@ -429,16 +429,13 @@ contexts:
         - include: flowtype-polymorph
         - include: function-declaration-parameters
 
-    # e.g. Sound.prototype.play = function(arg1, arg2) {  }
+    # e.g. Sound.prototype.play =
     - match: >-
         (?x)
           (\b_?[A-Z][$\w]*)?
           (\.)(prototype)
           (\.)({{ident}})
           \s*(=)
-          \s*(?:(async)\s+)?
-          \s*(function)(?>\s*(\*)|(?=[\s(<]))
-          \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
@@ -446,41 +443,28 @@ contexts:
         4: keyword.operator.accessor.js
         5: entity.name.function.js
         6: keyword.operator.assignment.js
-        7: storage.type.js
-        8: storage.type.function.js
-        9: keyword.generator.asterisk.js
-        10: entity.name.function.js
       push:
         - meta_scope: meta.function.prototype.js
-        - match: (?<=\))
+        - match: (?=[^\s])
           pop: true
-        - include: flowtype-polymorph
-        - include: function-declaration-parameters
+        - include: literal-function
 
-    # e.g. Sound.play = function(arg1, arg2) {  }
+    # e.g. Sound.play =
     - match: >-
         (?x)
-          (\b_?[A-Z][$\w]*)?
+          (\b_?[A-Z][$\w]*)
           (\.)({{ident}})
           \s*(=)
-          \s*(?:(async)\s+)?
-          \s*(function)(?>\s*(\*)|(?=[\s(<]))
-          \s*({{ident}})?\s*
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
         3: entity.name.function.js
         4: keyword.operator.assignment.js
-        5: storage.type.js
-        6: storage.type.function.js
-        7: keyword.generator.asterisk.js
-        8: entity.name.function.js
       push:
         - meta_scope: meta.function.static.js
-        - match: (?<=\))
+        - match: (?=[^\s])
           pop: true
-        - include: flowtype-polymorph
-        - include: function-declaration-parameters
+        - include: literal-function
 
   literal-function-labels:
     # e.g. play: function(arg1, arg2) {  }
