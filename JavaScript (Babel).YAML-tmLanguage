@@ -423,10 +423,12 @@ repository:
         '4': {name: storage.type.function.js}
         '5': {name: keyword.generator.asterisk.js}
         '6': {name: entity.name.function.js}
-      end: (?<=\))
+      end: (?=\s*[;{])
       patterns:
       - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#curly-brackets'
 
     # e.g. Sound.prototype.play = function(arg1, arg2) {  }
     - name: meta.function.prototype.js
@@ -450,10 +452,12 @@ repository:
         '8': {name: storage.type.function.js}
         '9': {name: keyword.generator.asterisk.js}
         '10': {name: entity.name.function.js}
-      end: (?<=\))
+      end: (?=\s*[;{])
       patterns:
       - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#curly-brackets'
 
     # e.g. Sound.play = function(arg1, arg2) {  }
     - name: meta.function.static.js
@@ -474,10 +478,12 @@ repository:
         '6': {name: storage.type.function.js}
         '7': {name: keyword.generator.asterisk.js}
         '8': {name: entity.name.function.js}
-      end: (?<=\))
+      end: (?=\s*[;{])
       patterns:
       - include: '#flowtype-polymorph'
       - include: '#function-declaration-parameters'
+      - include: '#flowtype-annotation'
+      - include: '#curly-brackets'
 
   literal-function-labels:
     patterns:
