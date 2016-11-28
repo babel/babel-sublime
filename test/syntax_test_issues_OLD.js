@@ -89,3 +89,46 @@ var foo = bar ? "+" + (baz) : qux;
 }}}}}}}}}}}}}}
 //^^^^^^^^^^^^ source.js - meta.tag.mustache
 
+
+/**
+ * https://github.com/babel/babel-sublime/issues/253
+ */
+
+for(let a of list)
+//^^^^^^^^^^^^^^^^ meta.for
+//^ keyword.control.loop
+// ^ meta.brace.round.begin
+//  ^^^ storage.type
+//      ^ variable.other.readwrite
+//        ^^ keyword.operator
+//           ^^^^ variable.other.readwrite
+//               ^ meta.for meta.brace.round.end
+
+for(let a of [])
+//^^^^^^^^^^^^^^ meta.for
+//^ keyword.control.loop
+// ^ meta.brace.round.begin
+//  ^^^ storage.type
+//      ^ variable.other.readwrite
+//        ^^ keyword.operator
+//           ^ meta.group.braces.square meta.brace.square.begin
+//            ^ meta.group.braces.square meta.brace.square.end
+//             ^ meta.brace.round.end
+
+for(let a of (list || []))
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//^ keyword.control.loop
+//<- source.js
+// ^ meta.brace.round.begin
+//  ^^^ storage.type
+//      ^ variable.other.readwrite
+//        ^^^ meta.function-call.with-arguments
+//        ^^ meta.function-call.with-arguments variable.function
+//           ^^^^^^^^^^^^ meta.group.braces.round
+//           ^ meta.group.braces.round meta.brace.round.begin
+//            ^^^^ meta.group.braces.round variable.other.readwrite
+//                 ^^ meta.group.braces.round keyword.operator.logical
+//                    ^ meta.group.braces.round meta.group.braces.square meta.brace.square.begin
+//                     ^ meta.group.braces.round meta.group.braces.square meta.brace.square.end
+//                      ^^ meta.brace.round.end
+//                      ^ meta.group.braces.round meta.brace.round.end
