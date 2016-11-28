@@ -202,3 +202,24 @@ void <div>{[<span />]}</div>
 //                     ^^^^^^ string.regexp
 //                     ^ string.regexp punctuation.definition.string.begin
 / /* END ERROR */
+
+
+/**
+ * https://github.com/babel/babel-sublime/issues/275
+ */
+
+if (_.startsWith(line, 'State(')) {}
+//<- keyword.control.conditional
+// ^ meta.group.braces.round meta.brace.round.begin
+//  ^ meta.group.braces.round variable.other.object variable.other.object
+//   ^ meta.group.braces.round keyword.operator.accessor
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.braces.round meta.method
+//    ^^^^^^^^^^ meta.group.braces.round meta.method string.unquoted entity.name.function
+//              ^ meta.group.braces.round meta.method punctuation.definition.parameters.begin
+//               ^^^^ meta.group.braces.round meta.method variable.parameter.function
+//                   ^ meta.group.braces.round meta.method punctuation.separator.parameter.function
+//                      ^^^^^ meta.group.braces.round meta.method variable.parameter.function
+//                             ^ meta.group.braces.round meta.method punctuation.definition.parameters.end
+//                              ^ meta.group.braces.round meta.brace.round.end
+//                                ^ meta.group.braces.curly meta.brace.curly.begin
+//                                 ^ meta.group.braces.curly meta.brace.curly.end
