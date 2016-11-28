@@ -223,3 +223,53 @@ if (_.startsWith(line, 'State(')) {}
 //                              ^ meta.group.braces.round meta.brace.round.end
 //                                ^ meta.group.braces.curly meta.brace.curly.begin
 //                                 ^ meta.group.braces.curly meta.brace.curly.end
+
+
+/**
+ * https://github.com/babel/babel-sublime/issues/284
+ */
+
+@web.controller('/hello')
+//^ tag.decorator entity.name.tag
+//<- tag.decorator punctuation.definition.tag
+//  ^ keyword.operator.accessor
+//   ^^^^^^^^^^ meta.function-call.method.with-arguments variable.function
+//             ^ meta.group.braces.round meta.brace.round.begin
+//              ^^^^^^^^ meta.group.braces.round string.quoted
+//              ^ meta.group.braces.round string.quoted punctuation.definition.string.begin
+//                     ^ meta.group.braces.round string.quoted punctuation.definition.string.end
+//                      ^ meta.group.braces.round meta.brace.round.end
+class Klass {
+//^^^ storage.type.class
+//    ^^^^^ entity.name.class
+//          ^ meta.brace.curly.begin
+  @web.get()
+//^ tag.decorator punctuation.definition.tag
+// ^^^ tag.decorator entity.name.tag
+//     ^^^ meta.class-method string.unquoted entity.name.function
+//        ^ meta.class-method punctuation.definition.parameters.begin
+//         ^ meta.class-method punctuation.definition.parameters.end
+  foo(a, b) {}
+//   ^ meta.class-method punctuation.definition.parameters.begin
+//    ^ meta.class-method variable.parameter.function
+//     ^ meta.class-method punctuation.separator.parameter.function
+//       ^ meta.class-method variable.parameter.function
+//        ^ meta.class-method punctuation.definition.parameters.end
+//          ^ meta.group.braces.curly meta.brace.curly.begin
+//           ^ meta.group.braces.curly meta.brace.curly.end
+
+  @web.use
+//^ tag.decorator punctuation.definition.tag
+// ^^^ tag.decorator entity.name.tag
+  bar(c, d) {}
+//^^^^^^^^^ meta.class-method
+//^^^ meta.class-method string.unquoted entity.name.function
+//   ^ meta.class-method punctuation.definition.parameters.begin
+//    ^ meta.class-method variable.parameter.function
+//     ^ meta.class-method punctuation.separator.parameter.function
+//       ^ meta.class-method variable.parameter.function
+//        ^ meta.class-method punctuation.definition.parameters.end
+//          ^ meta.group.braces.curly meta.brace.curly.begin
+//           ^ meta.group.braces.curly meta.brace.curly.end
+}
+//<- meta.class meta.brace.curly.end
