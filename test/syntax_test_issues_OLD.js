@@ -150,3 +150,30 @@ return a ? a*a : 0;
 //             ^ constant.other.object.key punctuation.separator.key-value
 //               ^ constant.numeric
 //                ^ punctuation.terminator.statement
+
+
+/**
+ * https://github.com/babel/babel-sublime/issues/270
+ */
+
+class Foo {
+//^^^ meta.class storage.type.class
+//    ^^^ meta.class entity.name.class
+//        ^ meta.class meta.brace.curly.begin
+  bar = baz::map(
+//^^^ meta.class.property variable.other.property
+//    ^ meta.class.property keyword.operator.assignment
+//      ^^^ meta.class.property variable.other.readwrite
+//         ^ meta.class.property meta.flowtype.annotation keyword.operator.flowtype.annotation
+//          ^ meta.class.property meta.flowtype.annotation keyword.operator.flowtype.other
+//           ^^^ meta.class.property meta.flowtype.annotation variable.other.flowtype
+//              ^ meta.class.property meta.flowtype.annotation punctuation.section.flowtype.begin
+    thing => 1
+//  ^^^^^ meta.class.property meta.flowtype.annotation variable.other.flowtype
+//        ^^ meta.class.property meta.flowtype.annotation meta.flowtype.function keyword.operator.flowtype
+  );
+  constructor() {}
+//^^^^^^^^^^^ meta.class.property meta.flowtype.annotation meta.flowtype.function variable.other.flowtype
+//           ^ meta.class.property meta.flowtype.annotation punctuation.section.flowtype.begin
+//            ^ meta.class.property meta.flowtype.annotation punctuation.section.flowtype.end
+}
