@@ -1,0 +1,16 @@
+# [PackageDev] target_format: plist, ext: tmPreferences
+name: JSX 2
+scope: source.js
+settings:
+  # The indent patterns can't be limited to meta.jsx.js. Otherwise they wouldn't
+  # work for the outer most tag since it would fall outside of that scope.
+  # They're also not limited with '- string - comment' since you may be writing
+  # JSX in your documentation or template strings.
+  decreaseIndentPattern: >-
+    (?x)
+        ^\s*</[^>]+>$
+      | ^\s*/>$
+  increaseIndentPattern: >-
+    (?x)
+        ^\s*<[^/>]+>$
+      | ^\s*<[^/>\s]+$

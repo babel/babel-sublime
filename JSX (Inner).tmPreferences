@@ -8,14 +8,6 @@
 	<string>source.js meta.jsx.js - meta.embedded.expression</string>
 	<key>settings</key>
 	<dict>
-		<key>decreaseIndentPattern</key>
-		<string>(?x)
-    ^\s*&lt;/[^&gt;]+&gt;$
-  | ^\s*/&gt;$</string>
-		<key>increaseIndentPattern</key>
-		<string>(?x)
-    ^\s*&lt;[^/&gt;]+&gt;$
-  | ^\s*&lt;[^/&gt;\s]+$</string>
 		<key>shellVariables</key>
 		<array>
 			<dict>
