@@ -3,7 +3,7 @@ name: JSX
 scope: source.js meta.jsx.js - meta.embedded.expression
 settings:
   shellVariables:
-  - name: TM_COMMENT_START_2
+  - name: TM_COMMENT_START
     value: '{/*'
-  - name: TM_COMMENT_END_2
+  - name: TM_COMMENT_END
     value: '*/}'
