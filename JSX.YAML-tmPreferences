@@ -7,3 +7,11 @@ settings:
     value: '{/*'
   - name: TM_COMMENT_END
     value: '*/}'
+  decreaseIndentPattern: >-
+    (?x)
+        ^\s*</[^>]+>$
+      | ^\s*/>$
+  increaseIndentPattern: >-
+    (?x)
+        ^\s*<[^/>]+>$
+      | ^\s*<[^/>\s]+$
