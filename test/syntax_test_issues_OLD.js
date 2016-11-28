@@ -177,3 +177,28 @@ class Foo {
 //           ^ meta.class.property meta.flowtype.annotation punctuation.section.flowtype.begin
 //            ^ meta.class.property meta.flowtype.annotation punctuation.section.flowtype.end
 }
+))} /* END ERROR */
+
+
+/**
+ * https://github.com/babel/babel-sublime/issues/274
+ */
+
+void <div>{[<span />]}</div>
+//^^ keyword.operator
+//<- source.js
+//   ^ keyword.operator.relational
+//    ^^^ variable.other.readwrite
+//       ^ keyword.operator.relational
+//        ^ meta.group.braces.curly meta.brace.curly.begin
+//         ^ meta.group.braces.curly meta.group.braces.square meta.brace.square.begin
+//          ^^^^^^^^ meta.group.braces.curly meta.group.braces.square meta.jsx
+//          ^ meta.group.braces.curly meta.group.braces.square meta.jsx meta.tag punctuation.definition.tag.begin
+//           ^^^^ meta.group.braces.curly meta.group.braces.square meta.jsx meta.tag entity.name.tag
+//                ^^ meta.group.braces.curly meta.group.braces.square meta.jsx meta.tag punctuation.definition.tag.end
+//                  ^ meta.group.braces.curly meta.group.braces.square meta.brace.square.end
+//                   ^ meta.group.braces.curly meta.brace.curly.end
+//                    ^ keyword.operator.relational
+//                     ^^^^^^ string.regexp
+//                     ^ string.regexp punctuation.definition.string.begin
+/ /* END ERROR */
