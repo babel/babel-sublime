@@ -77,3 +77,15 @@ var foo = bar ? "+" + (baz) : qux;
 //                            ^^^ variable.other.readwrite
 //                               ^ punctuation.terminator.statement
 
+
+/**
+ * https://github.com/babel/babel-sublime/issues/249
+ */
+
+{{{{{{{{{{{{{{
+//^^^^^^^^^^^^ meta.tag.mustache
+  console.log
+//^^^^^^^^^^^^ meta.tag.mustache
+}}}}}}}}}}}}}}
+//^^^^^^^^^^^^ source.js - meta.tag.mustache
+
