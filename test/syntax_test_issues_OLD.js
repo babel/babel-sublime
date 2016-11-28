@@ -132,3 +132,21 @@ for(let a of (list || []))
 //                     ^ meta.group.braces.round meta.group.braces.square meta.brace.square.end
 //                      ^^ meta.brace.round.end
 //                      ^ meta.group.braces.round meta.brace.round.end
+
+
+/**
+ * https://github.com/babel/babel-sublime/issues/256
+ */
+
+return a ? a*a : 0;
+//^^^^ keyword.control.flow
+//<- source.js
+//     ^ variable.other.readwrite
+//       ^ keyword.operator.ternary
+//         ^ variable.other.readwrite
+//          ^ keyword.operator.arithmetic
+//           ^^^ constant.other.object.key
+//           ^ constant.other.object.key string.unquoted.label
+//             ^ constant.other.object.key punctuation.separator.key-value
+//               ^ constant.numeric
+//                ^ punctuation.terminator.statement
