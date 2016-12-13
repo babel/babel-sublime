@@ -17,6 +17,8 @@ repository:
     - include: '#literal-for'
     - include: '#literal-switch'
 
+    - include: '#styled-components'           # add support for styled-components
+
     - include: '#expression'
     - include: '#literal-punctuation'
 
@@ -1093,6 +1095,58 @@ repository:
 
     - name: constant.character.escape.js
       match: \\([1-7][0-7]{0,2}|[0-7]{2,3}|[bfnrtv0'"\\]|x\h{2}|u\{\h+\}|u\h{4})
+
+  styled-components:
+    patterns:
+    - include: '#styled-components-styled'
+    - include: '#styled-components-global'
+    - include: '#styled-components-keyframes'
+  styled-components-global:
+    begin: \s*+(?:(?:injectGlobal))\s*((`))
+    beginCaptures:
+      '0':
+        name: entity.name.function.js
+      '2':
+        name: string.interpolated.css keyword.other.template.begin.css
+    end: (`)
+    endCaptures:
+      '1':
+        name: string.interpolated.css keyword.other.template.end.css
+    name: source.css.embedded.js
+    patterns:
+    - include: source.scss
+  styled-components-keyframes:
+    begin: \s*+(?:(?:keyframes))\s*((`))
+    beginCaptures:
+      '0':
+        name: entity.name.function.js
+      '2':
+        name: string.interpolated.css keyword.other.template.begin.css
+    end: (`)
+    endCaptures:
+      '1':
+        name: string.interpolated.css keyword.other.template.end.css
+    name: source.css.embedded.js
+    patterns:
+    - include: source.scss
+  styled-components-styled:
+    begin: \s*+(?:(?:(\bstyled)(?:(\.)\s*(\w+))))\s*((`))
+    beginCaptures:
+      '1':
+        name: variable.other.object.js
+      '2':
+        name: keyword.operator.accessor
+      '3':
+        name: meta.function entity.name.function
+      '5':
+        name: string.interpolated.css keyword.other.template.begin.css
+    end: (`)
+    endCaptures:
+      '0':
+        name: string.interpolated.css keyword.other.template.end.css
+    name: source.css.embedded.js
+    patterns:
+    - include: source.js.css
 
   literal-variable:
     patterns:
