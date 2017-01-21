@@ -905,12 +905,12 @@ repository:
         (?x)
           !(?!=)| # logical-not     right-to-left   right
           &&    | # logical-and     left-to-right   both
-          \|\|  | # logical-or      left-to-right   both
+          \|\|    # logical-or      left-to-right   both
 
     - name: keyword.operator.assignment.js
       match: >-
         (?x)
-          =(?!=)| # assignment      right-to-left   both
+          =(?!=)  # assignment      right-to-left   both
 
     - name: keyword.operator.assignment.augmented.js
       match: >-
@@ -925,7 +925,7 @@ repository:
           \|=  | # assignment      right-to-left   both
           <<=  | # assignment      right-to-left   both
           >>=  | # assignment      right-to-left   both
-          >>>= | # assignment      right-to-left   both
+          >>>=   # assignment      right-to-left   both
 
     - name: keyword.operator.bitwise.js
       match: >-
