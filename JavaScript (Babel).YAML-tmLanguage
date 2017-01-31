@@ -1215,7 +1215,7 @@ repository:
         '3': {name: support.type.object.process.js}
         '4': {name: support.function.process.js}
 
-    - match: (?<!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b
+    - match: (?<!\.)\b(exports|module)(?:(\.)(children|exports|filename|id|loaded|parent))?\b
       captures:
         '1': {name: support.type.object.module.js}
         '2': {name: keyword.operator.accessor.js}
