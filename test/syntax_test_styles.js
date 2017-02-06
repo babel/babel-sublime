@@ -1,41 +1,96 @@
 // SYNTAX TEST "JavaScript (Babel).tmLanguage"
 
-styled.h1`color:palevioletred;`
-//^^^^ source.js source.css.embedded.js variable.other.object.js
-//    ^ source.js source.css.embedded.js keyword.operator.accessor
-//     ^^ source.js source.css.embedded.js meta.function entity.name.function
-//       ^ source.js source.css.embedded.js string.interpolated.css keyword.other.template.begin.css
-//        ^^^^^ source.js source.css.embedded.js meta.property-list.css meta.property-name.css support.type.property-name.css
-//             ^ source.js source.css.embedded.js meta.property-list.css meta.property-value.css punctuation.separator.key-value.css
-//              ^^^^^^^^^^^^^ source.js source.css.embedded.js meta.property-list.css meta.property-value.css invalid.deprecated.color.w3c-non-standard-color-name.css
-//                           ^ source.js source.css.embedded.js meta.property-list.css meta.property-value.css punctuation.terminator.rule.css
-//                            ^ source.js source.css.embedded.js string.interpolated.css keyword.other.template.end.css
+styled.h1`color: #ffcc00;`
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^ variable.other.object
+//    ^ punctuation.accessor
+//     ^^ variable.function.tagged-template
+//       ^ punctuation.definition.string.template.begin
+//        ^^^^^^^^^^^^^^^ source.css.embedded
+//        ^^^^^^^^^^^^^^^ meta.property-list.css
+//                       ^ punctuation.definition.string.template.end
 
-injectGlobal`body{color:#ffcc00;}`
-//^^^^^^^^^^ source.js source.css.embedded.js entity.name.function.js
-//          ^ source.js string.interpolated.css keyword.other.template.begin.css
-//           ^^^^ source.js source.css.embedded.js entity.name.tag.scss
-//               ^ source.js source.css.embedded.js meta.property-list.scss punctuation.section.property-list.begin.scss
-//                ^^^^^ source.js source.css.embedded.js meta.property-list.scss meta.property-name.scss support.type.property-name.scss
-//                     ^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss punctuation.separator.key-value.scss
-//                      ^^^^^^^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss constant.other.color.rgb-value.scss
-//                             ^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss punctuation.terminator.rule.scss
-//                              ^ source.js source.css.embedded.js meta.property-list.scss punctuation.section.property-list.end.scss
-//                               ^ source.js source.css.embedded.js string.interpolated.css keyword.other.template.end.css
+    styled.h1``
+//  ^^^^^^^^^^^ meta.styled-components
+//^^ -meta.styled-components
+//             ^^ -meta.styled-components
 
-keyframes`0%{color:palevioletred;}50%{color:dodgerblue;}`
-//^^^^^^^ source.js source.css.embedded.js entity.name.function.js
-//       ^ source.js string.interpolated.css keyword.other.template.begin.css
-//        ^^ source.js source.css.embedded.js
-//          ^ source.js source.css.embedded.js meta.property-list.scss punctuation.section.property-list.begin.scss
-//           ^^^^^ source.js source.css.embedded.js meta.property-list.scss meta.property-name.scss support.type.property-name.scss
-//                ^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss punctuation.separator.key-value.scss
-//                 ^^^^^^^^^^^^^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss invalid.deprecated.color.w3c-non-standard-color-name.scss
-//                              ^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss punctuation.terminator.rule.scss
-//                               ^ source.js source.css.embedded.js meta.property-list.scss punctuation.section.property-list.end.scss
-//                                    ^^^^^ source.js source.css.embedded.js meta.property-list.scss meta.property-name.scss support.type.property-name.scss
-//                                         ^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss punctuation.separator.key-value.scss
-//                                          ^^^^^^^^^^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss invalid.deprecated.color.w3c-non-standard-color-name.scss
-//                                                    ^ source.js source.css.embedded.js meta.property-list.scss meta.property-value.scss punctuation.terminator.rule.scss
-//                                                     ^ source.js source.css.embedded.js meta.property-list.scss punctuation.section.property-list.end.scss
-//                                                      ^ source.js source.css.embedded.js string.interpolated.css keyword.other.template.end.css
+styled(Foo)`color: #ffcc00;`
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^^^^^^ meta.function-call.with-arguments
+//         ^^^^^^^^^^^^^^^^^ -meta.function-call.with-arguments
+//^^^^ variable.function
+//    ^^^^^ meta.group
+//    ^ punctuation.definition.group.begin
+//     ^^^ variable.other.readwrite
+//        ^ punctuation.definition.group.end
+//         ^ punctuation.definition.string.template.begin
+//          ^^^^^^^^^^^^^^^ source.css.embedded
+//          ^^^^^^^^^^^^^^^ meta.property-list.css
+//                         ^ punctuation.definition.string.template.end
+
+    styled(Foo)``
+//  ^^^^^^^^^^^^^ meta.styled-components
+//^^ -meta.styled-components
+//               ^^ -meta.styled-components
+
+styled(Foo.bar())`color: #ffcc00;`
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^^^^^^^^^^^^ meta.function-call.with-arguments
+//               ^^^^^^^^^^^^^^^^^ -meta.function-call.with-arguments
+//^^^^ variable.function
+//    ^^^^^^^^^^^ meta.group
+//    ^ punctuation.definition.group.begin
+//     ^^^ variable.other.class
+//        ^ keyword.operator.accessor
+//         ^^^ variable.function
+//              ^ punctuation.definition.group.end
+//               ^ punctuation.definition.string.template.begin
+//                ^^^^^^^^^^^^^^^ source.css.embedded
+//                ^^^^^^^^^^^^^^^ meta.property-list.css
+//                               ^ punctuation.definition.string.template.end
+
+    styled(Foo.bar())``
+//  ^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^ -meta.styled-components
+//                     ^^ -meta.styled-components
+
+styled('div')`color: #ffcc00;`
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^^^^^^^^ meta.function-call.with-arguments
+//           ^^^^^^^^^^^^^^^^^ -meta.function-call.with-arguments
+//^^^^ variable.function
+//    ^^^^^^^ meta.group
+//    ^ punctuation.definition.group.begin
+//     ^^^^^ string.quoted
+//          ^ punctuation.definition.group.end
+//           ^ punctuation.definition.string.template.begin
+//            ^^^^^^^^^^^^^^^ source.css.embedded
+//            ^^^^^^^^^^^^^^^ meta.property-list.css
+//                           ^ punctuation.definition.string.template.end
+
+injectGlobal`color: #ffcc00;`
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^^^^^^ variable.function.tagged-template
+//          ^ punctuation.definition.string.template.begin
+//           ^^^^^^^^^^^^^^^ source.css.embedded
+//           ^^^^^^^^^^^^^^^ meta.property-list.css
+//                          ^ punctuation.definition.string.template.end
+
+    injectGlobal``
+//  ^^^^^^^^^^^^^^ meta.styled-components
+//^^ -meta.styled-components
+//                ^^ -meta.styled-components
+
+keyframes`0%{color: red;} 50%{color: blue;}`
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^^^^ variable.function.tagged-template
+//       ^ punctuation.definition.string.template.begin
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css.embedded
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css
+//                                         ^ punctuation.definition.string.template.end
+
+    keyframes``
+//  ^^^^^^^^^^^ meta.styled-components
+//^^ -meta.styled-components
+//             ^^ -meta.styled-components
