@@ -745,7 +745,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?&lt;!\.)\b(type)\b(?=\s*[_$a-zA-Z])</string>
+					<string>(?&lt;!\.)\b(type)\b(?=\s*(?:[_$a-hj-np-zA-Z]|o[^f]|of\B|i[^n]|in[^s\W]|ins[^t]|inst[^a]|insta[^n]|instan[^c]|instanc[^e]|instance[^o]|instanceo[^f]|instanceof\B))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
