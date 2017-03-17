@@ -20,6 +20,10 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#interpolated-block</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#rule-list</string>
 		</dict>
 	</array>
@@ -113,6 +117,36 @@
 			<string>\*/</string>
 			<key>name</key>
 			<string>comment.block.css</string>
+		</dict>
+		<key>interpolated-block</key>
+		<dict>
+			<key>begin</key>
+			<string>\${</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.substitution.begin.js</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>}</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.substitution.end.js</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>source.js</string>
+				</dict>
+			</array>
 		</dict>
 		<key>media-query</key>
 		<dict>
@@ -414,6 +448,10 @@
 				<dict>
 					<key>include</key>
 					<string>#comment-block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#interpolated-block</string>
 				</dict>
 				<dict>
 					<key>begin</key>
