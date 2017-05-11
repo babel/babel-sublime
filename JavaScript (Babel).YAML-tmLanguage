@@ -338,6 +338,8 @@ repository:
       patterns:
       - include: '#flowtype-annotation'
       - include: '#expression'
+      - match: $
+        pop: true
 
   literal-method:
     patterns:
