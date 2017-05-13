@@ -8,6 +8,11 @@ Language definitions for [ES6+ JavaScript](http://kangax.github.io/compat-table/
 
 Find it as [**Babel**](https://packagecontrol.io/packages/Babel) through [Package Control](https://packagecontrol.io/).
 
+Note: if babel-sublime does not appear in your list of packages, you may add it by doing the following:
+
+- cmd+shift+p -> "Package Control: Add Repository"
+- Paste in https://github.com/babel/babel-sublime as the Github URL
+
 #### Setting as the default syntax
 
 To set it as the default syntax for a particular extension:
