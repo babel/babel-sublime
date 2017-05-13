@@ -100,6 +100,201 @@ repository:
     - include: '#square-brackets'
     - include: '#curly-brackets'
 
+  jsdoc:
+    patterns:
+    - include: "#jsdoc-inline-tags"
+    - include: "#jsdoc-access"
+    - include: "#jsdoc-as-namepath"
+    - include: "#jsdoc-simple"
+    - include: "#jsdoc-simple-namepath"
+    - include: "#jsdoc-module"
+    - include: "#jsdoc-type-name"
+    - include: "#jsdoc-type-noname"
+    - comment: additional jsdoc V2 keywords
+      match: "(?<!\\w)@(add|api|body|codeend|codestart|demo|download|group|hide|iframe|image|inherits|option|outline|page|parent|signature|tag)\\b"
+      name: storage.type.class.jsduck
+    - comment: additional jsduck keywords
+      match: "(?<!\\w)@(accessor|alternateClassName|aside|cfg|chainable|docauthor|evented|experimental|ftype|hide|inheritable|localdoc|markdown|mixins|new|override|preventable|ptype|removed|scss
+        mixin|singleton|template|uses|xtype)\\b"
+      name: storage.type.class.jsduck
+  jsdoc-access:
+    comment: "@tag protected...."
+    match: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(access))\\s*(private|protected|public)?(?=\\s|$)"
+    captures:
+      '1':
+        name: storage.type.class.jsdoc
+      '3':
+        name: storage.modifier.jsdoc
+  jsdoc-module:
+    comment: "@tag {optional type} module:file"
+    begin: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(exports|module|listens|requires)\\b)\\s*(?=({(?:(?>[^{}]+)|\\g<-1>)*\\})?\\s*(\\S*)([\\S\\s]*))"
+    end: "^|(?=\\*/)|(?=\\5$)"
+    beginCaptures:
+      '1':
+        name: storage.type.class.jsdoc
+    patterns:
+    - include: "#jsdoc-typedef-scopes"
+    - match: "(?:(module)(:))?(((?!\\*/)\\S)+)"
+      captures:
+        '1':
+          name: keyword.module.jsdoc
+        '2':
+          name: punctuation.jsdoc
+        '3':
+          name: string.modulename.jsdoc
+  jsdoc-as-namepath:
+    comment: to terminate the block
+    begin: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(borrows|lends)\\b)\\s*(?=(?!\\*/)\\S+(?:(?:\\s*\\bas\\b\\s*(?!\\*/)\\S+)?)?([\\S\\s]*))"
+    end: "^|(?=\\*/)|(?=\\3$)"
+    beginCaptures:
+      '1':
+        name: storage.type.class.jsdoc
+    patterns:
+    - include: "#jsdoc-namepath-scopes"
+  jsdoc-simple:
+    comment: "@tag"
+    match: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(abstract|author|classdesc|copyright|default|defaultvalue|deprecated|description|desc|example|external|fileoverview|file|global|host|ignore|inheritdoc|inner|instance|license|override|overview|readonly|see|since|static|summary|todo|tutorial|virtual|variation|version)\\b)(?=$|\\s)"
+    captures:
+      '1':
+        name: storage.type.class.jsdoc
+  jsdoc-simple-namepath:
+    comment: "@tag {opt type} Class#xxx or Class#Event:aaaa etc"
+    begin: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(alias|augments|callback|extends|emits|event|fires|interface|memberof|mixes|name|property|prop|this|typedef)\\b)\\s*(?=({(?:(?>[^{}]+)|\\g<-1>)*\\})?\\s*\\S*([\\S*\\s]*))"
+    end: "^|(?=\\*/)|(?=\\4$)"
+    beginCaptures:
+      '1':
+        name: storage.type.class.jsdoc
+    patterns:
+    - include: "#jsdoc-typedef-scopes"
+    - include: "#jsdoc-namepath-scopes"
+  jsdoc-type-name:
+    comment: "@tag {optional type} name"
+    begin: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(arg|argument|class|constant|constructor|constructs|const|function|func|kind|member|method|mixin|namespace|param|var|package)\\b)\\s*(?=({(?:(?>[^{}]+)|\\g<-1>)*\\})?\\s*(((\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])|\\S)+)?([\\S\\s]*))"
+    end: "^|(?=\\*/)|(?=\\7$)"
+    beginCaptures:
+      '1':
+        name: storage.type.class.jsdoc
+    patterns:
+    - include: "#jsdoc-typedef-scopes"
+    - include: "#jsdoc-name-scopes"
+  jsdoc-type-noname:
+    comment: "@tag {types}"
+    begin: "(?:^[\\s*]*|(?<=/\\*\\*)\\s*)(@(enum|exception|implements|private|protected|public|returns|return|throws|type)\\b)\\s*(?=({(?:(?>[^{}]+)|\\g<-1>)*\\})?\\s*([\\S\\s]*))"
+    end: "^|(?=\\*/)|(?=\\4$)"
+    beginCaptures:
+      '1':
+        name: storage.type.class.jsdoc
+    patterns:
+    - include: "#jsdoc-typedef-scopes"
+  jsdoc-inline-tags:
+    name: meta.tag.inline.jsdoc
+    begin: "(\\[(?:(?>[^\\[\\]]+)|\\g<-1>)*\\])?({)(?=@)"
+    end: "(})"
+    beginCaptures:
+      '1':
+        name: string.linktext.jsdoc
+      '2':
+        name: meta.brace.curly.jsdoc
+    endCaptures:
+      '1':
+        name: meta.brace.curly.jsdoc
+    patterns:
+    - match: "(@(link|tutorial))\\b([^}]*)"
+      captures:
+        '1':
+          name: storage.type.class.jsdoc
+        '3':
+          name: string.jsdoc
+  jsdoc-typedef-scopes:
+    name: entity.name.type.instance.jsdoc
+    begin: "{"
+    end: "}|^"
+    captures:
+      '0':
+        name: meta.brace.curly.jsdoc
+    patterns:
+    - include: "#jsdoc-typedef-primitives"
+    - include: "#jsdoc-namepath-scopes"
+    - include: "#jsdoc-typedef-obj"
+  jsdoc-typedef-primitives:
+    match: "\\b(null|undefined|boolean|string|number)\\b"
+    captures:
+      '1':
+        name: support.type.builtin.primitive.jsdoc
+  jsdoc-typedef-obj:
+    comment: typedef object
+    begin: "{"
+    end: "}|^"
+    captures:
+      '0':
+        name: meta.brace.curly.jsdoc
+    patterns:
+    - include: "#jsdoc-typedef-primitives"
+    - match: "\\b([$_A-Za-z][$_A-Za-z0-9]*)\\s*(:)"
+      captures:
+        '1':
+          name: variable.other.readwrite.jsdoc
+    - include: "#jsdoc-namepath-scopes"
+    - include: "#jsdoc-typedef-obj"
+  jsdoc-name-scopes:
+    patterns:
+    - match: ((?!\*/)[\S&&[^\[\]"']])+
+      captures:
+        '0':
+          name: variable.other.jsdoc
+    - name: variable.other.jsdoc
+      begin: "\\["
+      end: "\\]|^"
+      patterns:
+      - include: "#jsdoc-string"
+      - include: "#jsdoc-name-scopes"
+  jsdoc-namepath-scopes:
+    patterns:
+    - match: "\\s*\\b(as)\\b\\s*(?=[$_A-Za-z])"
+      captures:
+        '1':
+          name: keyword.as.jsdoc
+    - match: "\\s*(?:([A-Z][$_A-Za-z0-9]*)|([$_A-Za-z][$_A-Za-z0-9]*))(?=[\\s\\-~.#]|$)"
+      captures:
+        '1':
+          name: entity.name.class.jsdoc
+        '2':
+          name: entity.name.function.jsdoc
+    - match: (\.)([$_A-Za-z][$_A-Za-z0-9]*)(?=\s|$|\")
+      captures:
+        '1':
+          name: keyword.operator.accessor.jsdoc
+        '2':
+          name: entity.name.function.method.static.jsdoc
+    - match: (#)([$_A-Za-z][$_A-Za-z0-9]*)(?=\s|$|\")
+      captures:
+        '1':
+          name: keyword.operator.accessor.jsdoc
+        '2':
+          name: entity.name.function.method.instance.jsdoc
+    - match: (~|-)([$_A-Za-z][$_A-Za-z0-9]*)(?=\s|$|\")
+      captures:
+        '1':
+          name: keyword.operator.accessor.jsdoc
+        '2':
+          name: entity.name.function.method.inner.jsdoc
+    - match: "(#)(event)(:)"
+      captures:
+        '1':
+          name: keyword.operator.accessor.jsdoc
+        '2':
+          name: keyword.event.jsdoc
+        '3':
+          name: keyword.operator.jsdoc
+    - name: string.method.jsdoc
+      begin: \.(?="|')
+      end: "(?=.)"
+      patterns:
+      - include: "#jsdoc-string"
+  jsdoc-string:
+    name: string.jsdoc
+    match: '"(\\"|[^"])*"|''(\\''|[^''])*'''
+
   comments:
     patterns:
     - name: comment.block.documentation.js
@@ -107,6 +302,8 @@ repository:
       captures:
         '0': {name: punctuation.definition.comment.js}
       end: \*/
+      patterns:
+      - include: "#jsdoc"
 
     - name: comment.block.js
       begin: /\*
