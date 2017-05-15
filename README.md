@@ -26,7 +26,7 @@ It's possible to set `Babel` as the _only_ JavaScript package by disabling the s
   * extension-less node scripts will automatically be recognized as `JavaScript (Babel)`,
   * and reduced clutter in the syntax menu.
 
-**Keep in mind**, the stock snippets will no longer work (you may still use your own), and other third-party packages that depend on the stock package may break (no known ones so far).
+**Keep in mind**, the stock snippets will no longer work (you may still use your own), and other third-party packages that depend on the stock package may break (The PHP package for instance will no longer display embedded JavaScript code with syntax highlighting).
 
 ## Screenshots
 
