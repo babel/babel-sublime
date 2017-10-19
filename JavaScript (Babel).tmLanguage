@@ -481,6 +481,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#graphql</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#expression</string>
 				</dict>
 				<dict>
@@ -1109,6 +1113,27 @@
 									<string>#expression</string>
 								</dict>
 							</array>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>graphql</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\s*+gql`</string>
+					<key>end</key>
+					<string>`</string>
+					<key>name</key>
+					<string>meta.graphql.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>source.graphql</string>
 						</dict>
 					</array>
 				</dict>
@@ -2990,14 +3015,14 @@
 					<string>(?x)
   !(?!=)| # logical-not     right-to-left   right
   &amp;&amp;    | # logical-and     left-to-right   both
-  \|\|  | # logical-or      left-to-right   both</string>
+  \|\|    # logical-or      left-to-right   both</string>
 					<key>name</key>
 					<string>keyword.operator.logical.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>(?x)
-  =(?!=)| # assignment      right-to-left   both</string>
+  =(?!=)  # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.js</string>
 				</dict>
@@ -3014,7 +3039,7 @@
   \|=  | # assignment      right-to-left   both
   &lt;&lt;=  | # assignment      right-to-left   both
   &gt;&gt;=  | # assignment      right-to-left   both
-  &gt;&gt;&gt;= | # assignment      right-to-left   both</string>
+  &gt;&gt;&gt;=   # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.augmented.js</string>
 				</dict>
@@ -3914,7 +3939,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b</string>
+					<string>(?&lt;!\.)\b(exports|module)(?:(\.)(children|exports|filename|id|loaded|parent))?\b</string>
 				</dict>
 				<dict>
 					<key>begin</key>
