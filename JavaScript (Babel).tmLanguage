@@ -1135,6 +1135,21 @@
 							<key>include</key>
 							<string>source.graphql</string>
 						</dict>
+						<dict>
+							<key>begin</key>
+							<string>\${</string>
+							<key>end</key>
+							<string>}</string>
+							<key>name</key>
+							<string>source.js</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>source.js</string>
+								</dict>
+							</array>
+						</dict>
 					</array>
 				</dict>
 				<dict>
@@ -1149,6 +1164,21 @@
 						<dict>
 							<key>include</key>
 							<string>source.graphql</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>\${</string>
+							<key>end</key>
+							<string>}</string>
+							<key>name</key>
+							<string>source.js</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>source.js</string>
+								</dict>
+							</array>
 						</dict>
 					</array>
 				</dict>
