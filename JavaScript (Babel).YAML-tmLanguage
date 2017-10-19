@@ -1160,22 +1160,22 @@ repository:
       end: '`'
       patterns:
       - include: source.graphql
-      - name: source.js
+      - name: js
         begin: '\${'
         end: '}'
         patterns:
-        - include: source.js
+        - include: '#core'
 
     - name: meta.graphql.js
       begin: '\s*+`#graphql'
       end: '`'
       patterns:
       - include: source.graphql
-      - name: source.js
+      - name: js
         begin: '\${'
         end: '}'
         patterns:
-        - include: source.js
+        - include: '#core'
 
 
   literal-variable:

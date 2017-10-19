@@ -1141,12 +1141,12 @@
 							<key>end</key>
 							<string>}</string>
 							<key>name</key>
-							<string>source.js</string>
+							<string>js</string>
 							<key>patterns</key>
 							<array>
 								<dict>
 									<key>include</key>
-									<string>source.js</string>
+									<string>#core</string>
 								</dict>
 							</array>
 						</dict>
@@ -1171,12 +1171,12 @@
 							<key>end</key>
 							<string>}</string>
 							<key>name</key>
-							<string>source.js</string>
+							<string>js</string>
 							<key>patterns</key>
 							<array>
 								<dict>
 									<key>include</key>
-									<string>source.js</string>
+									<string>#core</string>
 								</dict>
 							</array>
 						</dict>
