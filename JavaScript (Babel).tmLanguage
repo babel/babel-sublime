@@ -1137,6 +1137,21 @@
 						</dict>
 					</array>
 				</dict>
+				<dict>
+					<key>begin</key>
+					<string>\s*+`#graphql</string>
+					<key>end</key>
+					<string>`</string>
+					<key>name</key>
+					<string>meta.graphql.js</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>source.graphql</string>
+						</dict>
+					</array>
+				</dict>
 			</array>
 		</dict>
 		<key>jsx-attribute-assignment</key>

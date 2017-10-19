@@ -1161,6 +1161,13 @@ repository:
       patterns:
       - include: source.graphql
 
+    - name: meta.graphql.js
+      begin: '\s*+`#graphql'
+      end: '`'
+      patterns:
+      - include: source.graphql
+
+
   literal-variable:
     patterns:
     # e.g. CONSTANT
