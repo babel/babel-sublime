@@ -6,6 +6,6 @@ settings:
   - name: TM_COMMENT_START
     value: '// '
   - name: TM_COMMENT_START_2
-    value: /*
+    value: '/* '
   - name: TM_COMMENT_END_2
-    value: '*/'
+    value: ' */'
