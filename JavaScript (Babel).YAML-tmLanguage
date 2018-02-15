@@ -27,6 +27,7 @@ repository:
     - include: '#merge-conflits'
     - include: '#literal-regexp'              # before operators and keywords to avoid ambiguities
     - include: '#literal-jsx'
+    - include: '#literal-tagged-html'
     - include: '#es7-decorators'
     - include: '#support-class'
     - include: '#support-other'
@@ -1310,6 +1311,19 @@ repository:
       match: '&(?:[a-zA-Z0-9]+|#\d+|#x\h+);'
     - name: invalid.illegal.bad-ampersand.jsx
       match: '&\S*;'
+
+  literal-tagged-html:
+    patterns:
+    - contentName: text.html.basic.embedded.js
+      begin: '(html)(`)'
+      beginCaptures:
+        '1': {name: meta.function-call.tagged-template.js}
+        '2': {name: punctuation.definition.string.template.begin.js}
+      end: '`'
+      endCaptures:
+        '0': {name: punctuation.definition.string.template.end.js}
+      patterns:
+      - include: 'text.html.basic'
 
   # https://github.com/wycats/javascript-decorators
   es7-decorators:

@@ -570,6 +570,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#literal-tagged-html</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#es7-decorators</string>
 				</dict>
 				<dict>
@@ -2990,14 +2994,14 @@
 					<string>(?x)
   !(?!=)| # logical-not     right-to-left   right
   &amp;&amp;    | # logical-and     left-to-right   both
-  \|\|  | # logical-or      left-to-right   both</string>
+  \|\|    # logical-or      left-to-right   both</string>
 					<key>name</key>
 					<string>keyword.operator.logical.js</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>(?x)
-  =(?!=)| # assignment      right-to-left   both</string>
+  =(?!=)  # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.js</string>
 				</dict>
@@ -3014,7 +3018,7 @@
   \|=  | # assignment      right-to-left   both
   &lt;&lt;=  | # assignment      right-to-left   both
   &gt;&gt;=  | # assignment      right-to-left   both
-  &gt;&gt;&gt;= | # assignment      right-to-left   both</string>
+  &gt;&gt;&gt;=   # assignment      right-to-left   both</string>
 					<key>name</key>
 					<string>keyword.operator.assignment.augmented.js</string>
 				</dict>
@@ -3330,6 +3334,48 @@
 									<string>$self</string>
 								</dict>
 							</array>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>literal-tagged-html</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>(html)(`)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>meta.function-call.tagged-template.js</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.template.begin.js</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>text.html.basic.embedded.js</string>
+					<key>end</key>
+					<string>`</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.template.end.js</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>text.html.basic</string>
 						</dict>
 					</array>
 				</dict>
@@ -3914,7 +3960,7 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(?&lt;!\.)\b(exports|module(?:(\.)(children|exports|filename|id|loaded|parent)))?\b</string>
+					<string>(?&lt;!\.)\b(exports|module)(?:(\.)(children|exports|filename|id|loaded|parent))?\b</string>
 				</dict>
 				<dict>
 					<key>begin</key>
