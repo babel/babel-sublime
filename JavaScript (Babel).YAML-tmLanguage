@@ -18,6 +18,7 @@ repository:
     - include: '#literal-switch'
 
     - include: '#styled-components'           # add support for styled-components
+    - include: '#graphql'
 
     - include: '#expression'
     - include: '#literal-punctuation'
@@ -1151,6 +1152,31 @@ repository:
           '0': {name: punctuation.definition.string.template.end.js}
         patterns:
         - include: source.js.css
+
+  graphql:
+    patterns:
+    - name: meta.graphql.js
+      begin: '\s*+gql`'
+      end: '`'
+      patterns:
+      - include: source.graphql
+      - name: js
+        begin: '\${'
+        end: '}'
+        patterns:
+        - include: '#core'
+
+    - name: meta.graphql.js
+      begin: '\s*+`#graphql'
+      end: '`'
+      patterns:
+      - include: source.graphql
+      - name: js
+        begin: '\${'
+        end: '}'
+        patterns:
+        - include: '#core'
+
 
   literal-variable:
     patterns:
