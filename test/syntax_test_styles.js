@@ -15,6 +15,32 @@ styled.h1`color: #ffcc00;`
 //^^ -meta.styled-components
 //             ^^ -meta.styled-components
 
+
+styled.h1`${(props) => props.property}: #fff;`
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^ variable.other.object
+//    ^ punctuation.accessor
+//     ^^ variable.function.tagged-template
+//       ^ punctuation.definition.string.template.begin
+//        ^^ keyword.other.substitution.begin.js
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^ source.js
+//                                   ^ keyword.other.substitution.end.js
+//                                    ^^^^^^^ source.css.embedded
+//                                    ^^^^^^^ meta.property-list.css
+
+styled.h1`color: ${(props) => props.color};`
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
+//^^^^ variable.other.object
+//    ^ punctuation.accessor
+//     ^^ variable.function.tagged-template
+//       ^ punctuation.definition.string.template.begin
+//        ^^^^^^^ source.css.embedded
+//        ^^^^^^^ meta.property-list.css
+//               ^^ keyword.other.substitution.begin.js
+//                 ^^^^^^^^^^^^^^^^^^^^^^ source.js
+//                                       ^ source.css.embedded
+//                                       ^ meta.property-list.css
+
 styled(Foo)`color: #ffcc00;`
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.styled-components
 //^^^^^^^^^ meta.function-call.with-arguments
