@@ -1258,14 +1258,14 @@ repository:
 
   literal-jsx:
     contentName: meta.jsx.js
-    begin: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|\Wdefault|^)(?=\s*<[_$a-zA-Z])
+    begin: (?<=\(|\{|\[|,|&&|\|\||\?|:|=|=>|\Wreturn|^return|\Wdefault|^)(?=\s*<[_$>a-zA-Z])
     end: (?<=/>|>)
     patterns:
     - include: '#jsx-tag-start'
 
   jsx-tag-start:
     patterns:
-    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)
+    - begin: (<)([_$a-zA-Z][-$:.\w]*[$\w]*)?
       beginCaptures:
         '1': {name: meta.tag.jsx punctuation.definition.tag.begin.jsx}
         '2': {name: meta.tag.jsx entity.name.tag.jsx}

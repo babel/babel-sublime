@@ -1342,7 +1342,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(&lt;)([_$a-zA-Z][-$:.\w]*[$\w]*)</string>
+					<string>(&lt;)([_$a-zA-Z][-$:.\w]*[$\w]*)?</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -2530,7 +2530,7 @@
 		<key>literal-jsx</key>
 		<dict>
 			<key>begin</key>
-			<string>(?&lt;=\(|\{|\[|,|&amp;&amp;|\|\||\?|:|=|=&gt;|\Wreturn|^return|\Wdefault|^)(?=\s*&lt;[_$a-zA-Z])</string>
+			<string>(?&lt;=\(|\{|\[|,|&amp;&amp;|\|\||\?|:|=|=&gt;|\Wreturn|^return|\Wdefault|^)(?=\s*&lt;[_$&gt;a-zA-Z])</string>
 			<key>contentName</key>
 			<string>meta.jsx.js</string>
 			<key>end</key>
