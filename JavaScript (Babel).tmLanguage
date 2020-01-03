@@ -5,9 +5,11 @@
 	<key>fileTypes</key>
 	<array>
 		<string>js</string>
+		<string>mjs</string>
 		<string>jsx</string>
 		<string>babel</string>
 		<string>es6</string>
+		<string>cjs</string>
 	</array>
 	<key>firstLineMatch</key>
 	<string>^#!\s*/.*\b(node|js)$\n?</string>
