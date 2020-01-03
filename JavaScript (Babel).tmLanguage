@@ -5,6 +5,7 @@
 	<key>fileTypes</key>
 	<array>
 		<string>js</string>
+		<string>mjs</string>
 		<string>jsx</string>
 		<string>babel</string>
 		<string>es6</string>
