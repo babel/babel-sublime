@@ -1,5 +1,4 @@
 // SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
-
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
 //  ^ punctuation.definition.tag.begin

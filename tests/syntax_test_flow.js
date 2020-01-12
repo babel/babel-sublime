@@ -1,5 +1,4 @@
 // SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
-
 /* Built-in types */
 
     const x:boolean;
