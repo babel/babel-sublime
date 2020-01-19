@@ -12,9 +12,9 @@ BABEL_CONFIGURATION = {
     'flow_types': True,
     'jsx': True,
     'string_object_keys': True,
-    # 'custom_template_tags': {
-    #     'styled_components': True,
-    # },
+    'custom_templates': {
+        'styled_components': True,
+    },
 }
 
 
