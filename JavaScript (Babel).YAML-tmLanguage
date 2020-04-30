@@ -1,3 +1,7 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+
 # [PackageDev] target_format: plist, ext: tmLanguage
 name: JavaScript (Babel)
 scopeName: source.js
