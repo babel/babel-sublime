@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
 
 
 // Variable declarations
