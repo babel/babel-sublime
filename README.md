@@ -30,33 +30,11 @@ It's possible to set `Babel` as the _only_ JavaScript package by disabling the s
 
 ## Screenshots
 
-![babel-sublime-vs-sublime-react--react-class](https://raw.githubusercontent.com/babel/babel-sublime/45c7d37/screenshots/compare-react-class@2x.png)
-
-* `babel-sublime` supports modern JavaScript syntax, including [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment), [shorthand methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions), [template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings), and more.
-
-![babel-sublime-vs-sublime-react--jsx-comments-etc](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-comments-etc@2x.png)
-
-* `babel-sublime` correctly matches JSX comments between attributes, namespaced components, and non-alpha characters in tag/attribute names.
-
-![babel-sublime-vs-sublime-react--jsx-tight](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-tight@2x.png)
-
-* Greater-/less-than comparisons are correctly identified as such and not mistaken for JSX tags.
+![babel-sublime-vs-built-in-jsx](screenshots/compare-builtin-jsx@2x.png)
 
 ## Snippets
 
 Find them separately at [babel/babel-sublime-snippets](https://github.com/babel/babel-sublime-snippets) or as [**Babel Snippets**](https://packagecontrol.io/packages/Babel%20Snippets) through [Package Control](https://packagecontrol.io/).
-
-## Suggested Resources
-
-Sublime Text Color Schemes which are ready for JavaScript's new features and babel-sublime package.
-
-#### [Oceanic Next Color Scheme](https://github.com/voronianski/oceanic-next-theme)
-
-[![](https://raw.githubusercontent.com/voronianski/babel-sublime/master/screenshots/oceanic-next.png)](https://github.com/voronianski/oceanic-next-theme)
-
-#### [Zeus Color Scheme](https://github.com/zaynali53/Zeus-Theme)
-
-[![zeus-color-scheme](https://raw.githubusercontent.com/zaynali53/Zeus-Theme/master/Zeus-Color-Scheme.PNG)](https://github.com/zaynali53/Zeus-Theme)
 
 ## About
 
