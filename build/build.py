@@ -25,7 +25,7 @@ class BuildBabelPackageCommand(sublime_plugin.ApplicationCommand):
         from shutil import rmtree
 
         package_path = Path(__file__).parent.parent
-        syntax_path = ResourcePath('Packages/babel-sublime/JavaScript (Babel).sublime-syntax')
+        syntax_path = ResourcePath.from_file_path(package_path) / 'JavaScript (Babel).sublime-syntax'
         test_directory = package_path / 'tests'
 
 
