@@ -8,6 +8,6 @@ A few examples of improvements and bug fixes:
 - JSX fragments are fully supported.
 - Anonymous classes work correctly.
 - Missing optional semicolons do not break highlighting.
-- Regular expressions are always be correctly detected.
+- Regular expressions are always correctly detected.
 
 This is a major change. The new syntax definition has been extensively tested in beta, but if you have any problems then please don't hesitate to report them at https://github.com/babel/babel-sublime/issues.
