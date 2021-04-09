@@ -1,8 +1,6 @@
 # babel-sublime
 
-> Only supports **Sublime Text 3**. Sublime Text 2 is no longer supported.
-
-Language definitions for [ES6+ JavaScript](http://kangax.github.io/compat-table/es6/) with [React JSX syntax](http://facebook.github.io/react/docs/jsx-in-depth.html) extensions.
+Language definition for [modern JavaScript](http://kangax.github.io/compat-table/es2016plus/) with [JSX syntax](http://facebook.github.io/react/docs/jsx-in-depth.html), [Flow typing](https://flow.org/), and [Styled Components](https://styled-components.com/).
 
 ## Installation
 
@@ -11,57 +9,29 @@ Find it as [**Babel**](https://packagecontrol.io/packages/Babel) through [Packag
 #### Setting as the default syntax
 
 To set it as the default syntax for a particular extension:
-  1. Open a file with that extension,
-  2. Select `View` from the menu,
-  3. Then `Syntax` `->` `Open all with current extension as...` `->` `Babel` `->` `JavaScript (Babel)`.
-  4. Repeat this for each extension (e.g.: `.js` and `.jsx`).
+
+1. Open a file with that extension,
+2. From the `View` menu, select `Syntax` → `Open all with current extension as…` → `Babel` → `JavaScript (Babel)`
+3. Repeat this for each extension (e.g.: `.js` and `.jsx`).
 
 #### Setting a Color Scheme
 
-`Babel` comes bundled with `Next` and `Monokai` from [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage). Select one from `Preferences` `->` `Color Scheme` `->` `Babel`
-
-#### Advanced usage
-
-It's possible to set `Babel` as the _only_ JavaScript package by disabling the stock one. To do so, add `"ignored_packages": ["JavaScript"]` to your `Preferences.sublime-settings`. The benefits include:
-  * extension-less node scripts will automatically be recognized as `JavaScript (Babel)`,
-  * and reduced clutter in the syntax menu.
-
-**Keep in mind**, the stock snippets will no longer work (you may still use your own), and other third-party packages that depend on the stock package may break (no known ones so far).
+`Babel` comes bundled with `Next` from [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage). From the command palette, select `UI: Select Color Scheme` and select `Next`.
 
 ## Screenshots
 
-![babel-sublime-vs-sublime-react--react-class](https://raw.githubusercontent.com/babel/babel-sublime/45c7d37/screenshots/compare-react-class@2x.png)
-
-* `babel-sublime` supports modern JavaScript syntax, including [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions), [destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment), [shorthand methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions), [template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings), and more.
-
-![babel-sublime-vs-sublime-react--jsx-comments-etc](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-comments-etc@2x.png)
-
-* `babel-sublime` correctly matches JSX comments between attributes, namespaced components, and non-alpha characters in tag/attribute names.
-
-![babel-sublime-vs-sublime-react--jsx-tight](https://raw.githubusercontent.com/babel/babel-sublime/9a6e85f/screenshots/compare-jsx-tight@2x.png)
-
-* Greater-/less-than comparisons are correctly identified as such and not mistaken for JSX tags.
+![babel-sublime-vs-built-in-jsx](screenshots/compare-builtin-jsx@2x.png)
 
 ## Snippets
 
 Find them separately at [babel/babel-sublime-snippets](https://github.com/babel/babel-sublime-snippets) or as [**Babel Snippets**](https://packagecontrol.io/packages/Babel%20Snippets) through [Package Control](https://packagecontrol.io/).
 
-## Suggested Resources
-
-Sublime Text Color Schemes which are ready for JavaScript's new features and babel-sublime package.
-
-#### [Oceanic Next Color Scheme](https://github.com/voronianski/oceanic-next-theme)
-
-[![](https://raw.githubusercontent.com/voronianski/babel-sublime/master/screenshots/oceanic-next.png)](https://github.com/voronianski/oceanic-next-theme)
-
-#### [Zeus Color Scheme](https://github.com/zaynali53/Zeus-Theme)
-
-[![zeus-color-scheme](https://raw.githubusercontent.com/zaynali53/Zeus-Theme/master/Zeus-Color-Scheme.PNG)](https://github.com/zaynali53/Zeus-Theme)
-
 ## About
 
-Under the hood, _babel-sublime_ is based on the excellent [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage) with JSX syntax support built on top. The initial definitions for JSX came from [reactjs/sublime-react](https://github.com/reactjs/sublime-react) via [yungters/sublime](https://github.com/yungsters/sublime.git) - special thanks go to [@jgebhardt](https://github.com/jgebhardt) and [@zpao](https://github.com/zpao).
+Under the hood, `babel-sublime`'s syntax definition is built using [JS Custom](https://github.com/Thom1729/Sublime-JS-Custom). JS Custom is based on Sublime's [core JavaScript syntax](https://github.com/sublimehq/Packages), which is in turn descended from [Benvie/JavaScriptNext.tmLanguage](https://github.com/Benvie/JavaScriptNext.tmLanguage). Special thanks go to [@jgebhardt](https://github.com/jgebhardt) and [@zpao](https://github.com/zpao).
 
 ## Contributing
 
-Pull Requests should include your changes to the respective `YAML-tmKittens` file as well as the converted `tmKittens` file. Use [AAAPackageDev](https://github.com/SublimeText/AAAPackageDev) to convert the `YAML-tmKittens` files.
+The `JavaScript (Babel).sublime-syntax` file itself is generated by JS Custom and should not be manually modified — any bug fixes or enhancements to the syntax itself should go through [JS Custom](https://github.com/Thom1729/Sublime-JS-Custom).
+
+If you modify the commenting rules or Next theme, make sure to do so by editing the appropriate `YAML-tmPreferences` or `YAML-tmTheme` file and converting that file using [PackageDev](https://github.com/SublimeText/PackageDev). Then, commit both the source (YAML) file and the converted (XML) file.
