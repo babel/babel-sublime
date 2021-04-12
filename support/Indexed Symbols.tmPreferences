@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.js meta.function.declaration.js entity.name.function.js, source.js meta.class.js entity.name.class.js</string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
+	</dict>
+</dict>
+</plist>
