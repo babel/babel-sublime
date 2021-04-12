@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List Banned</string>
+	<key>scope</key>
+	<string>source.js meta.function.anonymous</string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedSymbolList</key>
+		<string>0</string>
+		<key>showInSymbolList</key>
+		<string>0</string>
+	</dict>
+</dict>
+</plist>

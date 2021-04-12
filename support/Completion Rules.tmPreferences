@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.js</string>
+	<key>settings</key>
+	<dict>
+		<key>cancelCompletion</key>
+		<string>^\s*(\{?\s*(else|return|do)|(function)\s*[a-zA-Z_0-9]+)$</string>
+	</dict>
+</dict>
+</plist>

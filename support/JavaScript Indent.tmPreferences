@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>JavaScript Indent</string>
+	<key>scope</key>
+	<string>source.js</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^(.*\*/)?\s*\}.*$</string>
+		<key>increaseIndentPattern</key>
+		<string>^.*\{[^}"']*$</string>
+
+		<key>bracketIndentNextLinePattern</key>
+		<string>(?x)
+		^ \s* \b(if|while|else)\b [^;]* $
+		| ^ \s* \b(for)\b .* $
+		</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,131 @@
+%YAML 1.2
+---
+name: Regular Expressions (Javascript)
+scope: source.regexp.js
+hidden: true
+variables:
+  identifier: '[_$[:alpha:]][_$[:alnum:]]*'
+contexts:
+  main:
+    - include: anchor
+    - include: backref
+    - include: quantifier
+    - include: operator
+    - include: group-assertion
+    - include: group-definition
+    - include: character-class
+    - include: character-class-definition
+
+  anchor:
+    - match: '\\[bB]|\^|\$'
+      scope: keyword.control.anchor.regexp
+
+  backref:
+    - match: '\\[1-9][0-9]*'
+      scope: keyword.other.back-reference.regexp
+
+    - match: (\\k)(<)({{identifier}})(>)
+      captures:
+        1: keyword.other.back-reference.regexp
+        2: punctuation.definition.group.named.begin.regexp
+        3: variable.other.group.regexp
+        4: punctuation.definition.group.named.end.regexp
+
+  character-class:
+    - match: '\\[wWsSdD]|\.'
+      scope: constant.other.character-class.escape.backslash.regexp
+    - match: '(\\[pP])(\{)([[:alpha:]_]+)(?:(=)([[:alpha:]_]+)?)?(\})'
+      captures:
+        1: constant.other.character-class.escape.unicode-property.regexp
+        2: punctuation.definition.unicode-property.begin.regexp
+        3: support.constant.unicode-property.regexp
+        4: punctuation.separator.key-value.unicode-property.regexp
+        5: support.constant.unicode-property.regexp
+        6: punctuation.definition.unicode-property.end.regexp
+    - match: '\\([trnvf0\\]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)'
+      scope: constant.character.escape.backslash.regexp
+
+  character-class-definition:
+    - match: '(\[)(\^)?'
+      captures:
+        1: punctuation.definition.character-class.begin.regexp
+        2: keyword.operator.negation.regexp
+      push:
+        - meta_scope: constant.other.character-class.set.regexp
+        - match: '\]'
+          scope: punctuation.definition.character-class.end.regexp
+          pop: true
+        - match: |-
+            (?x)
+            (?:
+              (\\[wWsSdD]|\.)|
+              (\\(?:[trnvf0]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.))|
+              .
+            )
+            (\-)
+            (?:
+              (\\[wWsSdD]|\.)|
+              (\\(?:[trnvf0]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.))|
+              [^]]
+            )
+          scope: constant.other.character-class.range.regexp
+          captures:
+            1: constant.other.character-class.escape.backslash.regexp
+            2: constant.character.escape.backslash.regexp
+            3: punctuation.definition.range.regexp
+            4: constant.other.character-class.escape.backslash.regexp
+            5: constant.character.escape.backslash.regexp
+        - include: character-class
+
+  group-assertion:
+    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!))
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: punctuation.definition.group.assertion.regexp
+        3: meta.assertion.look-ahead.regexp
+        4: meta.assertion.negative-look-ahead.regexp
+        5: meta.assertion.look-behind.regexp
+        6: meta.assertion.negative-look-behind.regexp
+      push:
+        - meta_scope: meta.group.assertion.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+
+  group-definition:
+    - match: (\()(?:(\?:)|(\?)(<)({{identifier}})(>))?
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: punctuation.definition.group.no-capture.regexp
+        3: punctuation.definition.group.begin.regexp
+        4: punctuation.definition.group.named.begin.regexp
+        5: entity.name.other.group.regexp
+        6: punctuation.definition.group.named.end.regexp
+      push:
+        - meta_scope: meta.group.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+
+  operator:
+    - match: \|
+      scope: keyword.operator.or.regexp
+
+  quantifier:
+    - match: '[?*+]\??'
+      scope: keyword.operator.quantifier.regexp
+
+    - match: '\{(\d+)(?:(,)(\d+)?)?\}'
+      scope: keyword.operator.quantifier.regexp
+      captures:
+        1: constant.literal.numeric.regexp
+        2: punctuation.separator.comma.regexp
+        3: constant.literal.numeric.regexp
+
+    - match: \{(,)(\d+)\}
+      scope: keyword.operator.quantifier.regexp
+      captures:
+        1: punctuation.separator.comma.regexp
+        2: constant.literal.numeric.regexp
