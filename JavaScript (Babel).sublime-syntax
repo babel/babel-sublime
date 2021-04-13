@@ -83,7 +83,7 @@ contexts:
     - include: else-pop
 
   jsx-tag-attributes:
-    - meta_content_scope: meta.tag.js
+    - meta_content_scope: meta.tag.attributes.js
 
     - match: '>'
       scope: punctuation.definition.tag.end.js

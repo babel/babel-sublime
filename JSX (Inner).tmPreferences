@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>JSX</string>
 	<key>scope</key>
-	<string>source.js meta.jsx.js - meta.embedded.expression</string>
+	<string>source.js meta.jsx.js - meta.embedded.expression - meta.tag.name - meta.tag.attributes</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
