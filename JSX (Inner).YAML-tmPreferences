@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmPreferences
 name: JSX
-scope: source.js meta.jsx.js - meta.embedded.expression
+scope: source.js meta.jsx.js - meta.embedded.expression - meta.tag.name - meta.tag.attributes
 settings:
   shellVariables:
   - name: TM_COMMENT_START
