@@ -1,9 +1,0 @@
-# [PackageDev] target_format: plist, ext: tmPreferences
-name: JSX
-scope: source.js meta.jsx.js - meta.embedded.expression
-settings:
-  shellVariables:
-  - name: TM_COMMENT_START
-    value: '{/*'
-  - name: TM_COMMENT_END
-    value: '*/}'
