@@ -2,9 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.js meta.function.declaration.js entity.name.function.js, source.js meta.class.js entity.name.class.js</string>
+	<string>
+		entity.name.interface.js
+	</string>
 	<key>settings</key>
 	<dict>
+		<key>showInSymbolList</key>
+		<string>1</string>
 		<key>showInIndexedSymbolList</key>
 		<string>1</string>
 	</dict>

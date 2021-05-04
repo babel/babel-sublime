@@ -1,4 +1,5 @@
 // SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+
     <foo />;
 //  ^^^^^^^ meta.jsx meta.tag
 //  ^ punctuation.definition.tag.begin
@@ -42,9 +43,9 @@
     <foo></foo><bar>
 //  ^^^^^^^^^^^ meta.jsx
 //             ^^^^^ - meta.jsx
-//             ^ keyword.operator.relational
+//             ^ keyword.operator.comparison
 //              ^^^ variable
-//                 ^ keyword.operator.relational
+//                 ^ keyword.operator.comparison
 0;
 
     <>Hello!</>;
@@ -60,9 +61,9 @@
     <foo></foo>
     <bar>
 //  ^^^^^ - meta.jsx
-//  ^ keyword.operator.relational
+//  ^ keyword.operator.comparison
 //   ^^^ variable
-//      ^ keyword.operator.relational
+//      ^ keyword.operator.comparison
 0;
 
     </foo>;
@@ -70,7 +71,7 @@
 
 <foo
     bar
-//  ^^^ meta.jsx meta.tag entity.other.attribute-name
+//  ^^^ meta.jsx meta.tag.attributes entity.other.attribute-name
 
     =
 //  ^ punctuation.separator.key-value
@@ -79,7 +80,7 @@
 //  ^^^^^^ string.quoted.single
 
     baz='test'
-//  ^^^^^^^^^^ meta.jsx meta.tag
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
 //  ^^^ entity.other.attribute-name
 //     ^ punctuation.separator.key-value
 //      ^^^^^^ string.quoted.single
@@ -87,7 +88,7 @@
 //           ^ punctuation.definition.string.end
 
     baz="test"
-//  ^^^^^^^^^^ meta.jsx meta.tag
+//  ^^^^^^^^^^ meta.jsx meta.tag.attributes
 //  ^^^ entity.other.attribute-name
 //     ^ punctuation.separator.key-value
 //      ^^^^^^ string.quoted.double
@@ -115,7 +116,7 @@
 //       ^^^^^^^^^^^^ source.js.embedded.jsx meta.mapping
 //         ^^^^^ meta.mapping.key
 //              ^ punctuation.separator.key-value
-//               ^^ constant.numeric.integer.decimal
+//               ^^ meta.number.integer.decimal.js constant.numeric.value.js
 //                   ^ punctuation.definition.interpolation.end
 
 
@@ -132,7 +133,7 @@
 //      ^^^^^^^^^^^^ meta.mapping
 //        ^^^^^ meta.mapping.key
 //             ^ punctuation.separator.key-value
-//              ^^ constant.numeric.integer.decimal
+//              ^^ meta.number.integer.decimal.js constant.numeric.value.js
 //                  ^ punctuation.definition.interpolation.end
 
     // baz
@@ -170,7 +171,7 @@
 //   ^^^^^^^^^^^^ meta.mapping
 //     ^^^^^ meta.mapping.key
 //          ^ punctuation.separator.key-value
-//           ^^ constant.numeric.integer.decimal
+//           ^^ meta.number.integer.decimal.js constant.numeric.value.js
 //               ^ punctuation.definition.interpolation.end
 
     {//}
@@ -180,4 +181,25 @@
 //     ^ - punctuation
     }
 //  ^ punctuation.definition.interpolation.end
-</foo>
+
+    {/* foo */}
+//  ^^^^^^^^^^^ meta.jsx meta.interpolation comment.block - source.embedded
+//  ^ punctuation.definition.interpolation.begin
+//   ^^ punctuation.definition.comment.begin
+//          ^^ punctuation.definition.comment.end
+//            ^ punctuation.definition.interpolation.end
+
+    {/* foo */ bar}
+//  ^^^^^^^^^^^^^^^ meta.jsx meta.interpolation
+//   ^^^^^^^^^^^^^ source.js.embedded
+//  ^ punctuation.definition.interpolation.begin - comment
+//   ^^ punctuation.definition.comment.begin
+//          ^^ punctuation.definition.comment.end
+//            ^^^^^ - comment
+//             ^^^ meta.jsx meta.interpolation variable.other.readwrite
+//                ^ punctuation.definition.interpolation.end
+
+</foo>;
+
+    <class />;
+//   ^^^^^ entity.name.tag

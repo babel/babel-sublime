@@ -31,28 +31,28 @@
 /* Literal types */
 
     const x:true;
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^ meta.binding.name variable.other.readwrite
 //         ^^^^^ meta.flow-type
 //         ^ punctuation.separator.type
 //          ^^^^ constant.language.boolean.true
 
     const x:42;
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^ meta.binding.name variable.other.readwrite
 //         ^^^ meta.flow-type
 //         ^ punctuation.separator.type
-//          ^^ constant.numeric.integer.decimal
+//          ^^ meta.number.integer.decimal constant.numeric
 
     const x:"foo";
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^ meta.binding.name variable.other.readwrite
 //         ^^^^^^ meta.flow-type
 //         ^ punctuation.separator.type
 //          ^^^^^ string.quoted.double
 
     const x:'bar';
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^ meta.binding.name variable.other.readwrite
 //         ^^^^^^ meta.flow-type
 //         ^ punctuation.separator.type
@@ -99,7 +99,7 @@
     const x: typeof 42;
 //         ^^^^^^^^^^^ meta.flow-type
 //           ^^^^^^ keyword.operator
-//                  ^^ constant.numeric.integer.decimal
+//                  ^^ meta.number.integer.decimal constant.numeric
 
     const x: number %checks;
 //         ^^^^^^^^^^^^^^^^ meta.flow-type
@@ -190,7 +190,7 @@
 /* Variables */
 
     var x : number;
-//  ^^^ storage.type
+//  ^^^ keyword.declaration
 //      ^ meta.binding.name variable.other.readwrite
 //        ^^^^^^^^ meta.flow-type
 //        ^ punctuation.separator.type
@@ -198,7 +198,7 @@
 //                ^ punctuation.terminator.statement
 
     let x : number;
-//  ^^^ storage.type
+//  ^^^ keyword.declaration
 //      ^ meta.binding.name variable.other.readwrite
 //        ^^^^^^^^ meta.flow-type
 //        ^ punctuation.separator.type
@@ -206,7 +206,7 @@
 //                ^ punctuation.terminator.statement
 
     const x : number;
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^ meta.binding.name variable.other.readwrite
 //          ^^^^^^^^ meta.flow-type
 //          ^ punctuation.separator.type
@@ -221,13 +221,13 @@
 /* Functions */
 
     function f() : number {}
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ entity.name.function
 //               ^^^^^^^^ meta.flow-type
 //                        ^^ meta.block
 
     function f<X, Y>() : number {}
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ entity.name.function
 //            ^^^^^^  meta.generic.declaration
 //            ^ punctuation.section.generic.begin
@@ -260,7 +260,7 @@ function f(
 
 class MyClass {
     foo() : number {}
-//  ^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^ meta.function
 //        ^^^^^^^^ meta.flow-type
 //        ^ punctuation.separator.type
 //          ^^^^^^ support.type.primitive.number
@@ -293,12 +293,12 @@ class MyClass {
 //     ^ punctuation.separator.type
 //       ^^^^^^ support.type.primitive.number
 //              ^ keyword.operator.assignment
-//                ^^ constant.numeric.integer.decimal
+//                ^^ meta.number.integer.decimal constant.numeric
 }
 
     class MyClass <X, Y> {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//  ^^^^^ storage.type.class
+//  ^^^^^ keyword.declaration.class
 //        ^^^^^^^ entity.name.class
 //                ^^^^^^  meta.generic.declaration
 //                ^ punctuation.section.generic.begin
@@ -316,14 +316,14 @@ class MyClass {
 
     type MyType = number;
 //  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.type - meta.declaration.type meta.declaration.type
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration
 //       ^^^^^^ entity.name.type
 //              ^ keyword.operator.assignment
 //                ^^^^^^ support.type.primitive.number
 
     type MyType<X, Y> = number;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration
 //       ^^^^^^ entity.name.type
 //             ^^^^^^  meta.generic.declaration
 //             ^ punctuation.section.generic.begin
@@ -338,16 +338,16 @@ class MyClass {
 //  ^^^^ variable.other.readwrite - storage
 
     type = function() {};
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^ entity.name.function variable.other.readwrite - storage
+//         ^^^^^^^^^^^^^ meta.function
 
     type
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration
     /foo/g;
 //  ^ keyword.operator.arithmetic - string
 
     type
-//  ^^^^ storage.type
+//  ^^^^ keyword.declaration
     foo;
 //  ^^^ meta.declaration.type entity.name.type
 
@@ -359,7 +359,7 @@ class MyClass {
     (42 : number);
 //  ^^^^^^^^^^^^^ meta.group
 //  ^ punctuation.section.group
-//   ^^ constant.numeric.integer.decimal
+//   ^^ meta.number.integer.decimal constant.numeric
 //      ^^^^^^^^ meta.flow-type
 //      ^ punctuation.separator.type
 //        ^^^^^^ support.type.primitive.number
@@ -374,19 +374,19 @@ class MyClass {
 /* Imports/exports */
 
     import { type Foo } from 'bar';
-//           ^^^^ storage.type
+//           ^^^^ keyword.declaration
 //                ^^^ variable.other.readwrite
 
     import type Foo from 'bar';
-//         ^^^^ storage.type
+//         ^^^^ keyword.declaration
 //              ^^^ variable.other.readwrite
 
     export type { Foo };
-//         ^^^^ storage.type
+//         ^^^^ keyword.declaration
 //                ^^^ variable.other.readwrite
 
     export type Foo = bar;
-//         ^^^^ storage.type
+//         ^^^^ keyword.declaration
 //              ^^^ entity.name.type
 
     import typeof React from 'React';
