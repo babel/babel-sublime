@@ -1,0 +1,7 @@
+babel-sublime
+-------------
+
+Version 11 features significantly improved highlighting using new features from Sublime Text 4. Highlights include:
+
+- Recognition of multiline arrow function parameter lists. (#340)
+- Better commenting in JSX. (#390)
