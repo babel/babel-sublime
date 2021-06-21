@@ -26,7 +26,7 @@ const [ x, [a, b], z] = value;
 const [ x = 42, y = [a, b, c] ] = value;
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //        ^ keyword.operator.assignment
-//          ^^ meta.binding.destructuring.sequence.js constant.numeric.integer.decimal.js
+//          ^^ meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
 //                ^ keyword.operator.assignment
 //                  ^^^^^^^^^ meta.sequence
 //                   ^ variable.other.readwrite - meta.binding.name
@@ -57,7 +57,7 @@ const x;
 //    ^ meta.binding.name variable.other.readwrite
 
 let
-// <- storage.type
+// <- keyword.declaration
 w
 //  <- meta.binding.name variable.other.readwrite
 ,
@@ -82,7 +82,7 @@ let;
 
 const
 const x = 0;
-// <- storage.type
+// <- keyword.declaration
 
 // Function parameters
 
@@ -105,7 +105,7 @@ function f ([ x, [a, b], z]) {}
 function f ([ x = 42, y = [a, b, c] ]) {}
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //              ^ keyword.operator.assignment
-//                ^^ meta.binding.destructuring.sequence.js constant.numeric.integer.decimal.js
+//                ^^ meta.function meta.binding.destructuring.sequence meta.number.integer.decimal constant.numeric.value
 //                      ^ keyword.operator.assignment
 //                        ^^^^^^^^^ meta.sequence
 //                         ^ variable.other.readwrite - meta.binding.name
@@ -142,7 +142,7 @@ function f (new) {}
 //          ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function
 
 let f = ([ x, y, ...z, ]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //         ^ meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -153,26 +153,26 @@ let f = ([ x, y, ...z, ]) => {};
 //                   ^ punctuation.separator.parameter
 
 let f = ([ x, [a, b], z]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //            ^^^^^^ meta.binding.destructuring.sequence meta.binding.destructuring.sequence
 //             ^ meta.binding.name variable.parameter.function
 //                ^ meta.binding.name variable.parameter.function
 
 let f = ([ x = 42, y = [a, b, c] ]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
-//             ^^ meta.binding.destructuring.sequence.js constant.numeric.integer.decimal.js
+//             ^^ meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
 //                   ^ keyword.operator.assignment
 //                     ^^^^^^^^^ meta.sequence
 //                      ^ variable.other.readwrite - meta.binding.name
 
 let f = ({ a, b: c, ...d }) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
 //         ^ meta.mapping.key meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -195,12 +195,12 @@ let f = ({ 'a': x, "b": y, [c]: z }) => {};
 //                              ^ meta.binding.name variable.parameter.function
 
 let f = (a, ...rest) => {};
-//  ^^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^ meta.function
 //       ^ meta.binding.name variable.parameter.function
 //          ^^^ keyword.operator.spread
 //             ^^^^ meta.binding.name variable.parameter.function
 
 let f = (new) => {};
-//  ^^^^^^^^^^^^^^^ meta.function
+//      ^^^^^^^^^^^ meta.function
 //       ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function

@@ -42,7 +42,7 @@ class BuildBabelPackageCommand(sublime_plugin.ApplicationCommand):
         print("Building tests…")
         sublime.run_command('build_js_custom_tests', {
             'syntax_path': str(syntax_path),
-            'suites': ['base', 'flow', 'jsx', 'string_object_keys'],
+            'suites': ['js', 'flow', 'jsx', 'string_object_keys'],
             'destination_directory': str(test_directory),
         })
         print('Done.')
