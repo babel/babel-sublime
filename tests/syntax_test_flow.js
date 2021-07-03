@@ -80,9 +80,9 @@
     const x: Array <number>;
 //         ^^^^^^^^^^^^^^^^ meta.flow-type
 //           ^^^^^ variable.other.class
-//                 ^ punctuation.section.generic.begin
+//                 ^ punctuation.definition.generic.begin
 //                  ^^^^^^ support.type.primitive.number
-//                        ^ punctuation.section.generic.end
+//                        ^ punctuation.definition.generic.end
 
     const x: number | string;
 //         ^^^^^^^^^^^^^^^^^ meta.flow-type
@@ -230,11 +230,11 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^ entity.name.function
 //            ^^^^^^  meta.generic.declaration
-//            ^ punctuation.section.generic.begin
+//            ^ punctuation.definition.generic.begin
 //             ^ variable.parameter.type
 //              ^ punctuation.separator.comma
 //                ^ variable.parameter.type
-//                 ^ punctuation.section.generic.end
+//                 ^ punctuation.definition.generic.end
 //                     ^^^^^^^^ meta.flow-type
 //                              ^^ meta.block
 
@@ -301,11 +301,11 @@ class MyClass {
 //  ^^^^^ keyword.declaration.class
 //        ^^^^^^^ entity.name.class
 //                ^^^^^^  meta.generic.declaration
-//                ^ punctuation.section.generic.begin
+//                ^ punctuation.definition.generic.begin
 //                 ^ variable.parameter.type
 //                  ^ punctuation.separator.comma
 //                    ^ variable.parameter.type
-//                     ^ punctuation.section.generic.end
+//                     ^ punctuation.definition.generic.end
 
     class MyClass extends Parent<X, Y> {}
 //                ^^^^^^^ storage.modifier.extends
@@ -326,11 +326,11 @@ class MyClass {
 //  ^^^^ keyword.declaration
 //       ^^^^^^ entity.name.type
 //             ^^^^^^  meta.generic.declaration
-//             ^ punctuation.section.generic.begin
+//             ^ punctuation.definition.generic.begin
 //              ^ variable.parameter.type
 //               ^ punctuation.separator.comma
 //                 ^ variable.parameter.type
-//                  ^ punctuation.section.generic.end
+//                  ^ punctuation.definition.generic.end
 //                    ^ keyword.operator.assignment
 //                      ^^^^^^ support.type.primitive.number
 
@@ -413,6 +413,36 @@ class MyClass {
 //         ^^^^^^ keyword.operator
 //                 ^^^^^^^^ variable.other.readwrite
 //                          ^^ keyword.control.import-export
+
+/* Generics */
+
+    foo<T>();
+//  ^^^ variable.function
+//     ^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//      ^ variable.other.class
+//       ^ punctuation.definition.generic.end
+//        ^^ meta.group
+//        ^ punctuation.section.group.begin
+//         ^ punctuation.section.group.end
+//          ^ punctuation.terminator.statement
+
+    foo<T, U<V>>();
+//  ^^^ variable.function
+//     ^^^^^^^^^ meta.generic
+//     ^ punctuation.definition.generic.begin
+//      ^ variable.other.class
+//       ^ punctuation.separator.comma
+//         ^ variable.other.class
+//          ^^^ meta.generic
+//          ^ punctuation.definition.generic.begin
+//           ^ variable.other.class
+//            ^ punctuation.definition.generic.end
+//             ^ punctuation.definition.generic.end
+//              ^^ meta.group
+//              ^ punctuation.section.group.begin
+//               ^ punctuation.section.group.end
+//                ^ punctuation.terminator.statement
 
     const C = (props: any): React.Node => {};
 //                                     ^^ keyword.declaration.function

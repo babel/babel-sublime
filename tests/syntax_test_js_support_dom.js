@@ -12,3 +12,7 @@
 //  ^^^^^^^^^^^^ support.function.dom
     setTimeout;
 //  ^^^^^^^^^^ support.function.dom
+    clearInterval;
+//  ^^^^^^^^^^^^ support.function.dom
+    setInterval;
+//  ^^^^^^^^^^ support.function.dom

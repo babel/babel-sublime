@@ -88,7 +88,7 @@
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 //      ^ punctuation.section.group
-//       ^^^ storage.type
+//       ^^^ keyword.declaration
 //           ^ meta.binding.name variable.other.readwrite
 //             ^ keyword.operator.assignment
 //               ^ meta.number.integer.decimal constant.numeric.value
@@ -141,14 +141,14 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
-//       ^^^^^ storage.type
+//       ^^^^^ keyword.declaration
 //               ^^ keyword.operator.word
 
     for (const x of list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
-//       ^^^^^ storage.type
+//       ^^^^^ keyword.declaration
 //               ^^ keyword.operator.word
 
     for (x in list) {}
