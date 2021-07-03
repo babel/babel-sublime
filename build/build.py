@@ -39,6 +39,10 @@ class BuildBabelPackageCommand(sublime_plugin.ApplicationCommand):
             'destination_path': str(syntax_path.file_path()),
         })
 
+        ResourcePath('Packages/JSCustom/styled_components/Styled Components.sublime-syntax').copy(
+            (ResourcePath.from_file_path(package_path) / 'Styled Components.sublime-syntax').file_path()
+        )
+
         print("Building tests…")
         sublime.run_command('build_js_custom_tests', {
             'syntax_path': str(syntax_path),

@@ -1,0 +1,37 @@
+%YAML 1.2
+---
+version: 2
+extends: Packages/CSS/CSS.sublime-syntax
+hidden: true
+scope: source.js.css
+file_extensions: []
+first_line_match:
+contexts:
+  main:
+    - meta_prepend: true
+    - match: (?={{html_tags}}|{{svg_tags}})
+      push: selector-content
+    - include: property-identifiers
+    - include: property-values
+
+  rule-list-body:
+    - include: main
+
+  comments:
+    - meta_prepend: true
+    - match: //
+      scope: punctuation.definition.comment.begin.css.styled-components
+      push:
+        - meta_scope: comment.line.double-slash.css.styled-components
+        - match: ^
+          pop: true
+
+  selectors:
+    - meta_prepend: true
+    - match: (?=&)
+      push: selector-content
+
+  selector-content:
+    - meta_prepend: true
+    - match: \&
+      scope: variable.language.css.styled-components
