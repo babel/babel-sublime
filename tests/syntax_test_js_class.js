@@ -97,6 +97,19 @@ class MyClass extends TheirClass {
 //         ^ entity.name.function variable.other.readwrite
 //             ^^^^^^^^^^^^^ meta.function
 
+    static {
+//  ^^^^^^ storage.modifier
+//         ^ meta.block punctuation.section.block.begin
+        this.#foo = 42;
+//      ^^^^ variable.language.this
+//          ^ punctuation.accessor
+//           ^ punctuation.definition.variable
+//            ^^^ meta.property.object
+//                ^ keyword.operator.assignment
+//                  ^^ meta.number.integer.decimal constant.numeric.value
+    }
+//  ^ meta.block punctuation.section.block.end
+
     static = 42;
 //  ^^^^^^ variable.other.readwrite
 

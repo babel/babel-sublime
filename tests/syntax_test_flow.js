@@ -446,3 +446,12 @@ class MyClass {
 
     const C = (props: any): React.Node => {};
 //                                     ^^ keyword.declaration.function
+
+    <T,>() => {};
+//  ^^^^^^^^^^^^ meta.function
+//  ^^^^ meta.generic.declaration
+//  ^ punctuation.definition.generic.begin
+//   ^ variable.parameter.type
+//    ^ punctuation.separator.comma
+//     ^ punctuation.definition.generic.end
+//         ^^ keyword.declaration.function

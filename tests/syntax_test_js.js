@@ -1,5 +1,86 @@
 // SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
 
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^ comment.line.double-slash.js
+
+// comment //
+// <- comment.line.double-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^ comment.line.double-slash.js
+//         ^^ punctuation.definition.comment.js
+
+/// comment
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^ comment.line.triple-slash.js
+
+/// comment ///
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^ comment.line.triple-slash.js
+//          ^^^ punctuation.definition.comment.js
+
+/////////////////////////////////////////////////////////////////
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.other.js punctuation.definition.comment.js
+//                                                               ^ comment.line.other.js - punctuation
+
+/* */
+// <- comment.block.js punctuation.definition.comment.begin.js
+//^^^ comment.block.js
+//   ^ - comment
+
+    /**/ /***/
+// ^ - comment
+//  ^^^^ comment.block.empty.js punctuation.definition.comment.js
+//      ^ - comment
+//       ^^^^^ comment.block.empty.js punctuation.definition.comment.js
+//            ^ - comment
+
+    /** @todo **/
+//  ^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^ punctuation.definition.comment.begin.js
+//      ^^^^^ entity.other.attribute-name.documentation.js
+//            ^^^ punctuation.definition.comment.end.js
+
+    /**
+// ^ - comment
+//  ^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//     ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     **/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^ comment.block.documentation.js
+//      ^ - comment
+
+    /*** @todo ***/
+//  ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//  ^^^^ punctuation.definition.comment.begin.js
+//       ^^^^^ entity.other.attribute-name.documentation.js
+//             ^^^^ punctuation.definition.comment.end.js
+
+    /***
+// ^ - comment
+//  ^^^^ comment.block.documentation.js punctuation.definition.comment.begin.js
+//      ^ comment.block.documentation.js - punctuation
+     * @todo test it
+//   ^ comment.block.documentation.js punctuation.definition.comment.js
+//    ^^^^^^^^^^^^^^^ comment.block.documentation.js
+//     ^^^^^ entity.other.attribute-name.documentation.js
+     ***/
+//^^^ comment.block.documentation.js - punctuation
+//   ^^^^ comment.block.documentation.js
+//       ^ - comment
+
+/// <foo bar="baz"/>
+// <- comment.line.triple-slash.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^ comment.line.triple-slash.js - meta.preprocessor
+
+//// <foo bar="baz"/>
+// <- comment.line.other.js punctuation.definition.comment.js
+//^^^^^^^^^^^^^^^^^^^^ comment.line.other.js - meta.preprocessor
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
@@ -73,10 +154,7 @@ x --> y;
 //  ^ keyword.operator.comparison.js
 
 #! /usr/bin/env node
-// <- comment.line.shebang punctuation.definition.comment
-
- #! /usr/bin/env node
-//^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
+//^^^^^^^^^^^^^^^^^^ - comment.line.shebang
 
 /*@if /*/
 //     ^^ punctuation.definition.comment.end
@@ -192,6 +270,9 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 tag `template`;
 // <- variable.function.tagged-template
 //  ^^^^^^^^^^ meta.string string.quoted.other
+
+tag/**/`template`;
+// <- variable.function.tagged-template
 
 x ? y // y is a template tag!
 `template` : z;
@@ -885,6 +966,15 @@ sources.DOM
 //      ^ punctuation.definition.js
 //          ^^ meta.group.js
 
+foo
+    .tag``;
+//  ^ punctuation.accessor
+//   ^^^ variable.function.tagged-template
+//      ^^ meta.string string.quoted.other punctuation.definition.string
+
+foo.tag/**/``;
+//  ^^^ variable.function.tagged-template
+
 return new Promise(resolve => preferenceObject.set({value}, resolve));
 //                                                                  ^ meta.function-call.constructor punctuation.section.group.end
 
@@ -1548,4 +1638,4 @@ debugger
     a.b?.();
 //  ^^^^^^^ meta.function-call.method
 //    ^ variable.function
-//     
+//
