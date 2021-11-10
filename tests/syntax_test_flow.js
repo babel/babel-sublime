@@ -455,3 +455,7 @@ class MyClass {
 //    ^ punctuation.separator.comma
 //     ^ punctuation.definition.generic.end
 //         ^^ keyword.declaration.function
+
+    (a < b && c <= d);
+//     ^ keyword.operator.comparison
+//              ^^ keyword.operator.comparison
