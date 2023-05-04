@@ -1798,7 +1798,7 @@ contexts:
                 - include: immediately-pop
             -   - meta_include_prototype: false
                 - match: ''
-                  set: scope:source.js.css#at-keyframe-block-content
+                  set: scope:source.js.css:at-keyframe-block-content
                   with_prototype:
                     - match: (?=`)
                       pop: true
