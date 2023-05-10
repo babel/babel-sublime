@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
 /* LITERAL */
 
@@ -239,3 +239,29 @@
     /[^-z]/;
 //    ^^^ - constant.other.character-class.range
 //     ^ - punctuation.definition.range
+
+    /[\\/]foo[\\/]/;
+//  ^^^^^^^^^^^^^^^ meta.string.js string.regexp.js
+//  ^ punctuation.definition.string.begin.js
+//   ^^^^^ constant.other.character-class.set.regexp
+//   ^ punctuation.definition.character-class.begin.regexp
+//    ^^ constant.character.escape.backslash.regexp
+//       ^ punctuation.definition.character-class.end.regexp
+//           ^^^^^ constant.other.character-class.set.regexp
+//           ^ punctuation.definition.character-class.begin.regexp
+//            ^^ constant.character.escape.backslash.regexp
+//               ^ punctuation.definition.character-class.end.regexp
+//                ^ punctuation.definition.string.end.js
+
+    /[\\\/]foo[\\\/]/;
+//  ^^^^^^^^^^^^^^^^^ meta.string.js string.regexp.js
+//  ^ punctuation.definition.string.begin.js
+//   ^^^^^^ constant.other.character-class.set.regexp
+//   ^ punctuation.definition.character-class.begin.regexp
+//    ^^^^ constant.character.escape.backslash.regexp
+//        ^ punctuation.definition.character-class.end.regexp
+//            ^^^^^^ constant.other.character-class.set.regexp
+//            ^ punctuation.definition.character-class.begin.regexp
+//             ^^^^ constant.character.escape.backslash.regexp
+//                 ^ punctuation.definition.character-class.end.regexp
+//                  ^ punctuation.definition.string.end.js

@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
     if ( true ) { } ;
 //  ^^^^^^^^^^^^^^^ meta.conditional
@@ -336,7 +336,8 @@ try {
 // <- meta.block
 //^^^^^^^^^^^^ meta.catch
 //^^^^^ keyword.control.exception.catch
-//       ^ meta.group
+//      ^^^ meta.group
+//       ^ meta.binding.name variable.other.readwrite
 //          ^ meta.block
     foobar = 0
 //  ^^^^^^^^^^ meta.catch meta.block

@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
 import TheirClass from "./mypath";
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
@@ -27,6 +27,25 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 import 'module';
 // ^^^^^^^^^^^^^ meta.import
 
+import foo from 'bar' assert { type: "json" };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+//^^^^ keyword.control.import-export.js
+//     ^^^ variable.other.readwrite.js
+//         ^^^^ keyword.control.import-export.js
+//              ^^^^^ meta.string.js string.quoted.single.js
+//              ^ punctuation.definition.string.begin.js
+//                  ^ punctuation.definition.string.end.js
+//                    ^^^^^^ keyword.control.import-export.js
+//                           ^^^^^^^^^^^^^^^^ meta.mapping.js
+//                           ^ punctuation.section.mapping.begin.js
+//                             ^^^^ meta.mapping.key.js
+//                                 ^ punctuation.separator.key-value.js
+//                                   ^^^^^^ meta.string.js string.quoted.double.js
+//                                   ^ punctuation.definition.string.begin.js
+//                                        ^ punctuation.definition.string.end.js
+//                                          ^ punctuation.section.mapping.end.js
+//                                           ^ punctuation.terminator.statement.js
+
 // Better highlighting while typing.
 import
 import;
@@ -35,12 +54,16 @@ import;
 import;/**/
 //     ^ - meta.import
 
-export { name1, name2 as name3 };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+export { name1, name2 as name3, name4 as '+', name5 as "+" };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //            ^ punctuation.separator.comma
 //                    ^^ keyword.control.import-export
+//                                    ^^ keyword.control.import-export
+//                                       ^^^ meta.string string.quoted.single
+//                                                  ^^ keyword.control.import-export
+//                                                     ^^^ meta.string string.quoted.double
 
 export let name1, name2;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export

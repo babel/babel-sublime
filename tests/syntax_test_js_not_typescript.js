@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
 /// <foo bar="baz"/>
 // <- comment.line.triple-slash.js punctuation.definition.comment.js

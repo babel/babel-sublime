@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
 // comment
 // <- comment.line.double-slash.js punctuation.definition.comment.js
@@ -296,7 +296,7 @@ a = test ? a + b : c;
 // ^ meta.block meta.block variable.other.readwrite
 
 var obj = {
-//        ^ meta.mapping punctuation.section.block.begin - meta.block
+//        ^ meta.mapping punctuation.section.mapping.begin - meta.block
     key: bar,
     // <- meta.mapping.key
     $key2: "string value",
@@ -476,7 +476,7 @@ var obj = {
 //          ^ keyword.operator
 //            ^ constant.language
 };
-// <- meta.mapping punctuation.section.block.end
+// <- meta.mapping punctuation.section.mapping.end
 
 ({
  // <- meta.mapping
@@ -488,10 +488,10 @@ var obj = {
 });
 
 [ a, b, c ];
-// <- meta.sequence punctuation.section.brackets.begin
+// <- meta.sequence punctuation.section.sequence.begin
 // ^ meta.sequence punctuation.separator.comma
 // ^^^^^^^^ meta.sequence
-//        ^ meta.sequence punctuation.section.brackets.end
+//        ^ meta.sequence punctuation.section.sequence.end
 
 function x() {}
 [ a, b, c ];
@@ -723,8 +723,82 @@ class MyClass extends TheirClass {
 //   ^^^^^^^^^^ meta.group
 //              ^^^ entity.name.function
 
-    ['foo']() {}
+    @foo`bar` bar() {}
+//  ^^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.function.tagged-template
+//      ^^^^^ meta.string string.quoted.other
+//      ^ punctuation.definition.string.begin
+//          ^ punctuation.definition.string.end
+//            ^^^ meta.function entity.name.function
+
+    @foo['bar']() {}
+//  ^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.annotation
+//      ^^^^^^^^^^^^ meta.function - meta.annotation
+
+    @foo
+//  ^^^^ meta.annotation
+//      ^ - meta.annotation
+    bar() {}
+//  ^^^^^^^^ meta.function
+
+    @foo
+//  ^^^^ meta.annotation
+//      ^ - meta.annotation
+    ['bar']() {}
 //  ^^^^^^^^^^^^ meta.function
+
+    @foo()
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
+    @(foo)
+//  ^^^^^^ meta.annotation
+//        ^ - meta.annotation
+    bar() {}
+
+    @foo // comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.line - meta.annotation
+    bar() {}
+//^^ - meta.annotation
+//  ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^ comment.block.js - meta.annotation
+    */bar() {}
+//^^^^ comment.block.js - meta.annotation
+//    ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* block */ /* comment
+//  ^^^^ meta.annotation - comment
+//      ^ - comment - meta.annotation.js
+//       ^^^^^^^^^^^^^^^^^^^^^^^  - meta.annotation
+//       ^^^^^^^^^^^ comment.block.js
+//                   ^^^^^^^^^^^ comment.block.js
+    bar() {}
+//  ^^^^^^^^^ comment.block.js
+    */bar() {}
+//^^^^ comment.block.js - meta.annotation
+//    ^^^^^^^^ meta.function - meta.annotation
+
+    @foo /* block */ /* comment
+//  ^^^^^ meta.annotation.js - comment
+//       ^^^^^^^^^^^ meta.annotation.js comment.block.js
+//                  ^ meta.annotation.js - comment
+//                   ^^^^^^^^^^^ meta.annotation.js comment.block.js
+    bar() {}
+//  ^^^^^^^^^meta.annotation.js comment.block.js
+    */ . bar baz() {}
+//^^^^ meta.annotation.js comment.block.js
+//    ^^^^^^ meta.annotation.js - comment
+//           ^^^^^^^^ meta.function - meta.annotation
 
     static ['foo']() {}
 //         ^^^^^^^^^^^^ meta.function
@@ -854,7 +928,7 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
-//            ^ punctuation.section.block.begin
+//            ^ punctuation.section.mapping.begin
 //             ^ variable.parameter
 //                ^ variable.parameter
 //                   ^ variable.parameter
@@ -864,7 +938,7 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 //                      ^ punctuation.section.group.end
 //                         ^^^^^^^^^^^^^^^^ meta.group
 //                                   ^ constant.language
-//                                          ^ punctuation.section.block.end
+//                                          ^ punctuation.section.mapping.end
 
 ([a,
   b]) => { return x; }
@@ -883,7 +957,7 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 ({
     a = {},
 //    ^ keyword.operator.assignment
-//      ^^ punctuation.section.block
+//      ^^ punctuation.section.mapping
 //        ^ punctuation.separator.parameter - keyword.operator.comma
     b,
 //   ^ punctuation.separator.parameter - keyword.operator.comma
@@ -955,6 +1029,7 @@ sources.DOM
 // <- variable.other.readwrite
     .status()
     // ^ meta.function-call.method variable.function
+    //       ^ - meta.function-call
 
     foo.#bar();
 //  ^^^^^^^^^^ meta.function-call.method.js
@@ -987,7 +1062,7 @@ var foo = ~{a:function(){}.a()}
 //  ^^^ variable.other.readwrite
 //      ^ keyword.operator.assignment
 //        ^ keyword.operator.bitwise
-//         ^ punctuation.section.block.begin
+//         ^ punctuation.section.mapping.begin
 //         ^^^^^^^^^^^^^^^^^^^^ meta.mapping
 //            ^^^^^^^^^^^^ meta.function
 //          ^ entity.name.function
@@ -1002,14 +1077,14 @@ var foo = ~{a:function(){}.a()}
 //                         ^ variable.function - entity.name.function
 //                          ^ punctuation.section.group.begin
 //                           ^ punctuation.section.group.end
-//                            ^ punctuation.section.block.end
+//                            ^ punctuation.section.mapping.end
 //                             ^ - meta
 
 baz(foo(x => x('bar')));
 //                   ^ meta.function-call meta.function-call punctuation.section.group.end
 //                    ^ meta.function-call punctuation.section.group.end
 
-func(a, b);
+func(a, b) ;
 //^^^^^^^^ meta.function-call
 // ^ variable.function
 //  ^^^^^^ meta.group
@@ -1018,6 +1093,7 @@ func(a, b);
 //    ^ punctuation.separator.comma
 //      ^ variable.other.readwrite
 //       ^ punctuation.section.group.end
+//        ^ - meta.function-call
 
 var instance = new Constructor(param1, param2)
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
@@ -1105,7 +1181,7 @@ void {
 //                             ^ meta.brackets
     'test3': "asdf"
 }
-// <- meta.mapping punctuation.section.block.end
+// <- meta.mapping punctuation.section.mapping.end
 
 // This tests parsing semi-broken object literals, which should help while a
 // user is in the middle of typing code
@@ -1299,7 +1375,7 @@ new FooBar(function(){
 
 var test =
 {a: 1}
-// <- meta.mapping punctuation.section.block.begin
+// <- meta.mapping punctuation.section.mapping.begin
 
 var arrowFuncBraceNextLine = () => /* comments! */
 //  ^ entity.name.function
@@ -1351,7 +1427,7 @@ $var.fn.name = () => {}
 // ^ variable.other.dollar - punctuation.dollar
 
 someFunction(() => [() => 'X']);
-//                           ^ punctuation.section.brackets.end
+//                           ^ punctuation.section.sequence.end
 
 string = 'invalid
 //               ^ invalid.illegal.newline
@@ -1431,10 +1507,10 @@ var query = {
 //                        ^ keyword.operator.ternary
 //                          ^^^^ constant.language.null
 //                               ^ keyword.operator.ternary
-//                                 ^ punctuation.section.block.begin
+//                                 ^ punctuation.section.mapping.begin
 //                                   ^^ meta.mapping.key.js
 //                                     ^ punctuation.separator.key-value.js
-//                                                      ^ punctuation.section.block.end
+//                                                      ^ punctuation.section.mapping.end
 };
 
 var str = `Hello, ${name}!`;
@@ -1597,7 +1673,7 @@ debugger
 // <- meta.sequence
 
     a ?? b;
-//    ^^ keyword.operator.logical
+//    ^^ keyword.operator.null-coalescing
 
     a &&= b;
 //    ^^^ keyword.operator.assignment.augmented

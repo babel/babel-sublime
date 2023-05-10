@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
 class MyClass extends TheirClass {
 // <- keyword.declaration.class
@@ -31,11 +31,19 @@ class MyClass extends TheirClass {
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
+    [w]
+    get other() {}
+//  ^^^ storage.type.accessor.js
+
     #v = 42;
 //  ^ punctuation.definition.variable
 //   ^ variable.other.readwrite
 //     ^ keyword.operator.assignment
 //       ^^ constant.numeric
+
+    #u
+    get other() {}
+//  ^^^ storage.type.accessor.js
 
     f = a => b;
 //  ^ entity.name.function variable.other.readwrite
@@ -116,6 +124,10 @@ class MyClass extends TheirClass {
     static() {}
 //  ^^^^^^^^^^^ meta.function
 //  ^^^^^^ entity.name.function
+
+    accessor foo;
+//  ^^^^^^^^ storage.modifier
+//           ^^^ variable.other.readwrite
 
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }

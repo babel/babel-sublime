@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Babel/JavaScript (Babel).sublime-syntax"
+// SYNTAX TEST "Packages/babel-sublime/JavaScript (Babel).sublime-syntax"
 
 
 // Variable declarations
@@ -102,6 +102,18 @@ function f ([ x, [a, b], z]) {}
 //                ^ meta.binding.name variable.parameter.function
 //                   ^ meta.binding.name variable.parameter.function
 
+function f ([ $x, [$a, $b], $z]) {}
+//          ^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
+//            ^ meta.binding.name variable.parameter.function punctuation.dollar
+//             ^ meta.binding.name variable.parameter.function - punctuation.dollar
+//                ^^^^^^^^ meta.binding.destructuring.sequence meta.binding.destructuring.sequence
+//                 ^ meta.binding.name variable.parameter.function punctuation.dollar
+//                  ^ meta.binding.name variable.parameter.function - punctuation.dollar
+//                     ^ meta.binding.name variable.parameter.function punctuation.dollar
+//                      ^ meta.binding.name variable.parameter.function - punctuation.dollar
+//                          ^ meta.binding.name variable.parameter.function punctuation.dollar
+//                           ^ meta.binding.name variable.parameter.function - punctuation.dollar
+
 function f ([ x = 42, y = [a, b, c] ]) {}
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //              ^ keyword.operator.assignment
@@ -136,6 +148,13 @@ function f (a, ...rest) {}
 //          ^ meta.binding.name variable.parameter.function
 //             ^^^ keyword.operator.spread
 //                ^^^^ variable.parameter.function
+
+function f ($a, ...$rest) {}
+//          ^ meta.binding.name variable.parameter.function punctuation.dollar
+//           ^ meta.binding.name variable.parameter.function - punctuation.dollar
+//              ^^^ keyword.operator.spread
+//                 ^ meta.binding.name variable.parameter.function punctuation.dollar
+//                  ^^^^ meta.binding.name variable.parameter.function - punctuation.dollar
 
 function f (new) {}
 // ^^^^^^^^^^^^^^^^ meta.function
